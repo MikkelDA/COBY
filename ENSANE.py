@@ -55,12 +55,13 @@ prot_defs = {}
 #
 #
 ## Diacyl glycerols
-lipid_type, ff = "lipid", "M3"
+lipid_type, ff = "lipid", "default"
 lipid_defs[(lipid_type, ff)] = {}
 lipid_defs[(lipid_type, ff)]["x"] = (    0, .5,  0,  0, .5,  0,  0, .5,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  1,  1)
 lipid_defs[(lipid_type, ff)]["y"] = (    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0)
 lipid_defs[(lipid_type, ff)]["z"] = (   10,  9,  9,  8,  8,  7,  6,  6,  5,  4,  3,  2,  1,  0,  5,  4,  3,  2,  1,  0)
 lipid_defs[(lipid_type, ff)]["center"] = 7
+lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 lipid_defs[(lipid_type, ff)]["lipids"] = {      # 1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20
 ## Phospholipids
     ("DTPC", "beads"): (" -   -   -  NC3  -  PO4 GL1 GL2 C1A C2A  -   -   -   -  C1B C2B  -   -   -   - "),
@@ -120,7 +121,6 @@ lipid_defs[(lipid_type, ff)]["lipids"] = {      # 1   2   3   4   5   6   7   8 
   ("DSDG.o", "beads"): ("C61 C41 C11 C62 C42 C12 GL1 GL2 C1A C2A C3A C4A C5A  -  C1B C2B C3B C4B C5B  - "),
   ("DSSQ.o", "beads"): (" -   -   S6 C6   C4 C1  GL1 GL2 C1A C2A C3A C4A C5A  -  C1B C2B C3B C4B C5B  - "),
 }
-lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 
 # HII fix for PI templates and new templates PI(s) with diffrent tails, PO-PIP1(3) and POPIP2(4,5)  
 #Prototopology for phosphatidylinositol type lipids 5,6,7 are potentail phosphates (PIP1,PIP2 and PIP3)
@@ -130,12 +130,13 @@ lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 #  6-2-1-4-8--10-11-12-13-14-15
 #    |/    |
 #  7-3     9--16-17-18-19-20-21 
-lipid_type, ff = "INOSITOLLIPIDS", "M3"
+lipid_type, ff = "INOSITOLLIPIDS", "default"
 lipid_defs[(lipid_type, ff)] = {}
 lipid_defs[(lipid_type, ff)]["x"] = (   .5,  .5,   0,   0,   1, .5,  0,  0,   .5,   0,   0,   0,   0,   0,   0,   1,   1,   1,   1,   1,   1)
 lipid_defs[(lipid_type, ff)]["y"] = (    0,   0,   0,   0,   0,  0,  0,  0,    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0)
 lipid_defs[(lipid_type, ff)]["z"] = (    8,   9,   9,   7,  10, 10, 10,  6,    6,   5,   4,   3,   2,   1,   0,   5,   4,   3,   2,   1,   0)
 lipid_defs[(lipid_type, ff)]["center"] = 7
+lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 lipid_defs[(lipid_type, ff)]["lipids"] = {      # 1     2    3    4    5   6   7   8    9    10    11    12    13    14   15    16    17    18    19   20 
     ("DPPI", "beads"): (" C1   C2   C3    CP   -   -   -  GL1  GL2  C1A  C2A  C3A  C4A   -    -   C1B  C2B  C3B  C4B   -    - "),
     ("POPI", "beads"): (" C1   C2   C3    CP   -   -   -  GL1  GL2  C1A  D2A  C3A  C4A   -    -   C1B  C2B  C3B  C4B   -    - "),
@@ -149,7 +150,6 @@ lipid_defs[(lipid_type, ff)]["lipids"] = {      # 1     2    3    4    5   6   7
   ("PI.o", "beads")  : (" C1   C2   C3    CP   -   -   -  GL1  GL2  C1A  C2A  C3A  C4A   -    -   CU1  CU2  CU3  CU4  CU5   - "),
   ("PI34.o", "beads"): (" C1   C2   C3    CP PO1 PO2   -  GL1  GL2  C1A  C2A  C3A  C4A   -    -   CU1  CU2  CU3  CU4  CU5   - "),
 }
-lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 
 #Prototopology for longer and branched glycosil and ceramide based glycolipids
 #
@@ -160,12 +160,13 @@ lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 # 12-10-9-7-6-4-3-1--18--20-21-22-23-24
 #  |/   |/  |/  |/    |
 #  11   8   5   2    19--25-26-27-28-29 
-lipid_type, ff = "GLYCOLIPIDS", "M3"
+lipid_type, ff = "GLYCOLIPIDS", "default"
 lipid_defs[(lipid_type, ff)] = {}
 lipid_defs[(lipid_type, ff)]["x"] = (    0,  .5,   0,   0,  .5,  0,  0, .5,  0,    0,   .5,    0,    0,    0,   0,    0,    0,    0,   .5,   0,   0,   0,   0,   0,   1,   1,   1,   1,   1)
 lipid_defs[(lipid_type, ff)]["y"] = (    0,   0,   0,   0,   0,  0,  0,  0,  0,    0,    0,    0,   .5,    1,   1,    1,    1,    0,    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0)
 lipid_defs[(lipid_type, ff)]["z"] = (    6,   7,   7,   8,   9,  9, 10, 11, 11,   12,   13,   13,   10,    9,  10,    8,   11,    5,    5,   4,   3,   2,   1,   0,   4,   3,   2,   1,   0)
 lipid_defs[(lipid_type, ff)]["center"] = 6
+lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 lipid_defs[(lipid_type, ff)]["lipids"] = {      # 1     2    3    4    5   6   7   8   9    10    11    12    13    14   15    16    17    18    19   20   21   22   23   24   25   26   27   28   29
     ("DPG1", "beads"): ("GM1  GM2  GM3  GM4  GM5 GM6 GM7 GM8 GM9  GM10  GM11  GM12  GM13  GM14 GM15  GM16  GM17   AM1   AM2  T1A  C2A  C3A   -    -    -   C1B  C2B  C3B  C4B   -    - "),
     ("DXG1", "beads"): ("GM1  GM2  GM3  GM4  GM5 GM6 GM7 GM8 GM9  GM10  GM11  GM12  GM13  GM14 GM15  GM16  GM17   AM1   AM2  T1A  C2A  C3A  C4A  C5A   -   C1B  C2B  C3B  C4B  C5B  C6B"),
@@ -199,18 +200,17 @@ lipid_defs[(lipid_type, ff)]["lipids"] = {      # 1     2    3    4    5   6   7
   ("GCER.o", "beads"): (" C1   C2   C3    -    -   -   -   -   -     -     -     -     -     -    -     -     -   AM1   AM2  C1A  C2A  C3A  C4A   -   C1B  C2B  C3B  C4B   - "),
   ("DPPI.o", "beads"): (" C1   C2   C3    -   CP   -   -   -   -     -     -     -     -     -    -     -     -   GL1   GL2  C1A  C2A  C3A  C4A   -   C1B  C2B  C3B  C4B   - "),
 }
-lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 
-lipid_type, ff = "QUINONES", "M3"
+lipid_type, ff = "QUINONES", "default"
 lipid_defs[(lipid_type, ff)] = {}
 lipid_defs[(lipid_type, ff)]["x"] = (    0,  .5,   0,    0,   0,   0,   0,   0,   0,    0,    0,    0)
 lipid_defs[(lipid_type, ff)]["y"] = (    0,   0,   0,    0,   0,   0,   0,   0,   0,    0,    0,    0)
 lipid_defs[(lipid_type, ff)]["z"] = (    6,   7,   7,   5.5,  5,  4.5,  4,  3.5, 2.5,   2,  1.5,    1)
 lipid_defs[(lipid_type, ff)]["center"] = 6
+lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 lipid_defs[(lipid_type, ff)]["lipids"] = {      # 1     2    3    4    5    6    7    8    9    10    11    12
     ("PLQ", "beads"): (" PLQ3 PLQ2 PLQ1 PLQ4 PLQ5 PLQ6 PLQ7 PLQ8 PLQ9 PLQ10 PLQ11 PLQ12"),
 }
-lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 
 # Prototopology for cardiolipins
 #  
@@ -224,12 +224,13 @@ lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 #       |
 #      19-26-27-28-29-30-31
 #
-lipid_type, ff = "CARDIOLIPINS", "M3"
+lipid_type, ff = "CARDIOLIPINS", "default"
 lipid_defs[(lipid_type, ff)] = {}
 lipid_defs[(lipid_type, ff)]["x"] = (   0.5,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,   1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1)
 lipid_defs[(lipid_type, ff)]["y"] = (     1,   0,  0,  1,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  1,  1,   0,  0,  1,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  1,  1)
 lipid_defs[(lipid_type, ff)]["z"] = (     8,   7,  6,  6,  5,  4,  3,  2,  1,  0,  5,  4,  3,  2,  1,  0,   7,  6,  6,  5,  4,  3,  2,  1,  0,  5,  4,  3,  2,  1,  0)
 lipid_defs[(lipid_type, ff)]["center"] = 7
+lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 lipid_defs[(lipid_type, ff)]["lipids"] = {      #  1    2   3   4   5   6   7   8   9  10  11  12  13  14  15  16   17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
     ("CDL0", "beads"): ("GL5 PO41 GL1 GL2 C1A C2A D3A C4A C5A   - C1B C2B D3B C4B C5B   - PO42 GL3 GL4 C1C C2C D3C C4C C5C   - C1D C2D D3D C4D C5D   -"), # Warning not the same names is in .itp
     ("CDL1", "beads"): ("GL5 PO41 GL1 GL2 C1A C2A D3A C4A C5A   - C1B C2B D3B C4B C5B   - PO42 GL3 GL4 C1C C2C D3C C4C C5C   - C1D C2D D3D C4D C5D   -"), # Warning not the same names is in .itp
@@ -240,7 +241,6 @@ lipid_defs[(lipid_type, ff)]["lipids"] = {      #  1    2   3   4   5   6   7   
   ("CL4.o", "beads") : ("GL5 PO41 GL1 GL2 C1A C2A D3A C4A C5A   - C1B C2B D3B C4B C5B   - PO42 GL3 GL4 C1C C2C D3C C4C C5C   - C1D C2D D3D C4D C5D   -"), 
   ("CL4O.o", "beads"): ("GL5 PO41 GL1 GL2 C1A C2A D3A C4A C5A   - C1B C2B D3B C4B C5B   - PO42 GL3 GL4 C1C C2C D3C C4C C5C   - C1D C2D D3D C4D C5D   -"),
 }
-lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 
 # Prototopology for mycolic acid(s)
 #
@@ -253,54 +253,54 @@ lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 # 32-31-30-29-28-27-25-26
 #
 
-lipid_type, ff = "MYCOLIC ACIDS", "M3"
+lipid_type, ff = "MYCOLIC ACIDS", "default"
 lipid_defs[(lipid_type, ff)] = {}
 lipid_defs[(lipid_type, ff)]["x"] = (      0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,    0,    1,    1,    1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,  1,   1,   1)
 lipid_defs[(lipid_type, ff)]["y"] = (      0,   0,   0,   0,   0,   0,   0,   0,   1,   1,   1,   1,   1,   1,   1,    1,    1,    1,    1,   1,   1,   1,   1,   1,   0,   0,   0,   0,   0,  0,   0,   0)
 lipid_defs[(lipid_type, ff)]["z"] = (      7,   6,   5,   4,   3,   2,   1,   0,   0,   1,   2,   3,   4,   5,   6,    7,    7,    6,    5,   4,   3,   2,   1,   0,   1,   0,   2,   3,   4,  5,   6,   7)
 lipid_defs[(lipid_type, ff)]["center"] = 7
+lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 lipid_defs[(lipid_type, ff)]["lipids"] = {        # 1    2    3    4    5    6    7    8    9   10   11   12   13   14   15    16    17    18    19   20   21   22   23   24   25   26   27   28   29   30   31   32
     ("AMA", "beads"):   ("  -    -    -  C1A  C2A  C3A  C4A  C5A  M1A  C1B  C2B  C3B  C4B    -    -     -     -     -   M1B  C1C  C2C  C3C    -    -  COH  OOH  C1D  C2D  C3D  C4D  C5D  C6D"),
     ("AMA.w", "beads"): ("  -    -    -  C1A  C2A  C3A  C4A  C5A  M1A  C1B  C2B  C3B  C4B    -    -     -     -     -   M1B  C1C  C2C  C3C    -    -  COH  OOH  C1D  C2D  C3D  C4D  C5D  C6D"),
     ("KMA", "beads"):   ("  -    -    -  C1A  C2A  C3A  C4A  C5A  M1A  C1B  C2B  C3B  C4B    -    -     -     -     -   M1B  C1C  C2C  C3C    -    -  COH  OOH  C1D  C2D  C3D  C4D  C5D  C6D"),
     ("MMA", "beads"):   ("  -    -    -  C1A  C2A  C3A  C4A  C5A  M1A  C1B  C2B  C3B  C4B    -    -     -     -     -   M1B  C1C  C2C  C3C    -    -  COH  OOH  C1D  C2D  C3D  C4D  C5D  C6D"),
 }
-lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 
 # Sterols
-lipid_type, ff = "sterol", "M3"
+lipid_type, ff = "sterol", "default"
 lipid_defs[(lipid_type, ff)] = {}
 lipid_defs[(lipid_type, ff)]["x"] = (     0,  0,  0,  0,  0, 0,   0,  0,  1,  0,  1,  0,  0,  0,  0,  0,  0,  0)
 lipid_defs[(lipid_type, ff)]["y"] = (     0,  0,  0,  0,  0, 0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0)
 lipid_defs[(lipid_type, ff)]["z"] = (     0,  0,  0,  0,  0, 0, 5.3,4.5,3.9,3.3, 3 ,2.6,1.4,  0,  0,  0,  0,  0)
 lipid_defs[(lipid_type, ff)]["center"] = 4.9
+lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 lipid_defs[(lipid_type, ff)]["lipids"] = {
     ("CHOL", "beads"): (" -   -   -   -   -   -  ROH  R1  R2  R3  R4  R5  C1  C2  -   -   -   - "),
     ("ERGO", "beads"): (" -   -   -   -   -   -  ROH  R1  R2  R3  R4  R5  C1  C2  -   -   -   - "),
 }
-lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 
 # Hopanoids
-lipid_type, ff = "Hopanoids", "M3"
+lipid_type, ff = "Hopanoids", "default"
 lipid_defs[(lipid_type, ff)] = {}
 lipid_defs[(lipid_type, ff)]["x"] = (     0,  0,  0,  0, 0.5,-0.5,   0,   0, 0.5, 0.5,   0,   0,   0,   0,  0,  0,  0,  0)
 lipid_defs[(lipid_type, ff)]["y"] = (     0,  0,  0,  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  0,  0,  0,  0)
 lipid_defs[(lipid_type, ff)]["z"] = (     0,  0,  0,  0, 0.5, 1.4, 2.6,   3, 3.3, 3.9, 4.5, 5.0, 5.5, 6.0,  0,  0,  0,  0) 
 lipid_defs[(lipid_type, ff)]["center"] = 4.9
+lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 lipid_defs[(lipid_type, ff)]["lipids"] = {
     ("HOPR", "beads"): (" -   -   -   R1   R2   R3   R4   R5   R6   R7   R8   -    -    -    -   -   -   - "),
     ("HHOP", "beads"): (" -   -   -   R1   R2   R3   R4   R5   R6   R7   R8   C1   -    -    -   -   -   - "),
     ("HDPT", "beads"): (" -   -   -   R1   R2   R3   R4   R5   R6   R7   R8   C1   -    -    -   -   -   - "),
     ("HBHT", "beads"): (" -   -   -   R1   R2   R3   R4   R5   R6   R7   R8   C1   C2   C3   -   -   -   - "),
 }
-lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
 
 ################
 ### SOLVENTS ###
 ################
 ### molar_mass: [g/mol]
 ### density: [g/cm^3]
-ff = "M3"
+ff = "default"
 solvent_defs[ff] = {
      "W" : {"beads": "W",  "x": (0,), "y": (0,), "z": (0,), "solvcount": 4, "density": 0.99669, "molar_mass": 18.01528},
      "SW": {"beads": "SW", "x": (0,), "y": (0,), "z": (0,), "solvcount": 3, "density": 0.99669, "molar_mass": 18.01528},
@@ -334,7 +334,7 @@ solvent_defs[ff].update({
 ############
 ### IONS ###
 ############
-ff = "M3"
+ff = "default"
 ion_defs[ff] = {}
 ion_defs[ff]["positive"] = {
      "NA": {"beads": "NA", "charge": 1, "x": (0,), "y": (0,), "z": (0,)},
@@ -357,7 +357,7 @@ ion_defs[ff]["negative"] = {
 ###########################
 ### PROTEIN CHARGE DATA ###
 ###########################
-ff = "M3"
+ff = "default"
 prot_defs[ff] = {}
 prot_defs[ff]["charges"] = {
     "ARG":1, "LYS":1, "ASP":-1, "GLU":-1, "DLPG":-1, "DMPG":-1, "DPPG":-1, "DSPG":-1, "POPG":-1,
@@ -399,8 +399,10 @@ class ENSANE:
         self.SOLVATIONS = {}
         self.SOLVATIONS_cmds = []
         
-        self.IMP_TOP_cmds = []
-        self.IMP_STRUC_cmds = []
+        self.itp_moltypes = {}
+        self.ITP_INPUT_cmds = []
+        
+        self.SOLUTE_INPUT_cmds = []
         
         self.PLOT_cmd = []
         self.plot_data = {}
@@ -408,18 +410,17 @@ class ENSANE:
         
         self.PICKLE_cmd = False
         
-        self.sys_ff = "M3"
+        self.sys_params = "default"
         self.system_charge = 0
         self.system_name = "PLACEHOLDER_TITLE"
         
-        self.output_file_name = "output.pdb"
-        self.topol_file_name = "topol.top"
-        self.log_file_name = False
+        self.output_system_file_name = "output.pdb"
+        self.output_topol_file_name = "topol.top"
+        
         self.LOG_FILE = []
+        self.output_log_file_name = False
         
-        self.top_mols = {}
-        
-        self.pbc_set = False
+        self.pbc_set = []
         self.backup = True
         self.pickle = False
         
@@ -439,47 +440,48 @@ class ENSANE:
         
         for key, cmd in kwargs.items():
             ### General system inputs
-            if key in ["protein", "prot", "p"]:
+            if any(key.startswith(i) for i in ["protein", "prot"]):
                 if type(cmd) != list:
                     cmd = [cmd]
-                self.PROTEINS_cmds = cmd
+                for cm in cmd:
+                    self.PROTEINS_cmds.extend(cmd)
                 
-            if key in ["leaflet", "leaf", "l"]:
+            if any(key.startswith(i) for i in ["membrane", "memb"]):
                 if type(cmd) != list:
                     cmd = [cmd]
-                self.LEAFLETS_cmds = cmd
+                for cm in cmd:
+                    self.LEAFLETS_cmds.extend(cmd)
                 
-            if key in ["solvent", "solvation", "solv", "s"]:
+            if any(key.startswith(i) for i in ["solvation", "solv"]):
                 if type(cmd) != list:
                     cmd = [cmd]
-                self.SOLVATIONS_cmds = cmd
+                for cm in cmd:
+                    self.SOLVATIONS_cmds.extend(cmd)
             
             ### Box size
-            if key in ["pbc", "box"]:
+            if key in ["pbc", "box", "pbc_box"]:
                 if len(cmd) == 2:
                     self.pbcx, self.pbcy = cmd[0]*10
                     self.pbcz = cmd[1]*10
                     self.pbc_box = [self.pbcx, self.pbcy, self.pbcz]
-                    self.pbc_set = True
                 elif len(cmd) == 3:
                     self.pbcx, self.pbcy, self.pbcz = [i*10 for i in cmd]
                     self.pbc_box = [self.pbcx, self.pbcy, self.pbcz]
-                    self.pbc_set = True
                 else:
                     assert False, "Incorrect pbc box dimensions: " + str(key, cmd)
             
             ### Imports
-            if key in ["imp_top", "imp_topology"]:
+            if key in ["itp_input", "itp_in"]:
                 if type(cmd) != list:
                     cmd = [cmd]
-                self.IMP_TOP_cmds = cmd
-            if key in ["imp_struc", "imp_struct", "imp_structure"]:
+                self.ITP_INPUT_cmds = cmd
+            if key in ["solute_input", "solute_in"]:
                 if type(cmd) != list:
                     cmd = [cmd]
-                self.IMP_STRUC_cmds = cmd
+                self.SOLVATE_INPUT_cmds = cmd
             
             ### Outputs
-            if key in ["o", "out", "output_struct"]:
+            if key in ["output_system", "out_sys", "out"]:
                 if any([cmd.endswith(i) for i in ["pdb", "gro"]]):
                     self.output_file_name = cmd
                 else:
@@ -487,10 +489,10 @@ class ENSANE:
                         cmd = cmd.split(".")[0]
                     self.output_file_name = cmd + ".pdb"
             
-            if key in ["t", "top", "output_topol"]:
+            if key in ["output_topol", "out_top"]:
                 self.topol_file_name = cmd
                 
-            if key in ["log", "output_log"]:
+            if key in ["output_log", "out_log", "log"]:
                 self.log_file_name = cmd
                 
 #             if key in ["imp_o", "output_imported"]:
@@ -508,7 +510,7 @@ class ENSANE:
             if key in ["backup"]:
                 self.backup = cmd
 
-            if key in ["ff", "sys_ff", "forcefield", "force field"]:
+            if key in ["params", "sys_params"]:
                 self.sys_ff = cmd
             
             ### Printer settings
@@ -536,6 +538,13 @@ class ENSANE:
         '''
         Runs the entire system creation process
         '''
+        ### Initial checks
+        assert len(self.pbc_box) > 0, "Box dimensions not set. Please do so using 'box=[x,y,z]'"
+        assert len(self.pbc_box) == 3, "Box dimensions improperly defined. 3 dimensions must be given"
+        assert all([self.is_number(ax)[0] for ax in self.pbc_box]), "Not all box values are numbers"
+        
+        assert any([len(cmd) > 0 for cmd in [self.PROTEINS_cmds, self.LEAFLETS_cmds, self.SOLVATIONS_cmds]]), "Running requires at least one command to be supplied of either type 'protein', 'membrane' or 'solvation'"
+        
         ### Topology
         self.itp_read_initiater()
         
@@ -603,7 +612,7 @@ class ENSANE:
             print(string)
 
         ### Appends string to log file, for later writing
-        if print_true and self.log_file_name:
+        if print_true and self.output_log_file_name:
             self.LOG_FILE.append(string)
     
     ###############
@@ -732,14 +741,14 @@ class ENSANE:
                 ### '#defines'
                 elif line.startswith("#define"):
                     string = line_filter(line)
-                    self.top_defs[cur_cmd][string[1]] = {}
+                    self.itp_defs[cur_cmd][string[1]] = {}
                     for i, st in enumerate(string[:2]):
-                        self.top_defs[cur_cmd][string[1]][defs_dict_names[cur_cmd][i]] = st
+                        self.itp_defs[cur_cmd][string[1]][defs_dict_names[cur_cmd][i]] = st
 
                 ### Determine new moleculetype
                 elif cur_cmd == "moleculetype":
                     string = line_filter(line)
-                    self.top_mols[string[0]] = {
+                    self.itp_moltypes[string[0]] = {
                         "atoms": {},
                         "bonds": {},
                         "angles": {},
@@ -752,9 +761,9 @@ class ENSANE:
                 ### Atoms are specially treated. Might not be necessary
                 elif cur_cmd == "atoms":
                     string = line_filter(line)
-                    self.top_mols[moltype][cur_cmd][string[0]] = {}
+                    self.itp_moltypes[moltype][cur_cmd][string[0]] = {}
                     for i, st in enumerate(string):
-                        self.top_mols[moltype][cur_cmd][string[0]][dict_names[cur_cmd][i]] = string[i]
+                        self.itp_moltypes[moltype][cur_cmd][string[0]][dict_names[cur_cmd][i]] = string[i]
 
                 ### Bonds, angles and dihedrals
                 elif [cur_cmd == cmd for cmd in ["bonds", "angles", "dihedrals"]]:
@@ -767,15 +776,15 @@ class ENSANE:
                         ids = 4
     #                 if cur_cmd.startswith("virtual_sites"):
     #                     ids = 1
-                    self.top_mols[moltype][cur_cmd][tuple(string[0:ids])] = {}
+                    self.itp_moltypes[moltype][cur_cmd][tuple(string[0:ids])] = {}
                     cur_cmd_type = cur_cmd[:-1] + "types"
                     for i, st in enumerate(string):
-                        if st in self.top_defs[cur_cmd_type]:
-                            for keyi, (key, val) in enumerate(self.top_defs[cur_cmd_type][st].items()):
-                                self.top_mols[moltype][cur_cmd][tuple(string[0:ids])][defs_dict_names[cur_cmd_type][keyi]] = val
+                        if st in self.itp_defs[cur_cmd_type]:
+                            for keyi, (key, val) in enumerate(self.itp_defs[cur_cmd_type][st].items()):
+                                self.itp_moltypes[moltype][cur_cmd][tuple(string[0:ids])][defs_dict_names[cur_cmd_type][keyi]] = val
                             break
                         else:
-                            self.top_mols[moltype][cur_cmd][tuple(string[0:ids])][dict_names[cur_cmd][i]] = string[i]
+                            self.itp_moltypes[moltype][cur_cmd][tuple(string[0:ids])][dict_names[cur_cmd][i]] = string[i]
     
     ###############
     ### Writers ###
@@ -832,10 +841,10 @@ class ENSANE:
         return string
     
     def system_file_writer(self):
-        self.print_term("Writing structure file:", self.output_file_name)
+        self.print_term("Writing structure file:", self.output_system_file_name)
         ### ### Creating beginning of file lines
-        if self.output_file_name.endswith("pdb"):
-            output_file_lines = [
+        if self.output_system_file_name.endswith("pdb"):
+            output_system_file_lines = [
                 "TITLE     " + self.system_name,
                 "REMARK    " + "PLACEHOLDER_REMARK",
                 '{Rname:<{RnameL}}{a:>{aL}.3f}{b:>{bL}.3f}{c:>{cL}.3f}{alpha:>{alphaL}.2f}{beta:>{betaL}.2f}{gamma:>{gammaL}.2f} {sGroup:<{sGroupL}}{z:>{zL}}'.format(
@@ -847,8 +856,8 @@ class ENSANE:
                 "MODEL        1",
         #         "".join([str(i) for i in range(1, 10)]) + "".join([str(i) for _ in range(8) for i in range(0, 10)]),
             ]
-        elif self.output_file_name.endswith("gro"):
-            output_file_lines = [
+        elif self.output_system_file_name.endswith("gro"):
+            output_system_file_lines = [
                 self.system_name,
                 "PLACEHOLDER_ATOM_COUNT",
         #         "".join([str(i) for i in range(1, 10)]) + "".join([str(i) for _ in range(8) for i in range(0, 10)]),
@@ -881,10 +890,10 @@ class ENSANE:
                     z = bead_vals["z"] + (self.pbc_box[2] / 2)
                     a_name = bead_vals["atom_name"]
                     r_name = bead_vals["res_name"]
-                    if self.output_file_name.endswith("pdb"):
-                        output_file_lines.append(self.pdb_atom_writer("ATOM", atom_nr, a_name, " ", r_name, "A", res_nr, " ", float(x), float(y), float(z), float(1), float(0), " ", " ", " "))
-                    elif self.output_file_name.endswith("gro"): ### gro coordinates are in [nm] not [Å]
-                        output_file_lines.append(self.gro_atom_writer(res_nr, r_name, a_name, atom_nr, x / 10, y / 10, z / 10, " ", " ", " "))
+                    if self.output_system_file_name.endswith("pdb"):
+                        output_system_file_lines.append(self.pdb_atom_writer("ATOM", atom_nr, a_name, " ", r_name, "A", res_nr, " ", float(x), float(y), float(z), float(1), float(0), " ", " ", " "))
+                    elif self.output_system_file_name.endswith("gro"): ### gro coordinates are in [nm] not [Å]
+                        output_systemt_file_lines.append(self.gro_atom_writer(res_nr, r_name, a_name, atom_nr, x / 10, y / 10, z / 10, " ", " ", " "))
 
         ### ### Writing leaflets lines
         if len(self.LEAFLETS_cmds) != 0:
@@ -913,10 +922,10 @@ class ENSANE:
                         z = z + (self.pbc_box[2] / 2)
                         a_name = bead_name
                         string = ""
-                        if self.output_file_name.endswith("pdb"):
-                            output_file_lines.append(self.pdb_atom_writer("ATOM", atom_nr, a_name, " ", r_name, "A", res_nr, " ", float(x), float(y), float(z), float(1), float(0), " ", " ", " "))
-                        elif self.output_file_name.endswith("gro"): ### gro coordinates are in [nm] not [Å]
-                            output_file_lines.append(self.gro_atom_writer(res_nr, r_name, a_name, atom_nr, x / 10, y / 10, z / 10, " ", " ", " "))
+                        if self.output_system_file_name.endswith("pdb"):
+                            output_system_file_lines.append(self.pdb_atom_writer("ATOM", atom_nr, a_name, " ", r_name, "A", res_nr, " ", float(x), float(y), float(z), float(1), float(0), " ", " ", " "))
+                        elif self.output_system_file_name.endswith("gro"): ### gro coordinates are in [nm] not [Å]
+                            output_system_file_lines.append(self.gro_atom_writer(res_nr, r_name, a_name, atom_nr, x / 10, y / 10, z / 10, " ", " ", " "))
 
         ### ### Writing solvent/ion lines
         if len(self.SOLVATIONS_cmds) != 0:
@@ -941,19 +950,19 @@ class ENSANE:
                         z = z + (self.pbc_box[2] / 2)
                         a_name = bead_name
                         string = ""
-                        if self.output_file_name.endswith("pdb"):
-                            output_file_lines.append(self.pdb_atom_writer("ATOM", atom_nr, a_name, " ", r_name, "A", res_nr, " ", float(x), float(y), float(z), float(1), float(0), " ", " ", " "))
-                        elif self.output_file_name.endswith("gro"): ### gro coordinates are in [nm] not [Å]
-                            output_file_lines.append(self.gro_atom_writer(res_nr, r_name, a_name, atom_nr, x / 10, y / 10, z / 10, " ", " ", " "))
+                        if self.output_system_file_name.endswith("pdb"):
+                            output_system_file_lines.append(self.pdb_atom_writer("ATOM", atom_nr, a_name, " ", r_name, "A", res_nr, " ", float(x), float(y), float(z), float(1), float(0), " ", " ", " "))
+                        elif self.output_system_file_name.endswith("gro"): ### gro coordinates are in [nm] not [Å]
+                            output_system_file_lines.append(self.gro_atom_writer(res_nr, r_name, a_name, atom_nr, x / 10, y / 10, z / 10, " ", " ", " "))
 
         ### ### Creating end of file lines
-        if self.output_file_name.endswith("pdb"):
-            output_file_lines.append("TER")
-            output_file_lines.append("END")
+        if self.output_system_file_name.endswith("pdb"):
+            output_system_file_lines.append("TER")
+            output_system_file_lines.append("END")
         
-        elif self.output_file_name.endswith("gro"):
-            output_file_lines[1] = " " + str(atom_count)
-            output_file_lines.append( ### gro vectors are in [nm] not [Å]
+        elif self.output_system_file_name.endswith("gro"):
+            output_system_file_lines[1] = " " + str(atom_count)
+            output_system_file_lines.append( ### gro vectors are in [nm] not [Å]
                 '{v1x:>{v1xL}.5f}{v2y:>{v2yL}.5f}{v3z:>{v3zL}.5f}{v1y:>{v1yL}.5f}{v1z:>{v1zL}.5f}{v2x:>{v2xL}.5f}{v2z:>{v2zL}.5f}{v3x:>{v3xL}.5f}{v3y:>{v3yL}.5f}'.format(
                     v1x = self.pbc_box[0] / 10, v1xL = 10,
                     v2y = self.pbc_box[1] / 10, v2yL = 10,
@@ -966,22 +975,22 @@ class ENSANE:
                     v3y = 0 / 10, v3yL = 10,
                 )
             )
-            output_file_lines.append("")
+            output_system_file_lines.append("")
         
         if self.backup:
-            self.backupper(self.output_file_name)
+            self.backupper(self.output_system_file_name)
 
-        new_file = open(self.output_file_name, "w")
-        for line in output_file_lines:
+        new_file = open(self.output_system_file_name, "w")
+        for line in output_system_file_lines:
             new_file.write(line + "\n")
         new_file.close()
 
         self.print_term("Structure file written", "\n")
 
     def topol_file_writer(self):
-        if self.topol_file_name:
-            self.print_term("Writing topology file:", self.topol_file_name, "\n")
-            topol_file_lines = [
+        if self.output_topol_file_name:
+            self.print_term("Writing topology file:", self.output_topol_file_name, "\n")
+            output_topol_file_lines = [
                 "",
                 "[ system ]",
                 "; name",
@@ -992,27 +1001,27 @@ class ENSANE:
             ]
             molecules_for_top_lengths = [len(str(max(data, key = lambda d: len(str(d))))) for data in zip(*self.molecules_for_top)]
             for n, c in self.molecules_for_top:
-                topol_file_lines.append(
+                output_topol_file_lines.append(
                     '{NAME:<{Ln}} {COUNT:>{Lc}}'.format(
                         NAME = n, Ln = molecules_for_top_lengths[0],
                         COUNT = c, Lc = molecules_for_top_lengths[1],
                     )
                 )
             if self.backup:
-                self.backupper(self.topol_file_name)
+                self.backupper(self.output_topol_file_name)
 
-            new_file = open(self.topol_file_name, "w")
-            for line in topol_file_lines:
+            new_file = open(self.output_topol_file_name, "w")
+            for line in output_topol_file_lines:
                 new_file.write(line + "\n")
             new_file.close()
             self.print_term("Topology file written", "\n")
     
     def log_file_writer(self):
-        if self.log_file_name:
-            self.print_term("Writing log file file:", self.log_file_name, "\n")
+        if self.output_log_file_name:
+            self.print_term("Writing log file file:", self.output_log_file_name, "\n")
             if self.backup:
-                self.backupper(self.log_file_name)
-            new_file = open(self.log_file_name, "w")
+                self.backupper(self.output_log_file_name)
+            new_file = open(self.output_log_file_name, "w")
             for line in self.LOG_FILE:
                 new_file.write(line + "\n")
             new_file.close()
@@ -1132,12 +1141,12 @@ class ENSANE:
                     "rx": 0,
                     "ry": 0,
                     "rz": 0,
-                    "cen_method": ("mean",), # "mean", "axis", "bead:INT", "res:INT" or "point:x:y:z"
+                    "cen_method": ("cog",), # "cog" (center of geometry), "axis", "bead:INT", "res:INT" or "point:x:y:z"
                     "lipids_inside": False, # [bool]
                     "pbc_check": True,
                     "buffer": 1.32, # [Å] default = (vdw of regular beads) / 2
                     "alpha_mult": 1.0,
-                    "prot_names": [],
+                    "mol_names": [],
                     "charge": "top", # int/float, "top" or "auto"
                     "tot_charge": 0,
                 }
@@ -1155,7 +1164,7 @@ class ENSANE:
                     
                     ### Center method "mean", "bead:INT" or "res:INT"
                     elif sub_cmd[0].lower() == "cen_method":
-                        if sub_cmd[1].lower() in ["mean", "axis"]:
+                        if sub_cmd[1].lower() in ["cog", "axis"]:
                             prot_dict["cen_method"] = (sub_cmd[1].lower(),)
                         elif sub_cmd[1].lower() in ["bead", "res"]:
                             prot_dict["cen_method"] = (sub_cmd[1].lower(), ast.literal_eval(sub_cmd[2]))
@@ -1179,9 +1188,9 @@ class ENSANE:
                         prot_dict["alpha_mult"] = ast.literal_eval(sub_cmd[1])
 
                     ### Integer multiplier for radius used in alphashape function [multiplier]
-                    elif sub_cmd[0].lower() == "prot_name":
-                        for prot_name in sub_cmd[1:]:
-                            prot_dict["prot_names"].append(sub_cmd[1])
+                    elif sub_cmd[0].lower() in ["mol_names", "mol_name"]:
+                        for mol_name in sub_cmd[1:]:
+                            prot_dict["mol_names"].append(mol_name)
 
                     ### Determine charge of protein int/float or "top"
                     elif sub_cmd[0].lower() == "charge":
@@ -1237,17 +1246,17 @@ class ENSANE:
                     prot_dict["tot_charge"] += prot_charge_finder(prot_dict["beads"])
                     
                 elif prot_dict["charge"] == "top":
-                    if prot_dict["prot_names"] == []:
+                    if prot_dict["mol_names"] == []:
                         self.print_term("    ", "    ", "No protein names given.  Will estimate charges from residue names. Use 'prot_name' to assign protein names (name used in topology files)")
                         prot_dict["tot_charge"] = prot_charge_finder(prot_dict["beads"])
                     else:
-                        for prot_name in prot_dict["prot_names"]:
-                            if prot_name not in self.top_mols.keys():
+                        for mol_name in prot_dict["mol_names"]:
+                            if mol_name not in self.itp_moltypes.keys():
                                 print("    ", "    ", "A protein name could not be found in your topology file(s): " +  prot_name)
                             else:
-                                prot_dict["tot_charge"] += self.top_mols[prot_name]["charge_sum"]
+                                prot_dict["tot_charge"] += self.itp_moltypes[mol_name]["charge_sum"]
 
-                prot_dict["prot_names"] = prot_dict["prot_names"] or "_".join(["PROT", str(cmd_nr)])
+                prot_dict["mol_names"] = prot_dict["mol_names"] or "_".join(["PROT", str(cmd_nr)])
 
                 self.PROTEINS[cmd_nr] = prot_dict.copy()
             self.print_term("    ", "Number of protein insertions preprocessed:", len(self.PROTEINS))
@@ -1287,9 +1296,14 @@ class ENSANE:
 #                     "rz": 0, # [degrees]
                     "pbc_check": True, # [bool]
                     "lipid_optim": 'avg_optimal', # str: 'abs_val', 'force_fill', 'fill', 'avg_optimal', 'no'
-                    "ff": False, # False or str
+                    "params": False, # False or str
                     "charge": "top", # "lib" or "top"
                 }
+                
+                monolayer_upper_designation = ["u", "up", "upper", "m", "mo", "mono"]
+                monolayer_lower_designation = ["d", "do", "down", "l", "lo", "lower"]
+                bilayer_designation = ["b", "bi", "bilayer"]
+                
                 layer_defition = "bilayer"
 
                 ### ### Check leaf command
@@ -1300,12 +1314,12 @@ class ENSANE:
                     sub_cmd = cmd.split(":")
 
                     ### Bilayer/monolayer defition
-                    if sub_cmd[0].lower() == "type":
-                        if sub_cmd[1].lower() in ["u", "up", "upper"]:
+                    if sub_cmd[0].lower() == "type": # Mono as explicitly upper added by request
+                        if sub_cmd[1].lower() in monolayer_upper_designation:
                             layer_defition = "upper"
-                        if sub_cmd[1].lower() in ["d", "do", "down", "l", "lo", "lower"]:
+                        if sub_cmd[1].lower() in monolayer_lower_designation:
                             layer_defition = "lower"
-                        if sub_cmd[1].lower() in ["b", "bi", "bilayer"]:
+                        if sub_cmd[1].lower() in bilayer_designation:
                             layer_defition = "bilayer"
                     
                     ### Replaced by the above
@@ -1364,13 +1378,13 @@ class ENSANE:
 
                     ### Lipid optimization method
                     elif sub_cmd[0].lower() == "lipid_optim":
-                        valid_lipid_optim = sub_cmd[1] in ['abs_val', 'force_fill', 'fill', 'avg_optimal', 'no']
+                        valid_lipid_optim = sub_cmd[1] in ['avg_optimal', 'abs_val', 'force_fill', 'fill', 'no']
                         assert valid_lipid_optim, "Invalid lipid selection method: '" + str(sub_cmd[1]) + "'"
                         leaf_dict["lipid_optim"] = sub_cmd[1]
 
                     ### Designates which force field to collect lipids from
-                    elif sub_cmd[0].lower() == "ff":
-                        leaf_dict["ff"] = ast.literal_eval(sub_cmd[1])
+                    elif sub_cmd[0].lower() == "params":
+                        leaf_dict["params"] = ast.literal_eval(sub_cmd[1])
 
                     ### True/False whether to check for pbc crossing
                     elif sub_cmd[0].lower() == "charge":
@@ -1392,16 +1406,16 @@ class ENSANE:
 
                 for l_name, *rest in leaf_dict["lipids_preprocessing"]:
                     """
-                    Checks if force field specified for lipid.
-                    Order: lipid specific ff, leaflet specific ff, general system ff (defaults to M3)
+                    Checks if parameters specified for lipid.
+                    Order: lipid specific params, leaflet specific params, general system params (defaults to M3)
                     """
                     if len(rest) != 1:
-                        l_ratio, l_ff = rest
+                        l_ratio, l_params = rest
                     else:
                         l_ratio = rest[0]
-                        l_ff = leaf_dict["ff"] or self.sys_ff # (sys_ff defaults to M3)
+                        l_params = leaf_dict["params"] or self.sys_params # (sys_ff defaults to M3)
 
-                    cur_lipid = self.lipid_dict[l_ff][l_name]
+                    cur_lipid = self.lipid_dict[l_params][l_name]
                     leaf_dict["lipids"][l_name] = {
                         "ratio": ast.literal_eval(l_ratio),
                         "beads": cur_lipid["beads"],
@@ -1415,7 +1429,7 @@ class ENSANE:
                     ### Charges
                     if leaf_dict["charge"] == "top":
                         if l_name in leaf_dict["lipids"].keys():
-                            leaf_dict["lipids"][l_name]["charge_sum"] = self.top_mols[l_name]["charge_sum"]
+                            leaf_dict["lipids"][l_name]["charge_sum"] = self.itp_moltypes[l_name]["charge_sum"]
                         elif "charges" in leaf_dict["lipids"][l_name].keys():
                             leaf_dict["lipids"][l_name]["charge_sum"] = sum([charge for bead, charge in cur_lipid["charges"]])
                         else:
@@ -1425,19 +1439,18 @@ class ENSANE:
                     else:
                         leaf_dict["lipids"][l_name]["charge_sum"] = 0
 
-
                 ### Upper leaflet monolayer
-                if layer_defition in ["u", "up", "upper"]:
+                if layer_defition in monolayer_upper_designation:
                     leaf_dict["HG_direction"] = "up"
                     self.LEAFLETS[leaf_nr] = leaf_dict
                     leaf_nr += 1
                 ### Lower leaflet monolayer
-                elif layer_defition in ["d", "do", "down", "l", "lo", "lower"]:
+                elif layer_defition in monolayer_lower_designation:
                     leaf_dict["HG_direction"] = "down"
                     self.LEAFLETS[leaf_nr] = leaf_dict
                     leaf_nr += 1
                 ### Bilayer
-                elif layer_defition in ["b", "bi", "bilayer"]:
+                elif layer_defition in bilayer_designation:
                     leaf_dict["HG_direction"] = "up"
                     self.LEAFLETS[leaf_nr] = leaf_dict.copy()
                     leaf_nr += 1
@@ -1485,7 +1498,7 @@ class ENSANE:
                     "bdx": 1.0, # [multiplier]
                     "bdy": 1.0, # [multiplier]
                     "bdz": 1.0, # [multiplier]
-                    "ff": False, # False or str
+                    "params": False, # False or str
                     "bead_radius": 2.64, # [Å]
                     "gridres": 1.2, # [Å]
                     "WR": 2.64 * 1, # [Å]
@@ -1496,6 +1509,8 @@ class ENSANE:
                 ### Liberal use of ast.literal_eval() below to convert strings to int/float
                 ### ast.literal_eval checks if code is a valid python datatype before interpreting it
             #     for cmd in solvate_cmd.split(","):
+                if solvate_cmd == "":
+                    solvate_cmd = "solv:W pos:NA neg:CL"
                 for cmd in solvate_cmd.split():
                     sub_cmd = cmd.split(":")
                     ########################
@@ -1577,8 +1592,8 @@ class ENSANE:
                         leaf_dict[sub_cmd[0].lower()] = ast.literal_eval(sub_cmd[1])
 
                     ### Designates force field
-                    elif sub_cmd[0].lower() == "ff":
-                        solv_dict["ff"] = sub_cmd[1]
+                    elif sub_cmd[0].lower() == "params":
+                        solv_dict["params"] = sub_cmd[1]
 
                     ### Buffer for solvent placement from leaflet hydrophobic area
                     elif sub_cmd[0].lower() == "buffer":
@@ -1591,14 +1606,20 @@ class ENSANE:
                     ### Errors out if unknown subcommand used, and prints the subcommand to terminal
                     else:
                         assert False, "Unknown subcommand given to '-solvate'. The subcommand is: '" + str(cmd) + "'"
-
+                
+                ### Changed such that the following is done before the command is preprocessed
+#                 if solv_dict["solv_preprocessing"] == {} and solv_dict["pos_ions_preprocessing"] == {} and solv_dict["neg_ions_preprocessing"] == {}:
+#                     solv_dict["solv_preprocessing"].append("solv:W")
+#                     solv_dict["pos_ions_preprocessing"].append("solv:NA")
+#                     solv_dict["neg_ions_preprocessing"].append("solv:CL")
+                    
                 ######################################
                 ### SOLVENT/ION DATA INCORPORATION ###
                 ######################################
                 ### Reconfigures lipid-specific data for leaflet according to subcommands
                 assert solv_dict["solv_preprocessing"] != {}, "No solvent given to '-solvate' flag. Please specify at least one non-ionic solvent if you use it."
 
-                ff = solv_dict["ff"] or self.sys_ff # (sys_ff defaults to M3)
+                params = solv_dict["params"] or self.sys_params # (sys_ff defaults to M3)
                 ### ### SOLVENT DATA
                 for name, *rest in solv_dict["solv_preprocessing"]:
                     ### Default values for solvent
@@ -1618,7 +1639,8 @@ class ENSANE:
                         solv_dict_default["molarity"] = int(solv_dict_default["molarity"] + 0.5)
 
                     ### Update with solven library defaults
-                    solv_dict_default.update(self.solvent_defs[ff][name])
+#                     print(self.solvent_defs)
+                    solv_dict_default.update(self.solvent_defs[params][name])
 
                     for ax in ["x", "y", "z"]:
                         ### Axis geometric center
@@ -1652,7 +1674,7 @@ class ENSANE:
                         solv_dict_default["molarity"] = int(solv_dict_default["molarity"] + 0.5)
 
                     ### Update with solven library defaults
-                    solv_dict_default.update(self.ion_defs[ff]["positive"][name])
+                    solv_dict_default.update(self.ion_defs[params]["positive"][name])
 
                     for ax in ["x", "y", "z"]:
                         ### Axis geometric center
@@ -1686,7 +1708,7 @@ class ENSANE:
                         solv_dict_default["molarity"] = int(solv_dict_default["molarity"] + 0.5)
 
                     ### Update with solven library defaults
-                    solv_dict_default.update(self.ion_defs[ff]["negative"][name])
+                    solv_dict_default.update(self.ion_defs[params]["negative"][name])
 
                     for ax in ["x", "y", "z"]:
                         ### Axis geometric center
@@ -1706,40 +1728,38 @@ class ENSANE:
             self.print_term("    ", "Number of solvent commands preprocessed:", len(self.SOLVATIONS))
     
     def itp_read_initiater(self):
-        if len(self.IMP_TOP_cmds) != 0:
+        if len(self.ITP_INPUT_cmds) != 0:
             self.print_term("\nLoading topology file(s)")
-            self.top_defs = {
+            self.itp_defs = {
                 "bondtypes": {},
                 "angletypes": {},
                 "dihedraltypes": {},
             }
-            self.top_mols = {}
-            for top_i, top_cmd in enumerate(self.IMP_TOP_cmds, 0):
-                top_file = top_cmd.split()[0]
-                self.itp_reader(top_file)
-            for moltype, vals in self.top_mols.items():
+            self.itp_moltypes = {}
+            for itp_i, itp_cmd in enumerate(self.ITP_INPUT_cmds, 0):
+                itp_file = itp_cmd.split()[0]
+                self.itp_reader(itp_file)
+            for moltype, vals in self.itp_moltypes.items():
                 charge_sum = 0
                 for atom, atom_vals in vals["atoms"].items():
                     if "charge" in atom_vals:
                         charge_sum += ast.literal_eval(atom_vals["charge"])
-                self.top_mols[moltype]["charge_sum"] = charge_sum
+                self.itp_moltypes[moltype]["charge_sum"] = charge_sum
 
-            self.print_term("    ", "Finished loading topologies. Number of moleculetypes found:", len(self.top_mols))
+            self.print_term("    ", "Finished loading topologies. Number of moleculetypes found:", len(self.itp_moltypes))
     
     def import_structures_handler(self):
-        if len(self.IMP_STRUC_cmds) != 0:
-            ff = "M3"
-            for imp_struc in self.IMP_STRUC_cmds:
+        if len(self.SOLVATE_INPUT_cmds) != 0:
+            for imp_struc in self.SOLVATE_INPUT_cmds:
                 structures = []
                 
                 imp_dict = {
                     "structures": [], # empty
-                    "ff": "M3", # str
+                    "params": "M3", # str
                     "charge": [], # "top" or int or float
                     "structs": "multiple", # multiple/mult/m or single/s
                     ### "single/s" currently not implemented
 #                     "top_name": False, # Only relevant if "structs" is single
-                    
                 }
                 
                 for cmd in imp_struc.split():
@@ -1749,8 +1769,8 @@ class ENSANE:
                     if sub_cmd[0].endswith("gro"):
                         imp_dict["structures"].append(self.gro_reader(sub_cmd[0]))
                     
-                    if sub_cmd[0] == "ff":
-                        imp_dict["ff"] = sub_cmd[1]
+                    if sub_cmd[0] == "params":
+                        imp_dict["params"] = sub_cmd[1]
                     
                     if sub_cmd[0] == "charge":
                         for charge in sub_cmd[1:]:
@@ -1792,8 +1812,8 @@ class ENSANE:
                             charge_method = imp_dict["charge"]
                         
                         if charge_method == "top":
-                            if resname in self.top_mols.keys():
-                                charge = self.top_mols[resname]["charge_sum"]
+                            if resname in self.itp_moltypes.keys():
+                                charge = self.itp_moltypes[resname]["charge_sum"]
                             else:
                                 self.print_term("    ", "    ", "WARNING: resname not found in topology. Setting charge to 0 for resname:", resname)
                                 charge = 0
@@ -1810,13 +1830,13 @@ class ENSANE:
                         }
                         
                         ### Adds force field to solvent and ion defs if they are not present
-                        if imp_dict["ff"] not in self.solvent_defs.keys():
-                            self.solvent_defs[imp_dict["ff"]] = {}
-                        if imp_dict["ff"] not in self.ion_defs.keys():
-                            self.ion_defs[imp_dict["ff"]] = {}
+                        if imp_dict["params"] not in self.solvent_defs.keys():
+                            self.solvent_defs[imp_dict["params"]] = {}
+                        if imp_dict["params"] not in self.ion_defs.keys():
+                            self.ion_defs[imp_dict["params"]] = {}
 
-                        self.solvent_defs[imp_dict["ff"]][resname] = mol_dict
-                        self.ion_defs[imp_dict["ff"]][resname] = mol_dict
+                        self.solvent_defs[imp_dict["params"]][resname] = mol_dict
+                        self.ion_defs[imp_dict["params"]][resname] = mol_dict
                 
                 rescounter = 0
                 for struc_i, structure in enumerate(imp_dict["structures"]):
@@ -2007,12 +2027,13 @@ class ENSANE:
                     os.rename(output_file_name, output_path + "#" + output_name + "." + str(number) + "#")
                     break
 
-    def is_number(s):
+    def is_number(self, s):
         sign = "+"
         number = False
         integer = False
-        if s.startswith("-"):
-            sign, s = "-", s[1:]
+        if type(s) == str:
+            if s.startswith("-"):
+                sign, s = "-", s[1:]
         try:
             s = float(s)
             number = True
@@ -2044,8 +2065,8 @@ class ENSANE:
                 #################
                 ### CENTERING ###
                 #################
-                ### Centered on the mean coordinate of all beads
-                if protein["cen_method"][0] == "mean":
+                ### Centered on the mean coordinate of all beads (center of geometry)
+                if protein["cen_method"][0] == "cog":
                     xcen, ycen, zcen = [np.mean(ax) for ax in [xs, ys, zs]]
 
                 ### Centered on the mean of largest/smallest x/y/z coordinate
@@ -3757,19 +3778,19 @@ parser = argparse.ArgumentParser(
 parser.add_argument("-h", "--help", dest = "help")
 
 ### Leaflet commands
-parser.add_argument("--leaf", "-leaf", "-l", dest = "leaf_cmds", action="append", type=str, default = [], nargs="+")
+parser.add_argument("--memb", "-memb", "-membrane", dest = "membrane_cmds", action="append", type=str, default = [], nargs="+")
 
 ### Protein commands
-parser.add_argument("--prot", "-prot", "-p", dest = "prot_cmds", action="append", type=str, default = [], nargs="+")
+parser.add_argument("--prot", "-prot", "-protein", dest = "protein_cmds", action="append", type=str, default = [], nargs="+")
 
 ### Solvent commands
-parser.add_argument("--solv", "-solv", "-s", dest = "solvate_cmds", action="append", type=str, default = [], nargs="+")
+parser.add_argument("--solv", "-solv", "-solvation", dest = "solvation_cmds", action="append", type=str, default = [], nargs="+")
 
 ### Topology commands
-parser.add_argument("--imp_topology", "-imp_top", dest = "imp_top_cmds", action="append", type=str, default = [], nargs="+")
+parser.add_argument("--itp_input", "-itp_in", dest = "itp_input_cmds", action="append", type=str, default = [], nargs="+")
 
 ### Import commands
-parser.add_argument("--imp_structure", "-imp_struc", dest = "imp_struc_cmds", action="append", type=str, default = [], nargs="+")
+parser.add_argument("--solute_input", "-solute_in", dest = "solute_input_cmds", action="append", type=str, default = [], nargs="+")
 
 ### Plotting command
 parser.add_argument("-plot", dest = "plot_cmd", default = False)
@@ -3784,13 +3805,13 @@ parser.add_argument("-backup", dest = "backup", default = True)
 parser.add_argument("-rand", dest = "randseed", default = False)
 
 ### System force field
-parser.add_argument("-ff", dest = "sys_ff", default = "M3")
+parser.add_argument("-params", dest = "sys_params", default = "default")
 
 ### System name
 parser.add_argument("-sn", "-system_name", dest = "system_name", default = "PLACEHOLDER_TITLE")
 
 ### pbc box size [nm]
-parser.add_argument("-box", dest = "pbc_box", action="extend", type=str, default = [], nargs="+")
+parser.add_argument("-box", "-pbc", dest = "pbc_box", action="extend", type=str, default = [], nargs="+")
 
 ### x/y/z size of box [nm]
 parser.add_argument("-x", dest = "pbcx", type=str, default = False)
@@ -3801,19 +3822,19 @@ parser.add_argument("-z", dest = "pbcz", type=str, default = False)
 ### OUTPUT FILES ###
 ####################
 ### Output pdb/gro file
-parser.add_argument("--output_struct", "-out", "-o", dest = "output_file_name", default = "output.pdb")
+parser.add_argument("--output_struct", "-out", "-out_sys", "-o", dest = "out_system_file_name", default = "output.pdb")
 
 ### Output topology file
-parser.add_argument("--output_topol", "-top", "-t", dest = "topol_file_name", default = "topol.top")
+parser.add_argument("--output_topol", "-top_out", "-t", dest = "out_topol_file_name", default = "topol.top")
 
 ### Output imported file
-parser.add_argument("--output_import", "-imp_o", dest = "output_imported", default = False)
+# parser.add_argument("--output_import", "-imp_out", dest = "output_imported", default = False)
 
 #############################
 ### PRINTING AND LOG FILE ###
 #############################
 ### Log file
-parser.add_argument("--output_log", "-log", dest = "log_file_name", default = False)
+parser.add_argument("--output_log", "-log", "-out_log", dest = "out_log_file_name", default = False)
 
 ### Prints
 parser.add_argument("--print_quiet", "-quiet", dest = "quiet", default = False)
@@ -3826,11 +3847,11 @@ parser.add_argument("-f", dest = "debug_flag_for_jupyter")
 
 args = parser.parse_args()
 
-parse_leaf_cmds      = [" ".join(i) for i in args.leaf_cmds]
-parse_prot_cmds      = [" ".join(i) for i in args.prot_cmds]
-parse_solvate_cmds   = [" ".join(i) for i in args.solvate_cmds]
-parse_imp_top_cmds   = [" ".join(i) for i in args.imp_top_cmds]
-parse_imp_struc_cmds = [" ".join(i) for i in args.imp_struc_cmds]
+parse_membrane_cmds      = [" ".join(i) for i in args.membrane_cmds]
+parse_protein_cmds      = [" ".join(i) for i in args.protein_cmds]
+parse_solvation_cmds   = [" ".join(i) for i in args.solvation_cmds]
+parse_itp_input_cmds   = [" ".join(i) for i in args.itp_input_cmds]
+parse_solute_input_cmds = [" ".join(i) for i in args.solute_input_cmds]
 
 parse_plot_cmd   = args.plot_cmd
 parse_pickle_cmd = args.pickle_cmd
@@ -3839,7 +3860,7 @@ parse_randseed   = args.randseed
 if parse_randseed:
     random.seed(int(parse_randseed))
 
-parse_sys_ff  = args.sys_ff
+parse_sys_params  = args.sys_params
 parse_pbc_box = args.pbc_box
 if parse_pbc_box:
     parse_pbc_box = [ast.literal_eval(str(i)) for i in parse_pbc_box]
@@ -3850,12 +3871,12 @@ parse_pbcz = ast.literal_eval(str(args.pbcz))
 if parse_pbcx and parse_pbcy and parse_pbcz:
     parse_pbc_box = [parse_pbcx, parse_pbcy, parse_pbcz]
 
-parse_output_file_name = args.output_file_name
-parse_topol_file_name  = args.topol_file_name
-parse_output_imported  = args.output_imported
+parse_out_system_file_name = args.out_system_file_name
+parse_out_topol_file_name  = args.out_topol_file_name
+# parse_output_imported  = args.output_imported
 parse_system_name      = args.system_name
 
-parse_log_file_name = args.log_file_name
+parse_out_log_file_name = args.out_log_file_name
 
 parse_quiet        = bool(ast.literal_eval(str(args.quiet)))
 parse_debug_prints = bool(ast.literal_eval(str(args.debug)))
@@ -3866,24 +3887,24 @@ if any([i != [] for i in [parse_leaf_cmds, parse_prot_cmds, parse_solvate_cmds]]
     ENSANE(
         box = parse_pbc_box,
         
-        leaf = parse_leaf_cmds,
-        prot = parse_prot_cmds,
-        solv = parse_solvate_cmds,
+        membrane  = parse_membrane_cmds,
+        protein   = parse_protein_cmds,
+        solvation = parse_solvation_cmds,
 
-        imp_top   = parse_imp_top_cmds,
-        imp_struc = parse_imp_struc_cmds,
+        itp_input    = parse_itp_input_cmds,
+        solute_input = parse_solute_input_cmds,
 
-        plot   = parse_plot_cmd,
-        pickle = parse_pickle_cmd,
-        backup = parse_backup,
-        ff     = parse_sys_ff,
+        plot       = parse_plot_cmd,
+        pickle     = parse_pickle_cmd,
+        backup     = parse_backup,
+        sys_params = parse_sys_params,
 
-        output_struct = parse_output_file_name,
-        output_topol  = parse_topol_file_name,
-        output_log    = parse_log_file_name,
-        system_name   = parse_system_name,
+        out_sys     = parse_out_system_file_name,
+        out_top     = parse_out_top_file_name,
+        out_log     = parse_out_log_file_name,
+        system_name = parse_system_name,
 
-        output_imported = parse_output_imported,
+#         output_imported = parse_output_imported,
 
         quiet = parse_quiet,
         debug = parse_debug_prints,
