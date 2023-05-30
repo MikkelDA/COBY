@@ -487,12 +487,12 @@ class ENSANE:
                 else:
                     if "." in cmd:
                         cmd = cmd.split(".")[0]
-                    self.output_file_name = cmd + ".pdb"
+                    self.output_system_file_name = cmd + ".pdb"
             
-            if key in ["output_topol", "out_top"]:
-                self.topol_file_name = cmd
+            if key in ["output_topol", "out_top", "top_out", "top_output"]:
+                self.output_topol_file_name = cmd
                 
-            if key in ["output_log", "out_log", "log"]:
+            if key in ["output_log", "out_log", "log_out", "log"]:
                 self.log_file_name = cmd
                 
 #             if key in ["imp_o", "output_imported"]:
@@ -872,8 +872,8 @@ class ENSANE:
         ### ### Writing proteins lines
         if len(self.PROTEINS_cmds) != 0:
             for protein_nr, protein in self.PROTEINS.items():
-                for prot_name in protein["prot_names"]:
-                    self.molecules_for_top.append((prot_name, str(1)))
+                for mol_name in protein["mol_names"]:
+                    self.molecules_for_top.append((mol_name, str(1)))
                 current_prot_res = 0
                 for (i, atom, res), bead_vals in protein["beads_centered"].items():
                     if current_prot_res != res:
