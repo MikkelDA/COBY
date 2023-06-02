@@ -483,7 +483,7 @@ class ENSANE:
             ### Outputs
             if key in ["output_system", "out_sys", "out"]:
                 if any([cmd.endswith(i) for i in ["pdb", "gro"]]):
-                    self.output_file_name = cmd
+                    self.output_system_file_name = cmd
                 else:
                     if "." in cmd:
                         cmd = cmd.split(".")[0]
@@ -3883,7 +3883,7 @@ parse_debug_prints = bool(ast.literal_eval(str(args.debug)))
 parse_extra_info   = bool(ast.literal_eval(str(args.extra)))
 parse_warnings     = bool(ast.literal_eval(str(args.warnings)))
 
-if any([i != [] for i in [parse_leaf_cmds, parse_prot_cmds, parse_solvate_cmds]]):
+if any([i != [] for i in [parse_membrane_cmds, parse_protein_cmds, parse_solvation_cmds]]):
     ENSANE(
         box = parse_pbc_box,
         
@@ -3900,7 +3900,7 @@ if any([i != [] for i in [parse_leaf_cmds, parse_prot_cmds, parse_solvate_cmds]]
         sys_params = parse_sys_params,
 
         out_sys     = parse_out_system_file_name,
-        out_top     = parse_out_top_file_name,
+        out_top     = parse_out_topol_file_name,
         out_log     = parse_out_log_file_name,
         system_name = parse_system_name,
 
