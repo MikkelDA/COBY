@@ -443,20 +443,20 @@ class ENSANE:
             if any(key.startswith(i) for i in ["protein", "prot"]):
                 if type(cmd) != list:
                     cmd = [cmd]
-                for cm in cmd:
-                    self.PROTEINS_cmds.extend(cmd)
+                for subcmd in cmd:
+                    self.PROTEINS_cmds.extend([subcmd])
                 
             if any(key.startswith(i) for i in ["membrane", "memb"]):
                 if type(cmd) != list:
                     cmd = [cmd]
-                for cm in cmd:
-                    self.LEAFLETS_cmds.extend(cmd)
+                for subcmd in cmd:
+                    self.LEAFLETS_cmds.extend([subcmd])
                 
             if any(key.startswith(i) for i in ["solvation", "solv"]):
                 if type(cmd) != list:
                     cmd = [cmd]
-                for cm in cmd:
-                    self.SOLVATIONS_cmds.extend(cmd)
+                for subcmd in cmd:
+                    self.SOLVATIONS_cmds.extend([subcmd])
             
             ### Box size
             if key in ["pbc", "box", "pbc_box"]:
@@ -474,11 +474,14 @@ class ENSANE:
             if key in ["itp_input", "itp_in"]:
                 if type(cmd) != list:
                     cmd = [cmd]
-                self.ITP_INPUT_cmds = cmd
+                for subcmd in cmd:
+                    self.ITP_INPUT_cmds.extend([subcmd])
+            
             if key in ["solute_input", "solute_in"]:
                 if type(cmd) != list:
                     cmd = [cmd]
-                self.SOLVATE_INPUT_cmds = cmd
+                for subcmd in cmd:
+                    self.SOLUTE_INPUT_cmds.extend([subcmd])
             
             ### Outputs
             if key in ["output_system", "out_sys", "out"]:
@@ -493,7 +496,7 @@ class ENSANE:
                 self.output_topol_file_name = cmd
                 
             if key in ["output_log", "out_log", "log_out", "log"]:
-                self.log_file_name = cmd
+                self.output_log_file_name = cmd
                 
 #             if key in ["imp_o", "output_imported"]:
 #                 self.output_imported = cmd
@@ -1300,7 +1303,8 @@ class ENSANE:
                     "charge": "top", # "lib" or "top"
                 }
                 
-                monolayer_upper_designation = ["u", "up", "upper", "m", "mo", "mono"]
+                # Mono as explicitly upper added by request
+                monolayer_upper_designation = ["u", "up", "upper", "m", "mo", "mono", "monolayer"]
                 monolayer_lower_designation = ["d", "do", "down", "l", "lo", "lower"]
                 bilayer_designation = ["b", "bi", "bilayer"]
                 
@@ -1314,7 +1318,7 @@ class ENSANE:
                     sub_cmd = cmd.split(":")
 
                     ### Bilayer/monolayer defition
-                    if sub_cmd[0].lower() == "type": # Mono as explicitly upper added by request
+                    if sub_cmd[0].lower() == "type":
                         if sub_cmd[1].lower() in monolayer_upper_designation:
                             layer_defition = "upper"
                         if sub_cmd[1].lower() in monolayer_lower_designation:
@@ -1749,8 +1753,8 @@ class ENSANE:
             self.print_term("    ", "Finished loading topologies. Number of moleculetypes found:", len(self.itp_moltypes))
     
     def import_structures_handler(self):
-        if len(self.SOLVATE_INPUT_cmds) != 0:
-            for imp_struc in self.SOLVATE_INPUT_cmds:
+        if len(self.SOLUTE_INPUT_cmds) != 0:
+            for imp_struc in self.SOLUTE_INPUT_cmds:
                 structures = []
                 
                 imp_dict = {
