@@ -659,7 +659,22 @@ class ENSANE:
             file_length = len(input_file.readlines())
         with open(gro_file_dest, "r") as input_file:
             for line_nr, line in enumerate(input_file):
-                if file_length - 2 > line_nr > 1:
+#                 if file_length - 2 > line_nr > 1:
+                if line_nr > 1:
+                    EOF_length = len(line) == 31
+                    if EOF_length:
+                        EOF_x = line[:10]
+                        EOF_y = line[10:20]
+                        EOF_z = line[20:30]
+                        try:
+                            EOF_x_lit = ast.literal_eval(EOF_x)
+                            EOF_y_lit = ast.literal_eval(EOF_y)
+                            EOF_z_lit = ast.literal_eval(EOF_z)
+                            if all([type(i) in [int, float] for i in [EOF_x_lit, EOF_y_lit, EOF_z_lit]]):
+                                break
+                        except:
+                            continue
+
                     atom_dict = {}
                     key_indexes = [
                         ("res_nr"   , 0, 5, int),
