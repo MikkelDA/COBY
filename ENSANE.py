@@ -62,6 +62,7 @@ lipid_defs[(lipid_type, ff)]["y"] = (    0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
 lipid_defs[(lipid_type, ff)]["z"] = (   10,  9,  9,  8,  8,  7,  6,  6,  5,  4,  3,  2,  1,  0,  5,  4,  3,  2,  1,  0)
 lipid_defs[(lipid_type, ff)]["center"] = 7
 lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
+lipid_defs[(lipid_type, ff)]["charges"] = (("NC3", 1), ("NH3", 1), ("PO4", -1))
 lipid_defs[(lipid_type, ff)]["lipids"] = {      # 1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20
 ## Phospholipids
     ("DTPC", "beads"): (" -   -   -  NC3  -  PO4 GL1 GL2 C1A C2A  -   -   -   -  C1B C2B  -   -   -   - "),
@@ -137,6 +138,7 @@ lipid_defs[(lipid_type, ff)]["y"] = (    0,   0,   0,   0,   0,  0,  0,  0,    0
 lipid_defs[(lipid_type, ff)]["z"] = (    8,   9,   9,   7,  10, 10, 10,  6,    6,   5,   4,   3,   2,   1,   0,   5,   4,   3,   2,   1,   0)
 lipid_defs[(lipid_type, ff)]["center"] = 7
 lipid_defs[(lipid_type, ff)]["bd"] = (0.25, 0.25, 0.3)
+lipid_defs[(lipid_type, ff)]["charges"] = (("NC3", 1), ("PO4", -1))
 lipid_defs[(lipid_type, ff)]["lipids"] = {      # 1     2    3    4    5   6   7   8    9    10    11    12    13    14   15    16    17    18    19   20 
     ("DPPI", "beads"): (" C1   C2   C3    CP   -   -   -  GL1  GL2  C1A  C2A  C3A  C4A   -    -   C1B  C2B  C3B  C4B   -    - "),
     ("POPI", "beads"): (" C1   C2   C3    CP   -   -   -  GL1  GL2  C1A  D2A  C3A  C4A   -    -   C1B  C2B  C3B  C4B   -    - "),
@@ -1450,7 +1452,7 @@ class ENSANE:
 
                     ### Charges
                     if leaf_dict["charge"] == "top":
-                        if l_name in leaf_dict["lipids"].keys():
+                        if l_name in self.itp_moltypes.keys():
                             leaf_dict["lipids"][l_name]["charge_sum"] = self.itp_moltypes[l_name]["charge_sum"]
                         elif "charges" in leaf_dict["lipids"][l_name].keys():
                             leaf_dict["lipids"][l_name]["charge_sum"] = sum([charge for bead, charge in cur_lipid["charges"]])
