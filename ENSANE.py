@@ -674,24 +674,24 @@ class ENSANE:
                                 break
                         except:
                             continue
-
-                    atom_dict = {}
-                    key_indexes = [
-                        ("res_nr"   , 0, 5, int),
-                        ("res_name" , 5, 10, str),
-                        ("atom_name", 10, 15, str),
-                        ("atom_nr"  , 15, 20, int),
-                        ("x"        , 20, 28, float), # [nm]
-                        ("y"        , 28, 36, float), # [nm]
-                        ("z"        , 36, 44, float), # [nm]
-                    ]
-                    for key, i1, i2, func in key_indexes:
-                        if len(line) >= i2:
-                            atom_dict[key] = func(line[i1:i2].replace(" ",""))
-                            if func == float: # Convert [nm] to [Å]
-                                atom_dict[key] *= 10
-                    processed_file[(atom_nr, atom_dict["atom_nr"], atom_dict["res_nr"])] = atom_dict
-                    atom_nr += 1
+                    if len(line):
+                        atom_dict = {}
+                        key_indexes = [
+                            ("res_nr"   , 0, 5, int),
+                            ("res_name" , 5, 10, str),
+                            ("atom_name", 10, 15, str),
+                            ("atom_nr"  , 15, 20, int),
+                            ("x"        , 20, 28, float), # [nm]
+                            ("y"        , 28, 36, float), # [nm]
+                            ("z"        , 36, 44, float), # [nm]
+                        ]
+                        for key, i1, i2, func in key_indexes:
+                            if len(line) >= i2:
+                                atom_dict[key] = func(line[i1:i2].replace(" ",""))
+                                if func == float: # Convert [nm] to [Å]
+                                    atom_dict[key] *= 10
+                        processed_file[(atom_nr, atom_dict["atom_nr"], atom_dict["res_nr"])] = atom_dict
+                        atom_nr += 1
         return processed_file
     
     def itp_reader(self, itp_file_dest):
@@ -1185,7 +1185,10 @@ class ENSANE:
                         if sub_cmd[1].lower() in ["cog", "axis"]:
                             prot_dict["cen_method"] = (sub_cmd[1].lower(),)
                         elif sub_cmd[1].lower() in ["bead", "res"]:
-                            prot_dict["cen_method"] = (sub_cmd[1].lower(), ast.literal_eval(sub_cmd[2]))
+                            if len(sub_cmd) == 3:
+                                prot_dict["cen_method"] = (sub_cmd[1].lower(), ast.literal_eval(sub_cmd[2]))
+                            elif len(sub_cmd) == 4:
+                                prot_dict["cen_method"] = (sub_cmd[1].lower(), ast.literal_eval(sub_cmd[2]), ast.literal_eval(sub_cmd[3]))
                         elif sub_cmd[1].lower() in ["point"]:
                             prot_dict["cen_method"] = (sub_cmd[1].lower(), ast.literal_eval(sub_cmd[2]), ast.literal_eval(sub_cmd[3]), ast.literal_eval(sub_cmd[4]))
 
@@ -2094,21 +2097,49 @@ class ENSANE:
 
                 ### Centered on a single bead
                 if protein["cen_method"][0] == "bead":
+                    if len(protein["cen_method"]) == 2:
+                        beads = [protein["cen_method"][1]]
+                        
+                    elif len(protein["cen_method"]) == 3:
+                        if protein["cen_method"][1] < protein["cen_method"][2]:
+                            beads = list(range(protein["cen_method"][1],
+                                               protein["cen_method"][2]+1))
+                        elif protein["cen_method"][1] > protein["cen_method"][2]:
+                            beads = list(range(protein["cen_method"][2],
+                                               protein["cen_method"][1],
+                                               -1))
+                        elif protein["cen_method"][1] == protein["cen_method"][2]:
+                            beads = [protein["cen_method"][1]]
+                            
                     xcen, ycen, zcen = [
                         vals[ax]
                         for key, vals in protein["beads"].items()
                         for ax in ["x", "y", "z"]
                         ### If atom_nr
-                        if key[1] == protein["cen_method"][1]
+                        if key[1] in beads
                     ]
 
                 ### Centered on the mean position of all beads in a single residue
                 if protein["cen_method"][0] == "res":
+                    if len(protein["cen_method"]) == 2:
+                        residues = [protein["cen_method"][1]]
+                        
+                    elif len(protein["cen_method"]) == 3:
+                        if protein["cen_method"][1] < protein["cen_method"][2]:
+                            residues = list(range(protein["cen_method"][1],
+                                               protein["cen_method"][2]+1))
+                        elif protein["cen_method"][1] > protein["cen_method"][2]:
+                            residues = list(range(protein["cen_method"][2],
+                                               protein["cen_method"][1],
+                                               -1))
+                        elif protein["cen_method"][1] == protein["cen_method"][2]:
+                            residues = [protein["cen_method"][1]]
+
                     zipped = zip(*[
                         (vals["x"], vals["y"], vals["z"])
                         for key, vals in protein["beads"].items()
                         ### If res_nr
-                        if key[2] == protein["cen_method"][1]
+                        if key[2] in residues
                     ])
                     xcen, ycen, zcen = [np.mean(ax) for ax in zipped]
 
