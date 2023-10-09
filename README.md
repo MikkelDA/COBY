@@ -6,7 +6,6 @@ The program is written completely from scratch only reusing the initial lipid, p
 CGSB imports the following packages:
 - ast
 - itertools
-- re
 - math
 - numpy as np
 - random
