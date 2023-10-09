@@ -102,6 +102,7 @@ lipid_defs[(lipid_type, params)]["lipids"] = {      # 1   2   3   4   5   6   7 
 #  6-2-1-4-8--10-11-12-13-14-15
 #    |/    |
 #  7-3     9--16-17-18-19-20-21 
+
 lipid_type, params = "INOSITOLLIPIDS", "default"
 lipid_defs[(lipid_type, params)] = {}
 lipid_defs[(lipid_type, params)]["x"] = (   .5,  .5,   0,   0,   1, .5,  0,  0,   .5,   0,   0,   0,   0,   0,   0,   1,   1,   1,   1,   1,   1)
@@ -1959,6 +1960,8 @@ class CGSB:
                         "minim_push_mult": 1.0,
                         "minim_calc_type": "new",
                         
+                        "plot_grid": False,
+                        
                     },
                     "default": {
                         "lipids": {}, # empty
@@ -2148,6 +2151,13 @@ class CGSB:
                     
                     elif sub_cmd[0].lower() == "minim_calc_type":
                         settings_dict[dict_target]["minim_calc_type"] = sub_cmd[1]
+                    
+                    elif sub_cmd[0].lower() == "plot_grid":
+                        val = sub_cmd[1].lower()
+                        if val == "true":
+                            settings_dict[dict_target]["plot_grid"] = True
+                        if val == "talse":
+                            settings_dict[dict_target]["plot_grid"] = False
                     
                     ### Processes only lipids in lipid dictionary
                     elif any([sub_cmd[0] in self.lipid_dict[params].keys() for params in self.lipid_dict.keys()]):
@@ -3136,7 +3146,7 @@ class CGSB:
     def lipid_calculator(self):
         self.SYS_lipids_dict = {}
         if len(self.MEMBRANES) != 0:
-            self.print_term("------------------------------ CREATING PLANAR GRID")
+            self.print_term("------------------------------ CALCULATING LIPID RATIOS")
             printer_spacing = ["    "]
             for memb_key, memb_dict in self.MEMBRANES.items():
                 self.print_term("Starting membrane nr", memb_key)
@@ -3418,6 +3428,8 @@ class CGSB:
                                 push_tolerance = leaflet["minim_push_tol"],
                                 push_mult = leaflet["minim_push_mult"],
                                 calc_type = leaflet["minim_calc_type"],
+                                
+                                plot_grid = leaflet["plot_grid"],
                             )
                             z_values_arr = np.asarray([[grid_z_value] for _ in range(len(minimized_grid_points_arr))])
                             subleaflet["grid_points"] = np.hstack([minimized_grid_points_arr, z_values_arr])
@@ -3575,7 +3587,7 @@ class CGSB:
 #         return grid_points
         return grid_points, grid_points_no_random
     
-    def plane_grid_point_minimizer(self, grid_points, lipid_sizes, polygon, xlen, ylen, maxsteps, push_tolerance, push_mult, calc_type):
+    def plane_grid_point_minimizer(self, grid_points, lipid_sizes, polygon, xlen, ylen, maxsteps, push_tolerance, push_mult, calc_type, plot_grid):
 
         def push_func(dist, power, mult):
             return dist**-power*mult
@@ -3593,8 +3605,6 @@ class CGSB:
         def update_neighborlist(bins_arr):
             neighborlist = np.zeros((points_arr.shape[0], points_arr.shape[0]), dtype=int)
             nst_tic = time.time()
-#             points_processed = 0
-#             points_dist = 0
             for bix, binx in enumerate(bins_arr):
                 for biy, biny in enumerate(binx):
                     points_for_nstlist = biny
@@ -3603,12 +3613,10 @@ class CGSB:
                             point1 = points_arr[pi1]
                             point2 = points_arr[pi2]
                             dist = scipy.spatial.distance.cdist([point1], [point2])[0]
-#                             points_processed += 1
                             if dist < bin_size*2:
                                 neighborlist[pi1, pi2] = 1
-#                                 points_dist += 1
             nst_toc = time.time()
-            print("    ", "Neighborlist:", round(nst_toc-nst_tic, 4))#, bin_size, bin_size*2, points_processed, points_dist)
+            print("    ", "    ", "    ", "Time spent calculating neighborlist:", round(nst_toc-nst_tic, 4))
 
             return neighborlist
 
@@ -3638,13 +3646,7 @@ class CGSB:
                         if xnbins > pix+xi >= 0 and ynbins > piy+yi >= 0:
                             new_bins_arr[pix+xi][piy+yi].append(pi)
             bin_toc = time.time()
-#             binlengths = []
-#             for xi in range(xnbins):
-#                 for yi in range(ynbins):
-#                     binlengths.append(len(new_bins_arr[xi][yi]))
-#                     if 0 in new_bins_arr[xi][yi]:
-#                         print((xi, yi))
-            print("    ", "Binning:     ", round(bin_toc-bin_tic, 4))#, new_bins_arr.shape, xnbins, ynbins, np.mean(binlengths), np.sum(binlengths))
+            print("    ", "    ", "    ", "Time spent calculating bins:        ", round(bin_toc-bin_tic, 4))
 
             return new_bins_arr
 
@@ -3663,9 +3665,12 @@ class CGSB:
         ybinlen = ylen / ynbins
         
         dists_traveled = np.zeros((points_arr.shape[0],))
-
-        POINT_STEPS = []
-        POINT_STEPS.append(points_arr.copy())
+        
+        if plot_grid:
+            POINT_STEPS = []
+            POINT_STEPS.append(points_arr.copy())
+        else:
+            POINT_STEPS = False
 
         start = 1
         end   = maxsteps
@@ -3673,7 +3678,7 @@ class CGSB:
         steps_tic = time.time()
         
         ### Making initial bins and neighborlists
-#         print("    ", "Updating neigborlist")
+        print("    ", "    ", "Updating bins and neigborlist")
         dists_traveled = np.zeros((points_arr.shape[0],))
         bins_arr       = binning_func()
         neighborlist   = update_neighborlist(bins_arr)
@@ -3719,11 +3724,11 @@ class CGSB:
             pushes   = np.zeros((len(points_arr)))
 
             if max(dists_traveled) >= bin_size:
-                print("    ", "Updating neigborlist")
+                print("    ", "    ", "Updating bins and neigborlist")
                 dists_traveled = np.zeros((points_arr.shape[0],))
                 bins_arr       = binning_func()
                 neighborlist   = update_neighborlist(bins_arr)
-                print("    ", "Max Push:    ", round(max_push, 4))
+#                 print("    ", "Max Push:    ", round(max_push, 4))
 
             for pi1, point1 in enumerate(points_arr):
                 neighbor_is = np.nonzero(neighborlist[pi1])[0]
@@ -3818,8 +3823,9 @@ class CGSB:
 
             ### Pushes grid points
             points_arr += push_arr
-
-            POINT_STEPS.append(points_arr.copy())
+            
+            if plot_grid:
+                POINT_STEPS.append(points_arr.copy())
 
             ### Checks if anything was pushed
             ### Values are floats so can't use '=='
@@ -3829,24 +3835,25 @@ class CGSB:
 
         steps_toc = time.time()
         steps_time = steps_toc - steps_tic
-        print("    ", "LAST STEP:     ", step)
-        print("    ", "STEPS TIME:    ", steps_time)
-        print("    ", "MEAN STEP TIME:", steps_time/end)
-        print("    ", "MAXIMUM PUSH:  ", max_push)
+        mean_steps_time = steps_time/end
+        print("    ", "    ", "Last step:         ", step)
+        print("    ", "    ", "Minimization time: ", round(steps_time, 4))
+        print("    ", "    ", "Mean step time:    ", round(steps_time/end, 4))
+#         print("    ", "    ", "MAXIMUM PUSH:  ", max_push)
         
-        return points_arr, POINT_STEPS, step, steps_time, steps_time/end, max_push
+        return points_arr, POINT_STEPS, step, steps_time, mean_steps_time, max_push
 
     ######################
     ### LIPID INSERTER ###
     ######################
     def lipid_inserter(self):
         if len(self.MEMBRANES) != 0:
-            self.print_term("------------------------------ CREATING LIPIDS")
+#             self.print_term("------------------------------ CREATING LIPIDS")
             for memb_key, memb_dict in self.MEMBRANES.items():
-                self.print_term("Starting membrane nr", memb_key)
+#                 self.print_term("Starting membrane nr", memb_key)
                 for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
-                    if leaflet_i != 0:
-                        self.print_term("")
+#                     if leaflet_i != 0:
+#                         self.print_term("")
                         
                     if leaflet["HG_direction"] == "up":
                         sign = +1
@@ -3887,7 +3894,7 @@ class CGSB:
 #                             else:
 #                                 leaflet["leaf_lipid_count_dict"][name] += count
 #                     leaflet["leaf_lipid_count"] = [(n, str(c)) for n, c in leaflet["leaf_lipid_count_dict"].items()]
-            self.print_term("------------------------------ LIPID CREATION COMPLETE", "\n")
+#             self.print_term("------------------------------ LIPID CREATION COMPLETE", "\n")
 
     ################
     ### SOLVATER ###
