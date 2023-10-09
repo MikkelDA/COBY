@@ -1,8 +1,6 @@
 import ast
 import itertools
-import re
 import math
-import re
 import numpy as np
 import random
 import copy
@@ -21,8 +19,6 @@ import matplotlib.pyplot as plt
 from matplotlib import patches
 
 import pickle
-
-from scipy.spatial.distance import cdist
 
 lipid_defs = {}
 solvent_defs = {}
@@ -2521,7 +2517,7 @@ class CGSB:
 
             self.print_term("    ", "Finished loading topologies. Number of moleculetypes found:", len(self.itp_moltypes))
     
-    def import_structures_handler(self): ############## WORK IN PROGRESS
+    def import_structures_handler(self):
         if len(self.SOLUTE_INPUT_cmds) != 0:
             for imp_struc in self.SOLUTE_INPUT_cmds:
                 ### ### V1: Single subcommand:
