@@ -1,3 +1,6 @@
+import time
+import_tic = time.time()
+
 import ast
 import itertools
 import math
@@ -12,13 +15,17 @@ import inspect
 import sys
 import os
 import argparse
+import operator
 from operator import itemgetter
-import time
 
 import matplotlib.pyplot as plt
 from matplotlib import patches
 
 import pickle
+
+import_toc = time.time()
+import_time = round(import_toc - import_tic, 4)
+print("Time spent importing packages:", import_time)
 
 lipid_defs = {}
 solvent_defs = {}
@@ -752,7 +759,11 @@ class CGSB:
         self.plot_data = {}
         self.plots_requested = False
         
+        self.plot_grid = False
+        
         self.PICKLE_cmd = False
+        
+        self.randseed = round(time.time())
         
         self.sys_params = "default"
         self.system_charge = 0
@@ -877,10 +888,22 @@ class CGSB:
 #                 self.output_imported = cmd
             
             ### Extra functionalities
-            if key in ["plot"]:
-                self.PLOT_cmd = cmd
-                if self.PLOT_cmd:
-                    self.plots_requested = True
+#             if key in ["plot"]:
+#                 self.PLOT_cmd = cmd
+#                 if self.PLOT_cmd:
+#                     self.plots_requested = True
+                    
+            if key in ["plot_grid"]:
+                self.plot_grid = True
+                    
+            if key in ["rand", "randseed"]:
+                if not cmd is False:
+                    isnumber, isint = self.is_number(cmd)
+                    if isnumber:
+                        if isint:
+                            self.randseed = cmd
+                        else:
+                            self.randseed = round(cmd)
                     
             if key in ["pickle"]:
                 self.PICKLE_cmd = cmd
@@ -1003,6 +1026,11 @@ class CGSB:
             
         self.pbc_box = [self.pbcx, self.pbcy, self.pbcz]
         
+        ### Setting randseed
+        self.print_term("\n" + "Setting random seed to:", self.randseed)
+        random.seed(self.randseed)
+        np.random.seed(self.randseed)
+        
         if not self.output_system_pdb_file_name and not self.output_system_gro_file_name:
             self.output_system_pdb_file_name = "output.pdb"
             self.output_system_gro_file_name = "output.gro"
@@ -1065,36 +1093,40 @@ class CGSB:
     #####################################
     ### Specialized printing function ###
     #####################################
-    def print_term(self, *string, debug = False, extra = False, warn = False):
+    def print_term(self, *string, spaces=0, space="    ", sep=" ", end="\n", debug = False, extra = False, warn = False):
         '''
         Specialized printing function.
         Allows for easy customization of requirements for when a print statement should be printed
         '''
         print_true = False
         if type(string) in [tuple, list]:
-            string = " ".join([str(i) for i in string])
+            string = space*spaces + sep.join([str(i) for i in string])
 
         ### Check if string should be printed based on settings
         if debug:
             if self.debug_prints:
                 print_true = True
+                if not string.startswith("DEBUG:"):
+                    string = "DEBUG: " + string
         elif extra:
             if self.extra_info:
                 print_true = True
         elif warn:
             if self.warnings:
                 print_true = True
+                if not string.startswith("WARNING:"):
+                    string = "WARNING: " + string
         else:
             ### If no special case, then assume it should be printed
             print_true = True
 
+        ### Print to terminal if not quiet
         if print_true and not self.quiet:
-            ### Print to terminal if not quiet
-            print(string)
-
+            print(string, end=end)
+        
         ### Appends string to log file, for later writing
         if print_true and self.output_log_file_name:
-            self.LOG_FILE.append(string)
+            self.LOG_FILE.append(string + end)
     
     ###############
     ### Readers ###
@@ -1527,7 +1559,7 @@ class CGSB:
                 new_file.write(line + "\n")
             new_file.close()
             self.print_term("---- GRO file written:", self.output_system_gro_file_name)
-        self.print_term()
+        self.print_term("")
 
     def topol_file_writer(self):
         if self.output_topol_file_name:
@@ -1565,7 +1597,7 @@ class CGSB:
                 self.backupper(self.output_log_file_name)
             new_file = open(self.output_log_file_name, "w")
             for line in self.LOG_FILE:
-                new_file.write(line + "\n")
+                new_file.write(line)
             new_file.close()
             self.print_term("---- Log file written", "\n")
     
@@ -1641,7 +1673,7 @@ class CGSB:
             
         tot_lipids = sum([len(vals) for vals in self.lipid_dict.values()])
         
-        self.print_term("    ", "Number of lipids preprocessed:", tot_lipids, "\n")
+        self.print_term("Number of lipids preprocessed:", tot_lipids, "\n", spaces=1)
     
     def solute_beads_checker(self, res_dict):
         xs = res_dict["x"]
@@ -1739,7 +1771,7 @@ class CGSB:
                 self.solute_defs_checker(self.solvent_dict[params][cur_name], cur_name, cur_dict)
                 
         tot_solvents = sum([len(vals) for vals in self.solvent_dict.values()])
-        self.print_term("    ", "Number of solvents preprocessed:", tot_solvents, "\n")
+        self.print_term("Number of solvents preprocessed:", tot_solvents, "\n", spaces=1)
 
     def ion_defs_preprocessor(self):
         '''
@@ -1763,9 +1795,9 @@ class CGSB:
                     self.solute_defs_checker(self.ion_dict[params][charge_name][cur_name], cur_name, cur_dict)
                     
         tot_pos_ions = sum([len(vals["positive"]) for vals in self.ion_dict.values()])
-        self.print_term("    ", "Number of positive ions preprocessed:", tot_pos_ions)
+        self.print_term("Number of positive ions preprocessed:", tot_pos_ions, spaces=1)
         tot_neg_ions = sum([len(vals["negative"]) for vals in self.ion_dict.values()])
-        self.print_term("    ", "Number of negative ions preprocessed:", tot_neg_ions)
+        self.print_term("Number of negative ions preprocessed:", tot_neg_ions, spaces=1)
     
     #############################################
     ### Protein/leaflet/solvent preprocessors ###
@@ -1778,7 +1810,7 @@ class CGSB:
         if len(self.PROTEINS_cmds) != 0:
             self.print_term("\nPreprocessing protein requests")
             for cmd_nr, prot_cmd in enumerate(self.PROTEINS_cmds, 1):
-                self.print_term("    ", "Starting protein:", cmd_nr)
+                self.print_term("Starting protein:", cmd_nr, spaces=1)
 
                 ### Defaults
                 prot_dict = {
@@ -1792,7 +1824,6 @@ class CGSB:
                     "lipids_inside": False, # [bool]
                     "pbc_check": True,
                     "buffer": 1.32, # [Å] default = (vdw of regular beads) / 2
-                    "alpha_mult": 1.0,
                     "mol_names": [],
                     "charge": "top", # int/float, "top" or "auto"
                     "tot_charge": 0,
@@ -1832,10 +1863,6 @@ class CGSB:
                     ### True/False whether to check for pbc crossing
                     elif sub_cmd[0].lower() == "buffer":
                         prot_dict["buffer"] = ast.literal_eval(sub_cmd[1])
-
-                    ### Integer multiplier for radius used in alphashape function [multiplier]
-                    elif sub_cmd[0].lower() == "alpha_mult":
-                        prot_dict["alpha_mult"] = ast.literal_eval(sub_cmd[1])
 
                     ### Integer multiplier for radius used in alphashape function [multiplier]
                     elif sub_cmd[0].lower() in ["mol_names", "mol_name"]:
@@ -1897,12 +1924,12 @@ class CGSB:
                     
                 elif prot_dict["charge"] == "top":
                     if prot_dict["mol_names"] == []:
-                        self.print_term("    ", "    ", "No protein names given.  Will estimate charges from residue names. Use 'mol_name' to assign protein names (name used in topology files)")
+                        self.print_term("No protein names given.  Will estimate charges from residue names. Use 'mol_name' to assign protein names (name used in topology files)", spaces=2)
                         prot_dict["tot_charge"] = prot_charge_finder(prot_dict["beads"])
                     else:
                         for mol_name in prot_dict["mol_names"]:
                             if mol_name not in self.itp_moltypes.keys():
-                                print_term("    ", "    ", "A protein name could not be found in your topology file(s): " +  mol_name)
+                                print_term("A protein name could not be found in your topology file(s): " +  mol_name, spaces=2)
                             else:
                                 prot_dict["tot_charge"] += self.itp_moltypes[mol_name]["charge_sum"]
 
@@ -1924,7 +1951,7 @@ class CGSB:
                     )
                 
                 self.PROTEINS[cmd_nr] = prot_dict.copy()
-            self.print_term("    ", "Number of molecule insertions preprocessed:", len(self.PROTEINS))
+            self.print_term("Number of molecule insertions preprocessed:", len(self.PROTEINS), spaces=1)
 
     def leaf_preprocessor(self):
         '''
@@ -1935,7 +1962,7 @@ class CGSB:
         if len(self.MEMBRANES_cmds) != 0:
             self.print_term("\nPreprocessing leaflet requests")
             for cmd_nr, leaf_cmd in enumerate(self.MEMBRANES_cmds, 1):
-                self.print_term("    ", "Starting leaflet command:", cmd_nr)
+                self.print_term("Starting leaflet command:", cmd_nr, spaces=1)
                 ### "membrane" settings always apply to the whole membrane instead of individual leaflets
                 ### "default" settings can be overwritten by individual leaflets
                 settings_dict = {
@@ -1944,37 +1971,39 @@ class CGSB:
                     "membrane"  : {
 #                         "shape": "rectangle", # "rectangle"
                         
-                        "x": self.pbcx, # [å]
-                        "y": self.pbcy, # [å]
-                        "center": [0, 0, 0], # [nm]
+                        "x": self.pbcx / 10, # [nm] converted to [Å]
+                        "y": self.pbcy / 10, # [nm] converted to [Å]
+                        "center": [0, 0, 0], # [nm] converted to [Å]
                         
-                        "gridsplits": ("auto", 5000), # Å
+                        "gridsplits": ("auto", 500), # Å
                         
                         "pbc_check": True, # [bool]
                         
                         "lipid_distribution": "random",
                         
-                        "minimize": True,
-                        "minim_maxsteps": 1000,
-                        "minim_push_tol": 0.1,
-                        "minim_push_mult": 1.0,
-                        "minim_calc_type": "new",
-                        
-                        "plot_grid": False,
+                        "optimize": "limited", # False/"no"/0, "limited", True/"full"/1
+                        "optim_maxsteps": 1000,
+                        "optim_push_tol": 0.1,
+                        "optim_push_mult": 1.0,
+                        "optim_calc_type": "new",
                         
                     },
                     "default": {
                         "lipids": {}, # empty
                         "lipids_preprocessing": [], # empty
 
-                        "kickx": 0.25, # [Å]
-                        "kicky": 0.25, # [Å]
-                        "kickz": 0.25, # [Å]
+                        "kickx": 0.025, # [nm] converted to [Å]
+                        "kicky": 0.025, # [nm] converted to [Å]
+                        "kickz": 0.025, # [nm] converted to [Å]
 
-                        "apl": 0.6 * 100, # [nm^2] converted to [Å^2]
-                        "planeWR": 1.32, # [Å] default = (vdw of regular beads) / 2
-                        "heightWR": 1.32, # [Å] default = (vdw of regular beads) / 2
+                        "apl": 0.6, # [nm^2] converted to [Å^2]
+                        
+                        "plane_buffer": 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 2
+                        "height_buffer": 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 2
 
+                        "prot_buffer": 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 2
+                        "alpha_mult": 1.0,
+                        
                         "lip_round_func": ("int", int), # int, round, math.floor or math.ceil
 
                         "lipid_optim": 'avg_optimal', # str: 'abs_val', 'force_fill', 'fill', 'avg_optimal', 'no'
@@ -2062,20 +2091,28 @@ class CGSB:
                     ### Center [nm]
                     elif any(sub_cmd[0].lower() == cen for cen in ["c", "cen", "center"]):
                         if len(sub_cmd[1:]) == 3:
-                            settings_dict["membrane"]["center"] = [ast.literal_eval(i) * 10 for i in sub_cmd[1:]]
+                            settings_dict["membrane"]["center"] = [ast.literal_eval(i) for i in sub_cmd[1:]]
                         elif len(sub_cmd[1:]) == 2:
-                            settings_dict["membrane"]["center"] = [ast.literal_eval(i) * 10 for i in sub_cmd[1:]] + [0]
+                            settings_dict["membrane"]["center"] = [ast.literal_eval(i) for i in sub_cmd[1:]] + [0]
 
                     ### Area per lipid [nm^2] converted to [Å^2]
                     elif sub_cmd[0].lower() == "apl":
-                        settings_dict[dict_target]["apl"] = ast.literal_eval(sub_cmd[1]) * 100
+                        settings_dict[dict_target]["apl"] = ast.literal_eval(sub_cmd[1])
 
                     ### Wiggle room. Minimum distance from a bead to the edge of a bin [Å]
-                    elif sub_cmd[0].lower() == "plane_wr":
-                        settings_dict[dict_target]["planeWR"] = ast.literal_eval(sub_cmd[1])
+                    elif sub_cmd[0].lower() in ["plane_wr", "plane_buffer"]:
+                        settings_dict[dict_target]["plane_buffer"] = ast.literal_eval(sub_cmd[1])
 
-                    elif sub_cmd[0].lower() == "height_wr":
-                        settings_dict[dict_target]["heightWR"] = ast.literal_eval(sub_cmd[1])
+                    elif sub_cmd[0].lower() in ["height_wr", "height_buffer"]:
+                        settings_dict[dict_target]["height_buffer"] = ast.literal_eval(sub_cmd[1])
+
+                    ### Integer multiplier for radius used in alphashape function [multiplier]
+                    elif sub_cmd[0].lower() == "prot_buffer":
+                        prot_dict["prot_buffer"] = ast.literal_eval(sub_cmd[1])
+
+                    ### Integer multiplier for radius used in alphashape function [multiplier]
+                    elif sub_cmd[0].lower() == "alpha_mult":
+                        prot_dict["alpha_mult"] = ast.literal_eval(sub_cmd[1])
 
                     ### Rounding method for rounding number of lipids in leaflet [function]
                     elif sub_cmd[0].lower() == "round": # "int", "round", "min" or "max"
@@ -2098,7 +2135,7 @@ class CGSB:
                     ### ### Rectangle specific subcommands:
                     ### xy dimensions of leaflet [nm]. Converted to [Å]
                     elif sub_cmd[0].lower() in ["x", "y"]:
-                        settings_dict["membrane"][sub_cmd[0].lower()] = ast.literal_eval(sub_cmd[1]) * 10
+                        settings_dict["membrane"][sub_cmd[0].lower()] = ast.literal_eval(sub_cmd[1])
 
                     ### True/False whether to check for pbc crossing
                     elif sub_cmd[0].lower() == "pbc_check":
@@ -2126,38 +2163,33 @@ class CGSB:
                             settings_dict[dict_target]["lipid_distribution"] = "random"
                     
                     #############################
-                    ### MINIMIZATION SETTINGS ###
+                    ### OPTIMIZATION SETTINGS ###
                     #############################
-                    elif sub_cmd[0].lower() in ["minim", "minimize", "minimization"]:
-                        if sub_cmd[1] in ["True", "1"]:
-                            settings_dict[dict_target]["minimize"] = True
-                        elif sub_cmd[1] in ["False", "0"]:
-                            settings_dict[dict_target]["minimize"] = False
+                    elif sub_cmd[0].lower() in ["optim", "optimize", "optimization", "minim", "minimize", "minimization"]:
+                        if sub_cmd[1] in ["True", "1", "full"]:
+                            settings_dict[dict_target]["optimize"] = "full"
+                        elif sub_cmd[1] in ["limited"]:
+                            settings_dict[dict_target]["optimize"] = "limited"
+                        elif sub_cmd[1] in ["False", "0", "no"]:
+                            settings_dict[dict_target]["optimize"] = False
                     
-                    elif sub_cmd[0].lower() == "minim_maxsteps":
+                    elif sub_cmd[0].lower() in ["optim_maxsteps", "minim_maxsteps"]:
                         isnumber, isint = self.is_number(sub_cmd[1])
                         if isnumber:
-                            settings_dict[dict_target]["minim_maxsteps"] = int(ast.literal_eval(sub_cmd[1]))
+                            settings_dict[dict_target]["optim_maxsteps"] = int(ast.literal_eval(sub_cmd[1]))
                     
-                    elif sub_cmd[0].lower() == "minim_push_tol":
+                    elif sub_cmd[0].lower() in ["optim_push_tol", "minim_push_tol"]:
                         isnumber, isint = self.is_number(sub_cmd[1])
                         if isnumber:
-                            settings_dict[dict_target]["minim_push_tol"] = ast.literal_eval(sub_cmd[1])
+                            settings_dict[dict_target]["optim_push_tol"] = ast.literal_eval(sub_cmd[1])
                     
-                    elif sub_cmd[0].lower() == "minim_push_mult":
+                    elif sub_cmd[0].lower() in ["optim_push_mult", "minim_push_mult"]:
                         isnumber, isint = self.is_number(sub_cmd[1])
                         if isnumber:
-                            settings_dict[dict_target]["minim_push_mult"] = ast.literal_eval(sub_cmd[1])
+                            settings_dict[dict_target]["optim_push_mult"] = ast.literal_eval(sub_cmd[1])
                     
-                    elif sub_cmd[0].lower() == "minim_calc_type":
-                        settings_dict[dict_target]["minim_calc_type"] = sub_cmd[1]
-                    
-                    elif sub_cmd[0].lower() == "plot_grid":
-                        val = sub_cmd[1].lower()
-                        if val == "true":
-                            settings_dict[dict_target]["plot_grid"] = True
-                        if val == "talse":
-                            settings_dict[dict_target]["plot_grid"] = False
+                    elif sub_cmd[0].lower() in ["optim_calc_type", "minim_calc_type"]:
+                        settings_dict[dict_target]["optim_calc_type"] = sub_cmd[1]
                     
                     ### Processes only lipids in lipid dictionary
                     elif any([sub_cmd[0] in self.lipid_dict[params].keys() for params in self.lipid_dict.keys()]):
@@ -2170,14 +2202,14 @@ class CGSB:
                 
                 memb_dict = {"leaflets": {}, "membrane_type": layer_definition}
                 
-                if layer_definition == "upper" or layer_definition == "bilayer": #(layer_definition == "bilayer" and len(settings_dict["upper_leaf"]) > 0):
+                if layer_definition == "upper" or layer_definition == "bilayer":
                     memb_dict["leaflets"]["upper_leaf"] = settings_dict["upper_leaf"]
                     memb_dict["leaflets"]["upper_leaf"].update({
                         "HG_direction": "up",
                         "leaflet_type": "upper",
                     })
                     
-                if layer_definition == "lower" or layer_definition == "bilayer": #(layer_definition == "bilayer" and len(settings_dict["lower_leaf"]) > 0):
+                if layer_definition == "lower" or layer_definition == "bilayer":
                     memb_dict["leaflets"]["lower_leaf"] = settings_dict["lower_leaf"]
                     memb_dict["leaflets"]["lower_leaf"].update({
                         "HG_direction": "down",
@@ -2196,6 +2228,19 @@ class CGSB:
                         if key not in leaflet:
                             leaflet[key] = vals
                 
+                ### fixing a couple of values such that they are in angstrom
+                for leaflet_type, leaflet in memb_dict["leaflets"].items():
+                    leaflet["x"] *= 10
+                    leaflet["y"] *= 10
+                    leaflet["center"] = [val*10 for val in leaflet["center"]]
+                    leaflet["apl"] *= 100
+                    leaflet["prot_buffer"] *= 10
+                    leaflet["plane_buffer"] *= 10
+                    leaflet["height_buffer"] *= 10
+                    leaflet["kickx"] *= 10
+                    leaflet["kicky"] *= 10
+                    leaflet["kickz"] *= 10
+                    
                 ################################
                 ### Lipid data incorporation ###
                 ################################
@@ -2222,16 +2267,16 @@ class CGSB:
                             
                         if leaflet["charge"] == "top" and l_name in self.itp_moltypes.keys():
                             leaflet["lipids"][l_name].charge_set(self.itp_moltypes[l_name]["charge_sum"])
-                            
+                        
                     maxx, maxy, maxz, minx, miny, minz = [
                         func([
-                            val + (leaflet[wr + "WR"] * sign)
+                            val + (leaflet["kick" + ax] + leaflet[wr + "_buffer"]) * sign
                             for lipid in leaflet["lipids"].keys()
                             for val in leaflet["lipids"][lipid].get_coords(ax)[0]
                         ])
                         for func, sign in [(max, +1), (min, -1)] for ax, wr in [("x", "plane"), ("y", "plane"), ("z", "height")]
                     ]
-
+                    
                     ### Update leaflet dictionary. Some are duplicated here, but potentially overwritten later
                     leaflet["lipid_dimensions"] = {
                         "maxx": maxx,
@@ -2262,7 +2307,7 @@ class CGSB:
                 elif layer_definition in bilayer_designation:
                     self.MEMBRANES[cmd_nr] = memb_dict
             
-            self.print_term("    ", "Number of membranes preprocessed:", len(self.MEMBRANES))
+            self.print_term("Number of membranes preprocessed:", len(self.MEMBRANES), spaces=1)
 
     def solv_preprocessor(self):
         '''
@@ -2273,7 +2318,7 @@ class CGSB:
         if len(self.SOLVATIONS_cmds) != 0:
             self.print_term("\nPreprocessing solvent requests")
             for cmd_nr, solvate_cmd in enumerate(self.SOLVATIONS_cmds, 1):
-                self.print_term("    ", "Starting Solvent command:", cmd_nr)
+                self.print_term("Starting Solvent command:", cmd_nr, spaces=1)
                 ### Defaults
                 solv_dict = {
                     ### ### Solvent
@@ -2504,11 +2549,11 @@ class CGSB:
 
                 self.SOLVATIONS[cmd_nr] = solv_dict
                 
-            self.print_term("    ", "Number of solvent commands preprocessed:", len(self.SOLVATIONS))
+            self.print_term("Number of solvent commands preprocessed:", len(self.SOLVATIONS), spaces=1)
     
     def itp_read_initiater(self):
         if len(self.ITP_INPUT_cmds) != 0:
-            self.print_term("\nLoading topology file(s)")
+            self.print_term("\nLoading topology file(s)", spaces=0)
             self.itp_defs = {
                 "bondtypes": {},
                 "angletypes": {},
@@ -2525,7 +2570,7 @@ class CGSB:
                         charge_sum += ast.literal_eval(atom_vals["charge"])
                 self.itp_moltypes[moltype]["charge_sum"] = charge_sum
 
-            self.print_term("    ", "Finished loading topologies. Number of moleculetypes found:", len(self.itp_moltypes))
+            self.print_term("Finished loading topologies. Number of moleculetypes found:", len(self.itp_moltypes), spaces=1)
     
     def import_structures_handler(self):
         if len(self.SOLUTE_INPUT_cmds) != 0:
@@ -2850,7 +2895,7 @@ class CGSB:
             for i in range(len(output_file_split) - 1):
                 output_path += output_file_split[i] + "/"
         if os.path.exists(output_file_name):
-            self.print_term("File " + output_file_name + " already exists. Backing it up")
+            self.print_term("File " + output_file_name + " already exists. Backing it up", spaces=0)
             number = 1
             while True:
                 if os.path.exists(output_path + "#" + output_name + "." + str(number) + "#"):
@@ -2884,9 +2929,12 @@ class CGSB:
         Checks if all atoms/beads are within the pbc and moves them if they are outside
         '''
         if len(self.PROTEINS) != 0:
-            self.print_term("------------------------------ PROTEIN PLACEMENT")
-            for protein_nr, protein in self.PROTEINS.items():
-                self.print_term("Starting protein nr", protein_nr)
+            prot_placer_tic = time.time()
+            self.print_term("------------------------------ PROTEIN PLACEMENT", spaces=0)
+            for protein_i, (protein_nr, protein) in enumerate(self.PROTEINS.items()):
+                if protein_i != 0:
+                    self.print_term("")
+                self.print_term("Starting protein nr", protein_nr, spaces=0)
                 
                 #################
                 ### CENTERING ###
@@ -2918,7 +2966,7 @@ class CGSB:
                 
                 self.PROTEINS[protein_nr]["protein"].set_coords_to_center(centering = centering, target = target)
                 xcen, ycen, zcen = self.PROTEINS[protein_nr]["protein"].get_center_point()
-                self.print_term("    ", "Centering protein using", "'" + " ".join([str(i) for i in protein["cen_method"]])+"'", "at x/y/z:", round(xcen, 3), round(ycen, 3), round(zcen, 3), "(Input file coordinate system [Å])")
+                self.print_term("Centering protein using", "'" + " ".join([str(i) for i in protein["cen_method"]])+"'", "at x/y/z:", round(xcen, 3), round(ycen, 3), round(zcen, 3), "(Input file coordinate system [Å])", spaces=1)
 
                 #################
                 ### ROTATIONS ###
@@ -2953,33 +3001,37 @@ class CGSB:
                         if error > 0:
                             errors_count += 1
                     if errors_count > 0:
-                        self.print_term("    ", "    ", "WARNING:", str(errors_count), "Beads are outside pbc. Moved to other side. Expect potential problems from this.", warn = True)
-                        self.print_term("    ", "    ", "Please move the protein such that it fits within the pbc.", warn = True)
+                        self.print_term("WARNING:", str(errors_count), "Beads are outside pbc. Moved to other side. Expect potential problems from this.", warn = True, spaces=2)
+                        self.print_term("Please move the protein such that it fits within the pbc.", warn = True, spaces=2)
 
                 xcen_new, ycen_new, zcen_new = 0, 0, 0
                 xcen_new, ycen_new, zcen_new = xcen_new + tx, ycen_new + ty, zcen_new + tz
-                self.print_term("    ", "New protein center at x/y/z:", round(xcen_new, 3), round(ycen_new, 3), round(zcen_new, 3), "(Internal coordinate system [Å])")
+                self.print_term("New protein center at x/y/z:", round(xcen_new, 3), round(ycen_new, 3), round(zcen_new, 3), "(Internal coordinate system [Å])", spaces=1)
 
                 self.system_charge += self.PROTEINS[protein_nr]["protein"].charge
                 
-                self.print_term("    ", "Finished placing protein nr", protein_nr)
-            self.print_term("------------------------------ PLACEMENT COMPLETE", "\n")
+                self.print_term("Finished placing protein nr", protein_nr, spaces=1)
+                
+            prot_placer_toc = time.time()
+            prot_placer_time = round(prot_placer_toc - prot_placer_tic, 4)
+            self.print_term("------------------------------ PLACEMENT COMPLETE", "(time spent: "+str(prot_placer_time)+" [s])", "\n", spaces=0)
     
     ######################
     ### POLYGON MAKERS ###
     ######################
     def subleaflet_poly_maker(self):
         if len(self.MEMBRANES) != 0:
-            self.print_term("------------------------------ CREATING LEAFLET BOUNDARY BOXES")
-            for memb_key, memb_dict in self.MEMBRANES.items():
-                self.print_term("Making boundary boxes for membrane nr", memb_key)
+            subleaflet_poly_maker_tic = time.time()
+            self.print_term("------------------------------ CREATING LEAFLET BOUNDARY BOXES", spaces=0)
+            for memb_i, (memb_key, memb_dict) in enumerate(self.MEMBRANES.items()):
+                if memb_i != 0:
+                    self.print_term("")
+                self.print_term("Starting membrane nr", memb_key, spaces=0)
                 
                 for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
-                    if leaflet_i != 0:
-                        self.print_term("")
                     leaflet["subleaflets"] = {}
-                    self.print_term("    ", "Starting", leaflet["leaflet_type"], "leaflet")
-                    self.print_term("    ", "    ", "Base parameters:", "x=" + str(leaflet["x"] / 10) + "nm", "y=" + str(leaflet["y"] / 10) + "nm", "APL=" + str(leaflet["apl"] / 100) + "nm^2")
+                    self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=1)
+                    self.print_term("Base parameters:", "x=" + str(leaflet["x"] / 10) + "nm", "y=" + str(leaflet["y"] / 10) + "nm", "APL=" + str(leaflet["apl"] / 100) + "nm^2", spaces=2)
                     
                     if leaflet["gridsplits"][0] == "auto":
                         xsplits = leaflet["x"] // leaflet["gridsplits"][1] + 1
@@ -2987,11 +3039,11 @@ class CGSB:
                     else:
                         xsplits, ysplits = leaflet["gridsplits"]
                     if xsplits > 1:
-                        self.print_term("    ", "    ", "x-axis split into", xsplits, "subleaflets due to axis length or manual designation")
+                        self.print_term("x-axis split into", xsplits, "subleaflets due to axis length or manual designation", spaces=2)
                     if ysplits > 1:
-                        self.print_term("    ", "    ", "y-axis split into", ysplits, "subleaflets due to axis length or manual designation")
+                        self.print_term("y-axis split into", ysplits, "subleaflets due to axis length or manual designation", spaces=2)
                     if xsplits * ysplits > 1:
-                        self.print_term("    ", "    ", "A total of", xsplits*ysplits, "subleaflets have been made for the current leaflet")
+                        self.print_term("A total of", xsplits*ysplits, "subleaflets have been made for the current leaflet", spaces=2)
                     
                     xmin, xmax = leaflet["center"][0] - leaflet["x"]/2, leaflet["center"][0] + leaflet["x"]/2
                     ymin, ymax = leaflet["center"][1] - leaflet["y"]/2, leaflet["center"][1] + leaflet["y"]/2
@@ -3024,13 +3076,19 @@ class CGSB:
                                 "box_points": box_points,
                                 "box_poly":   box_Poly,
                             }
-            self.print_term("------------------------------ LEAFLET BOUNDARY BOXES CREATED", "\n")
+            
+            subleaflet_poly_maker_toc = time.time()
+            subleaflet_poly_maker_time = round(subleaflet_poly_maker_toc - subleaflet_poly_maker_tic, 4)
+            self.print_term("------------------------------ LEAFLET BOUNDARY BOXES CREATED", "(time spent: "+str(subleaflet_poly_maker_time)+" [s])", "\n", spaces=0)
             
     def holed_subleaflet_bbox_maker(self):
         if len(self.MEMBRANES) != 0:
-            self.print_term("------------------------------ CREATING HOLED BOUNDARY BOXES")
-            for memb_key, memb_dict in self.MEMBRANES.items():
-                self.print_term("Starting membrane nr", memb_key)
+            holed_subleaflet_bbox_maker_tic = time.time()
+            self.print_term("------------------------------ CREATING HOLED BOUNDARY BOXES", spaces=0)
+            for memb_i, (memb_key, memb_dict) in enumerate(self.MEMBRANES.items()):
+                if memb_i != 0:
+                    self.print_term("")
+                self.print_term("Starting membrane nr", memb_key, spaces=0)
                 
                 ### Defnining some default values for union, intersection and holed_bbox
                 for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
@@ -3045,43 +3103,54 @@ class CGSB:
                 ######################################
                 ### Getting all the protein bead positions
                 if len(self.PROTEINS) != 0:
-                    self.print_term("    ", "Finding protein beads inside leaflets")
-                    all_protein_beads = []
-                    for protein_i, (protein_nr, protein) in enumerate(self.PROTEINS.items()):
-                        all_protein_beads.extend(protein["protein"].get_beads("xyz"))
+                    self.print_term("Finding protein beads inside leaflets", spaces=1)
+#                     all_protein_beads = []
+#                     for protein_i, (protein_nr, protein) in enumerate(self.PROTEINS.items()):
+#                         all_protein_beads.extend(protein["protein"].get_beads("xyz"))
 
                     for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
-                        if leaflet_i != 0:
-                            self.print_term("")
-                        self.print_term("    ", "    ", "Starting", leaflet["leaflet_type"], "leaflet")
+                        self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=2)
                         polygon_list = []
 
                         ####################################################
                         ### Finding protein points contained in leaflets ###
                         ####################################################
+#                         prod_beads_in_memb = [
+#                             (beadx, beady)
+#                             for beadx, beady, beadz in all_protein_beads
+#                             if (
+#                                 leaflet["center"][2] < beadz < leaflet["center"][2] + leaflet["lipid_dimensions"]["lipid_height"]
+#                                 and leaflet["HG_direction"] == "up"
+#                             )
+#                             or (
+#                                 leaflet["center"][2] > beadz > leaflet["center"][2] - leaflet["lipid_dimensions"]["lipid_height"]
+#                                 and leaflet["HG_direction"] == "down"
+#                             )
+#                         ]
                         prod_beads_in_memb = [
                             (beadx, beady)
-                            for beadx, beady, beadz in all_protein_beads
+                            for protein_i, (protein_nr, protein) in enumerate(self.PROTEINS.items())
+                            for beadx, beady, beadz in protein["protein"].get_beads("xyz")
                             if (
-                                leaflet["center"][2] < beadz < + leaflet["center"][2] + leaflet["lipid_dimensions"]["lipid_height"]
+                                leaflet["center"][2] - protein["buffer"] < beadz < leaflet["center"][2] + leaflet["lipid_dimensions"]["lipid_height"] + protein["buffer"]
                                 and leaflet["HG_direction"] == "up"
                             )
                             or (
-                                leaflet["center"][2] > beadz > - leaflet["center"][2] - leaflet["lipid_dimensions"]["lipid_height"]
+                                leaflet["center"][2] + protein["buffer"] > beadz > leaflet["center"][2] - leaflet["lipid_dimensions"]["lipid_height"] - protein["buffer"]
                                 and leaflet["HG_direction"] == "down"
                             )
                         ]
 
                         if len(prod_beads_in_memb) == 0:
-                            self.print_term("    ", "    ", "    ", "No leaflet-protein overlap found")
+                            self.print_term("No leaflet-protein overlap found", spaces=3)
                         else:
-                            self.print_term("    ", "    ", "    ", "Leaflet-protein overlap found for", str(len(prod_beads_in_memb)), "protein beads")
+                            self.print_term("Leaflet-protein overlap found for", str(len(prod_beads_in_memb)), "protein beads", spaces=3)
 
                             #################################
                             ### CONCAVE HULL / ALPHASHAPE ###
                             #################################
 
-                            alpha = 1 / (leaflet["lipid_dimensions"]["lipid_radius"]*2 * protein["alpha_mult"])
+                            alpha = 1 / (leaflet["lipid_dimensions"]["lipid_radius"]*2 * leaflet["alpha_mult"])
                             ### alpha = radius^-1
                             ALPHASHAPE = alphashape.alphashape(points = prod_beads_in_memb, alpha = alpha)
                             self.print_term(type(ALPHASHAPE), debug = True)
@@ -3101,19 +3170,43 @@ class CGSB:
                             ### Iterate over polygons
                             for poly in ConcaveHulls_Polygon:
                                 ### Buffering to add a bit of space around protein concave hull
-                                poly_buffered = poly.buffer(distance = protein["buffer"]) # [Å]
+                                poly_buffered = poly.buffer(distance = leaflet["prot_buffer"]) # [Å]
                                 ConcaveHulls_Polygon_Buffered.append(poly_buffered)
-
+                            
                             leaflet["protein_poly"] = ConcaveHulls_Polygon_Buffered
+                            
+                            ############################################
+                            ### SECOND ALPHASHAPE TO REMOVE CREVICES ###
+                            ############################################
+#                             buffered_poly_points = []
+#                             for poly in ConcaveHulls_Polygon_Buffered:
+#                                 try:
+#                                     buffered_poly_points.extend(list(poly.coords))
+#                                 except:
+#                                     buffered_poly_points.extend(list(poly.exterior.coords))
+                            
+#                             ALPHASHAPE = alphashape.alphashape(points = buffered_poly_points, alpha = alpha/2)
+                            
+#                             ### Alphashape output can be a bit unpredictable so need to check all possibilities
+#                             if ALPHASHAPE.geom_type == "Polygon":
+#                                 self.print_term("Polygon", debug = True)
+#                                 New_ConcaveHulls_Polygon = [ALPHASHAPE]
+#                             elif ALPHASHAPE.geom_type == "MultiPolygon":
+#                                 self.print_term("MultiPolygon", debug = True)
+#                                 New_ConcaveHulls_Polygon = list(ALPHASHAPE.geoms)
+#                             elif ConcaveHulls_Polygon[-1].geom_type == "MultiPolygon":
+#                                 self.print_term("list of MultiPolygon", debug = True)
+#                                 New_ConcaveHulls_Polygon = list(ALPHASHAPE[-1].geoms)
+                            
+#                             leaflet["protein_poly"] = ConcaveHulls_Polygon_Buffered + New_ConcaveHulls_Polygon
                 
                 ####################################################
                 ### COMBINING SHAPELY SHAPES FOR ALL SUBLEAFLETS ###
                 ####################################################
-                self.print_term("    ", "Calculating holed boundary box")
+                self.print_term("")
+                self.print_term("Calculating holed boundary box", spaces=1)
                 for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
-                    if leaflet_i != 0:
-                        self.print_term("")
-                    self.print_term("    ", "    ", "Starting", leaflet["leaflet_type"], "leaflet")
+                    self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=2)
                     
                     ### All the various polygons to be removed from the bbox
                     ### Unique to each leaflet but the same for each subleaflet
@@ -3138,7 +3231,9 @@ class CGSB:
                         subleaflet["intersection"] = intersection
                         subleaflet["holed_bbox"]   = holed_bbox
             
-            self.print_term("------------------------------ HOLED BOUNDARY BOXES CREATED", "\n")
+            holed_subleaflet_bbox_maker_toc = time.time()
+            holed_subleaflet_bbox_maker_time = round(holed_subleaflet_bbox_maker_toc - holed_subleaflet_bbox_maker_tic, 4)
+            self.print_term("------------------------------ HOLED BOUNDARY BOXES CREATED", "(time spent: "+str(holed_subleaflet_bbox_maker_time)+" [s])", "\n", spaces=0)
     
     ########################
     ### LIPID CALCULATOR ###
@@ -3146,31 +3241,34 @@ class CGSB:
     def lipid_calculator(self):
         self.SYS_lipids_dict = {}
         if len(self.MEMBRANES) != 0:
-            self.print_term("------------------------------ CALCULATING LIPID RATIOS")
-            printer_spacing = ["    "]
-            for memb_key, memb_dict in self.MEMBRANES.items():
-                self.print_term("Starting membrane nr", memb_key)
+            lipid_calculator_tic = time.time()
+            self.print_term("------------------------------ CALCULATING LIPID RATIOS", spaces=0)
+            printer_spacing = 1
+            for memb_i, (memb_key, memb_dict) in enumerate(self.MEMBRANES.items()):
+                if memb_i != 0:
+                    self.print_term("")
+                self.print_term("Starting membrane nr", memb_key, spaces=0)
                 
                 ### Checks if any leaflets contain multiple subleaflets for printer spacing
                 for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
                     if len(leaflet["subleaflets"]) > 1:
-                        printer_spacing = ["    ", "    "]
+                        printer_spacing = 2
                 
                 for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
                     if leaflet_i != 0:
                         self.print_term("")
-                    self.print_term("    ", "Starting", leaflet["leaflet_type"], "leaflet")
+                    self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=1)
                     
                     ### Lipid optimization printing
                     ### Printing here so it isn't spammed if multiple subleafs
-                    self.print_term(*printer_spacing, "    ", "Lipid optimization 'lipid_optim' setting:", leaflet["lipid_optim"])
+                    self.print_term("Lipid optimization 'lipid_optim' setting:", leaflet["lipid_optim"], spaces=1+printer_spacing)
                     if leaflet["lipid_optim"] in ["force_fill", "fill"]:
                         if leaflet["lipid_optim"] == "fill":
-                            self.print_term(*printer_spacing, "    ", "    ", "Filling leaflet until perfect ratio between lipids is achieved or leaflet is full")
+                            self.print_term("Filling leaflet until perfect ratio between lipids is achieved or leaflet is full", spaces=2+printer_spacing)
                         elif leaflet["lipid_optim"] == "force_fill":
-                            self.print_term(*printer_spacing, "    ", "    ", "Forcefully filling leaflet until all grid points have a lipid")
+                            self.print_term("Forcefully filling leaflet until all grid points have a lipid", spaces=2+printer_spacing)
                     elif leaflet["lipid_optim"] == "avg_optimal":
-                        self.print_term(*printer_spacing, "    ", "    ", "Optimizing based on the average deviation from expected ratios")
+                        self.print_term("Optimizing based on the average deviation from expected ratios", spaces=2+printer_spacing)
 
                     apl_sqrt = math.sqrt(leaflet["apl"])
                     
@@ -3180,9 +3278,10 @@ class CGSB:
                     
                     for subleaflet_i, ((slxi, slyi), subleaflet) in enumerate(leaflet["subleaflets"].items()):
                         if len(leaflet["subleaflets"]) > 1:
-                            if subleaflet_i != 0:
-                                self.print_term("")
-                            self.print_term("    ", "    ", "Starting subleaflet", str(subleaflet_i+1)+"/"+str(len(leaflet["subleaflets"])))
+                            if self.subleaflet_extra_info:
+                                if subleaflet_i != 0:
+                                    self.print_term("")
+                                self.print_term("Starting subleaflet", str(subleaflet_i+1)+"/"+str(len(leaflet["subleaflets"])), spaces=2)
                             printer_leaf_name = "Subleaflet"
                         else:
                             printer_leaf_name = "Leaflet"
@@ -3244,14 +3343,14 @@ class CGSB:
                             ### Filling in lipids
                             if leaflet["lipid_optim"] in ["force_fill", "fill"]:
 #                                 if leaflet["lipid_optim"] == "fill":
-#                                     self.print_term(*printer_spacing, "    ", "    ", "Filling leaflet until perfect ratio between lipids is achieved or leaflet is full")
+#                                     self.print_term("Filling leaflet until perfect ratio between lipids is achieved or leaflet is full", spaces=2+printer_spacing)
 #                                 elif leaflet["lipid_optim"] == "force_fill":
-#                                     self.print_term(*printer_spacing, "    ", "    ", "Forcefully filling leaflet until all grid points have a lipid")
+#                                     self.print_term("Forcefully filling leaflet until all grid points have a lipid", spaces=2+printer_spacing)
                                 lipid_ratios = iters[-1]
 
                             ### Optimizing lipids
                             elif leaflet["lipid_optim"] == "avg_optimal": # lipid_ratios_decimal
-#                                 self.print_term(*printer_spacing, "    ", "    ", "Optimizing based on the average deviation from expected ratios")
+#                                 self.print_term("Optimizing based on the average deviation from expected ratios", spaces=2+printer_spacing)
 
                                 iters_decimal = [[round(iteration[i] / sum(iteration) * 100, 3) for i in range(len(iteration))] for iteration in iters]
                                 iters_abs_diff = [
@@ -3296,26 +3395,27 @@ class CGSB:
                                 else:
                                     self.SYS_lipids_dict[L0] += L1
                             
-                            if len(printer_spacing) == 1 or (len(printer_spacing) == 2 and self.subleaflet_extra_info):
-                                self.print_term(*printer_spacing, "    ", "Final deviations from expected ratios:", "Difference in %-values")
-                                self.print_term(*printer_spacing, "    ", "    ", "Maximum:", ratios_final_max)
-                                self.print_term(*printer_spacing, "    ", "    ", "Average:", ratios_final_avg)
-                                self.print_term(*printer_spacing, "    ", "    ", "Minimum:", ratios_final_min)
+                            if printer_spacing == 1 or (printer_spacing == 2 and self.subleaflet_extra_info):
+                                self.print_term("Final deviations from expected ratios:", "Difference in %-values", spaces=1+printer_spacing)
+                                self.print_term("Maximum:", ratios_final_max, spaces=2+printer_spacing)
+                                self.print_term("Average:", ratios_final_avg, spaces=2+printer_spacing)
+                                self.print_term("Minimum:", ratios_final_min, spaces=2+printer_spacing)
 
                                 self.print_term(
-                                    *printer_spacing, "    ",
                                     printer_leaf_name, "specific lipid data",
-                                    "(Max lipids: "+str(max_lipids_possible)+", Final lipids: "+str(sum(lipid_ratios))+")"
+                                    "(Max lipids: "+str(max_lipids_possible)+", Final lipids: "+str(sum(lipid_ratios))+")",
+                                    spaces=1+printer_spacing
+                                    
                                 )
                                 for i, (L0, L1, L2, L3, L4, L5) in enumerate(list(zip(*lipids_for_printer))):
                                     self.print_term(
-                                        *printer_spacing, "    ", "    ", 
                                         '{0: <{L}}'.format(L0, L = max_lengths[0]), ":",
                                         '{0: <{L}}'.format(L1, L = max_lengths[1]), ":",
                                         '{0: <{L}}'.format(L2, L = max_lengths[2]), ":",
                                         '{0: <{L}}'.format(L3, L = max_lengths[3]), ":",
                                         '{0: <{L}}'.format(L4, L = max_lengths[4]), ":",
                                         '{0: <{L}}'.format(L5, L = max_lengths[5]),
+                                        spaces=2+printer_spacing
                                     )
                     
                     leaflet["leaf_lipid_count"] = [(n, c) for n, c in leaflet["leaf_lipid_count_dict"].items()]
@@ -3334,13 +3434,13 @@ class CGSB:
                         LEAF_lipids_for_printer = [tuple(LEAF_headers)] + LEAF_lipids_for_printer
                         LEAF_max_lengths = [len(str(max(data, key = lambda d: len(str(d))))) for data in zip(*LEAF_lipids_for_printer)]
 
-                        self.print_term("    ", "    ", "Leaflet specific lipid data (Combined subleafs)")
+                        self.print_term("Leaflet specific lipid data (Combined subleafs)", spaces=2)
                         for L0, L1, L2 in LEAF_lipids_for_printer:
                             self.print_term(
-                                *printer_spacing, "    ", "    ", 
                                 '{0: <{L}}'.format(L0, L = LEAF_max_lengths[0]), ":",
                                 '{0: <{L}}'.format(L1, L = LEAF_max_lengths[1]), ":",
                                 '{0: <{L}}'.format(L2, L = LEAF_max_lengths[2]),
+                                spaces=2+printer_spacing
                             )
 
             #########################################
@@ -3357,37 +3457,72 @@ class CGSB:
                 SYS_lipids_for_printer = [tuple(SYS_headers)] + SYS_lipids_for_printer
                 SYS_max_lengths = [len(str(max(data, key = lambda d: len(str(d))))) for data in zip(*SYS_lipids_for_printer)]
 
-                self.print_term("\nLipid data for whole system")
+                self.print_term("\nLipid data for whole system", spaces=0)
                 for L0, L1, L2 in SYS_lipids_for_printer:
                     self.print_term(
-                        *printer_spacing, "    ", "    ", 
                         '{0: <{L}}'.format(L0, L = SYS_max_lengths[0]), ":",
                         '{0: <{L}}'.format(L1, L = SYS_max_lengths[1]), ":",
                         '{0: <{L}}'.format(L2, L = SYS_max_lengths[2]),
+                        spaces=2+printer_spacing
                     )
-        self.print_term("------------------------------ LIPID RATIO CALCULATIONS COMPLETE", "\n")
+            
+            lipid_calculator_toc = time.time()
+            lipid_calculator_time = round(lipid_calculator_toc - lipid_calculator_tic, 4)
+            self.print_term("------------------------------ LIPID RATIO CALCULATIONS COMPLETE", "(time spent: "+str(lipid_calculator_time)+" [s])", "\n", spaces=0)
     
     #######################################
-    ### PLANAR GRID MAKER AND MINIMIZER ###
+    ### PLANAR GRID MAKER AND OPTIMIZER ###
     #######################################
     def planar_grid_maker(self):
         self.SYS_lipids_dict = {}
         self.GRID_PLOTTING = {}
         if len(self.MEMBRANES) != 0:
-            self.print_term("------------------------------ CREATING LIPID GRID")
-            for memb_key, memb_dict in self.MEMBRANES.items():
-                self.print_term("Starting membrane nr", memb_key)
+            grid_making_tic = time.time()
+            self.print_term("------------------------------ CREATING LIPID GRID", spaces=0)
+            for memb_i, (memb_key, memb_dict) in enumerate(self.MEMBRANES.items()):
+                if memb_i != 0:
+                    self.print_term("")
+                self.print_term("Starting membrane nr", memb_key, spaces=0)
                 for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
                     if leaflet_i != 0:
                         self.print_term("")
-                    self.print_term("    ", "Starting", leaflet["leaflet_type"], "leaflet")
+                    self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=1)
                     
-                    for (slxi, slyi), subleaflet in leaflet["subleaflets"].items():
+                    for sli, ((slxi, slyi), subleaflet) in enumerate(leaflet["subleaflets"].items()):
                         
                         lipid_names_nlipids_radii = [
-                            (name, ratio, leaflet["lipids"][name].get_radius()+leaflet["planeWR"]) for name, ratio in zip(subleaflet["lipid_names"], subleaflet["lipid_ratios"])
+                            (
+                                name,
+                                ratio,
+                                leaflet["lipids"][name].get_radius() + max([leaflet["kickx"], leaflet["kicky"]]) + leaflet["plane_buffer"]
+                            )
+                            for name, ratio in zip(subleaflet["lipid_names"], subleaflet["lipid_ratios"])
                         ]
                         lipids = []
+                        
+                        leaflet_area = subleaflet["holed_bbox"].area
+                        lipids_circle_area = sum([(math.pi*(radius**2))*ratio for name, ratio, radius in lipid_names_nlipids_radii])
+                        lipids_square_area = sum([((radius*2)**2)*ratio for name, ratio, radius in lipid_names_nlipids_radii])
+                        lipids_mean_area = (lipids_circle_area + lipids_square_area)/2
+                        occupation_modifier = (leaflet_area-lipids_square_area)/(leaflet_area*2) # *2 to half the modifier
+    
+                        self.print_term("leaflet_area       ", leaflet_area, debug=True)
+                        self.print_term("lipids_circle_area ", lipids_circle_area, debug=True)
+                        self.print_term("lipids_square_area ", lipids_square_area, debug=True)
+                        self.print_term("lipids_mean_area   ", lipids_mean_area, debug=True)
+                        self.print_term("occupation_modifier", occupation_modifier, debug=True)
+                        
+                        if occupation_modifier < 0.1:
+                            self.print_term(
+                                "WARNING:",
+                                "Chosen apl ("+str(leaflet["apl"]/100)+" [nm^2]) and buffer ("+str(leaflet["plane_buffer"]/10)+" [nm]) cause lipids to be very closely packed.",
+                                "Optimization may be slow and some lipid overlaps may not be avoidable.",
+                                "Consider increasing the apl using the subcommand 'apl' or decreasing the plane buffer using the subcommand 'plane_buffer'",
+                                
+                                warn=True
+                            )
+                        
+                        
                         for name, nlipids, radius in lipid_names_nlipids_radii:
                             lipid = []
                             for i in range(nlipids):
@@ -3396,9 +3531,7 @@ class CGSB:
                             lipids.append(lipid)
                         
                         if leaflet["lipid_distribution"] == "evenly":
-                            print(lipids)
                             lipids = self.n_list_mixer(*lipids)
-                            print(lipids)
                         elif leaflet["lipid_distribution"] == "random":
                             lipids = flatten(lipids)
                             random.shuffle(lipids)
@@ -3409,62 +3542,73 @@ class CGSB:
                             sign = +1
                         if leaflet["HG_direction"] == "down":
                             sign = -1
-                        grid_z_value = leaflet["center"][2] + (sign * leaflet["lipid_dimensions"]["zUnderLipCen"])
                         
                         grid_points, grid_points_no_random = self.make_rect_grid(leaflet, subleaflet)
                         grid_points_arr = np.asarray(grid_points)
                         
-                        if leaflet["minimize"]:
-#                             minimized_grid_points = self.plane_grid_point_minimizer(
-                            minimized_grid_points_arr, POINT_STEPS, step, steps_time, mean_steps_time, max_push = self.plane_grid_point_minimizer(
+                        grid_z_value = leaflet["center"][2] + (sign * leaflet["lipid_dimensions"]["zUnderLipCen"])
+                        z_values_arr = np.asarray([[grid_z_value] for _ in range(len(grid_points_arr))])
+                        
+                        if leaflet["optimize"]:
+                            if len(leaflet["subleaflets"]) > 1 and self.subleaflet_extra_info:
+                                self.print_term("Starting optimization for subleaflet nr", sli+1, spaces=2)
+                            else:
+                                self.print_term("Starting optimization", spaces=2)
+                            
+                            optimized_grid_points_arr, POINT_STEPS, step, steps_time, mean_steps_time, max_push, bin_size = self.plane_grid_point_optimizer(
                                 grid_points_arr,
                                 lipid_sizes = list(zip(*lipids))[-1],
                                 polygon = subleaflet["holed_bbox"],
                                 
-                                xlen = abs(subleaflet["xmin"]) + abs(subleaflet["xmax"]),
-                                ylen = abs(subleaflet["ymin"]) + abs(subleaflet["ymax"]),
+                                xcenter = np.mean([subleaflet["xmax"], subleaflet["xmin"]]),
+                                ycenter = np.mean([subleaflet["ymax"], subleaflet["ymin"]]),
                                 
-                                maxsteps = leaflet["minim_maxsteps"],
-                                push_tolerance = leaflet["minim_push_tol"],
-                                push_mult = leaflet["minim_push_mult"],
-                                calc_type = leaflet["minim_calc_type"],
+                                xlen = subleaflet["xmax"] - subleaflet["xmin"],
+                                ylen = subleaflet["ymax"] - subleaflet["ymin"],
                                 
-                                plot_grid = leaflet["plot_grid"],
+                                maxsteps = leaflet["optim_maxsteps"],
+                                push_tolerance = leaflet["optim_push_tol"],
+                                push_mult = leaflet["optim_push_mult"],
+                                calc_type = leaflet["optim_calc_type"],
+                                
+                                occupation_modifier = occupation_modifier,
+                                optimize = leaflet["optimize"],
                             )
-                            z_values_arr = np.asarray([[grid_z_value] for _ in range(len(minimized_grid_points_arr))])
-                            subleaflet["grid_points"] = np.hstack([minimized_grid_points_arr, z_values_arr])
+                            subleaflet["grid_points"] = np.hstack([optimized_grid_points_arr, z_values_arr])
                             
-                            self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi)] = {
-                                ### Inputs
-                                "lipids"      : lipids,
-                                "bbox_polygon": subleaflet["holed_bbox"],
-                                "xdims"       : (subleaflet["xmin"], subleaflet["xmax"]),
-                                "ydims"       : (subleaflet["ymin"], subleaflet["ymax"]),
-                                "push_mult"   : leaflet["minim_push_mult"],
-                                "calc_type"   : leaflet["minim_calc_type"],
-                                "apl"         : leaflet["apl"],
-                                "bin_size"    : max(list(zip(*lipids))[-1])*1.1*2,
+                            if self.plot_grid:
+                                self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi)] = {
+                                    ### Inputs
+                                    "lipids"      : lipids,
+                                    "bbox_polygon": subleaflet["holed_bbox"],
+                                    "xdims"       : (subleaflet["xmin"], subleaflet["xmax"]),
+                                    "ydims"       : (subleaflet["ymin"], subleaflet["ymax"]),
+                                    "push_mult"   : leaflet["optim_push_mult"],
+                                    "calc_type"   : leaflet["optim_calc_type"],
+                                    "apl"         : leaflet["apl"],
+                                    "bin_size"    : bin_size,
 
-                                ### Outputs
-                                "grid_points"          : grid_points_arr,
-                                "grid_points_no_random": grid_points_no_random,
-                                "points_arr"           : minimized_grid_points_arr,
-                                "POINT_STEPS"          : POINT_STEPS,
-                                "step"                 : step,
-                                "steps_time"           : steps_time,
-                                "mean_steps_time"      : mean_steps_time,
-                                "max_push"             : max_push,
-                            }
+                                    ### Outputs
+                                    "grid_points"          : grid_points_arr,
+                                    "grid_points_no_random": grid_points_no_random,
+                                    "points_arr"           : optimized_grid_points_arr,
+                                    "POINT_STEPS"          : POINT_STEPS,
+                                    "step"                 : step,
+                                    "steps_time"           : steps_time,
+                                    "mean_steps_time"      : mean_steps_time,
+                                    "max_push"             : max_push,
+                                }
                         else:
-                            z_values_arr = np.asarray([[grid_z_value] for _ in range(len(grid_points_arr))])
                             subleaflet["grid_points"] = np.hstack([grid_points_arr, z_values_arr])
-            self.print_term("------------------------------ LIPID GRID CREATED", "\n")
+            grid_making_toc = time.time()
+            grid_making_time = round(grid_making_toc - grid_making_tic, 4)
+            self.print_term("------------------------------ LIPID GRID CREATED", "(time spent: "+str(grid_making_time)+" [s])", "\n", spaces=0)
     
     def make_rect_grid(self, leaflet, subleaflet):
         xmin, xmax, ymin, ymax = itemgetter("xmin", "xmax", "ymin", "ymax")(subleaflet)
         
         sidelen      = math.sqrt(leaflet["apl"])
-        edge_buffer  = leaflet["lipid_dimensions"]["lipid_radius"]
+        edge_buffer  = leaflet["lipid_dimensions"]["lipid_radius"]*1.1
         bbox_polygon = subleaflet["holed_bbox"]
         lipids       = subleaflet["lipids"]
         
@@ -3473,12 +3617,9 @@ class CGSB:
         ymin_edge = ymin + edge_buffer
         ymax_edge = ymax - edge_buffer
         
-#         print("X points ratio:", xpoints_ratio)
-#         print("Y points ratio:", ypoints_ratio)
-        
         ### Making pointer for when number of points along x/y-axis should be expanded
-        xpoints_ratio = (abs(xmin_edge) + abs(xmax_edge)) / sidelen
-        ypoints_ratio = (abs(ymin_edge) + abs(ymax_edge)) / sidelen
+        xpoints_ratio = (xmax_edge-xmin_edge)/sidelen
+        ypoints_ratio = (ymax_edge-ymin_edge)/sidelen
         xsum = round(xpoints_ratio/sum([xpoints_ratio, ypoints_ratio])*1000)
         ysum = round(ypoints_ratio/sum([xpoints_ratio, ypoints_ratio])*1000)
         xy_pointer = self.n_list_mixer(["x"]*xsum, ["y"]*ysum)
@@ -3494,10 +3635,7 @@ class CGSB:
             xy_pointer_counter += 1
             if xy_pointer_counter == 1000:
                 xy_pointer_counter = 0
-
-#         print("Initial number of X points:", xpoints)
-#         print("Initial number of Y points:", ypoints)
-            
+        
         enough_points = False
         while enough_points == False:
             xlinespace = np.linspace(start=xmin_edge, stop=xmax_edge, num=xpoints, endpoint=True)
@@ -3511,7 +3649,6 @@ class CGSB:
             for xval in xlinespace:
                 for yval in ylinespace:
                     point = (xval, yval)
-#                     valid_point = bbox_polygon.contains(shapely.Point(point)) and protein_buffer < bbox_polygon.boundary.distance(shapely.Point(point))
                     valid_point = bbox_polygon.contains(shapely.Point(point))
 
                     if valid_point:
@@ -3539,12 +3676,6 @@ class CGSB:
             else:
                 enough_points = True
         
-#         print("Final number of X points:", xpoints)
-#         print("Final number of Y points:", ypoints)
-        
-#         print("Number of lipids:              ", len(lipids))
-#         print("Number of starting grid points:", ngridpoints)
-
         ### Finding the points that should be removed due to number of lipids
         ### No duplicate index values as "len(lipids)" is always equal to or smaller than "ngridpoints"
         point_is = np.round(
@@ -3579,15 +3710,11 @@ class CGSB:
                      yval+random.uniform(-sidelen/rand_force, sidelen/rand_force))
                 )
                 grid_points_no_random.append((xval, yval))
-        
-#         print("Number of final grid points:   ", len(grid_points))
-#         print()
-        
 
 #         return grid_points
         return grid_points, grid_points_no_random
     
-    def plane_grid_point_minimizer(self, grid_points, lipid_sizes, polygon, xlen, ylen, maxsteps, push_tolerance, push_mult, calc_type, plot_grid):
+    def plane_grid_point_optimizer(self, grid_points, lipid_sizes, polygon, xcenter, ycenter, xlen, ylen, maxsteps, push_tolerance, push_mult, calc_type, occupation_modifier, optimize):
 
         def push_func(dist, power, mult):
             return dist**-power*mult
@@ -3595,6 +3722,13 @@ class CGSB:
         def get_vector(A, B):
             ### Get vector from point A to point B
             return (round(B[0] - A[0], 3), round(B[1] - A[1], 3))
+        
+        def get_vector_len_fastsingle(v):
+            '''
+            Fastest single vector calculator
+            https://stackoverflow.com/questions/7370801/how-do-i-measure-elapsed-time-in-python
+            '''
+            return math.sqrt(v[0]**2 + v[1]**2)
 
         def rand_sign():
             if random.random() < 0.5:
@@ -3613,15 +3747,16 @@ class CGSB:
                             point1 = points_arr[pi1]
                             point2 = points_arr[pi2]
                             dist = scipy.spatial.distance.cdist([point1], [point2])[0]
-                            if dist < bin_size*2:
+#                             if dist < bin_size*3:
+                            if dist < largest_lipid*4:
                                 neighborlist[pi1, pi2] = 1
             nst_toc = time.time()
-            print("    ", "    ", "    ", "Time spent calculating neighborlist:", round(nst_toc-nst_tic, 4))
+            self.print_term("    ", "    ", "    ", "    ", "Time spent calculating neighborlist:", round(nst_toc-nst_tic, 4), debug=True)
 
             return neighborlist
 
-        def coord_to_indices(pos, dim, real_gridres):
-            posi_dec = (pos+dim/2)/real_gridres
+        def coord_to_indices(pos, dim, center, real_gridres):
+            posi_dec = (pos+dim/2-center)/real_gridres
             posi_int = int(posi_dec)
             if posi_int < 0:
                 posi_int = 0
@@ -3637,25 +3772,33 @@ class CGSB:
                 for yi in range(ynbins):
                     new_bins_arr[xi][yi] = []
 
+#             indeces = [-2, -1, 0, 1, 2]
+            indeces = [-1, 0, 1]
             for pi, (px, py) in enumerate(points_arr):
-                pix = coord_to_indices(px, xlen, xbinlen)
-                piy = coord_to_indices(py, ylen, ybinlen)
+                pix = coord_to_indices(px, xlen, xcenter, xbinlen)
+                piy = coord_to_indices(py, ylen, ycenter, ybinlen)
                 ### Surrounding bins
-                for xi in [-1, 0, 1]:
-                    for yi in [-1, 0, 1]:
+                for xi in indeces:
+                    for yi in indeces:
                         if xnbins > pix+xi >= 0 and ynbins > piy+yi >= 0:
                             new_bins_arr[pix+xi][piy+yi].append(pi)
             bin_toc = time.time()
-            print("    ", "    ", "    ", "Time spent calculating bins:        ", round(bin_toc-bin_tic, 4))
+            self.print_term("    ", "    ", "    ", "    ", "Time spent calculating bins:        ", round(bin_toc-bin_tic, 4), debug=True)
 
             return new_bins_arr
-
+        
         points_arr = np.array(grid_points)
         
         largest_lipid  = max(lipid_sizes)
         smallest_lipid = min(lipid_sizes)
 #         bin_size       = largest_lipid*1.1
-        bin_size       = 4*1.1
+        bin_size       = largest_lipid*2
+        
+#         print("len(grid_points)", len(grid_points))
+#         print("xlen", xlen)
+#         print("ylen", ylen)
+#         print("bin_size  ", bin_size)
+#         print()
         
         ### Calculating number of bins along each axis, by rounding down
         xnbins = int(xlen / bin_size)
@@ -3666,7 +3809,7 @@ class CGSB:
         
         dists_traveled = np.zeros((points_arr.shape[0],))
         
-        if plot_grid:
+        if self.plot_grid:
             POINT_STEPS = []
             POINT_STEPS.append(points_arr.copy())
         else:
@@ -3678,11 +3821,19 @@ class CGSB:
         steps_tic = time.time()
         
         ### Making initial bins and neighborlists
-        print("    ", "    ", "Updating bins and neigborlist")
+        self.print_term("STEP:", 0, debug=True, spaces=2)
+        self.print_term("Updating bins and neigborlist", debug=True, spaces=3)
         dists_traveled = np.zeros((points_arr.shape[0],))
         bins_arr       = binning_func()
         neighborlist   = update_neighborlist(bins_arr)
-
+        
+        step_modifier_limit = 100
+        
+        bounce_counter = np.zeros((len(points_arr)))
+        max_push = 0
+        
+        self.print_term("CURRENT STEP:", end=" ", spaces=3)
+        
         for si, step in enumerate(np.arange(1, maxsteps+1)):
             '''CODE LEGEND
 
@@ -3717,19 +3868,31 @@ class CGSB:
             'pushes':
                 Numpy array with shape (nlipids).
             '''
-
-            if step % 10 == 0:
-                print("STEP:", step)
+            
+            if step >= step_modifier_limit:
+                step_modifier = step_modifier_limit**-1
+            else:
+                step_modifier = 1-(step/step_modifier_limit)
+            
+#             if step % 10 == 0:
+#                 self.print_term("    ", "    ", "    ", "STEP:", step)
+            
+            self.print_term(step, end=" ", spaces=0)
+            
             push_arr = np.zeros_like(points_arr)
             pushes   = np.zeros((len(points_arr)))
-
-            if max(dists_traveled) >= bin_size:
-                print("    ", "    ", "Updating bins and neigborlist")
+            max_dists_traveled = max(dists_traveled)
+            
+            self.print_term("STEP:", step, "AT TIME:", round(time.time() - steps_tic, 4), debug=True, spaces=2)
+            self.print_term("Max push:         ", round(max_push, 4), debug=True, spaces=3)
+            self.print_term("Max dist traveled:", round(max_dists_traveled, 4), debug=True, spaces=3)
+            
+            if max_dists_traveled >= bin_size/4:
+                self.print_term("Updating bins and neigborlist", debug=True, spaces=3)
                 dists_traveled = np.zeros((points_arr.shape[0],))
                 bins_arr       = binning_func()
                 neighborlist   = update_neighborlist(bins_arr)
-#                 print("    ", "Max Push:    ", round(max_push, 4))
-
+            
             for pi1, point1 in enumerate(points_arr):
                 neighbor_is = np.nonzero(neighborlist[pi1])[0]
                 for pi2 in neighbor_is:
@@ -3738,10 +3901,8 @@ class CGSB:
                     point2 = points_arr[pi2]
                     dist = scipy.spatial.distance.cdist([point1], [point2])[0]
                     combined_lipid_size = lipid_sizes[pi1] + lipid_sizes[pi2]
-
-                    eq_dist = combined_lipid_size
-                    ### Pushes extra hard on grid points, to prevent overlapping lipid radii
-                    if dist < eq_dist:
+                    
+                    if optimize == "limited" and dist < combined_lipid_size:
                         vector = np.array(get_vector(point1, point2))
                         if dist < 0.5:
                             push = combined_lipid_size-dist
@@ -3749,6 +3910,7 @@ class CGSB:
                             push = push_func(dist, power=2, mult=push_mult)
 
                         vector_push = vector*push
+                        vector_push_len = get_vector_len_fastsingle(vector_push)
 
                         if calc_type == "old":
                             ### Pseudo-normalizes the force behind the pushes
@@ -3759,7 +3921,9 @@ class CGSB:
     #                         print(lipid_small_large_ratio, pi1_mult, pi2_mult)
 
                         if calc_type == "new":
-                        ### Pseudo-normalizes the force behind the pushes
+                            ### Pseudo-normalizes the force behind the pushes
+                            ### Modifies pushes according to the radius of each lipid
+                            ### Smaller radius causes more of the push to go to the lipid
                             max_size = max([lipid_sizes[pi2], lipid_sizes[pi1]])
                             pi1_mult = 1/(max_size/lipid_sizes[pi2])
                             pi2_mult = 1/(max_size/lipid_sizes[pi1])
@@ -3770,15 +3934,50 @@ class CGSB:
                         push_arr[pi1] -= vector_push*pi1_mult
                         push_arr[pi2] += vector_push*pi2_mult
 
-                        pushes[pi1] += abs(push*pi1_mult)
-                        pushes[pi2] += abs(push*pi2_mult)
+                        pushes[pi1] += vector_push_len*pi1_mult #abs(push*pi1_mult)
+                        pushes[pi2] += vector_push_len*pi2_mult #abs(push*pi2_mult)
                         
-                        dists_traveled[pi1] += abs(push*pi1_mult)
-                        dists_traveled[pi2] += abs(push*pi2_mult)
-            
-#             ### Pushes grid points
+                        dists_traveled[pi1] += vector_push_len*pi1_mult # abs(push*pi1_mult)
+                        dists_traveled[pi2] += vector_push_len*pi2_mult # abs(push*pi2_mult)
+                    
+                    elif optimize == "full":
+                    
+                        ideal_dist = combined_lipid_size*(1+occupation_modifier)
+                        ideal_dist_diff = ideal_dist - combined_lipid_size
+                        ideal_dist_upper = ideal_dist + ideal_dist_diff
+                    
+                        if dist < ideal_dist_upper:
+                            vector = np.array(get_vector(point1, point2))
+
+                            ### Difference in distance from ideal distance 
+                            dist_diff = dist-combined_lipid_size
+                            if dist_diff <= ideal_dist_diff:
+                                dist_modifier = 1
+                            else:
+                                dist_modifier = abs(ideal_dist*dist_diff)**-1
+
+                            push = (ideal_dist-dist)*occupation_modifier*step_modifier*dist_modifier
+
+                            vector_push = vector*push
+                            vector_push_len = get_vector_len_fastsingle(vector_push)
+
+                            ### Pseudo-normalizes the force behind the pushes
+                            max_size = max([lipid_sizes[pi2], lipid_sizes[pi1]])
+                            pi1_mult = 1/(max_size/lipid_sizes[pi2])
+                            pi2_mult = 1/(max_size/lipid_sizes[pi1])
+
+                            push_arr[pi1] -= vector_push*pi1_mult
+                            push_arr[pi2] += vector_push*pi2_mult
+
+                            pushes[pi1] += vector_push_len*pi1_mult # abs(push*pi1_mult)
+                            pushes[pi2] += vector_push_len*pi2_mult # abs(push*pi2_mult)
+
+                            dists_traveled[pi1] += vector_push_len*pi1_mult # abs(push*pi1_mult)
+                            dists_traveled[pi2] += vector_push_len*pi2_mult # abs(push*pi2_mult)
+                    
+            ### Pushes grid points
             points_arr += push_arr
-            push_arr = np.zeros_like(points_arr)
+            push_arr    = np.zeros_like(points_arr)
 
             ### BBOX and protein distance checks
             all_contained = True
@@ -3789,42 +3988,46 @@ class CGSB:
                 dist = polygon.boundary.distance(point_Point)
                 point_contained = polygon.contains(point_Point)
 
-                eq_dist = lipid_sizes[pi1]
+                eq_dist = lipid_sizes[pi1]*(1+occupation_modifier/2)
 
-                if dist < eq_dist and point_contained:
+                if point_contained and dist < eq_dist:
                     poly_nearest, point_Point = shapely.ops.nearest_points(polygon.boundary, point_Point)
                     vector = np.array(get_vector((poly_nearest.x, poly_nearest.y), (point_Point.x, point_Point.y)))
-
-                    diff = eq_dist - dist
-                    push = diff/dist
-                    vector_push = vector*push
-
-                    push_arr[pi1] = vector_push
-
-                    pushes[pi1] = abs(push)
                     
-                    dists_traveled[pi1] += abs(push)
+                    diff        = eq_dist - dist
+                    push        = diff/dist
+                    
+                    if dist < lipid_sizes[pi1]:
+                        bounce_counter[pi1] += 1
+                        push *= bounce_counter[pi1]
 
+                    vector_push = vector*push
+                    vector_push_len = get_vector_len_fastsingle(vector_push)
+                    
+                    points_arr[pi1]     += vector_push
+                    pushes[pi1]         += vector_push_len # abs(push)
+                    dists_traveled[pi1] += vector_push_len # abs(push)
+                    
                 elif not point_contained:
                     all_contained = False
-
+                    
                     poly_nearest, point_Point = shapely.ops.nearest_points(polygon.boundary, point_Point)
                     vector = np.array(get_vector((poly_nearest.x, poly_nearest.y), (point_Point.x, point_Point.y)))
-
-                    diff = -(eq_dist + dist)
-                    push = diff/dist
-                    vector_push = vector*(push)
-
-                    push_arr[pi1] = vector_push
-
-                    pushes[pi1] = abs(push)
                     
-                    dists_traveled[pi1] += abs(push)
+                    diff        = -(eq_dist + dist)
+                    push        = diff/dist
+                    vector_push = vector*push
+                    vector_push_len = get_vector_len_fastsingle(vector_push)
+                    
+                    points_arr[pi1]     += vector_push
+                    pushes[pi1]         += vector_push_len # abs(push)
+                    dists_traveled[pi1] += vector_push_len # abs(push)
 
-            ### Pushes grid points
-            points_arr += push_arr
+#             ### Pushes grid points
+#             points_arr += push_arr
+#             push_arr    = np.zeros_like(points_arr)
             
-            if plot_grid:
+            if self.plot_grid:
                 POINT_STEPS.append(points_arr.copy())
 
             ### Checks if anything was pushed
@@ -3836,31 +4039,32 @@ class CGSB:
         steps_toc = time.time()
         steps_time = steps_toc - steps_tic
         mean_steps_time = steps_time/end
-        print("    ", "    ", "Last step:         ", step)
-        print("    ", "    ", "Minimization time: ", round(steps_time, 4))
-        print("    ", "    ", "Mean step time:    ", round(steps_time/end, 4))
-#         print("    ", "    ", "MAXIMUM PUSH:  ", max_push)
+        self.print_term("")
+        self.print_term("Last step:         ", step, spaces=3)
+        self.print_term("Optimization time: ", round(steps_time, 4), "[s]", spaces=3)
+        self.print_term("Mean step time:    ", round(steps_time/end, 4), "[s]", spaces=3)
+#         self.print_term("    ", "    ", "    ", "Max push:          ", max_push)
         
-        return points_arr, POINT_STEPS, step, steps_time, mean_steps_time, max_push
+        return points_arr, POINT_STEPS, step, steps_time, mean_steps_time, max_push, bin_size
 
     ######################
     ### LIPID INSERTER ###
     ######################
     def lipid_inserter(self):
         if len(self.MEMBRANES) != 0:
-#             self.print_term("------------------------------ CREATING LIPIDS")
+            lipid_inserter_tic = time.time()
+            self.print_term("------------------------------ CREATING LIPIDS", spaces=0)
             for memb_key, memb_dict in self.MEMBRANES.items():
-#                 self.print_term("Starting membrane nr", memb_key)
+                self.print_term("Starting membrane nr", memb_key, spaces=0)
                 for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
-#                     if leaflet_i != 0:
-#                         self.print_term("")
+                    self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=1)
                         
                     if leaflet["HG_direction"] == "up":
                         sign = +1
                     if leaflet["HG_direction"] == "down":
                         sign = -1
                     leaflet["grid_lipids"] = []
-#                     leaflet["leaf_lipid_count_dict"] = {}
+                    
                     for (slxi, slyi), subleaflet in leaflet["subleaflets"].items():
                         lipids                    = subleaflet["lipids"]
                         grid_points               = subleaflet["grid_points"]
@@ -3881,38 +4085,34 @@ class CGSB:
                             lipid_dict = {
                                 "name": l_name,
                                 "beads": [bead.bead for bead in leaflet["lipids"][l_name].get_res_beads_info()],
-                                "x": [x + grid_point_x + random.uniform(-leaflet["kickx"], leaflet["kickx"]) for x in new_x],
-                                "y": [y + grid_point_y + random.uniform(-leaflet["kicky"], leaflet["kicky"]) for y in new_y],
-                                "z": [sign * z + grid_point_z + random.uniform(-leaflet["kickz"], leaflet["kickz"]) for z in new_z],
+                                "x": [x      + grid_point_x + random.uniform(-leaflet["kickx"], leaflet["kickx"]) for x in new_x],
+                                "y": [y      + grid_point_y + random.uniform(-leaflet["kicky"], leaflet["kicky"]) for y in new_y],
+                                "z": [z*sign + grid_point_z + random.uniform(-leaflet["kickz"], leaflet["kickz"]) for z in new_z],
                             }
                             leaflet["grid_lipids"][-1].update({"lipid": lipid_dict})
                             self.system_charge += leaflet["lipids"][l_name].charge
-                            
-#                         for name, count in zip(subleaflet["lipid_names"], subleaflet["lipid_ratios"]):
-#                             if name not in leaflet["leaf_lipid_count_dict"]:
-#                                 leaflet["leaf_lipid_count_dict"][name] = count
-#                             else:
-#                                 leaflet["leaf_lipid_count_dict"][name] += count
-#                     leaflet["leaf_lipid_count"] = [(n, str(c)) for n, c in leaflet["leaf_lipid_count_dict"].items()]
-#             self.print_term("------------------------------ LIPID CREATION COMPLETE", "\n")
+            lipid_inserter_toc = time.time()
+            lipid_inserter_time = round(lipid_inserter_toc - lipid_inserter_tic, 4)
+            self.print_term("------------------------------ LIPID CREATION COMPLETE", "(time spent: "+str(lipid_inserter_time)+" [s])", "\n", spaces=0)
 
     ################
     ### SOLVATER ###
     ################
     def solvater(self):
-        solv_beads_for_cell_checker = []
         if len(self.SOLVATIONS_cmds) != 0:
-            self.print_term("------------------------------ SOLVATING SYSTEM")
+            solvation_tic = time.time()
+            solv_beads_for_cell_checker = []
+            self.print_term("------------------------------ SOLVATING SYSTEM", spaces=0)
             for solvation_i, (solvation_nr, solvation) in enumerate(self.SOLVATIONS.items()):
                 if solvation_i != 0:
                     self.print_term("")
-                self.print_term("Starting solvation nr", solvation_nr)
+                self.print_term("Starting solvation nr", solvation_nr, spaces=0)
 
                 #########################################
                 ### CALCULATION FREE VOLUME OF SYSTEM ###
                 #########################################
-                self.print_term("    ", "Calculating box volume: (all values in [nm^3])")
-                self.print_term("    ", "    ", "Bead radius used for volume calculations 'bead_radius':", solvation["bead_radius"], "[Å]")
+                self.print_term("Calculating box volume: (all values in [nm^3])", spaces=1)
+                self.print_term("Bead radius used for volume calculations 'bead_radius':", solvation["bead_radius"], "[Å]", spaces=2)
 
                 bead_radius = solvation["bead_radius"]
                 ### Leaflet volume based on beads exclusively
@@ -3952,12 +4152,12 @@ class CGSB:
                 box_volume = (self.pbc_box[0] * self.pbc_box[1] * self.pbc_box[2]) * 10**-27
                 non_free_volume = leafs_volume + prots_volume + prots_volume
                 box_free_volume = box_volume - non_free_volume
-                self.print_term("    ", "    ", "Box volume:            ", round(box_volume * 10**24, 3))
-                self.print_term("    ", "    ", "Lipid volume:          ", round(leafs_volume * 10**24, 3))
-                self.print_term("    ", "    ", "Protein volume:        ", round(prots_volume * 10**24, 3))
-                self.print_term("    ", "    ", "(Prior) Solvent volume:", round(solvs_volume * 10**24, 3))
-                self.print_term("    ", "    ", "Excluded volume:       ", round(non_free_volume * 10**24, 3))
-                self.print_term("    ", "    ", "Free volume:           ", round(box_free_volume * 10**24, 3))
+                self.print_term("Box volume:            ", round(box_volume * 10**24, 3), spaces=2)
+                self.print_term("Lipid volume:          ", round(leafs_volume * 10**24, 3), spaces=2)
+                self.print_term("Protein volume:        ", round(prots_volume * 10**24, 3), spaces=2)
+                self.print_term("(Prior) Solvent volume:", round(solvs_volume * 10**24, 3), spaces=2)
+                self.print_term("Excluded volume:       ", round(non_free_volume * 10**24, 3), spaces=2)
+                self.print_term("Free volume:           ", round(box_free_volume * 10**24, 3), spaces=2)
 
                 ###########################
                 ### CALCULATING SOLVENT ###
@@ -4004,8 +4204,8 @@ class CGSB:
 
                         solvent_molecules.append(list(solv_vals.get_beads("xyz")))
 
-                self.print_term("    ", "    ", "Solvent volume:        ", round(solv_volume * 10**24, 3))
-                self.print_term("    ", "    ",)
+                self.print_term("Solvent volume:        ", round(solv_volume * 10**24, 3), spaces=2)
+                self.print_term(spaces=2)
 
                 ########################
                 ### CALCULATING IONS ###
@@ -4150,8 +4350,7 @@ class CGSB:
                     gridres = max_mol_size * 1.1 # 10% larger than largest molecule
                     self.print_term("NOTE: Requested solvent is too large for the grid resolution. Adjusting grid resolution to prevent solvent molecule overlaps.", warn = True)
                     self.print_term("Original grid resolution was:", solvation["gridres"], warn = True)
-                    self.print_term("New grid resolution is:      ", gridres, warn = True)
-                    self.print_term("", warn = True)
+                    self.print_term("New grid resolution is:      ", gridres, "\n", warn = True)
                 else:
                     gridres = solvation["gridres"]
                 
@@ -4160,12 +4359,12 @@ class CGSB:
                     self.print_term("Original grid resolution was:", gridres, warn = True)
                     self.print_term("Original kick was:           ", solvation["kick"], warn = True)
                     gridres = gridres + (solvation["kick"] - gridres/2)*1.1 # 10% extra
-                    self.print_term("New grid resolution is:      ", gridres, warn = True)
-                    self.print_term("", warn = True)
+                    self.print_term("New grid resolution is:      ", gridres, "\n", warn = True)
                 
                 #################################
                 ### CHOOSES ALGORITHM VERSION ###
                 #################################
+                self.print_term("Calculating the number of available grid points", spaces=1)
                 if solvation["algorithm"] == "v1":
                     #########################################################################
                     ### DEFINING FUNCTIONS USED FOR SOLVENT CELL DIMENSIONALITY REDUCTION ###
@@ -4565,7 +4764,7 @@ class CGSB:
                     free_zs_coords = zcoords[free_zs]
                     solv_grid_3D = list(zip(free_xs_coords, free_ys_coords, free_zs_coords))
 
-                self.print_term("    ", "Final number of 3D grid points available for solvent placement:", len(solv_grid_3D))
+                self.print_term("Final number of 3D grid points available for solvent placement:", len(solv_grid_3D), spaces=1)
 
                 ################################
                 ### INSERT SOLVENT MOLECULES ###
@@ -4588,11 +4787,11 @@ class CGSB:
                 ### Shuffles the grid to ensure randomness
                 random.shuffle(solv_grid_3D)
                 ### random.sample extracts k random elements from the list without duplicates
+                self.print_term("Inserting", len(collected_solvent), "solvent molecules into random grid points:", spaces=1)
                 random_grid_points = random.sample(solv_grid_3D, k = len(collected_solvent))
                 grid_solvated = []
 #                 counter = 0
                 generated_spots = []
-                self.print_term("    ", "Inserting", len(collected_solvent), "solvent molecules into random grid points:")
                 for counter, ((sname, stype, ssize), (gx, gy, gz)) in enumerate(zip(collected_solvent, random_grid_points)):
                     '''
                     Finds a 3D-grid point for the solvent and places it there.
@@ -4692,7 +4891,10 @@ class CGSB:
                         '{0: <{L}}'.format(L5, L = SYS_max_lengths[5]), ":",
                         '{0: <{L}}'.format(L6, L = SYS_max_lengths[6]),
                     )
-            self.print_term("------------------------------ SOLVATION COMPLETE", "\n")
+            
+            solvation_toc = time.time()
+            solvation_time = round(solvation_toc - solvation_tic, 4)
+            self.print_term("------------------------------ SOLVATION COMPLETE", "(time spent: "+str(solvation_time)+" [s])", "\n", spaces=0)
     
     ###############
     ### PLOTTER ###
@@ -4959,8 +5161,6 @@ parse_plot_cmd   = args.plot_cmd
 parse_pickle_cmd = args.pickle_cmd
 parse_backup     = bool(ast.literal_eval(str(args.backup)))
 parse_randseed   = args.randseed
-if parse_randseed:
-    random.seed(int(parse_randseed))
 
 parse_sys_params  = args.sys_params
 parse_pbc_box = args.pbc_box
@@ -4994,6 +5194,8 @@ if any([i != [] for i in [parse_membrane_cmds, parse_protein_cmds, parse_solvati
         membrane  = parse_membrane_cmds,
         protein   = parse_protein_cmds,
         solvation = parse_solvation_cmds,
+        
+        rand = parse_randseed,
 
         itp_input    = parse_itp_input_cmds,
         solute_input = parse_solute_input_cmds,
