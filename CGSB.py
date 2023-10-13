@@ -32,17 +32,17 @@ solvent_defs = {}
 ion_defs = {}
 prot_defs = {}
 
-## Diacyl glycerols
+### Diacyl glycerols
 lipid_type, params = "lipid", "default"
 lipid_defs[(lipid_type, params)] = {}
 lipid_defs[(lipid_type, params)]["x"] = (    0, .5,  0,  0, .5,  0,  0, .5,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  1,  1)
 lipid_defs[(lipid_type, params)]["y"] = (    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0)
 lipid_defs[(lipid_type, params)]["z"] = (   10,  9,  9,  8,  8,  7,  6,  6,  5,  4,  3,  2,  1,  0,  5,  4,  3,  2,  1,  0)
-lipid_defs[(lipid_type, params)]["center"] = 7
+lipid_defs[(lipid_type, params)]["center"] = 7 # PO4
 lipid_defs[(lipid_type, params)]["bd"] = (0.25, 0.25, 0.3)
 lipid_defs[(lipid_type, params)]["charges"] = (("NC3", 1), ("NH3", 1), ("PO4", -1))
 lipid_defs[(lipid_type, params)]["lipids"] = {      # 1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20
-## Phospholipids
+### Phospholipids
     ("DTPC", "beads"): (" -   -   -  NC3  -  PO4 GL1 GL2 C1A C2A  -   -   -   -  C1B C2B  -   -   -   - "),
     ("DLPC", "beads"): (" -   -   -  NC3  -  PO4 GL1 GL2 C1A C2A C3A  -   -   -  C1B C2B C3B  -   -   - "),
     ("DPPC", "beads"): (" -   -   -  NC3  -  PO4 GL1 GL2 C1A C2A C3A C4A  -   -  C1B C2B C3B C4B  -   - "),
@@ -115,7 +115,7 @@ lipid_defs[(lipid_type, params)] = {}
 lipid_defs[(lipid_type, params)]["x"] = (   .5,  .5,   0,   0,   1, .5,  0,  0,   .5,   0,   0,   0,   0,   0,   0,   1,   1,   1,   1,   1,   1)
 lipid_defs[(lipid_type, params)]["y"] = (    0,   0,   0,   0,   0,  0,  0,  0,    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0)
 lipid_defs[(lipid_type, params)]["z"] = (    8,   9,   9,   7,  10, 10, 10,  6,    6,   5,   4,   3,   2,   1,   0,   5,   4,   3,   2,   1,   0)
-lipid_defs[(lipid_type, params)]["center"] = 7
+lipid_defs[(lipid_type, params)]["center"] = 7 # CP
 lipid_defs[(lipid_type, params)]["bd"] = (0.25, 0.25, 0.3)
 lipid_defs[(lipid_type, params)]["charges"] = (("NC3", 1), ("PO4", -1))
 lipid_defs[(lipid_type, params)]["lipids"] = {      # 1     2    3    4    5   6   7   8    9    10    11    12    13    14   15    16    17    18    19   20 
@@ -187,7 +187,7 @@ lipid_defs[(lipid_type, params)] = {}
 lipid_defs[(lipid_type, params)]["x"] = (    0,  .5,   0,    0,   0,   0,   0,   0,   0,    0,    0,    0)
 lipid_defs[(lipid_type, params)]["y"] = (    0,   0,   0,    0,   0,   0,   0,   0,   0,    0,    0,    0)
 lipid_defs[(lipid_type, params)]["z"] = (    6,   7,   7,   5.5,  5,  4.5,  4,  3.5, 2.5,   2,  1.5,    1)
-lipid_defs[(lipid_type, params)]["center"] = 6
+lipid_defs[(lipid_type, params)]["center"] = 6 # PLQ3
 lipid_defs[(lipid_type, params)]["bd"] = (0.25, 0.25, 0.3)
 lipid_defs[(lipid_type, params)]["lipids"] = {      # 1     2    3    4    5    6    7    8    9    10    11    12
     ("PLQ", "beads"): (" PLQ3 PLQ2 PLQ1 PLQ4 PLQ5 PLQ6 PLQ7 PLQ8 PLQ9 PLQ10 PLQ11 PLQ12"),
@@ -210,7 +210,7 @@ lipid_defs[(lipid_type, params)] = {}
 lipid_defs[(lipid_type, params)]["x"] = (   0.5,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,   1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1)
 lipid_defs[(lipid_type, params)]["y"] = (     1,   0,  0,  1,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  1,  1,   0,  0,  1,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  1,  1)
 lipid_defs[(lipid_type, params)]["z"] = (     8,   7,  6,  6,  5,  4,  3,  2,  1,  0,  5,  4,  3,  2,  1,  0,   7,  6,  6,  5,  4,  3,  2,  1,  0,  5,  4,  3,  2,  1,  0)
-lipid_defs[(lipid_type, params)]["center"] = 7
+lipid_defs[(lipid_type, params)]["center"] = 7 # PO4
 lipid_defs[(lipid_type, params)]["bd"] = (0.25, 0.25, 0.3)
 lipid_defs[(lipid_type, params)]["lipids"] = {      #  1    2   3   4   5   6   7   8   9  10  11  12  13  14  15  16   17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
     ("CDL0", "beads"): ("GL5 PO41 GL1 GL2 C1A C2A D3A C4A C5A   - C1B C2B D3B C4B C5B   - PO42 GL3 GL4 C1C C2C D3C C4C C5C   - C1D C2D D3D C4D C5D   -"), # Warning not the same names is in .itp
@@ -248,20 +248,20 @@ lipid_defs[(lipid_type, params)]["lipids"] = {        # 1    2    3    4    5   
     ("MMA", "beads"):   ("  -    -    -  C1A  C2A  C3A  C4A  C5A  M1A  C1B  C2B  C3B  C4B    -    -     -     -     -   M1B  C1C  C2C  C3C    -    -  COH  OOH  C1D  C2D  C3D  C4D  C5D  C6D"),
 }
 
-# Sterols
+### Sterols
 lipid_type, params = "sterol", "default"
 lipid_defs[(lipid_type, params)] = {}
 lipid_defs[(lipid_type, params)]["x"] = (     0,  0,  0,  0,  0, 0,   0,  0,  1,  0,  1,  0,  0,  0,  0,  0,  0,  0)
 lipid_defs[(lipid_type, params)]["y"] = (     0,  0,  0,  0,  0, 0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0)
 lipid_defs[(lipid_type, params)]["z"] = (     0,  0,  0,  0,  0, 0, 5.3,4.5,3.9,3.3, 3 ,2.6,1.4,  0,  0,  0,  0,  0)
-lipid_defs[(lipid_type, params)]["center"] = 4.9
+lipid_defs[(lipid_type, params)]["center"] = 4.9 # Between ROH and R1
 lipid_defs[(lipid_type, params)]["bd"] = (0.25, 0.25, 0.3)
 lipid_defs[(lipid_type, params)]["lipids"] = {
     ("CHOL", "beads"): (" -   -   -   -   -   -  ROH  R1  R2  R3  R4  R5  C1  C2  -   -   -   - "),
     ("ERGO", "beads"): (" -   -   -   -   -   -  ROH  R1  R2  R3  R4  R5  C1  C2  -   -   -   - "),
 }
 
-# Hopanoids
+### Hopanoids
 lipid_type, params = "Hopanoids", "default"
 lipid_defs[(lipid_type, params)] = {}
 lipid_defs[(lipid_type, params)]["x"] = (     0,  0,  0,  0, 0.5,-0.5,   0,   0, 0.5, 0.5,   0,   0,   0,   0,  0,  0,  0,  0)
@@ -312,23 +312,23 @@ solvent_defs[params].update({
     "TRP": {"beads": ("BB", "SC1", "SC2", "SC3", "SC4"), "solvcount": 1, "x": (0.25, 0.25, 0, 0, -0.25), "y": (0.125, 0, -0.125, 0.125, 0), "z": (0, 0, 0, 0, 0)},
 })
 
-### Example multi-residue solvent molecule
+### Example of a multi-residue solvent molecule
 # solvent_defs[params].update({
-#     "LIG7": {
+#     "LIG1": {
 #         "residues": [
 #             {
-#                 "resname": "L7R1",
-#                 "beads": ( "G1",  "G2",  "G3",  "G4",  "G5"),
-#                 "x":     ( 6.21,  7.26,  9.92,  9.59, 10.48),
-#                 "y":     (25.96, 22.54, 21.52, 24.12, 26.34),
-#                 "z":     (13.99, 12.29, 11.75, 13.00, 13.14),
+#                 "resname": "RES1",
+#                 "beads": ("R1A1", "R1A2", "R1A3", "R1A4", "R1A5"),
+#                 "x":     (     1,      2,      3,      4,      5),
+#                 "y":     (     0,      0,    0.5,      0,   -0.5),
+#                 "z":     (     0,      1,      0,    0.5,      0),
 #             },
 #             {
-#                 "resname": "L7R2",
-#                 "beads": ( "G6",  "G7",  "G8",  "G9", "G10"),
-#                 "x":     (10.83, 12.05, 11.46, 10.86, 10.13),
-#                 "y":     (25.98, 28.03, 28.53, 29.02, 26.70),
-#                 "z":     (16.70, 17.16, 13.34,  9.51,  9.57),
+#                 "resname": "RES2",
+#                 "beads": ("R2A1", "R2A2", "R2A3", "R2A4", "R2A5"),
+#                 "x":     (     1,      2,      3,      4,      5),
+#                 "y":     (    -1,      0,      0,   -0.5,      0),
+#                 "z":     (     1,      2,      1,    1.5,      1),
 #             },
 #         ],
 #         "solvcount": 1,
@@ -1998,8 +1998,8 @@ class CGSB:
 
                         "apl": 0.6, # [nm^2] converted to [Å^2]
                         
-                        "plane_buffer": 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 2
-                        "height_buffer": 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 2
+                        "plane_buffer": 0.066, # 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 4
+                        "height_buffer": 0.066, # 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 4
 
                         "prot_buffer": 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 2
                         "alpha_mult": 1.0,
@@ -2349,7 +2349,7 @@ class CGSB:
                     "bdz": 1.0, # [multiplier]
                     "params": False, # False or str
                     "bead_radius": 2.64, # [Å]
-                    "gridres": 1.2, # [Å]
+                    "gridres": 1.32, # [Å]
                     "WR": 2.64 * 1, # [Å]
                     "buffer": 2.0, # [Å]
                     "protein_extra_buffer": 2,
@@ -4338,29 +4338,28 @@ class CGSB:
                 ##############################################
                 ### RUNNING SOLVENT OPTIMIZATION ALGORITHM ###
                 ##############################################
-#                 solvent_buffer = solvation["bead_radius"] + solvation["gridres"]
-                solvent_buffer = solvation["gridres"] + solvation["buffer"]
-
                 ### Finds the maximum size of molecules used as solvent/ions
                 ### Also includes buffer/kick size to prevent edge overlap cases
                 max_mol_size = max([max([math.dist(bead1, bead2) for bead1 in molecule for bead2 in molecule]) for molecule in solvent_molecules]) #+ solvation["kick"] + solvation["buffer"]
                 
                 ### if the maximum molecule size is bigger than the designated grid resolution then change the gridres
-                if max_mol_size*1.1 >= solvation["gridres"]:
-                    gridres = max_mol_size * 1.1 # 10% larger than largest molecule
+                if max_mol_size*1.2 >= solvation["gridres"]:
+                    gridres = max_mol_size * 1.2 # 10% larger than largest molecule
                     self.print_term("NOTE: Requested solvent is too large for the grid resolution. Adjusting grid resolution to prevent solvent molecule overlaps.", warn = True)
                     self.print_term("Original grid resolution was:", solvation["gridres"], warn = True)
                     self.print_term("New grid resolution is:      ", gridres, "\n", warn = True)
                 else:
                     gridres = solvation["gridres"]
                 
-                if solvation["kick"]*1.1 >= gridres/2:
+                if (max_mol_size+solvation["kick"])*1.2 >= gridres/2:
                     self.print_term("NOTE: Kick is too large for grid resolution. Adjusting grid resolution to prevent solvent molecule overlaps.", warn = True)
                     self.print_term("Original grid resolution was:", gridres, warn = True)
                     self.print_term("Original kick was:           ", solvation["kick"], warn = True)
-                    gridres = gridres + (solvation["kick"] - gridres/2)*1.1 # 10% extra
+                    gridres = gridres + (solvation["kick"] - gridres/2)*1.2 # 10% extra
                     self.print_term("New grid resolution is:      ", gridres, "\n", warn = True)
                 
+                solvent_buffer = gridres + solvation["buffer"]
+
                 #################################
                 ### CHOOSES ALGORITHM VERSION ###
                 #################################
