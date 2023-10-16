@@ -448,6 +448,35 @@ class RESIDUE:
             AXsList = AXsList[0]
         return AXsList
     
+    def get_center_point(self, centering = "ax", AXs = "xyz"):
+        coords_AXs_res = self.get_coords_res(AXs)
+        if len(AXs) == 1:
+            coords_AXs_res = [coords_AXs_res]
+        
+        centers = []
+        for ci, coords in enumerate(coords_AXs_res):
+            if centering in ["cog", "axis", "ax"]:
+                centers.append((max(coords) + min(coords)) / 2)
+                
+            elif centering == "mean":
+                centers.append(np.mean(coords))
+                
+            elif centering == "beadnr":
+                bead_nrs = []
+                for bead_nr in target:
+                    if "-" in bead_nr:
+                        bead_nr1, bead_nr2 = bead_nr.split("-")
+                        bead_nrs.extend(list(range(int(bead_nr1), int(bead_nr2)+1)))
+                    else:
+                        bead_nrs.append(int(bead_nr))
+                bead_ax_vals = [coords[bead_nr] for bead_nr in bead_nrs]
+                centers.append(np.mean(bead_ax_vals))
+                
+            elif centering == "vals":
+                centers.append(target[ci])
+        return tuple(centers)
+
+    
 class MOLECULE:
     def __init__(self, charge = False, molname = False):
         self.residues = []
@@ -482,7 +511,6 @@ class MOLECULE:
     def add_res_and_beads(self, resname, beads = False, beadnrs = False, xs = False, ys = False, zs = False, bead_data = False, resnumber = False):
         if not resnumber:
             resnumber = self.n_residues
-#         self.residues[resnumber] = RESIDUE(resname)
         self.residues.append(RESIDUE(resname, resnumber))
         self.resnames.append(resname)
         self.last_res_n = self.n_residues
@@ -522,20 +550,6 @@ class MOLECULE:
         
         centers = self.get_center_point(centering = centering, AXs = AXs, target = target)
         
-#         for ci, coords in enumerate(coords_AXs):
-#             if centering == "ax":
-#                 centers.append((max(coords) + min(coords)) / 2)
-#             elif centering == "mean":
-#                 centers.append(np.mean(coords))
-#             elif centering == "beadnr":
-#                 centers.append(coords[target])
-#             elif centering == "resnr":
-#                 target_res = self.residues[target]
-#                 res_coords = target_res.get_coords_res(AXs[ci])
-#                 centers.append(np.mean(res_coords))
-#             elif centering == "vals":
-#                 centers.append(target[ci])
-        
         for coords, center in zip(coords_AXs, centers):
             centered_coords.append([coord - center for coord in coords])
 
@@ -543,25 +557,43 @@ class MOLECULE:
     
     def get_center_point(self, centering = "ax", AXs = "xyz", target = False):
         coords_AXs = self.get_coords(AXs)
-#         for coords in coords_AXs:
-#             if centering == "ax":
-#                 center = (max(coords) + min(coords)) / 2
-#             elif centering == "mean":
-#                 center = np.mean(coords)
-#             centered_coords.append(center)
         
         centers = []
         for ci, coords in enumerate(coords_AXs):
             if centering in ["cog", "axis", "ax"]:
                 centers.append((max(coords) + min(coords)) / 2)
+                
             elif centering == "mean":
                 centers.append(np.mean(coords))
+                
             elif centering == "beadnr":
-                centers.append(coords[target])
+                bead_nrs = []
+                for bead_nr in target:
+                    if "-" in bead_nr:
+                        bead_nr1, bead_nr2 = bead_nr.split("-")
+                        bead_nrs.extend(list(range(int(bead_nr1), int(bead_nr2)+1)))
+                    else:
+                        bead_nrs.append(int(bead_nr))
+                bead_ax_vals = [coords[bead_nr] for bead_nr in bead_nrs]
+                centers.append(np.mean(bead_ax_vals))
+                
             elif centering == "resnr":
-                target_res = self.residues[target]
-                res_coords = target_res.get_coords_res(AXs[ci])
-                centers.append(np.mean(res_coords))
+                res_nrs = []
+                ### Find all residues
+                for res_nr in target:
+                    if "-" in res_nr:
+                        res_nr1, res_nr2 = res_nr.split("-")
+                        res_nrs.extend(list(range(int(res_nr1), int(res_nr2)+1)))
+                    else:
+                        res_nrs.append(int(res_nr))
+                ### Find center of each individual residue
+                res_centers = [
+                    self.residues[res_nr].get_center_point(centering = "mean", AXs = AXs[ci])
+                    for res_nr in res_nrs
+                ]
+                ### Find center of residues
+                centers.append(np.mean(res_centers))
+                
             elif centering == "vals":
                 centers.append(target[ci])
         return tuple(centers)
@@ -569,12 +601,9 @@ class MOLECULE:
     def set_coords_to_center(self, centering = "ax", target = False):
         xsc, ysc, zsc = self.get_centered_coords(centering, "xyz", target)
         i = 0
-#         new_ress = []
         for ri, res in enumerate(self.residues):
-#             new_ress.append(RESIDUE(res.resname, res.resnr))
             for bi, bead in enumerate(res.beads):
                 self.residues[ri].beads[bi].move_atom(xsc[i], ysc[i], zsc[i])
-#                 new_ress[ri].add_bead_to_res(bead.bead, bead.beadnr, xsc[i], ysc[i], zsc[i])
                 i += 1
     
     def move_coords(self, translation = [0, 0, 0]):
@@ -1859,10 +1888,7 @@ class CGSB:
                         if sub_cmd[1].lower() in ["cog", "axis", "ax", "mean"]:
                             prot_dict["cen_method"] = (sub_cmd[1].lower(),)
                         elif sub_cmd[1].lower() in ["bead", "res"]:
-                            if len(sub_cmd) == 3:
-                                prot_dict["cen_method"] = (sub_cmd[1].lower(), ast.literal_eval(sub_cmd[2]))
-                            elif len(sub_cmd) == 4:
-                                prot_dict["cen_method"] = (sub_cmd[1].lower(), ast.literal_eval(sub_cmd[2]), ast.literal_eval(sub_cmd[3]))
+                            prot_dict["cen_method"] = (sub_cmd[1].lower(), sub_cmd[2:])
                         elif sub_cmd[1].lower() in ["point"]:
                             prot_dict["cen_method"] = (sub_cmd[1].lower(), ast.literal_eval(sub_cmd[2]), ast.literal_eval(sub_cmd[3]), ast.literal_eval(sub_cmd[4]))
 
@@ -1955,6 +1981,7 @@ class CGSB:
                 for key, vals in prot_dict["beads"].items():
                     if vals["res_nr"] != cur_res:
                         prot_dict["protein"].add_res(vals["res_name"], vals["res_nr"])
+                        cur_res = vals["res_nr"]
                     
                     prot_dict["protein"].add_bead(
                         vals["atom_name"],
@@ -2121,11 +2148,11 @@ class CGSB:
 
                     ### Integer multiplier for radius used in alphashape function [multiplier]
                     elif sub_cmd[0].lower() == "prot_buffer":
-                        prot_dict["prot_buffer"] = ast.literal_eval(sub_cmd[1])
+                        prot_dict[dict_target] = ast.literal_eval(sub_cmd[1])
 
                     ### Integer multiplier for radius used in alphashape function [multiplier]
                     elif sub_cmd[0].lower() == "alpha_mult":
-                        prot_dict["alpha_mult"] = ast.literal_eval(sub_cmd[1])
+                        prot_dict[dict_target] = ast.literal_eval(sub_cmd[1])
 
                     ### Rounding method for rounding number of lipids in leaflet [function]
                     elif sub_cmd[0].lower() == "round": # "int", "round", "min" or "max"
@@ -2211,7 +2238,6 @@ class CGSB:
                         assert False, "Unknown subcommand given to '-membrane'. The subcommand is: '" + str(sub_cmd) + "'"
                 
                 if layer_definition == "bilayer" and len(settings_dict["default"]["lipids_preprocessing"]) == 0:
-                    ### "^" = "XOR" in python
                     if len(settings_dict["upper_leaf"]) > 0 and len(settings_dict["lower_leaf"]) == 0:
                         layer_definition = "upper"
                     if len(settings_dict["lower_leaf"]) > 0 and len(settings_dict["upper_leaf"]) == 0:
@@ -2237,13 +2263,19 @@ class CGSB:
                 for key, vals in settings_dict["membrane"].items():
                     for leaflet in memb_dict["leaflets"].values():
                         if key not in leaflet:
-                            leaflet[key] = vals
+                            try:
+                                leaflet[key] = vals.copy()
+                            except:
+                                leaflet[key] = vals
                 
                 ### Adding default settings for leaflets if none were given
                 for key, vals in settings_dict["default"].items():
                     for leaflet in memb_dict["leaflets"].values():
                         if key not in leaflet:
-                            leaflet[key] = vals
+                            try:
+                                leaflet[key] = vals.copy()
+                            except:
+                                leaflet[key] = vals
                 
                 ### fixing a couple of values such that they are in angstrom
                 for leaflet_type, leaflet in memb_dict["leaflets"].items():
@@ -2991,9 +3023,9 @@ class CGSB:
                     centering = "vals"
                     target = protein["cen_method"][1:]
                 
-                self.PROTEINS[protein_nr]["protein"].set_coords_to_center(centering = centering, target = target)
-                xcen, ycen, zcen = self.PROTEINS[protein_nr]["protein"].get_center_point()
+                xcen, ycen, zcen = self.PROTEINS[protein_nr]["protein"].get_center_point(centering = centering, target = target)
                 self.print_term("Centering protein using", "'" + " ".join([str(i) for i in protein["cen_method"]])+"'", "at x/y/z:", round(xcen, 3), round(ycen, 3), round(zcen, 3), "(Input file coordinate system [Å])", spaces=1)
+                self.PROTEINS[protein_nr]["protein"].set_coords_to_center(centering = centering, target = target)
 
                 #################
                 ### ROTATIONS ###
@@ -3131,9 +3163,6 @@ class CGSB:
                 ### Getting all the protein bead positions
                 if len(self.PROTEINS) != 0:
                     self.print_term("Finding protein beads inside leaflets", spaces=1)
-#                     all_protein_beads = []
-#                     for protein_i, (protein_nr, protein) in enumerate(self.PROTEINS.items()):
-#                         all_protein_beads.extend(protein["protein"].get_beads("xyz"))
 
                     for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
                         self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=2)
@@ -3142,18 +3171,6 @@ class CGSB:
                         ####################################################
                         ### Finding protein points contained in leaflets ###
                         ####################################################
-#                         prod_beads_in_memb = [
-#                             (beadx, beady)
-#                             for beadx, beady, beadz in all_protein_beads
-#                             if (
-#                                 leaflet["center"][2] < beadz < leaflet["center"][2] + leaflet["lipid_dimensions"]["lipid_height"]
-#                                 and leaflet["HG_direction"] == "up"
-#                             )
-#                             or (
-#                                 leaflet["center"][2] > beadz > leaflet["center"][2] - leaflet["lipid_dimensions"]["lipid_height"]
-#                                 and leaflet["HG_direction"] == "down"
-#                             )
-#                         ]
                         prod_beads_in_memb = [
                             (beadx, beady)
                             for protein_i, (protein_nr, protein) in enumerate(self.PROTEINS.items())
@@ -3170,18 +3187,21 @@ class CGSB:
 
                         if len(prod_beads_in_memb) == 0:
                             self.print_term("No leaflet-protein overlap found", spaces=3)
+                            leaflet["prot_points"] = False
                         else:
                             self.print_term("Leaflet-protein overlap found for", str(len(prod_beads_in_memb)), "protein beads", spaces=3)
-
+                            leaflet["prot_points"] = prod_beads_in_memb
                             #################################
                             ### CONCAVE HULL / ALPHASHAPE ###
                             #################################
-
+                            
                             alpha = 1 / (leaflet["lipid_dimensions"]["lipid_radius"]*2 * leaflet["alpha_mult"])
                             ### alpha = radius^-1
                             ALPHASHAPE = alphashape.alphashape(points = prod_beads_in_memb, alpha = alpha)
                             self.print_term(type(ALPHASHAPE), debug = True)
-
+                            
+                            leaflet["alphashape_1"] = ALPHASHAPE
+                            
                             ### Alphashape output can be a bit unpredictable so need to check all possibilities
                             if ALPHASHAPE.geom_type == "Polygon":
                                 self.print_term("Polygon", debug = True)
@@ -3192,6 +3212,8 @@ class CGSB:
                             elif ConcaveHulls_Polygon[-1].geom_type == "MultiPolygon":
                                 self.print_term("list of MultiPolygon", debug = True)
                                 ConcaveHulls_Polygon = list(ALPHASHAPE[-1].geoms)
+                                
+                            leaflet["ConcaveHulls_Polygon_1"] = ConcaveHulls_Polygon
 
                             ConcaveHulls_Polygon_Buffered = []
                             ### Iterate over polygons
@@ -3214,6 +3236,8 @@ class CGSB:
                             
                             ALPHASHAPE = alphashape.alphashape(points = buffered_poly_points, alpha = alpha/2)
                             
+                            leaflet["alphashape_2"] = ALPHASHAPE
+                            
                             ### Alphashape output can be a bit unpredictable so need to check all possibilities
                             if ALPHASHAPE.geom_type == "Polygon":
                                 self.print_term("Polygon", debug = True)
@@ -3224,6 +3248,8 @@ class CGSB:
                             elif ConcaveHulls_Polygon[-1].geom_type == "MultiPolygon":
                                 self.print_term("list of MultiPolygon", debug = True)
                                 New_ConcaveHulls_Polygon = list(ALPHASHAPE[-1].geoms)
+                            
+                            leaflet["ConcaveHulls_Polygon_2"] = New_ConcaveHulls_Polygon
                             
                             leaflet["protein_poly"] = ConcaveHulls_Polygon_Buffered + New_ConcaveHulls_Polygon
                 
@@ -3608,6 +3634,15 @@ class CGSB:
                                     ### Inputs
                                     "lipids"      : lipids,
                                     "bbox_polygon": subleaflet["holed_bbox"],
+                                    "prot_points" : leaflet["prot_points"],
+                                    
+                                    "alphashape_1" : leaflet["alphashape_1"],
+                                    "ConcaveHulls_Polygon_1" : leaflet["ConcaveHulls_Polygon_1"],
+                                    "protein_poly" : leaflet["protein_poly"],
+                                    "alphashape_2" : leaflet["alphashape_2"],
+                                    "ConcaveHulls_Polygon_2" : leaflet["ConcaveHulls_Polygon_2"],
+                                    "protein_poly" : leaflet["protein_poly"],
+                                    
                                     "xdims"       : (subleaflet["xmin"], subleaflet["xmax"]),
                                     "ydims"       : (subleaflet["ymin"], subleaflet["ymax"]),
                                     "push_mult"   : leaflet["optim_push_mult"],
