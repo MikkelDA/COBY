@@ -6,6 +6,7 @@ The program is written completely from scratch only reusing the initial lipid, p
 Note that the program is currently under development and thus may not be feature complete and may contain redundant/outcommented code.
 
 CGSB imports the following packages:
+- time
 - ast
 - itertools
 - math
@@ -21,7 +22,6 @@ CGSB imports the following packages:
 - os
 - argparse
 - operator
-- time
 - matplotlib
 - pickle
 
