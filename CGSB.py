@@ -248,17 +248,16 @@ lipid_defs[(lipid_type, params)]["lipids"] = {        # 1    2    3    4    5   
     ("MMA", "beads"):   ("  -    -    -  C1A  C2A  C3A  C4A  C5A  M1A  C1B  C2B  C3B  C4B    -    -     -     -     -   M1B  C1C  C2C  C3C    -    -  COH  OOH  C1D  C2D  C3D  C4D  C5D  C6D"),
 }
 
-### Sterols
+### Sterols # These are from the cholesterol paper (https://doi.org/10.1021/acs.jctc.3c00547)
 lipid_type, params = "sterol", "default"
 lipid_defs[(lipid_type, params)] = {}
-lipid_defs[(lipid_type, params)]["x"] = (     0,  0,  0,  0,  0, 0,   0,  0,  1,  0,  1,  0,  0,  0,  0,  0,  0,  0)
-lipid_defs[(lipid_type, params)]["y"] = (     0,  0,  0,  0,  0, 0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0)
-lipid_defs[(lipid_type, params)]["z"] = (     0,  0,  0,  0,  0, 0, 5.3,4.5,3.9,3.3, 3 ,2.6,1.4,  0,  0,  0,  0,  0)
+lipid_defs[(lipid_type, params)]["x"] = (       0,   1,   0,   0,  1,   0, 0.5, 0.5,   0,  0)
+lipid_defs[(lipid_type, params)]["y"] = (       0,   0,   0,   0,  0,   0,   0,   0,   0,  0)
+lipid_defs[(lipid_type, params)]["z"] = (     5.3, 4.5, 3.9, 3.3,  3, 2.6, 4.5, 2.6, 1.4,  0)
 lipid_defs[(lipid_type, params)]["center"] = 4.9 # Between ROH and R1
 lipid_defs[(lipid_type, params)]["bd"] = (0.25, 0.25, 0.3)
 lipid_defs[(lipid_type, params)]["lipids"] = {
-    ("CHOL", "beads"): (" -   -   -   -   -   -  ROH  R1  R2  R3  R4  R5  C1  C2  -   -   -   - "),
-    ("ERGO", "beads"): (" -   -   -   -   -   -  ROH  R1  R2  R3  R4  R5  C1  C2  -   -   -   - "),
+    ("CHOL", "beads"): (" ROH  R1  R2  R3  R4  -  R5  R6  C1  C2 "),
 }
 
 ### Hopanoids
@@ -749,6 +748,8 @@ class CGSB:
         
         self.SOLVATIONS = {}
         self.SOLVATIONS_cmds = []
+        ### Floodings are just solvations with some different default settings
+        self.FLOODINGS_cmds = []
         
         self.itp_moltypes = {}
         self.ITP_INPUT_cmds = []
@@ -800,22 +801,29 @@ class CGSB:
         for key, cmd in kwargs.items():
             ### General system inputs
             if any(key.startswith(i) for i in ["protein", "prot"]):
-                if type(cmd) != list:
+                if type(cmd) not in [list, tuple]:
                     cmd = [cmd]
                 for subcmd in cmd:
                     self.PROTEINS_cmds.extend([subcmd])
                 
             if any(key.startswith(i) for i in ["membrane", "memb"]):
-                if type(cmd) != list:
+                if type(cmd) not in [list, tuple]:
                     cmd = [cmd]
                 for subcmd in cmd:
                     self.MEMBRANES_cmds.extend([subcmd])
                 
             if any(key.startswith(i) for i in ["solvation", "solv"]):
-                if type(cmd) != list:
+                if type(cmd) not in [list, tuple]:
                     cmd = [cmd]
                 for subcmd in cmd:
                     self.SOLVATIONS_cmds.extend([subcmd])
+                
+            if any(key.startswith(i) for i in ["flooding", "flood"]):
+                if type(cmd) not in [list, tuple]:
+                    cmd = [cmd]
+                for subcmd in cmd:
+                    subcmd = " ".join([subcmd, "count:True", "solv_molarity:1", "salt_molarity:1", "flooding:True"])
+                    self.FLOODINGS_cmds.extend([subcmd])
             
             ### Box type
             if key in ["pbc_type", "box_type"]:
@@ -936,6 +944,9 @@ class CGSB:
                     cmd = ast.literal_eval(cmd)
                 self.RUN = cmd
         
+        if len(self.FLOODINGS_cmds) > 0:
+            self.SOLVATIONS_cmds = self.FLOODINGS_cmds + self.SOLVATIONS_cmds
+        
         ### PBC type settings:
         cmd = momentary_pbc
         if self.pbc_type == "rectangular":
@@ -1054,7 +1065,8 @@ class CGSB:
         ### Topology
         self.itp_read_initiater()
         
-        self.print_term("------------------------------ PREPROCESSING")
+        self.print_term("------------------------------ PREPROCESSING", spaces=0)
+        preprocessing_tic = time.time()
         ### Definition preprocessing
         self.import_structures_handler()
         self.lipid_defs_preprocessor()
@@ -1063,9 +1075,11 @@ class CGSB:
         
         ### Command preprocessing
         self.prot_preprocessor()
-        self.leaf_preprocessor()
+        self.memb_preprocessor()
         self.solv_preprocessor()
-        self.print_term("------------------------------ PREPROCESSING COMPLETE", "\n")
+        preprocessing_toc = time.time()
+        preprocessing_time = round(preprocessing_toc - preprocessing_tic, 4)
+        self.print_term("------------------------------ PREPROCESSING COMPLETE", "(time spent: "+str(preprocessing_time)+" [s])", "\n", spaces=0)
         
         ### Run the program
         self.prot_placer()
@@ -1953,16 +1967,16 @@ class CGSB:
                 self.PROTEINS[cmd_nr] = prot_dict.copy()
             self.print_term("Number of molecule insertions preprocessed:", len(self.PROTEINS), spaces=1)
 
-    def leaf_preprocessor(self):
+    def memb_preprocessor(self):
         '''
-        Preprocesses leaflet commands for later ease of use
+        Preprocesses membrane commands for later ease of use
         '''
         self.MEMBRANES = {}
         ### ### Preprocessing membranes
         if len(self.MEMBRANES_cmds) != 0:
-            self.print_term("\nPreprocessing leaflet requests")
+            self.print_term("\nPreprocessing membrane requests")
             for cmd_nr, leaf_cmd in enumerate(self.MEMBRANES_cmds, 1):
-                self.print_term("Starting leaflet command:", cmd_nr, spaces=1)
+                self.print_term("Starting membrane command:", cmd_nr, spaces=1)
                 ### "membrane" settings always apply to the whole membrane instead of individual leaflets
                 ### "default" settings can be overwritten by individual leaflets
                 settings_dict = {
@@ -1983,9 +1997,8 @@ class CGSB:
                         
                         "optimize": "limited", # False/"no"/0, "limited", True/"full"/1
                         "optim_maxsteps": 1000,
-                        "optim_push_tol": 0.1,
+                        "optim_push_tol": 0.2,
                         "optim_push_mult": 1.0,
-                        "optim_calc_type": "new",
                         
                     },
                     "default": {
@@ -1998,8 +2011,8 @@ class CGSB:
 
                         "apl": 0.6, # [nm^2] converted to [Å^2]
                         
-                        "plane_buffer": 0.066, # 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 4
-                        "height_buffer": 0.066, # 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 4
+                        "plane_buffer": 0.099, # 0.066, # 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 4
+                        "height_buffer": 0.099, # 0.066, # 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 4
 
                         "prot_buffer": 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 2
                         "alpha_mult": 1.0,
@@ -2188,9 +2201,6 @@ class CGSB:
                         if isnumber:
                             settings_dict[dict_target]["optim_push_mult"] = ast.literal_eval(sub_cmd[1])
                     
-                    elif sub_cmd[0].lower() in ["optim_calc_type", "minim_calc_type"]:
-                        settings_dict[dict_target]["optim_calc_type"] = sub_cmd[1]
-                    
                     ### Processes only lipids in lipid dictionary
                     elif any([sub_cmd[0] in self.lipid_dict[params].keys() for params in self.lipid_dict.keys()]):
                         if "lipids_preprocessing" not in settings_dict[dict_target].keys():
@@ -2200,6 +2210,13 @@ class CGSB:
                     else:
                         assert False, "Unknown subcommand given to '-membrane'. The subcommand is: '" + str(sub_cmd) + "'"
                 
+                if layer_definition == "bilayer" and len(settings_dict["default"]["lipids_preprocessing"]) == 0:
+                    ### "^" = "XOR" in python
+                    if len(settings_dict["upper_leaf"]) > 0 and len(settings_dict["lower_leaf"]) == 0:
+                        layer_definition = "upper"
+                    if len(settings_dict["lower_leaf"]) > 0 and len(settings_dict["upper_leaf"]) == 0:
+                        layer_definition = "lower"
+                
                 memb_dict = {"leaflets": {}, "membrane_type": layer_definition}
                 
                 if layer_definition == "upper" or layer_definition == "bilayer":
@@ -2208,7 +2225,7 @@ class CGSB:
                         "HG_direction": "up",
                         "leaflet_type": "upper",
                     })
-                    
+                
                 if layer_definition == "lower" or layer_definition == "bilayer":
                     memb_dict["leaflets"]["lower_leaf"] = settings_dict["lower_leaf"]
                     memb_dict["leaflets"]["lower_leaf"].update({
@@ -2253,8 +2270,11 @@ class CGSB:
                         Checks if parameters specified for lipid.
                         Order: lipid specific parameters, leaflet specific parameters, general system parameters (defaults to "default")
                         """
-                        if len(rest) != 1:
+                        if len(rest) > 1:
                             l_ratio, l_params = rest
+                        elif len(rest) == 0:
+                            l_ratio  = 1 
+                            l_params = leaflet["params"] or self.sys_params # (sys_params defaults to "default")
                         else:
                             l_ratio = rest[0]
                             l_params = leaflet["params"] or self.sys_params # (sys_params defaults to "default")
@@ -2472,11 +2492,18 @@ class CGSB:
                     ### Chooses solvation algorithm
                     elif sub_cmd[0].lower() in ["alg", "algorithm"]:
                         solv_dict["algorithm"] = sub_cmd[1]
-
+                    
+                    #########################
+                    ### FLOODING SPECIFIC ###
+                    #########################
+                    ### Used to check if command is made as flooding or not
+                    elif sub_cmd[0].lower() == "flooding":
+                        solv_dict["buffer"] = ast.literal_eval(sub_cmd[1])
+                    
                     ### Errors out if unknown subcommand used, and prints the subcommand to terminal
                     else:
                         assert False, "Unknown subcommand given to '-solvate'. The subcommand is: '" + str(cmd) + "'"
-
+                
                 ######################################
                 ### SOLVENT/ION DATA INCORPORATION ###
                 ######################################
@@ -3178,27 +3205,27 @@ class CGSB:
                             ############################################
                             ### SECOND ALPHASHAPE TO REMOVE CREVICES ###
                             ############################################
-#                             buffered_poly_points = []
-#                             for poly in ConcaveHulls_Polygon_Buffered:
-#                                 try:
-#                                     buffered_poly_points.extend(list(poly.coords))
-#                                 except:
-#                                     buffered_poly_points.extend(list(poly.exterior.coords))
+                            buffered_poly_points = []
+                            for poly in ConcaveHulls_Polygon_Buffered:
+                                try:
+                                    buffered_poly_points.extend(list(poly.coords))
+                                except:
+                                    buffered_poly_points.extend(list(poly.exterior.coords))
                             
-#                             ALPHASHAPE = alphashape.alphashape(points = buffered_poly_points, alpha = alpha/2)
+                            ALPHASHAPE = alphashape.alphashape(points = buffered_poly_points, alpha = alpha/2)
                             
-#                             ### Alphashape output can be a bit unpredictable so need to check all possibilities
-#                             if ALPHASHAPE.geom_type == "Polygon":
-#                                 self.print_term("Polygon", debug = True)
-#                                 New_ConcaveHulls_Polygon = [ALPHASHAPE]
-#                             elif ALPHASHAPE.geom_type == "MultiPolygon":
-#                                 self.print_term("MultiPolygon", debug = True)
-#                                 New_ConcaveHulls_Polygon = list(ALPHASHAPE.geoms)
-#                             elif ConcaveHulls_Polygon[-1].geom_type == "MultiPolygon":
-#                                 self.print_term("list of MultiPolygon", debug = True)
-#                                 New_ConcaveHulls_Polygon = list(ALPHASHAPE[-1].geoms)
+                            ### Alphashape output can be a bit unpredictable so need to check all possibilities
+                            if ALPHASHAPE.geom_type == "Polygon":
+                                self.print_term("Polygon", debug = True)
+                                New_ConcaveHulls_Polygon = [ALPHASHAPE]
+                            elif ALPHASHAPE.geom_type == "MultiPolygon":
+                                self.print_term("MultiPolygon", debug = True)
+                                New_ConcaveHulls_Polygon = list(ALPHASHAPE.geoms)
+                            elif ConcaveHulls_Polygon[-1].geom_type == "MultiPolygon":
+                                self.print_term("list of MultiPolygon", debug = True)
+                                New_ConcaveHulls_Polygon = list(ALPHASHAPE[-1].geoms)
                             
-#                             leaflet["protein_poly"] = ConcaveHulls_Polygon_Buffered + New_ConcaveHulls_Polygon
+                            leaflet["protein_poly"] = ConcaveHulls_Polygon_Buffered + New_ConcaveHulls_Polygon
                 
                 ####################################################
                 ### COMBINING SHAPELY SHAPES FOR ALL SUBLEAFLETS ###
@@ -3569,7 +3596,7 @@ class CGSB:
                                 maxsteps = leaflet["optim_maxsteps"],
                                 push_tolerance = leaflet["optim_push_tol"],
                                 push_mult = leaflet["optim_push_mult"],
-                                calc_type = leaflet["optim_calc_type"],
+                                buffer = leaflet["plane_buffer"],
                                 
                                 occupation_modifier = occupation_modifier,
                                 optimize = leaflet["optimize"],
@@ -3584,7 +3611,6 @@ class CGSB:
                                     "xdims"       : (subleaflet["xmin"], subleaflet["xmax"]),
                                     "ydims"       : (subleaflet["ymin"], subleaflet["ymax"]),
                                     "push_mult"   : leaflet["optim_push_mult"],
-                                    "calc_type"   : leaflet["optim_calc_type"],
                                     "apl"         : leaflet["apl"],
                                     "bin_size"    : bin_size,
 
@@ -3714,7 +3740,7 @@ class CGSB:
 #         return grid_points
         return grid_points, grid_points_no_random
     
-    def plane_grid_point_optimizer(self, grid_points, lipid_sizes, polygon, xcenter, ycenter, xlen, ylen, maxsteps, push_tolerance, push_mult, calc_type, occupation_modifier, optimize):
+    def plane_grid_point_optimizer(self, grid_points, lipid_sizes, polygon, xcenter, ycenter, xlen, ylen, maxsteps, push_tolerance, push_mult, buffer, occupation_modifier, optimize):
 
         def push_func(dist, power, mult):
             return dist**-power*mult
@@ -3904,32 +3930,23 @@ class CGSB:
                     
                     if optimize == "limited" and dist < combined_lipid_size:
                         vector = np.array(get_vector(point1, point2))
-                        if dist < 0.5:
+                        if dist < combined_lipid_size/2:
                             push = combined_lipid_size-dist
                         else:
                             push = push_func(dist, power=2, mult=push_mult)
 
                         vector_push = vector*push
                         vector_push_len = get_vector_len_fastsingle(vector_push)
+                        
+                        ### Pseudo-normalizes the force behind the pushes
+                        ### Modifies pushes according to the radius of each lipid
+                        ### Smaller radius causes more of the push to go to the lipid
+                        max_size = max([lipid_sizes[pi2], lipid_sizes[pi1]])
+                        pi1_mult = 1/(max_size/lipid_sizes[pi2])
+                        pi2_mult = 1/(max_size/lipid_sizes[pi1])
 
-                        if calc_type == "old":
-                            ### Pseudo-normalizes the force behind the pushes
-                            lipid_small_large_ratio = smallest_lipid/largest_lipid
-                            pi1_mult = lipid_sizes[pi2]*lipid_small_large_ratio
-                            pi2_mult = lipid_sizes[pi1]*lipid_small_large_ratio
-
-    #                         print(lipid_small_large_ratio, pi1_mult, pi2_mult)
-
-                        if calc_type == "new":
-                            ### Pseudo-normalizes the force behind the pushes
-                            ### Modifies pushes according to the radius of each lipid
-                            ### Smaller radius causes more of the push to go to the lipid
-                            max_size = max([lipid_sizes[pi2], lipid_sizes[pi1]])
-                            pi1_mult = 1/(max_size/lipid_sizes[pi2])
-                            pi2_mult = 1/(max_size/lipid_sizes[pi1])
-
-    #                         print(lipid_size_sum, max_size, pi1_mult, pi2_mult)
-    #                         print()
+#                         print(lipid_size_sum, max_size, pi1_mult, pi2_mult)
+#                         print()
 
                         push_arr[pi1] -= vector_push*pi1_mult
                         push_arr[pi2] += vector_push*pi2_mult
@@ -3940,7 +3957,7 @@ class CGSB:
                         dists_traveled[pi1] += vector_push_len*pi1_mult # abs(push*pi1_mult)
                         dists_traveled[pi2] += vector_push_len*pi2_mult # abs(push*pi2_mult)
                     
-                    elif optimize == "full":
+                    elif optimize == "old_full":
                     
                         ideal_dist = combined_lipid_size*(1+occupation_modifier)
                         ideal_dist_diff = ideal_dist - combined_lipid_size
@@ -3975,6 +3992,47 @@ class CGSB:
                             dists_traveled[pi1] += vector_push_len*pi1_mult # abs(push*pi1_mult)
                             dists_traveled[pi2] += vector_push_len*pi2_mult # abs(push*pi2_mult)
                     
+                    elif optimize == "full":
+                    
+                        ideal_dist = combined_lipid_size*(1+occupation_modifier)
+                        ideal_dist_diff = ideal_dist - combined_lipid_size
+                        ideal_dist_lower = combined_lipid_size
+                        ideal_dist_upper = ideal_dist + ideal_dist_diff
+                        
+                        if dist <= ideal_dist_upper:
+                            vector = np.array(get_vector(point1, point2))
+                            vector_len = get_vector_len_fastsingle(vector)
+                            vector /= vector_len
+
+                            ### Difference in distance from ideal distance 
+                            dist_diff = dist-combined_lipid_size
+                            if dist <= ideal_dist_lower:
+                                ### Push very hard if way too close
+                                push = (combined_lipid_size-dist)/2
+                                if dist > combined_lipid_size-buffer:
+                                    ### Modulated push with the step modifier if within buffer space
+                                    push *= step_modifier
+                            elif dist_diff <= ideal_dist_upper:
+                                dist_modifier = abs(ideal_dist-dist_diff)**-1
+                                push = (ideal_dist-dist)*occupation_modifier*step_modifier*dist_modifier
+                                
+                            vector_push = vector*push
+                            vector_push_len = get_vector_len_fastsingle(vector_push)
+
+                            ### Pseudo-normalizes the force behind the pushes
+                            max_size = max([lipid_sizes[pi2], lipid_sizes[pi1]])
+                            pi1_mult = 1/(max_size/lipid_sizes[pi2])
+                            pi2_mult = 1/(max_size/lipid_sizes[pi1])
+
+                            push_arr[pi1] -= vector_push*pi1_mult
+                            push_arr[pi2] += vector_push*pi2_mult
+
+                            pushes[pi1] += vector_push_len*pi1_mult # abs(push*pi1_mult)
+                            pushes[pi2] += vector_push_len*pi2_mult # abs(push*pi2_mult)
+
+                            dists_traveled[pi1] += vector_push_len*pi1_mult # abs(push*pi1_mult)
+                            dists_traveled[pi2] += vector_push_len*pi2_mult # abs(push*pi2_mult)
+                        
             ### Pushes grid points
             points_arr += push_arr
             push_arr    = np.zeros_like(points_arr)
@@ -3982,13 +4040,15 @@ class CGSB:
             ### BBOX and protein distance checks
             all_contained = True
             for pi1, point1 in enumerate(points_arr):
+                if bounce_counter[pi1] > 0:
+                    bounce_counter[pi1] -= 0.1
                 ### Shapely Point
                 point_Point = shapely.Point(point1)
                 ### polygon.boundary includes both the outer surface and the surface of holes
                 dist = polygon.boundary.distance(point_Point)
                 point_contained = polygon.contains(point_Point)
 
-                eq_dist = lipid_sizes[pi1]*(1+occupation_modifier/2)
+                eq_dist = lipid_sizes[pi1]*(1+occupation_modifier/2*step_modifier)
 
                 if point_contained and dist < eq_dist:
                     poly_nearest, point_Point = shapely.ops.nearest_points(polygon.boundary, point_Point)
@@ -4344,7 +4404,7 @@ class CGSB:
                 
                 ### if the maximum molecule size is bigger than the designated grid resolution then change the gridres
                 if max_mol_size*1.2 >= solvation["gridres"]:
-                    gridres = max_mol_size * 1.2 # 10% larger than largest molecule
+                    gridres = max_mol_size * 1.2 # 20% larger than largest molecule
                     self.print_term("NOTE: Requested solvent is too large for the grid resolution. Adjusting grid resolution to prevent solvent molecule overlaps.", warn = True)
                     self.print_term("Original grid resolution was:", solvation["gridres"], warn = True)
                     self.print_term("New grid resolution is:      ", gridres, "\n", warn = True)
@@ -4355,7 +4415,7 @@ class CGSB:
                     self.print_term("NOTE: Kick is too large for grid resolution. Adjusting grid resolution to prevent solvent molecule overlaps.", warn = True)
                     self.print_term("Original grid resolution was:", gridres, warn = True)
                     self.print_term("Original kick was:           ", solvation["kick"], warn = True)
-                    gridres = gridres + (solvation["kick"] - gridres/2)*1.2 # 10% extra
+                    gridres = gridres + solvation["kick"]*1.2 # 20% extra
                     self.print_term("New grid resolution is:      ", gridres, "\n", warn = True)
                 
                 solvent_buffer = gridres + solvation["buffer"]
@@ -4880,8 +4940,6 @@ class CGSB:
                 self.print_term("Solvent data for whole system")
                 for L0, L1, L2, L3, L4, L5, L6 in SYS_printer:
                     self.print_term(
-                        "    ",
-                        "    ",
                         '{0: <{L}}'.format(L0, L = SYS_max_lengths[0]), ":",
                         '{0: <{L}}'.format(L1, L = SYS_max_lengths[1]), ":",
                         '{0: <{L}}'.format(L2, L = SYS_max_lengths[2]), ":",
@@ -4889,6 +4947,7 @@ class CGSB:
                         '{0: <{L}}'.format(L4, L = SYS_max_lengths[4]), ":",
                         '{0: <{L}}'.format(L5, L = SYS_max_lengths[5]), ":",
                         '{0: <{L}}'.format(L6, L = SYS_max_lengths[6]),
+                        spaces=2,
                     )
             
             solvation_toc = time.time()
@@ -5042,28 +5101,16 @@ class CGSB:
             self.print_term("-------------------")
             self.print_term("Pickling data into:", self.PICKLE_cmd)
             self.print_term("-------------------", "\n")
-            ### Changed to pickle entire class instance instead of selected values - More consistent output
+            
+            ### ### To unpickle use the following and change "pickled_file_path" to your pickled file name
+            ### with open(pickled_file_path, 'rb') as pickled_file:
+            ###     unpickled_class = pickle.load(pickled_file)
+            
             pickled_data = self
-#             pickled_data = {
-#                 "system_charge": self.system_charge,
-#                 "pbc_box": self.pbc_box,
-#             }
-#             if len(self.LEAFLETS_cmds) != 0:
-#                 pickled_data["leaflets_cmds"] = self.LEAFLETS_cmds
-#                 pickled_data["leaflets"] = self.LEAFLETS
-#             if len(self.PROTEINS_cmds) != 0:
-#                 pickled_data["proteins_cmds"] = self.PROTEINS_cmds
-#                 pickled_data["proteins"] = self.PROTEINS
-#             if len(self.SOLVATIONS_cmds) != 0:
-#                 pickled_data["solvations_cmds"] = self.SOLVATIONS_cmds
-#                 pickled_data["solvations"] = self.SOLVATIONS
-#             if self.PLOT_cmd:
-#                 pickled_data["plot_data"] = self.plot_data
             if self.backup:
                 self.backupper(self.PICKLE_cmd)
             with open(self.PICKLE_cmd, 'wb') as f:
                 pickle.dump(pickled_data, f)
-
 
 #####################################################################
 ########################## HERE BE PARSING ##########################
