@@ -796,6 +796,10 @@ class CGSB:
         self.randseed = round(time.time())
         
         self.sys_params = "default"
+        self.prot_params = False # Only used if specifically set
+        self.lipid_params = False # Only used if specifically set
+        self.solv_params = False # Only used if specifically set
+        
         self.system_charge = 0
         self.system_name = "PLACEHOLDER_TITLE"
         
@@ -950,6 +954,15 @@ class CGSB:
 
             if key in ["params", "sys_params"]:
                 self.sys_params = cmd
+                
+            if key in ["prot_params"]:
+                self.prot_params = cmd
+                
+            if key in ["lipid_params"]:
+                self.lipid_params = cmd
+                
+            if key in ["solv_params"]:
+                self.solv_params = cmd
             
             ### Printer settings
             if key in ["quiet"]:
@@ -1366,7 +1379,7 @@ class CGSB:
             r_name = r_name[:4]
         if len(a_name) > 5:
             a_name = a_name[:5]
-        string = '{ATOM:<{L0}}{a_nr:>{L1}}{a_name:>{L2}}{aLoc:>{L3}}{r_name:>{L4}}{chain:^{L5}}{r_nr:>{L6}}{aChar:>{L7}}{x:>{L8}.3f}{y:>{L9}.3f}{z:>{L10}.3f}{oc:>{L11}.2f}{T:>{L12}.2f}{JUMP:>{L13}}{E:>{L14}}{C:>{L15}}'.format(
+        string = '{ATOM:<{L0}}{a_nr:>{L1}}{a_name:<{L2}}{aLoc:>{L3}}{r_name:>{L4}}{chain:^{L5}}{r_nr:>{L6}}{aChar:>{L7}}{x:>{L8}.3f}{y:>{L9}.3f}{z:>{L10}.3f}{oc:>{L11}.2f}{T:>{L12}.2f}{JUMP:>{L13}}{E:>{L14}}{C:>{L15}}'.format(
             ATOM = ATOM, L0 = PCL[0],
             a_nr = a_nr, L1 = PCL[1], # int
             a_name = a_name, L2 = PCL[2],
@@ -1948,10 +1961,11 @@ class CGSB:
                     counted_residues = []
                     for (bead_i, bead_nr, res_nr), values in beads.items():
                         if res_nr not in counted_residues:
-                            if values["res_name"] in self.prot_defs[self.sys_params]["charges"]:
-                                charge += self.prot_defs[self.sys_params]["charges"][values["res_name"]]
+                            params = self.prot_params or self.sys_params
+                            if values["res_name"] in self.prot_defs[params]["charges"]:
+                                charge += self.prot_defs[params]["charges"][values["res_name"]]
                             else:
-                                print_term(values["res_name"], "residue name not in 'prot_defs' charges for system force field:", self.sys_params)
+                                self.print_term(values["res_name"], "residue name not in 'prot_defs' charges for system parameters:", params)
                             counted_residues.append(res_nr)
                     return charge
                 
@@ -1969,7 +1983,7 @@ class CGSB:
                     else:
                         for mol_name in prot_dict["mol_names"]:
                             if mol_name not in self.itp_moltypes.keys():
-                                print_term("A protein name could not be found in your topology file(s): " +  mol_name, spaces=2)
+                                self.print_term("A protein name could not be found in your topology file(s): " +  mol_name, spaces=2)
                             else:
                                 prot_dict["tot_charge"] += self.itp_moltypes[mol_name]["charge_sum"]
 
@@ -2022,7 +2036,7 @@ class CGSB:
                         
                         "lipid_distribution": "random",
                         
-                        "optimize": "limited", # False/"no"/0, "limited", True/"full"/1
+                        "optimize": "v5", # False/"no"/0, "limited", True/"full"/1
                         "optim_maxsteps": 1000,
                         "optim_push_tol": 0.2,
                         "optim_push_mult": 1.0,
@@ -2134,6 +2148,15 @@ class CGSB:
                             settings_dict["membrane"]["center"] = [ast.literal_eval(i) for i in sub_cmd[1:]]
                         elif len(sub_cmd[1:]) == 2:
                             settings_dict["membrane"]["center"] = [ast.literal_eval(i) for i in sub_cmd[1:]] + [0]
+                    
+                    elif sub_cmd[0].lower() == "cx":
+                        settings_dict["membrane"]["center"][0] = ast.literal_eval(sub_cmd[1])
+                    
+                    elif sub_cmd[0].lower() == "cy":
+                        settings_dict["membrane"]["center"][1] = ast.literal_eval(sub_cmd[1])
+                    
+                    elif sub_cmd[0].lower() == "cz":
+                        settings_dict["membrane"]["center"][2] = ast.literal_eval(sub_cmd[1])
 
                     ### Area per lipid [nm^2] converted to [Å^2]
                     elif sub_cmd[0].lower() == "apl":
@@ -2206,12 +2229,16 @@ class CGSB:
                     ### OPTIMIZATION SETTINGS ###
                     #############################
                     elif sub_cmd[0].lower() in ["optim", "optimize", "optimization", "minim", "minimize", "minimization"]:
-                        if sub_cmd[1] in ["True", "1", "full"]:
-                            settings_dict[dict_target]["optimize"] = "full"
-                        elif sub_cmd[1] in ["limited"]:
-                            settings_dict[dict_target]["optimize"] = "limited"
-                        elif sub_cmd[1] in ["False", "0", "no"]:
+                        if sub_cmd[1] in ["False", "0", "no"]:
                             settings_dict[dict_target]["optimize"] = False
+                        else:
+                            settings_dict[dict_target]["optimize"] = sub_cmd[1].lower()
+#                         if sub_cmd[1] in ["True", "1", "full"]:
+#                             settings_dict[dict_target]["optimize"] = "full"
+#                         elif sub_cmd[1] in ["limited"]:
+#                             settings_dict[dict_target]["optimize"] = "limited"
+#                         elif sub_cmd[1] in ["False", "0", "no"]:
+#                             settings_dict[dict_target]["optimize"] = False
                     
                     elif sub_cmd[0].lower() in ["optim_maxsteps", "minim_maxsteps"]:
                         isnumber, isint = self.is_number(sub_cmd[1])
@@ -2306,10 +2333,10 @@ class CGSB:
                             l_ratio, l_params = rest
                         elif len(rest) == 0:
                             l_ratio  = 1 
-                            l_params = leaflet["params"] or self.sys_params # (sys_params defaults to "default")
+                            l_params = leaflet["params"] or self.lipid_params or self.sys_params # (sys_params defaults to "default")
                         else:
                             l_ratio = rest[0]
-                            l_params = leaflet["params"] or self.sys_params # (sys_params defaults to "default")
+                            l_params = leaflet["params"] or self.lipid_params or self.sys_params # (sys_params defaults to "default")
 
                         leaflet["lipids"][l_name] = self.lipid_dict[l_params][l_name]
 
@@ -2395,14 +2422,14 @@ class CGSB:
 
                     ### ### General
                     "count": False, # [bool] Uses specific molarity value as absolute number of molecules instead of molarity ratio. Will be rounded using int(val+0.5)
-                    "kick": 0.5, # [Å]
+                    "kick": 2.64/5*2, # [Å]
                     "bdx": 1.0, # [multiplier]
                     "bdy": 1.0, # [multiplier]
                     "bdz": 1.0, # [multiplier]
                     "params": False, # False or str
                     "bead_radius": 2.64, # [Å]
                     "gridres": 2.64, # [Å] # 1.32
-                    "WR": 2.64 * 1, # [Å]
+                    "WR": 2.64, # [Å]
                     "buffer": 2.0, # [Å]
                     "protein_extra_buffer": 2,
                     "lipid_extra_buffer": 0,
@@ -2541,7 +2568,7 @@ class CGSB:
                 ######################################
                 assert solv_dict["solv_preprocessing"] != {}, "No solvent given to '-solvate' flag. Please specify at least one non-ionic solvent if you use it."
 
-                params = solv_dict["params"] or self.sys_params # (sys_params defaults to "default")
+                params = solv_dict["params"] or self.solv_params or self.sys_params # (sys_params defaults to "default")
                 
                 def values_checker(subcmd_rest):
                     rest_params = False
@@ -2564,7 +2591,7 @@ class CGSB:
                     if rest_params:
                         params = rest_params
                     else:
-                        params = solv_dict["params"] or self.sys_params # (sys_params defaults to "default")
+                        params = solv_dict["params"] or self.solv_params or self.sys_params # (sys_params defaults to "default")
                     ### Adding name:dict combo to solvent dict
                     solv_dict[solv_type][name] = self.solvent_dict[params][name]
                     
@@ -2590,7 +2617,7 @@ class CGSB:
                     if rest_params:
                         params = rest_params
                     else:
-                        params = solv_dict["params"] or self.sys_params # (sys_params defaults to "default")
+                        params = solv_dict["params"] or self.solv_params or self.sys_params # (sys_params defaults to "default")
                     ### Adding name:dict combo to solvent dict
                     if solv_type == "pos_ions":
                         solv_dict[solv_type][name] = self.ion_dict[params]["positive"][name]
@@ -3853,14 +3880,12 @@ class CGSB:
         
         largest_lipid  = max(lipid_sizes)
         smallest_lipid = min(lipid_sizes)
-#         bin_size       = largest_lipid*1.1
         bin_size       = largest_lipid*2
         
-#         print("len(grid_points)", len(grid_points))
-#         print("xlen", xlen)
-#         print("ylen", ylen)
-#         print("bin_size  ", bin_size)
-#         print()
+        self.print_term("len(grid_points)", len(grid_points), debug=True)
+        self.print_term("xlen            ", xlen,             debug=True)
+        self.print_term("ylen            ", ylen,             debug=True)
+        self.print_term("bin_size        ", bin_size,         debug=True)
         
         ### Calculating number of bins along each axis, by rounding down
         xnbins = int(xlen / bin_size)
@@ -3889,7 +3914,7 @@ class CGSB:
         bins_arr       = binning_func()
         neighborlist   = update_neighborlist(bins_arr)
         
-        step_modifier_limit = 100
+        step_modifier_limit = 15
         
         bounce_counter = np.zeros((len(points_arr)))
         max_push = 0
@@ -3936,12 +3961,12 @@ class CGSB:
             else:
                 step_modifier = 1-(step/step_modifier_limit)
             
-#             if step % 10 == 0:
-#                 self.print_term("    ", "    ", "    ", "STEP:", step)
-            
             self.print_term(step, end=" ", spaces=0)
             
-            push_arr = np.zeros_like(points_arr)
+            push_arr = np.empty((len(points_arr)), dtype=object)
+            for i in range(len(push_arr)):
+                push_arr[i] = []
+
             pushes   = np.zeros((len(points_arr)))
             max_dists_traveled = max(dists_traveled)
             
@@ -3961,10 +3986,10 @@ class CGSB:
                     if pi2 <= pi1:
                         continue
                     point2 = points_arr[pi2]
-                    dist = scipy.spatial.distance.cdist([point1], [point2])[0]
+                    dist = scipy.spatial.distance.cdist([point1], [point2])[0][0]
                     combined_lipid_size = lipid_sizes[pi1] + lipid_sizes[pi2]
                     
-                    if optimize == "limited" and dist < combined_lipid_size:
+                    if optimize in ["v1", "limited"] and dist < combined_lipid_size:
                         vector = np.array(get_vector(point1, point2))
                         if dist < combined_lipid_size/2:
                             push = combined_lipid_size-dist
@@ -3993,7 +4018,7 @@ class CGSB:
                         dists_traveled[pi1] += vector_push_len*pi1_mult # abs(push*pi1_mult)
                         dists_traveled[pi2] += vector_push_len*pi2_mult # abs(push*pi2_mult)
                     
-                    elif optimize == "old_full":
+                    elif optimize == "v2":
                     
                         ideal_dist = combined_lipid_size*(1+occupation_modifier)
                         ideal_dist_diff = ideal_dist - combined_lipid_size
@@ -4028,7 +4053,7 @@ class CGSB:
                             dists_traveled[pi1] += vector_push_len*pi1_mult # abs(push*pi1_mult)
                             dists_traveled[pi2] += vector_push_len*pi2_mult # abs(push*pi2_mult)
                     
-                    elif optimize == "full":
+                    elif optimize == "v3":
                     
                         ideal_dist = combined_lipid_size*(1+occupation_modifier)
                         ideal_dist_diff = ideal_dist - combined_lipid_size
@@ -4044,14 +4069,14 @@ class CGSB:
                             dist_diff = dist-combined_lipid_size
                             if dist <= ideal_dist_lower:
                                 ### Push very hard if way too close
-                                push = (combined_lipid_size-dist)/2
+                                push = (combined_lipid_size-dist)#/2
                                 if dist > combined_lipid_size-buffer:
                                     ### Modulated push with the step modifier if within buffer space
                                     push *= step_modifier
-                            elif dist_diff <= ideal_dist_upper:
+                            else:
                                 dist_modifier = abs(ideal_dist-dist_diff)**-1
                                 push = (ideal_dist-dist)*occupation_modifier*step_modifier*dist_modifier
-                                
+
                             vector_push = vector*push
                             vector_push_len = get_vector_len_fastsingle(vector_push)
 
@@ -4063,15 +4088,113 @@ class CGSB:
                             push_arr[pi1] -= vector_push*pi1_mult
                             push_arr[pi2] += vector_push*pi2_mult
 
-                            pushes[pi1] += vector_push_len*pi1_mult # abs(push*pi1_mult)
-                            pushes[pi2] += vector_push_len*pi2_mult # abs(push*pi2_mult)
+                            pushes[pi1] += vector_push_len*pi1_mult
+                            pushes[pi2] += vector_push_len*pi2_mult
 
-                            dists_traveled[pi1] += vector_push_len*pi1_mult # abs(push*pi1_mult)
-                            dists_traveled[pi2] += vector_push_len*pi2_mult # abs(push*pi2_mult)
+                            dists_traveled[pi1] += vector_push_len*pi1_mult
+                            dists_traveled[pi2] += vector_push_len*pi2_mult
+                            
+                    elif optimize == "v4":
+                    
+                        ideal_dist = combined_lipid_size*(1+occupation_modifier)
+                        ideal_dist_diff = ideal_dist - combined_lipid_size
+                        ideal_dist_lower = combined_lipid_size
+                        ideal_dist_upper = ideal_dist + ideal_dist_diff
                         
+                        if dist <= ideal_dist_upper:
+                            vector = np.array(get_vector(point1, point2))
+                            vector_len = get_vector_len_fastsingle(vector)
+                            vector /= vector_len
+
+                            ### Difference in distance from ideal distance 
+#                             dist_diff = dist-combined_lipid_size
+                            dist_diff = dist-ideal_dist
+                            if dist <= ideal_dist_lower:
+                                ### Push very hard if way too close
+                                push = (combined_lipid_size-dist)#/2
+                                if dist > combined_lipid_size-buffer:
+                                    ### Modulated push with the step modifier if within buffer space
+                                    push *= step_modifier
+                            elif step < step_modifier_limit:
+#                             elif ideal_dist_lower < dist <= ideal_dist_upper:
+                                push = abs(ideal_dist-dist)*step_modifier
+    
+                                if dist > ideal_dist_upper:
+                                    dist_modifier = dist_diff/ideal_dist
+                                    print("dist_modifier", dist_modifier)
+                                    push *= dist_modifier
+                                
+#                                 dist_modifier = abs(ideal_dist-dist_diff)**-1
+                                
+# #                                 dist_modifier = abs(ideal_dist-dist_diff)**-1*2
+# #                                 push = (ideal_dist-dist)*occupation_modifier*step_modifier*dist_modifier
+#                                 print("step_modifier", round(step_modifier, 3))
+#                                 push = (ideal_dist-dist)*step_modifier
+#                             else:
+#                                 dist_modifier = abs(ideal_dist-dist_diff)**-1
+# #                                 push = (ideal_dist-dist)*occupation_modifier*step_modifier*dist_modifier
+#                                 print("step_modifier, dist_modifier", step_modifier, round(dist_modifier, 3), round(ideal_dist-dist_diff, 3))
+#                                 if dist_modifier > 1:
+#                                     print(ideal_dist, dist, dist_diff, abs(ideal_dist-dist_diff))
+#                                     print("\n\n\n\n\n\n\n")
+#                                 push = (ideal_dist-dist)*step_modifier*dist_modifier
+
+                            vector_push = vector*push
+                            vector_push_len = get_vector_len_fastsingle(vector_push)
+
+                            ### Pseudo-normalizes the force behind the pushes
+                            max_size = max([lipid_sizes[pi2], lipid_sizes[pi1]])
+                            pi1_mult = 1/(max_size/lipid_sizes[pi2])
+                            pi2_mult = 1/(max_size/lipid_sizes[pi1])
+
+                            push_arr[pi1].append(-vector_push*pi1_mult)
+                            push_arr[pi2].append(+vector_push*pi2_mult)
+
+                    elif optimize == "v5":
+                    
+                        ideal_dist = combined_lipid_size*(1+occupation_modifier)
+                        ideal_dist_diff = ideal_dist - combined_lipid_size
+                        ideal_dist_lower = combined_lipid_size
+                        ideal_dist_upper = ideal_dist + ideal_dist_diff
+                        
+                        if dist <= ideal_dist_upper:
+                            vector = np.array(get_vector(point1, point2))
+                            vector_len = get_vector_len_fastsingle(vector)
+                            vector /= vector_len
+                            push = 0
+                            
+                            ### Difference in distance from ideal distance 
+                            if dist <= ideal_dist_lower: # combined_lipid_size
+                                ### Push very hard if way too close
+                                push += (combined_lipid_size-dist)/2
+
+                            if dist <= ideal_dist_upper:
+                                ### Always add smaller extra push
+                                push += abs(ideal_dist_upper-dist)*step_modifier
+                            
+                            vector_push = vector*push
+                            vector_push_len = get_vector_len_fastsingle(vector_push)
+
+                            ### Pseudo-normalizes the force behind the pushes
+                            max_size = max([lipid_sizes[pi2], lipid_sizes[pi1]])
+                            pi1_mult = 1/(max_size/lipid_sizes[pi2])
+                            pi2_mult = 1/(max_size/lipid_sizes[pi1])
+
+                            push_arr[pi1].append(-vector_push*pi1_mult)
+                            push_arr[pi2].append(+vector_push*pi2_mult)
+
             ### Pushes grid points
-            points_arr += push_arr
-            push_arr    = np.zeros_like(points_arr)
+            for pi, push in enumerate(push_arr):
+                if push:
+                    push_vector         = np.mean(np.array(push), axis=0)
+                    push_vector_len     = get_vector_len_fastsingle(push_vector)
+#                     print(push)
+#                     print(np.array(push))
+#                     print(np.mean(np.array(push), axis=0))
+#                     print(push_vector, push_vector_len)
+                    points_arr[pi]     += np.mean(np.array(push), axis=0)
+                    pushes[pi]         += push_vector_len
+                    dists_traveled[pi] += push_vector_len
 
             ### BBOX and protein distance checks
             all_contained = True
@@ -4118,10 +4241,6 @@ class CGSB:
                     points_arr[pi1]     += vector_push
                     pushes[pi1]         += vector_push_len # abs(push)
                     dists_traveled[pi1] += vector_push_len # abs(push)
-
-#             ### Pushes grid points
-#             points_arr += push_arr
-#             push_arr    = np.zeros_like(points_arr)
             
             if self.plot_grid:
                 POINT_STEPS.append(points_arr.copy())
@@ -5170,13 +5289,16 @@ parser = argparse.ArgumentParser(
 parser.add_argument("-h", "--help", dest = "help")
 
 ### Leaflet commands
-parser.add_argument("--memb", "-memb", "-membrane", dest = "membrane_cmds", action="append", type=str, default = [], nargs="+")
+parser.add_argument("--membrane", "-memb", "-membrane", dest = "membrane_cmds", action="append", type=str, default = [], nargs="+")
 
 ### Protein commands
-parser.add_argument("--prot", "-prot", "-protein", dest = "protein_cmds", action="append", type=str, default = [], nargs="+")
+parser.add_argument("--protein", "-prot", "-protein", dest = "protein_cmds", action="append", type=str, default = [], nargs="+")
 
 ### Solvent commands
-parser.add_argument("--solv", "-solv", "-solvation", dest = "solvation_cmds", action="append", type=str, default = [], nargs="+")
+parser.add_argument("--solvation", "-solv", "-solvation", dest = "solvation_cmds", action="append", type=str, default = [], nargs="+")
+
+### Solvent commands
+parser.add_argument("--flooding", "-flood", "-flooding", dest = "flooding_cmds", action="append", type=str, default = [], nargs="+")
 
 ### Topology commands
 parser.add_argument("--itp_input", "-itp_in", dest = "itp_input_cmds", action="append", type=str, default = [], nargs="+")
@@ -5196,8 +5318,11 @@ parser.add_argument("-backup", dest = "backup", default = True)
 ### Random seed
 parser.add_argument("-rand", dest = "randseed", default = False)
 
-### System force field
-parser.add_argument("-params", dest = "sys_params", default = "default")
+### System parameters
+parser.add_argument("--sys_params", "-params", dest = "sys_params", default = "default")
+parser.add_argument("-prot_params", dest = "prot_params", default = False)
+parser.add_argument("-lipid_params", dest = "lipid_params", default = False)
+parser.add_argument("-solv_params", dest = "solv_params", default = False)
 
 ### System name
 parser.add_argument("-sn", "-system_name", dest = "system_name", default = "PLACEHOLDER_TITLE")
@@ -5246,6 +5371,7 @@ args = parser.parse_args()
 parse_membrane_cmds      = [" ".join(i) for i in args.membrane_cmds]
 parse_protein_cmds       = [" ".join(i) for i in args.protein_cmds]
 parse_solvation_cmds     = [" ".join(i) for i in args.solvation_cmds]
+parse_flooding_cmds      = [" ".join(i) for i in args.flooding_cmds]
 parse_itp_input_cmds     = [" ".join(i) for i in args.itp_input_cmds]
 parse_solute_input_cmds  = [" ".join(i) for i in args.solute_input_cmds]
 
@@ -5254,7 +5380,11 @@ parse_pickle_cmd = args.pickle_cmd
 parse_backup     = bool(ast.literal_eval(str(args.backup)))
 parse_randseed   = args.randseed
 
-parse_sys_params  = args.sys_params
+parse_sys_params   = args.sys_params
+parse_prot_params  = args.prot_params
+parse_lipid_params = args.lipid_params
+parse_solv_params  = args.solv_params
+
 parse_pbc_box = args.pbc_box
 if parse_pbc_box:
     parse_pbc_box = [ast.literal_eval(str(i)) for i in parse_pbc_box]
@@ -5286,16 +5416,20 @@ if any([i != [] for i in [parse_membrane_cmds, parse_protein_cmds, parse_solvati
         membrane  = parse_membrane_cmds,
         protein   = parse_protein_cmds,
         solvation = parse_solvation_cmds,
+        flooding  = parse_flooding_cmds,
         
         rand = parse_randseed,
 
         itp_input    = parse_itp_input_cmds,
         solute_input = parse_solute_input_cmds,
 
-        plot       = parse_plot_cmd,
-        pickle     = parse_pickle_cmd,
-        backup     = parse_backup,
-        sys_params = parse_sys_params,
+        plot         = parse_plot_cmd,
+        pickle       = parse_pickle_cmd,
+        backup       = parse_backup,
+        sys_params   = parse_sys_params,
+        prot_params  = parse_prot_params,
+        lipid_params = parse_lipid_params,
+        solv_params  = parse_solv_params,
 
         out_sys     = parse_out_system_file_name,
         out_sys_pdb = parse_out_system_pdb_file_name,
