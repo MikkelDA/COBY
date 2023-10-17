@@ -1374,17 +1374,21 @@ class CGSB:
         '''
         PCL: pdb ATOM column lengths. "+" means that multiple column groups are combined
         '''
-        PCL = [6, 5, 1 + 4, 0, 1 + 3 + 1, 1, 4, 1 + 3, 8, 8, 8, 6, 6, 10, 2, 2] 
+        PCL = [6, 5, 1 + 4, 1, 3 + 1, 1, 4, 1 + 3, 8, 8, 8, 6, 6, 10, 2, 2] 
         if len(r_name) > 4:
             r_name = r_name[:4]
+        if len(r_name) < 4:
+            r_name = r_name + " "
         if len(a_name) > 5:
             a_name = a_name[:5]
+        if len(a_name) < 4:
+            a_name = " " + a_name
         string = '{ATOM:<{L0}}{a_nr:>{L1}}{a_name:<{L2}}{aLoc:>{L3}}{r_name:>{L4}}{chain:^{L5}}{r_nr:>{L6}}{aChar:>{L7}}{x:>{L8}.3f}{y:>{L9}.3f}{z:>{L10}.3f}{oc:>{L11}.2f}{T:>{L12}.2f}{JUMP:>{L13}}{E:>{L14}}{C:>{L15}}'.format(
             ATOM = ATOM, L0 = PCL[0],
             a_nr = a_nr, L1 = PCL[1], # int
             a_name = a_name, L2 = PCL[2],
-    #         aLoc = aLoc, L3 = PCL[3],
-            aLoc = "", L3 = 0,
+            aLoc = aLoc, L3 = PCL[3],
+#             aLoc = "", L3 = 0,
             r_name = r_name, L4 = PCL[4],
             chain = chain, L5 = PCL[5],
             r_nr = r_nr, L6 = PCL[6], # int
