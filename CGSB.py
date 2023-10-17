@@ -2401,7 +2401,7 @@ class CGSB:
                     "bdz": 1.0, # [multiplier]
                     "params": False, # False or str
                     "bead_radius": 2.64, # [Å]
-                    "gridres": 1.32, # [Å]
+                    "gridres": 2.64, # [Å] # 1.32
                     "WR": 2.64 * 1, # [Å]
                     "buffer": 2.0, # [Å]
                     "protein_extra_buffer": 2,
@@ -4437,22 +4437,32 @@ class CGSB:
                 ### Finds the maximum size of molecules used as solvent/ions
                 ### Also includes buffer/kick size to prevent edge overlap cases
                 max_mol_size = max([max([math.dist(bead1, bead2) for bead1 in molecule for bead2 in molecule]) for molecule in solvent_molecules]) #+ solvation["kick"] + solvation["buffer"]
+                    
+                self.print_term("gridres first:", solvation["gridres"], debug=True)
+                self.print_term("max_mol_size:", max_mol_size, debug=True)
+                self.print_term("max_mol_size*1.2:", max_mol_size*1.2, debug=True)
+                self.print_term("kick:", solvation["kick"], debug=True)
+                self.print_term("kick*1.2:", solvation["kick"]*1.2, debug=True)
                 
                 ### if the maximum molecule size is bigger than the designated grid resolution then change the gridres
                 if max_mol_size*1.2 >= solvation["gridres"]:
-                    gridres = max_mol_size * 1.2 # 20% larger than largest molecule
+                    gridres = (max_mol_size + solvation["kick"]*2) * 1.2 # 20% larger than largest molecule
                     self.print_term("NOTE: Requested solvent is too large for the grid resolution. Adjusting grid resolution to prevent solvent molecule overlaps.", warn = True)
-                    self.print_term("Original grid resolution was:", solvation["gridres"], warn = True)
-                    self.print_term("New grid resolution is:      ", gridres, "\n", warn = True)
+                    self.print_term("Original grid resolution was:", round(solvation["gridres"]/10, 4), "[nm]", warn = True)
+                    self.print_term("New grid resolution is:      ", round(gridres/10, 4), "[nm]", "\n", warn = True)
                 else:
                     gridres = solvation["gridres"]
+                    
+                self.print_term("gridres mid:", gridres, debug=True)
                 
-                if (max_mol_size+solvation["kick"])*1.2 >= gridres/2:
+                if (max_mol_size+solvation["kick"])*1.2 >= gridres:
                     self.print_term("NOTE: Kick is too large for grid resolution. Adjusting grid resolution to prevent solvent molecule overlaps.", warn = True)
-                    self.print_term("Original grid resolution was:", gridres, warn = True)
-                    self.print_term("Original kick was:           ", solvation["kick"], warn = True)
-                    gridres = gridres + solvation["kick"]*1.2 # 20% extra
-                    self.print_term("New grid resolution is:      ", gridres, "\n", warn = True)
+                    self.print_term("Original grid resolution was:", round(gridres/10, 4), "[nm]", warn = True)
+                    self.print_term("Original kick was:           ", round(solvation["kick"]/10, 4), "[nm]", warn = True)
+                    gridres = gridres + solvation["kick"]*2*1.2 # 20% extra
+                    self.print_term("New grid resolution is:      ", round(gridres/10, 4), "[nm]", "\n", warn = True)
+                
+                self.print_term("gridres last:", gridres, debug=True)
                 
                 solvent_buffer = gridres + solvation["buffer"]
 
