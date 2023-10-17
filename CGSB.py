@@ -1842,9 +1842,9 @@ class CGSB:
         tot_neg_ions = sum([len(vals["negative"]) for vals in self.ion_dict.values()])
         self.print_term("Number of negative ions preprocessed:", tot_neg_ions, spaces=1)
     
-    #############################################
-    ### Protein/leaflet/solvent preprocessors ###
-    #############################################
+    ##############################################
+    ### Protein/membrane/solvent preprocessors ###
+    ##############################################
     def prot_preprocessor(self):
         '''
         Preprocesses protein commands for later ease of use
@@ -1877,10 +1877,10 @@ class CGSB:
                     sub_cmd = cmd.split(":")
 
                     ### Read pdb/gro file
-                    if sub_cmd[0].lower().endswith(".pdb"):
+                    if sub_cmd[0].lower().endswith(".pdb") or (sub_cmd[0] in ["f", "file", "prot_file"] and sub_cmd[1].lower().endswith(".pdb")):
                         prot_dict["beads"] = self.pdb_reader(sub_cmd[0])
 
-                    elif sub_cmd[0].lower().endswith(".gro"):
+                    elif sub_cmd[0].lower().endswith(".gro") or (sub_cmd[0] in ["f", "file", "prot_file"] and sub_cmd[1].lower().endswith(".gro")):
                         prot_dict["beads"] = self.gro_reader(sub_cmd[0])
                     
                     ### Center method "cog/axis/ax" (center of geometry), "mean", "bead:INT", "res:INT" or "point:x:y:z"
@@ -2671,10 +2671,11 @@ class CGSB:
                 ### charge: whether to use name for topology or given value
                 
                 def name_checker(name):
-                    assert len(name) <=4 or name == "resname", (
-                        "name can at most be 4 characters long or 'resname'" + "\n"
-                        "name: " + str(name)
-                    )
+                    ### Limiting name to 4 may not be necessary as residue names are used later
+#                     assert len(name) <=4 or name == "resname", (
+#                         "name can at most be 4 characters long or 'resname'" + "\n"
+#                         "name: " + str(name)
+#                     )
                     return name
                 
                 def nres_checker(nres):
@@ -2730,10 +2731,9 @@ class CGSB:
                     mol_import_settings.append({"name": name, "nres": nres, "charge": charge})
                 
                 assert len(structures) > 0, "No structure files given (.pdb and .gro are accepted file formats)"
-                                
+                
                 ### Residue sorting from across different structure files
                 structures_residues_combined = []
-                
                 for struc_i, structure in enumerate(structures):
                     resnumber = "unset"
                     for key, values in structure.items():
@@ -2746,9 +2746,9 @@ class CGSB:
                             reslist.append(values)
                     structures_residues_combined.append(reslist)
                 
+                ### Combining settings and their residues from the structure file(s)
                 molecule_residues = []
                 current_res = 0
-                
                 for si, settings in enumerate(mol_import_settings):
                     molecule_residues.append(settings)
                     molecule_residues[si]["residues"] = []
@@ -2762,6 +2762,7 @@ class CGSB:
                 if params not in self.ion_defs.keys():
                     self.ion_defs[params] = {"positive": {}, "negative": {}}
                 
+                ### Adding solute data to solvent and ion definition dictionaries
                 for mi, molecule in enumerate(molecule_residues):
                     molname, nres, charge, residues = itemgetter("name", "nres", "charge", "residues")(molecule)
                     mol_dict = {
@@ -2773,25 +2774,25 @@ class CGSB:
                         for atom in residue:
                             bead, resname, x, y, z = itemgetter("atom_name", "res_name", "x", "y", "z")(atom)
                             beads.append(bead)
-                            resnames.append(resname)
+                            if resname not in resnames:
+                                resnames.append(resname)
                             xs.append(x/10)
                             ys.append(y/10)
                             zs.append(z/10)
-                        resname_setted = list(set(resnames))
-                        assert len(resname_setted) == 1, (
+                        assert len(resnames) == 1, (
                             "Make sure only one residue name is used for each residue" + "\n"
                             "" + str(resnames)
                         )
                         mol_dict["residues"].append({
-                            "resname": resname_setted[0],
+                            "resname": resnames[0],
                             "beads": tuple(beads),
                             "x": tuple(xs),
                             "y": tuple(ys),
                             "z": tuple(zs),
                         })
-                    self.solvent_defs[params][molname]         = mol_dict
-                    self.ion_defs[params]["positive"][molname] = mol_dict
-                    self.ion_defs[params]["negative"][molname] = mol_dict
+                    self.solvent_defs[params][molname]         = mol_dict.copy()
+                    self.ion_defs[params]["positive"][molname] = mol_dict.copy()
+                    self.ion_defs[params]["negative"][molname] = mol_dict.copy()
     
     #########################
     ### GENERAL FUNCTIONS ###
@@ -4886,13 +4887,12 @@ class CGSB:
                 grid_solvated = []
 #                 counter = 0
                 generated_spots = []
-                for counter, ((sname, stype, ssize), (gx, gy, gz)) in enumerate(zip(collected_solvent, random_grid_points)):
+                for counter, ((sname, stype, ssize), (gx, gy, gz)) in enumerate(zip(collected_solvent, random_grid_points), 1):
                     '''
                     Finds a 3D-grid point for the solvent and places it there.
                     '''
-#                     counter += 1
-                    if counter % 25000 == 0:
-                        self.print_term("    ", "    ", "Currently at solvent number:", counter)
+                    if counter == 1 or counter % 25000 == 0:
+                        self.print_term("Currently at solvent number:", counter, spaces=2)
                     sdata = solvation[stype][sname]
                     sinfo = solvation[stype][sname].get_res_beads_info()
                     
@@ -4930,6 +4930,7 @@ class CGSB:
                         "charge":   scharge,
                         "coords":   list(zip(sx, sy, sz)),
                     })
+                self.print_term("Currently at solvent number:", counter, spaces=2)
                 
                 ### Orders the solvent key:value pairs to ensure topology-structure file match
                 self.SOLVATIONS[solvation_nr]["grid"] = sorted(grid_solvated, key=lambda g: (g["order"], g["name"]))
