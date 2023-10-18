@@ -31,4 +31,17 @@ Most are likely already installed but the following might require installations
 
 [shapely](https://pypi.org/project/shapely/): pip install shapely
 
+Installation procedure:
 
+Version 1:
+
+conda env create -f environment.yml
+conda activate CGSB
+python -m ipykernel install --user --name=CGSB
+
+Version 2:
+
+conda create --name CGSB python==3.9
+conda activate CGSB
+pip install numpy==1.21.5 scipy==1.7.3 alphashape matplotlib ipykernel ipywidgets
+python -m ipykernel install --user --name=CGSB
