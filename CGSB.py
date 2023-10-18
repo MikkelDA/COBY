@@ -2070,7 +2070,7 @@ class CGSB:
                         "lipid_distribution": "random",
                         
                         "optimize": "v5", # False/"no"/0, "limited", True/"full"/1
-                        "optim_maxsteps": 1000,
+                        "optim_maxsteps": 100,
                         "optim_push_tol": 0.2,
                         "optim_push_mult": 1.0,
                         
@@ -2102,8 +2102,8 @@ class CGSB:
                 
                 ### ### Membrane mono/bilayer names
                 ### Mono as explicitly upper added by request
-                monolayer_upper_designation = ["u", "up", "upper", "m", "mo", "mono", "monolayer"]
-                monolayer_lower_designation = ["d", "do", "down", "l", "lo", "lower"]
+                monolayer_upper_designation = ["u", "up", "upper", "m", "mo", "mono", "monolayer", "mono_upper"]
+                monolayer_lower_designation = ["d", "do", "down", "l", "lo", "lower", "mono_lower", "mono_down"]
                 bilayer_designation = ["b", "bi", "bilayer", "memb", "membrane"]
                 
                 layer_definition = "bilayer"
