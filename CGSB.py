@@ -292,8 +292,8 @@ solvent_defs[params].update({
     "ALA": {"beads": ("BB",), "solvcount": 1, "x": (0,), "y": (0,), "z": (0,)},
     
     "ASN": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "ASP": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "GLU": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "ASP": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0), "charge": -1},
+    "GLU": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0), "charge": -1},
     "GLN": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
     "LEU": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
     "ILE": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
@@ -301,11 +301,11 @@ solvent_defs[params].update({
     "SER": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
     "THR": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
     "CYS": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "LYS": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "LYS": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0), "charge": 1},
     "PRO": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
     "HYP": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
     
-    "ARG": {"beads": ("BB", "SC1", "SC2"), "solvcount": 1, "x": (0.25, 0, -0.25), "y": (0, 0, 0.125), "z": (0, 0, 0)},
+    "ARG": {"beads": ("BB", "SC1", "SC2"), "solvcount": 1, "x": (0.25, 0, -0.25), "y": (0, 0, 0.125), "z": (0, 0, 0), "charge": 1},
     "PHE": {"beads": ("BB", "SC1", "SC2", "SC3"), "solvcount": 1, "x": (0.25, 0, -0.25, -0.25), "y": (0, 0, 0.125, -0.125), "z": (0, 0, 0, 0)},
     "TYR": {"beads": ("BB", "SC1", "SC2", "SC3"), "solvcount": 1, "x": (0.25, 0, -0.25, -0.25), "y": (0, 0, 0.125, -0.125), "z": (0, 0, 0, 0)},
     "TRP": {"beads": ("BB", "SC1", "SC2", "SC3", "SC4"), "solvcount": 1, "x": (0.25, 0.25, 0, 0, -0.25), "y": (0.125, 0, -0.125, 0.125, 0), "z": (0, 0, 0, 0, 0)},
@@ -364,9 +364,16 @@ ion_defs[params]["negative"] = {
 params = "default"
 prot_defs[params] = {}
 prot_defs[params]["charges"] = {
-    "ARG":1, "LYS":1, "ASP":-1, "GLU":-1,
+    "ARG": 1, "LYS": 1, "ASP": -1, "GLU": -1,
+    "GLY": 0, "ALA": 0, "ASN": 0,
+    "GLN": 0, "LEU": 0, "ILE": 0,
+    "VAL": 0, "SER": 0, "THR": 0,
+    "CYS": 0, "PRO": 0, "HYP": 0,
+    "PHE": 0, "TYR": 0, "TRP": 0,
+    "ASH": 0, # Neutral version of ASP
+    "MET": 0,
+    "HSD": 0, "HSP": 0,
 }
-
 ########################################################################################################
 ########################################### THE ACTUAL CLASSES #########################################
 ########################################################################################################
@@ -476,7 +483,6 @@ class RESIDUE:
                 centers.append(target[ci])
         return tuple(centers)
 
-    
 class MOLECULE:
     def __init__(self, charge = False, molname = False):
         self.residues = []
@@ -855,7 +861,10 @@ class CGSB:
                 if type(cmd) not in [list, tuple]:
                     cmd = [cmd]
                 for subcmd in cmd:
-                    subcmd = " ".join([subcmd, "count:True", "solv_molarity:1", "salt_molarity:1", "flooding:True"])
+                    if "flooding:" in subcmd:
+                        subcmd_split = subcmd.split()
+                        subcmd = " ".join([string for string in subcmd_split if not string.startswith("flooding:")])
+                    subcmd = " ".join(["flooding:True", subcmd, "count:True", "solv_molarity:1", "salt_molarity:1"])
                     self.FLOODINGS_cmds.extend([subcmd])
             
             ### Box type
@@ -939,12 +948,15 @@ class CGSB:
                     
             if key in ["rand", "randseed"]:
                 if not cmd is False:
-                    isnumber, isint = self.is_number(cmd)
-                    if isnumber:
-                        if isint:
-                            self.randseed = cmd
-                        else:
-                            self.randseed = round(cmd)
+                    if type(cmd) == int:
+                        self.randseed = cmd
+                    else:
+                        isnumber, isint = self.is_number(cmd)
+                        if isnumber:
+                            if isint:
+                                self.randseed = cmd
+                            else:
+                                self.randseed = round(cmd)
                     
             if key in ["pickle"]:
                 self.PICKLE_cmd = cmd
@@ -1409,7 +1421,7 @@ class CGSB:
     #     string = '{r_nr:>{L0}}{r_name:<{L1}}{a_name:>{L2}}{a_nr:<{L3}}{x:>{L4}.3f}{y:>{L5}.3f}{z:>{L6}.3f}{vx:>{L7}.4f}{vy:>{L8}.4f}{vz:>{L9}.4f}'.format(
         if len(r_name) > 5:
             r_name = r_name[:5]
-        if len(a_name) > 4:
+        if len(a_name) > 5:
             a_name = a_name[:5]
         string = '{r_nr:>{L0}}{r_name:<{L1}}{a_name:>{L2}}{a_nr:>{L3}}{x:>{L4}.3f}{y:>{L5}.3f}{z:>{L6}.3f}{vx:>{L7}}{vy:>{L8}}{vz:>{L9}}'.format(
             r_nr = r_nr, L0 = GCL[0], # int
@@ -1987,7 +1999,7 @@ class CGSB:
                     else:
                         for mol_name in prot_dict["mol_names"]:
                             if mol_name not in self.itp_moltypes.keys():
-                                self.print_term("A protein name could not be found in your topology file(s): " +  mol_name, spaces=2)
+                                self.print_term("A protein name could not be found in your topology file(s): " +  mol_name, warn=True, spaces=2)
                             else:
                                 prot_dict["tot_charge"] += self.itp_moltypes[mol_name]["charge_sum"]
 
@@ -2423,7 +2435,10 @@ class CGSB:
                     "salt_molarity": 0.15, # int or float # mol/L
                     "ionsvol": "solv", # "box", "free", "solv"
                     ### starting mol/liter concentration of both negative and positive ions (each will have the concentration) 
-
+                    
+                    ### ### Flooding specific
+                    "flooding": False,
+                    
                     ### ### General
                     "count": False, # [bool] Uses specific molarity value as absolute number of molecules instead of molarity ratio. Will be rounded using int(val+0.5)
                     "kick": 2.64/5*2, # [Å]
@@ -2454,7 +2469,7 @@ class CGSB:
                     ### SOLVENT SPECIFIC ###
                     ########################
                     ### Solvents
-                    if sub_cmd[0].lower() == "solv":
+                    if sub_cmd[0].lower() in ["solv", "mol"]:
                         solv_dict["solv_preprocessing"].append(sub_cmd[1:])
 
                     ### Solvent concentration
@@ -2561,7 +2576,10 @@ class CGSB:
                     #########################
                     ### Used to check if command is made as flooding or not
                     elif sub_cmd[0].lower() == "flooding":
-                        solv_dict["buffer"] = ast.literal_eval(sub_cmd[1])
+                        solv_dict["flooding"] = ast.literal_eval(sub_cmd[1])
+                        
+                    elif solv_dict["flooding"] and sub_cmd[0] in [key for params in solvent_defs.keys() for key in solvent_defs[params].keys()]:
+                        solv_dict["solv_preprocessing"].append(sub_cmd[0:])
                     
                     ### Errors out if unknown subcommand used, and prints the subcommand to terminal
                     else:
