@@ -35,18 +35,18 @@ Installation procedure:
 
 Version 1:
 
-conda env create -f environment.yml
+    conda env create -f environment.yml
 
-conda activate CGSB
+    conda activate CGSB
 
-python -m ipykernel install --user --name=CGSB
+    python -m ipykernel install --user --name=CGSB
 
 Version 2:
 
-conda create --name CGSB python==3.9
+    conda create --name CGSB python==3.9
 
-conda activate CGSB
+    conda activate CGSB
 
-pip install numpy==1.21.5 scipy==1.7.3 alphashape matplotlib ipykernel ipywidgets
+    pip install numpy==1.21.5 scipy==1.7.3 alphashape matplotlib ipykernel ipywidgets
 
-python -m ipykernel install --user --name=CGSB
+    python -m ipykernel install --user --name=CGSB
