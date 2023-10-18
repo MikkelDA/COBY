@@ -1906,11 +1906,28 @@ class CGSB:
                     sub_cmd = cmd.split(":")
 
                     ### Read pdb/gro file
-                    if sub_cmd[0].lower().endswith(".pdb") or (sub_cmd[0] in ["f", "file", "prot_file"] and sub_cmd[1].lower().endswith(".pdb")):
-                        prot_dict["beads"] = self.pdb_reader(sub_cmd[0])
+                    if any([extension in sub_cmd[0].lower() for extension in [".pdb", ".gro"]]) or sub_cmd[0] in ["f", "file", "prot_file", "protein_file"]:
+                        ### Find file name
+                        if sub_cmd[0] in ["f", "file", "prot_file", "protein_file"]:
+                            file_name = sub_cmd[1]
+                        else:
+                            file_name = sub_cmd[0]
+                        
+                        ### First check if file ends with .pdb or .gro
+                        if file_name.endswith(".pdb"):
+                            prot_dict["beads"] = self.pdb_reader(file_name)
+                        elif file_name.endswith(".gro"):
+                            prot_dict["beads"] = self.gro_reader(file_name)
+                        ### If neither then check if it contains .pdb or .gro (e.g. #prot_file.pdb.1#)
+                        elif ".pdb" in file_name.lower():
+                            prot_dict["beads"] = self.pdb_reader(file_name)
+                        elif ".gro" in file_name.lower():
+                            prot_dict["beads"] = self.gro_reader(file_name)
+                        ### Finally assume .pdb format if neither .pdb nor .gro is found
+                        else:
+                            prot_dict["beads"] = self.pdb_reader(file_name)
 
-                    elif sub_cmd[0].lower().endswith(".gro") or (sub_cmd[0] in ["f", "file", "prot_file"] and sub_cmd[1].lower().endswith(".gro")):
-                        prot_dict["beads"] = self.gro_reader(sub_cmd[0])
+                    
                     
                     ### Center method "cog/axis/ax" (center of geometry), "mean", "bead:INT", "res:INT" or "point:x:y:z"
                     elif sub_cmd[0].lower() == "cen_method":
@@ -2744,15 +2761,33 @@ class CGSB:
                 
                 for cmd in imp_struc.split():
                     sub_cmd = cmd.split(":")
-                    if sub_cmd[0].endswith("pdb"):
-                        structures.append(self.pdb_reader(sub_cmd[0]))
-                    if sub_cmd[0].endswith("gro"):
-                        structures.append(self.gro_reader(sub_cmd[0]))
+                    ### Read pdb/gro file
+                    if any([extension in sub_cmd[0].lower() for extension in [".pdb", ".gro"]]) or sub_cmd[0] in ["f", "file", "solute_file"]:
+                        
+                        ### Find file name
+                        if sub_cmd[0] in ["f", "file", "solute_file"]:
+                            file_name = sub_cmd[1]
+                        else:
+                            file_name = sub_cmd[0]
+                        
+                        ### First check if file ends with .pdb or .gro
+                        if file_name.endswith(".pdb"):
+                            structures.append(self.pdb_reader(file_name))
+                        elif file_name.endswith(".gro"):
+                            structures.append(self.gro_reader(file_name))
+                        ### If neither then check if it contains .pdb or .gro (e.g. #prot_file.pdb.1#)
+                        elif ".pdb" in file_name.lower():
+                            structures.append(self.pdb_reader(file_name))
+                        elif ".gro" in file_name.lower():
+                            structures.append(self.gro_reader(file_name))
+                        ### Finally assume .pdb format if neither .pdb nor .gro is found
+                        else:
+                            structures.append(self.pdb_reader(file_name))
                     
-                    if sub_cmd[0] == "params":
+                    elif sub_cmd[0] == "params":
                         params = sub_cmd[1]
                     
-                    if sub_cmd[0] == "mol":
+                    elif sub_cmd[0] == "mol":
                         assert len(sub_cmd[1:]) == 3, "mol subcommand does not contain 3 values: " + str(sub_cmd)
                         name, nres, charge = sub_cmd[1:]
                         name   = name_checker(name)
@@ -2760,17 +2795,17 @@ class CGSB:
                         charge = charge_checker(charge)
                         mol_import_settings.append({"name": name, "nres": nres, "charge": charge})
                         
-                    if sub_cmd[0] in ["name", "names"]:
+                    elif sub_cmd[0] in ["name", "names"]:
                         names = sub_cmd[1:]
                         for name in names:
                             names_list.append(name_checker(name))
                         
-                    if sub_cmd[0] in ["n_residues", "residues", "nres"]:
+                    elif sub_cmd[0] in ["n_residues", "residues", "nres"]:
                         nress = sub_cmd[1:]
                         for nres in nress:
                             nress_list.append(nres_checker(nres))
                         
-                    if sub_cmd[0] in ["charge", "charges"]:
+                    elif sub_cmd[0] in ["charge", "charges"]:
                         charges = sub_cmd[1:]
                         for charge in charges:
                             charges_list.append(charge_checker(charge))
