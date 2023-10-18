@@ -748,7 +748,11 @@ class PROTEIN(MOLECULE):
 
 class CGSB:
     
-    def __init__(self, **kwargs):
+    def __init__(self, terminal_run_kwargs = False, **kwargs):
+        
+        if terminal_run_kwargs:
+            kwargs.update(terminal_run_kwargs)
+        
         try:
             self.lipid_defs = lipid_defs.copy()
         except:
@@ -836,7 +840,7 @@ class CGSB:
     ### GIVE COMMANDS TO CLASS ###
     ##############################
     def commands_handler(self, kwargs):
-        
+        momentary_pbc = [0, 0, 0]
         for key, cmd in kwargs.items():
             ### General system inputs
             if any(key.startswith(i) for i in ["protein", "prot"]):
@@ -889,7 +893,43 @@ class CGSB:
             ### Box size
             if key in ["pbc", "box"]:
                 ### Evaluated after loop due to dependence on box type
-                momentary_pbc = cmd
+                for i, val in enumerate(cmd):
+                    if type(val) == str:
+                        isnumber, isint = self.is_number(val)
+                        if isint:
+                            val = int(val)
+                        else:
+                            val = float(val)
+                    momentary_pbc[i] = val
+            if key == "x":
+                val = cmd
+                if type(val) == str:
+                    isnumber, isint = self.is_number(val)
+                    if isint:
+                        val = int(val)
+                    else:
+                        val = float(val)
+                momentary_pbc[0] = cmd
+            if key == "y":
+                val = cmd
+                if type(val) == str:
+                    isnumber, isint = self.is_number(val)
+                    if isint:
+                        val = int(val)
+                    else:
+                        val = float(val)
+
+                momentary_pbc[1] = cmd
+            if key == "z":
+                val = cmd
+                if type(val) == str:
+                    isnumber, isint = self.is_number(val)
+                    if isint:
+                        val = int(val)
+                    else:
+                        val = float(val)
+
+                momentary_pbc[2] = cmd
             
             ### Imports
             if key in ["itp_input", "itp_in"]:
@@ -906,12 +946,12 @@ class CGSB:
             
             ### Outputs
             if key in ["out_sys", "out", "o"]:
-                if not any([cmd.endswith(i) for i in ["pdb", "gro"]]):
+                if not any([cmd.endswith(i) for i in [".pdb", ".gro"]]):
                     self.output_system_pdb_file_name = cmd + ".pdb"
                     self.output_system_gro_file_name = cmd + ".gro"
-                elif cmd.endswith("pdb"):
+                elif cmd.endswith(".pdb"):
                     self.output_system_pdb_file_name = cmd
-                elif cmd.endswith("gro"):
+                elif cmd.endswith(".gro"):
                     self.output_system_gro_file_name = cmd
                 else:
                     assert False, "Unknown file extension used for 'output_system': " + pdb
@@ -933,16 +973,7 @@ class CGSB:
                 
             if key in ["output_log", "out_log", "log_out", "log"]:
                 self.output_log_file_name = cmd
-                
-#             if key in ["imp_o", "output_imported"]:
-#                 self.output_imported = cmd
             
-            ### Extra functionalities
-#             if key in ["plot"]:
-#                 self.PLOT_cmd = cmd
-#                 if self.PLOT_cmd:
-#                     self.plots_requested = True
-                    
             if key in ["plot_grid"]:
                 self.plot_grid = True
                     
@@ -3427,7 +3458,7 @@ class CGSB:
                         ### Initial area per lipid calculations and max potential lipids in area
                         subleaflet_area = subleaflet["holed_bbox"].area
                         max_lipids_possible_decimal = subleaflet_area / leaflet["apl"]
-
+                        
                         ### Rounding max number of possible lipids according to requested rounding method
                         if leaflet["lip_round_func"][1] == int: # int rounding
                             max_lipids_possible = int(max_lipids_possible_decimal + 0.5)
@@ -5338,6 +5369,33 @@ class CGSB:
 ########################## HERE BE PARSING ##########################
 #####################################################################
 
+### Custom Action classes for to check if arguments have been given.
+given_arguments = set()
+
+class IsStored_ActionStore(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        given_arguments.add(self.dest)
+        setattr(namespace, self.dest + '_set', True)
+        setattr(namespace, self.dest, values)
+
+class IsStored_ActionAppend(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        given_arguments.add(self.dest)
+        setattr(namespace, self.dest + '_set', True)
+        items = getattr(namespace, self.dest, None)
+        items = argparse._copy_items(items)
+        items.append(values)
+        setattr(namespace, self.dest, items)
+
+class IsStored_ActionExtend(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        given_arguments.add(self.dest)
+        setattr(namespace, self.dest + '_set', True)
+        items = getattr(namespace, self.dest, None)
+        items = argparse._copy_items(items)
+        items.extend(values)
+        setattr(namespace, self.dest, items)
+
 parser = argparse.ArgumentParser(
     formatter_class=argparse.RawTextHelpFormatter,
     add_help = False
@@ -5346,64 +5404,64 @@ parser = argparse.ArgumentParser(
 parser.add_argument("-h", "--help", dest = "help")
 
 ### Leaflet commands
-parser.add_argument("--membrane", "-memb", "-membrane", dest = "membrane_cmds", action="append", type=str, default = [], nargs="+")
+parser.add_argument("--membrane", "-memb", "-membrane", dest = "membrane_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
 ### Protein commands
-parser.add_argument("--protein", "-prot", "-protein", dest = "protein_cmds", action="append", type=str, default = [], nargs="+")
+parser.add_argument("--protein", "-prot", "-protein", dest = "protein_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
 ### Solvent commands
-parser.add_argument("--solvation", "-solv", "-solvation", dest = "solvation_cmds", action="append", type=str, default = [], nargs="+")
+parser.add_argument("--solvation", "-solv", "-solvation", dest = "solvation_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
 ### Solvent commands
-parser.add_argument("--flooding", "-flood", "-flooding", dest = "flooding_cmds", action="append", type=str, default = [], nargs="+")
+parser.add_argument("--flooding", "-flood", "-flooding", dest = "flooding_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
 ### Topology commands
-parser.add_argument("--itp_input", "-itp_in", dest = "itp_input_cmds", action="append", type=str, default = [], nargs="+")
+parser.add_argument("--itp_input", "-itp_in", dest = "itp_input_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
 ### Import commands
-parser.add_argument("--solute_input", "-solute_in", dest = "solute_input_cmds", action="append", type=str, default = [], nargs="+")
+parser.add_argument("--solute_input", "-solute_in", dest = "solute_input_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
 ### Plotting command
-parser.add_argument("-plot", dest = "plot_cmd", default = False)
+parser.add_argument("--plot_grid", "-plot", dest = "plot_grid_cmd", action=IsStored_ActionStore)
 
 ### Pickle commands
-parser.add_argument("-pickle", dest = "pickle_cmd", default = False)
+parser.add_argument("-pickle", dest = "pickle_cmd", action=IsStored_ActionStore)
 
 ### Whether to backup files i they would be overwritten
-parser.add_argument("-backup", dest = "backup", default = True)
+parser.add_argument("-backup", dest = "backup_cmd", action=IsStored_ActionStore)
 
 ### Random seed
-parser.add_argument("-rand", dest = "randseed", default = False)
+parser.add_argument("--randseed", "-rand", dest = "randseed_cmd", action=IsStored_ActionStore)
 
 ### System parameters
-parser.add_argument("--sys_params", "-params", dest = "sys_params", default = "default")
-parser.add_argument("-prot_params", dest = "prot_params", default = False)
-parser.add_argument("-lipid_params", dest = "lipid_params", default = False)
-parser.add_argument("-solv_params", dest = "solv_params", default = False)
+parser.add_argument("--sys_params", "-params", dest = "sys_params", action=IsStored_ActionStore)
+parser.add_argument("-prot_params", dest = "prot_params", action=IsStored_ActionStore)
+parser.add_argument("-lipid_params", dest = "lipid_params", action=IsStored_ActionStore)
+parser.add_argument("-solv_params", dest = "solv_params", action=IsStored_ActionStore)
 
 ### System name
-parser.add_argument("-sn", "-system_name", dest = "system_name", default = "PLACEHOLDER_TITLE")
+parser.add_argument("-sn", "-system_name", dest = "system_name", action=IsStored_ActionStore)
 
 ### pbc box size [nm]
-parser.add_argument("-box", "-pbc", dest = "pbc_box", action="extend", type=str, default = [], nargs="+")
+parser.add_argument("-box", "-pbc", dest = "pbc_box", action=IsStored_ActionExtend, type=str, default = [], nargs="+")
 
 ### x/y/z size of box [nm]
-parser.add_argument("-x", dest = "pbcx", type=str, default = False)
-parser.add_argument("-y", dest = "pbcy", type=str, default = False)
-parser.add_argument("-z", dest = "pbcz", type=str, default = False)
+parser.add_argument("-x", dest = "pbcx", type=str, action=IsStored_ActionStore)
+parser.add_argument("-y", dest = "pbcy", type=str, action=IsStored_ActionStore)
+parser.add_argument("-z", dest = "pbcz", type=str, action=IsStored_ActionStore)
 
 ####################
 ### OUTPUT FILES ###
 ####################
 ### Output pdb/gro file
-parser.add_argument("--output_struct"    , "-out"    , "-out_sys"    , "-o"    , dest = "out_system_file_name"    , default = False)
+parser.add_argument("--output_struct"    , "-out"    , "-out_sys"    , "-o"    , dest = "out_system_file_name"    , action=IsStored_ActionStore)
 ### Output pdb file
-parser.add_argument("--output_struct_pdb", "-out_pdb", "-out_sys_pdb", "-o_pdb", dest = "out_system_pdb_file_name", default = False)
+parser.add_argument("--output_struct_pdb", "-out_pdb", "-out_sys_pdb", "-o_pdb", dest = "out_system_pdb_file_name", action=IsStored_ActionStore)
 ### Output gro file
-parser.add_argument("--output_struct_gro", "-out_gro", "-out_sys_gro", "-o_gro", dest = "out_system_gro_file_name", default = False)
+parser.add_argument("--output_struct_gro", "-out_gro", "-out_sys_gro", "-o_gro", dest = "out_system_gro_file_name", action=IsStored_ActionStore)
 
 ### Output topology file
-parser.add_argument("--output_topol", "-top_out", "-t", dest = "out_topol_file_name", default = "topol.top")
+parser.add_argument("--output_topol", "-top_out", "-t", dest = "out_topol_file_name", action=IsStored_ActionStore)
 
 ### Output imported file
 # parser.add_argument("--output_import", "-imp_out", dest = "output_imported", default = False)
@@ -5412,18 +5470,21 @@ parser.add_argument("--output_topol", "-top_out", "-t", dest = "out_topol_file_n
 ### PRINTING AND LOG FILE ###
 #############################
 ### Log file
-parser.add_argument("--output_log", "-log", "-out_log", dest = "out_log_file_name", default = False)
+parser.add_argument("--output_log", "-log", "-out_log", dest = "out_log_file_name", action=IsStored_ActionStore)
 
 ### Prints
-parser.add_argument("--print_quiet",    "-quiet", dest = "quiet",    default = False)
-parser.add_argument("--print_debug",    "-debug", dest = "debug",    default = False)
-parser.add_argument("--print_extra",    "-extra", dest = "extra",    default = True)
-parser.add_argument("--print_warnings", "-warn",  dest = "warnings", default = True)
+parser.add_argument("--print_quiet",    "-quiet", dest = "quiet",            action=IsStored_ActionStore)
+parser.add_argument("--print_debug",    "-debug", dest = "debug",            action=IsStored_ActionStore)
+parser.add_argument("--print_extra",    "-extra", dest = "extra",            action=IsStored_ActionStore)
+parser.add_argument("--print_sl_extra", "-sl_extra",  dest = "subleaflet_extra", action=IsStored_ActionStore)
+parser.add_argument("--print_warnings", "-warn",  dest = "warnings",         action=IsStored_ActionStore)
 
 ### ### Parser for handling '-f' when importing module to Jupyter
 parser.add_argument("-f", dest = "debug_flag_for_jupyter")
 
 args = parser.parse_args()
+
+parser_kwargs = {}
 
 parse_membrane_cmds      = [" ".join(i) for i in args.membrane_cmds]
 parse_protein_cmds       = [" ".join(i) for i in args.protein_cmds]
@@ -5432,79 +5493,51 @@ parse_flooding_cmds      = [" ".join(i) for i in args.flooding_cmds]
 parse_itp_input_cmds     = [" ".join(i) for i in args.itp_input_cmds]
 parse_solute_input_cmds  = [" ".join(i) for i in args.solute_input_cmds]
 
-parse_plot_cmd   = args.plot_cmd
-parse_pickle_cmd = args.pickle_cmd
-parse_backup     = bool(ast.literal_eval(str(args.backup)))
-parse_randseed   = args.randseed
+for CGSB_cmd, parse, arg_name in [
+    ("membrane",     parse_membrane_cmds,     "membrane_cmds"),
+    ("protein",      parse_protein_cmds,      "protein_cmds"),
+    ("solvation",    parse_solvation_cmds,    "solvation_cmds"),
+    ("flooding",     parse_flooding_cmds,     "flooding_cmds"),
+    ("itp_input",    parse_itp_input_cmds,    "itp_input_cmds"),
+    ("solute_input", parse_solute_input_cmds, "solute_input_cmds"),
+    
+    ("plot_grid", args.plot_grid_cmd, "plot_grid_cmd"),
+    ("pickle",    args.pickle_cmd,    "pickle_cmd"),
+    ("backup",    args.backup_cmd,    "backup_cmd"),
+    ("randseed",  args.randseed_cmd,  "randseed_cmd"),
+    
+    ("sys_params",   args.sys_params,   "sys_params"),
+    ("prot_params",  args.prot_params,  "prot_params"),
+    ("lipid_params", args.lipid_params, "lipid_params"),
+    ("solv_params",  args.solv_params,  "solv_params"),
+    
+    ("box", args.pbc_box,  "pbc_box"),
+    
+    ("x", args.pbcx,  "pbcx"),
+    ("y", args.pbcy,  "pbcy"),
+    ("z", args.pbcz,  "pbcz"),
+    
+    ("out_sys",     args.out_system_file_name,     "out_system_file_name"),
+    ("out_sys_pdb", args.out_system_pdb_file_name, "out_system_pdb_file_name"),
+    ("out_sys_gro", args.out_system_gro_file_name, "out_system_gro_file_name"),
+    ("out_top",     args.out_topol_file_name,      "out_topol_file_name"),
+    ("out_log",     args.out_log_file_name,        "args.out_log_file_name"),
+    
+    ("sn", args.system_name, "args.system_name"),
+    
+    ("quiet", args.quiet,               "args.quiet"),
+    ("debug", args.debug,               "args.debug"),
+    ("extra", args.extra,               "args.extra"),
+    ("sl_extra", args.subleaflet_extra, "args.subleaflet_extra"),
+    ("warn", args.warnings,             "args.warnings"),
+]:
+    if arg_name in given_arguments:
+        parser_kwargs[CGSB_cmd]: parse
 
-parse_sys_params   = args.sys_params
-parse_prot_params  = args.prot_params
-parse_lipid_params = args.lipid_params
-parse_solv_params  = args.solv_params
-
-parse_pbc_box = args.pbc_box
-if parse_pbc_box:
-    parse_pbc_box = [ast.literal_eval(str(i)) for i in parse_pbc_box]
-
-parse_pbcx = ast.literal_eval(str(args.pbcx))
-parse_pbcy = ast.literal_eval(str(args.pbcy))
-parse_pbcz = ast.literal_eval(str(args.pbcz))
-if parse_pbcx and parse_pbcy and parse_pbcz:
-    parse_pbc_box = [parse_pbcx, parse_pbcy, parse_pbcz]
-
-parse_out_system_file_name     = args.out_system_file_name
-parse_out_system_pdb_file_name = args.out_system_pdb_file_name
-parse_out_system_gro_file_name = args.out_system_gro_file_name
-parse_out_topol_file_name      = args.out_topol_file_name
-# parse_output_imported  = args.output_imported
-parse_system_name      = args.system_name
-
-parse_out_log_file_name = args.out_log_file_name
-
-parse_quiet        = bool(ast.literal_eval(str(args.quiet)))
-parse_debug_prints = bool(ast.literal_eval(str(args.debug)))
-parse_extra_info   = bool(ast.literal_eval(str(args.extra)))
-parse_warnings     = bool(ast.literal_eval(str(args.warnings)))
-
-if any([i != [] for i in [parse_membrane_cmds, parse_protein_cmds, parse_solvation_cmds]]):
+if parser_kwargs:
     CGSB(
-        box = parse_pbc_box,
-        
-        membrane  = parse_membrane_cmds,
-        protein   = parse_protein_cmds,
-        solvation = parse_solvation_cmds,
-        flooding  = parse_flooding_cmds,
-        
-        rand = parse_randseed,
-
-        itp_input    = parse_itp_input_cmds,
-        solute_input = parse_solute_input_cmds,
-
-        plot         = parse_plot_cmd,
-        pickle       = parse_pickle_cmd,
-        backup       = parse_backup,
-        sys_params   = parse_sys_params,
-        prot_params  = parse_prot_params,
-        lipid_params = parse_lipid_params,
-        solv_params  = parse_solv_params,
-
-        out_sys     = parse_out_system_file_name,
-        out_sys_pdb = parse_out_system_pdb_file_name,
-        out_sys_gro = parse_out_system_gro_file_name,
-        
-        out_top     = parse_out_topol_file_name,
-        out_log     = parse_out_log_file_name,
-        
-        system_name = parse_system_name,
-
-#         output_imported = parse_output_imported,
-
-        quiet = parse_quiet,
-        debug = parse_debug_prints,
-        extra = parse_extra_info,
-        warn  = parse_warnings,
-
         run = True,
+        *parser_kwargs
     )
 
 ##############################
