@@ -25,7 +25,7 @@ CGSB imports the following packages:
 - matplotlib
 - pickle
 
-Most are likely already installed but the following might require installations
+Most are likely already installed but the following might require installations. Note that alphashape requires shapely to run so shapely will likely be installed when you install alphashape.
 
 [alphashape](https://pypi.org/project/alphashape/ ): pip install alphashape
 
