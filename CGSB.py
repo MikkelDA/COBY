@@ -643,19 +643,19 @@ class MOLECULE:
 
                 ### Calculate rotation matrices (https://en.wikipedia.org/wiki/Rotation_matrix)
                 rm_x = [
-                    [1, 0, 0],
+                    [1, 0,                0              ],
                     [0, math.cos(x_rad), -math.sin(x_rad)],
-                    [0, math.sin(x_rad), math.cos(x_rad)]
+                    [0, math.sin(x_rad),  math.cos(x_rad)],
                 ]
                 rm_y = [
-                    [math.cos(y_rad), 0, math.sin(y_rad)],
-                    [0, 1, 0],
-                    [-math.sin(y_rad)  , 0, math.cos(y_rad)]
+                    [math.cos(y_rad),  0, math.sin(y_rad)],
+                    [0,                1, 0              ],
+                    [-math.sin(y_rad), 0, math.cos(y_rad)],
                 ]
                 rm_z = [
                     [math.cos(z_rad), -math.sin(z_rad), 0],
-                    [math.sin(z_rad) , math.cos(z_rad), 0],
-                    [0, 0, 1]
+                    [math.sin(z_rad),  math.cos(z_rad), 0],
+                    [0,                0,               1],
                 ]
 
                 ### Combine rotation matrices
@@ -748,7 +748,9 @@ class PROTEIN(MOLECULE):
 
 class CGSB:
     
-    def __init__(self, terminal_run_kwargs = False, **kwargs):        
+    def __init__(self, run = True, terminal_run_kwargs = False, **kwargs):        
+        self.RUN = run
+        
         if terminal_run_kwargs:
             kwargs.update(terminal_run_kwargs)
         
@@ -831,9 +833,8 @@ class CGSB:
         self.warnings = True
         self.quiet = False
         
-        self.RUN = True
-        
-        self.run(kwargs)
+        if self.RUN:
+            self.run(kwargs)
     
     ##############################
     ### GIVE COMMANDS TO CLASS ###
@@ -1134,65 +1135,63 @@ class CGSB:
         '''
         Runs the entire system creation process
         '''
+        
         CGSB_run_tic = time.time()
         self.commands_handler(kwargs)
-        
-        if self.RUN:
-        
-            ### Initial checks
-    #         assert len(self.pbc_box) > 0, "Box dimensions not set. Please do so using 'box=[x,y,z]'"
-    #         assert len(self.pbc_box) == 3, "Box dimensions improperly defined. 3 dimensions must be given"
-    #         assert all([self.is_number(ax)[0] for ax in self.pbc_box]), "Not all box values are numbers"
 
-            assert any([len(cmd) > 0 for cmd in [self.PROTEINS_cmds, self.MEMBRANES_cmds, self.SOLVATIONS_cmds]]), (
-                "Running requires at least one command of one of the following types: 'protein', 'membrane' or 'solvation'"
-            )
+        ### Initial checks
+#         assert len(self.pbc_box) > 0, "Box dimensions not set. Please do so using 'box=[x,y,z]'"
+#         assert len(self.pbc_box) == 3, "Box dimensions improperly defined. 3 dimensions must be given"
+#         assert all([self.is_number(ax)[0] for ax in self.pbc_box]), "Not all box values are numbers"
 
-            ### Topology
-            self.itp_read_initiater()
+        assert any([len(cmd) > 0 for cmd in [self.PROTEINS_cmds, self.MEMBRANES_cmds, self.SOLVATIONS_cmds]]), (
+            "Running requires at least one command of one of the following types: 'protein', 'membrane' or 'solvation'"
+        )
 
-            self.print_term("------------------------------ PREPROCESSING", spaces=0)
-            preprocessing_tic = time.time()
-            ### Definition preprocessing
-            self.import_structures_handler()
-            self.lipid_defs_preprocessor()
-            self.solvent_defs_preprocessor()
-            self.ion_defs_preprocessor()
+        ### Topology
+        self.itp_read_initiater()
 
-            ### Command preprocessing
-            self.prot_preprocessor()
-            self.memb_preprocessor()
-            self.solv_preprocessor()
-            preprocessing_toc = time.time()
-            preprocessing_time = round(preprocessing_toc - preprocessing_tic, 4)
-            self.print_term("------------------------------ PREPROCESSING COMPLETE", "(time spent: "+str(preprocessing_time)+" [s])", "\n", spaces=0)
+        self.print_term("------------------------------ PREPROCESSING", spaces=0)
+        preprocessing_tic = time.time()
+        ### Definition preprocessing
+        self.import_structures_handler()
+        self.lipid_defs_preprocessor()
+        self.solvent_defs_preprocessor()
+        self.ion_defs_preprocessor()
 
-            ### Run the program
-            self.prot_placer()
-            self.subleaflet_poly_maker()
-            self.holed_subleaflet_bbox_maker()
-            self.lipid_calculator()
-            self.planar_grid_maker()
-            self.lipid_inserter()
-            self.solvater()
+        ### Command preprocessing
+        self.prot_preprocessor()
+        self.memb_preprocessor()
+        self.solv_preprocessor()
+        preprocessing_toc = time.time()
+        preprocessing_time = round(preprocessing_toc - preprocessing_tic, 4)
+        self.print_term("------------------------------ PREPROCESSING COMPLETE", "(time spent: "+str(preprocessing_time)+" [s])", "\n", spaces=0)
 
-            self.print_term("--------------------")
-            self.print_term("Final system charge:", self.system_charge)
-            self.print_term("--------------------", "\n")
+        ### Run the program
+        self.prot_placer()
+        self.subleaflet_poly_maker()
+        self.holed_subleaflet_bbox_maker()
+        self.lipid_calculator()
+        self.planar_grid_maker()
+        self.lipid_inserter()
+        self.solvater()
 
-            self.plotter()
-            self.pickler()
+        self.print_term("--------------------")
+        self.print_term("Final system charge:", self.system_charge)
+        self.print_term("--------------------", "\n")
 
-            ### Write the files
-            self.system_file_writer()
-            self.topol_file_writer()
-            self.log_file_writer()
+        self.plotter()
+        self.pickler()
 
-            self.print_term("My task is complete. Did i do a good job?")
-            CGSB_run_toc  = time.time()
-            CGSB_run_time = round(CGSB_run_toc - CGSB_run_tic, 4)
-            print("Time spent running CGSB:", CGSB_run_time)
+        ### Write the files
+        self.system_file_writer()
+        self.topol_file_writer()
+        self.log_file_writer()
 
+        self.print_term("My task is complete. Did i do a good job?")
+        CGSB_run_toc  = time.time()
+        CGSB_run_time = round(CGSB_run_toc - CGSB_run_tic, 4)
+        print("Time spent running CGSB:", CGSB_run_time)
     
     #####################################
     ### Specialized printing function ###
@@ -2954,6 +2953,8 @@ class CGSB:
 
     def rotation_matrix_from_vectors(self, vec1, vec2):
         """
+        ##################### CURRENTLY NO LONGER USED
+
         https://stackoverflow.com/questions/45142959/calculate-rotation-matrix-to-align-two-vectors-in-3d-space
         Find the rotation matrix that aligns vec1 to vec2
         :param vec1: A 3d "source" vector
@@ -5218,145 +5219,6 @@ class CGSB:
             self.print_term("------------------------------ SOLVATION COMPLETE", "(time spent: "+str(solvation_time)+" [s])", "\n", spaces=0)
     
     ###############
-    ### PLOTTER ###
-    ###############
-    def plotter(self):
-        if self.plots_requested and len(list(self.LEAFLETS.keys())) > 0:
-            self.print_term("-------------------------------------------------------------")
-            self.print_term("Plotting lipid-protein data for each individual leaflet into:", self.PLOT_cmd)
-
-            nrows = 1
-            ncols = len(list(self.LEAFLETS.keys()))
-
-            # fig, axes = plt.subplots(nrows = nrows, ncols = ncols, figsize=(ncols * 12, nrows * 12), dpi = 120, squeeze = False)
-            fig, axes = plt.subplots(nrows = nrows, ncols = ncols, figsize=(ncols * self.pbc_box[0] / 10, nrows * self.pbc_box[1] / 10), dpi = 120, squeeze = False)
-
-            def alpha_normalizer(values, des_low, des_upp, act_low, act_upp):
-                '''
-                Adapted from:
-                https://stackoverflow.com/questions/48109228/normalizing-data-to-certain-range-of-values
-                '''
-                return [des_low + (x - act_low) * (des_upp - des_low) / (act_upp - act_low) for x in values]
-
-            for col, (leaflet_nr, leaflet) in enumerate(self.LEAFLETS.items()):
-                axes[0, col].set(
-                    xticks = np.arange(- self.pbc_box[0] / 2, self.pbc_box[0] / 2 + 1, 5),
-                    yticks = np.arange(- self.pbc_box[1] / 2, self.pbc_box[1] / 2 + 1, 5),
-                    xlim = (- self.pbc_box[0] / 2, self.pbc_box[0] / 2),
-                    ylim = (- self.pbc_box[1] / 2, self.pbc_box[1] / 2),
-                )
-
-                if len(self.PROTEINS) != 0:
-                    for protein_i in range(len(self.plot_data["Prot_ConvexHull"][col])):
-                        ### Convex hull lines
-                        for prot_CH in self.plot_data["Prot_ConvexHull"][col][protein_i]:
-                            x, y = list(zip(*prot_CH))
-#                             x, y = x + (x[0],), y + (y[0],)
-                            axes[0, col].plot(
-                                x, y, linestyle = "-", color = "black"
-                            )
-
-                        ### Concave hull lines
-                        for prot in self.plot_data["Prot_ConcaveHulls_Points"][col][protein_i]:
-                            for cluster in prot:
-                                CHx, CHy = list(zip(*cluster))
-                                axes[0, col].plot(CHx, CHy, linestyle = "-", color = "firebrick")# marker = "-", markersize=6, markeredgecolor="black", markerfacecolor="black")
-
-                        ## Concave hull Polygon area and buffer
-                        for prot in self.plot_data["Prot_ConcaveHull_Polygon_Buffered"][col][protein_i]:
-                            for cluster in prot:
-                                for poly in cluster:
-                                    shapely.plotting.plot_polygon(poly, ax=axes[0, col], add_points=False, color= "red", alpha=0.1)
-
-                        ### Protein flattened
-                        for Protein in self.plot_data["Prot_Flattened_points"][col][protein_i]:
-                            prot_zmax = max([z for x, y, z in Protein])
-                            prot_zmin = min([z for x, y, z in Protein])
-                            for x, y, z in Protein:
-                                alp = alpha_normalizer([z], 0.5, 1.0, prot_zmin, prot_zmax)[0]
-                                axes[0, col].plot(
-                                    x, y, marker = "o", markersize=6,
-                                    markeredgecolor="darkgoldenrod", markeredgewidth=0.0,
-                                    markerfacecolor="darkgoldenrod",
-                                    alpha = alp
-                                )
-
-                ### Lipid grid points
-                lipid_radius = leaflet["lipid_dimensions"]["lipid_radius"]
-                ### After protein adjustment
-                vals_adjusted = [(p["x"], p["y"], p["z"], p["xdim"], p["ydim"], p["Overlap"], p["Inside_Poly"], p["Inside_ConvexHull"], p["Removed"]) for key, p in leaflet["grid_adjusted"].items()]
-                vals_overlap = [(p["x"], p["y"], p["z"], p["xdim"], p["ydim"], p["Overlap"], p["Inside_Poly"], p["Inside_ConvexHull"], p["Removed"]) for key, p in leaflet["grid_overlapping"].items()]
-                vals_removed = [(p["x"], p["y"], p["z"], p["xdim"], p["ydim"], p["Overlap"], p["Inside_Poly"], p["Inside_ConvexHull"], p["Removed"]) for key, p in leaflet["grid_removed"].items()]
-                vals = vals_adjusted + vals_overlap + vals_removed
-
-                for grid_point_nr, (x, y, z, xl, yl, Overlap, Inside_Poly, Inside_ConvexHull, Removed) in enumerate(vals):
-                    lw = 2
-                    if Overlap and Inside_Poly:
-                        color = "red"
-                    elif Overlap and not Inside_Poly:
-                        color = "orange"
-                    elif Inside_Poly and not Overlap:
-                        color = "purple"
-                    elif Inside_ConvexHull and not Inside_Poly:
-                        color = "green"
-                    elif Removed:
-                        color = "darkcyan"
-                    else:
-                        color = "grey"
-
-                    axes[0, col].plot(x, y, marker = ".", markersize=6, markeredgecolor=color, markerfacecolor=color)
-
-                    axes[0, col].add_patch(
-                        patches.Circle(
-                            (x, y),
-                            radius = lipid_radius,
-                            edgecolor = color,
-                            fill = False,
-                            linewidth = lw,
-                        )
-                    )
-
-                    axes[0, col].add_patch(
-                        patches.Rectangle(
-                            (x - 0.5 * xl, y - 0.5 * yl),
-                            xl,
-                            yl,
-                            edgecolor = "black",
-                            fill = False,
-                        )
-                    )
-
-                ### Lipid data
-                lipids = [(p["lipid"]["x"], p["lipid"]["y"], p["lipid"]["z"], p["internal_z"]) for key, p in leaflet["grid_adjusted"].items()]
-
-                ### Plotting beads in lipids
-                for x, y, z, internal_z in lipids:
-                    alphas = alpha_normalizer(z, 0.5, 1.0, min(z), max(z))
-                    for xp, yp, alp in zip(x, y, alphas):
-                        axes[0, col].plot(
-                            xp, yp, marker = "o",markersize=3,
-                            markeredgecolor="blue", markeredgewidth=0.0,
-                            markerfacecolor="blue",
-                            alpha = alp
-                        )
-                ### Normal plotting
-                axes[0, col].set(
-                    xticks = np.arange(- self.pbc_box[0] / 2, self.pbc_box[0] / 2 + 1, 5),
-                    yticks = np.arange(- self.pbc_box[1] / 2, self.pbc_box[1] / 2 + 1, 5),
-                    xlim = (- self.pbc_box[0] / 2, self.pbc_box[0] / 2),
-                    ylim = (- self.pbc_box[1] / 2, self.pbc_box[1] / 2),
-                )
-                axes[0, col].set_title(
-                    label = "leaf nr: " + str(leaflet_nr),
-                    fontsize = 40,
-                )
-            if self.backup:
-                self.backupper(self.PLOT_cmd)
-            plt.savefig(self.PLOT_cmd)
-            plt.close()
-            self.print_term("-------------------------------------------------------------", "\n")
-    
-    ###############
     ### PICKLER ###
     ###############
     def pickler(self):
@@ -5518,11 +5380,10 @@ for CGSB_cmd, parse, arg_name in [
     ("lipid_params", args.lipid_params, "lipid_params"),
     ("solv_params",  args.solv_params,  "solv_params"),
     
-    ("box", args.pbc_box,  "pbc_box"),
-    
-    ("x", args.pbcx,  "pbcx"),
-    ("y", args.pbcy,  "pbcy"),
-    ("z", args.pbcz,  "pbcz"),
+    ("box", args.pbc_box, "pbc_box"),
+    ("x",   args.pbcx,    "pbcx"),
+    ("y",   args.pbcy,    "pbcy"),
+    ("z",   args.pbcz,    "pbcz"),
     
     ("out_sys",     args.out_system_file_name,     "out_system_file_name"),
     ("out_sys_pdb", args.out_system_pdb_file_name, "out_system_pdb_file_name"),
