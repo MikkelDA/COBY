@@ -840,7 +840,10 @@ class CGSB:
     ### GIVE COMMANDS TO CLASS ###
     ##############################
     def commands_handler(self, kwargs):
-        momentary_pbc = [0, 0, 0]
+        momentary_pbc = []
+        momentary_x = 0
+        momentary_y = 0
+        momentary_z = 0
         for key, cmd in kwargs.items():
             ### General system inputs
             if any(key.startswith(i) for i in ["protein", "prot"]):
@@ -900,7 +903,8 @@ class CGSB:
                             val = int(val)
                         else:
                             val = float(val)
-                    momentary_pbc[i] = val
+                    momentary_pbc.append(val)
+                    
             if key == "x":
                 val = cmd
                 if type(val) == str:
@@ -909,7 +913,8 @@ class CGSB:
                         val = int(val)
                     else:
                         val = float(val)
-                momentary_pbc[0] = cmd
+                momentary_x = cmd
+                
             if key == "y":
                 val = cmd
                 if type(val) == str:
@@ -918,8 +923,8 @@ class CGSB:
                         val = int(val)
                     else:
                         val = float(val)
-
-                momentary_pbc[1] = cmd
+                momentary_y = cmd
+                
             if key == "z":
                 val = cmd
                 if type(val) == str:
@@ -928,8 +933,7 @@ class CGSB:
                         val = int(val)
                     else:
                         val = float(val)
-
-                momentary_pbc[2] = cmd
+                momentary_z = cmd
             
             ### Imports
             if key in ["itp_input", "itp_in"]:
@@ -1032,11 +1036,17 @@ class CGSB:
         if len(self.FLOODINGS_cmds) > 0:
             self.SOLVATIONS_cmds = self.FLOODINGS_cmds + self.SOLVATIONS_cmds
         
+        ### Setting box size values to be used in PBC type settings
+        if momentary_pbc:
+            cmd = momentary_pbc
+        else:
+            cmd = [i for i in [momentary_x, momentary_y, momentary_z] if i]
+
         ### PBC type settings:
-        cmd = momentary_pbc
         if self.pbc_type == "rectangular":
             if len(cmd) == 2:
-                self.pbcx, self.pbcy = cmd[0]*10
+                self.pbcx = cmd[0]*10
+                self.pbcy = cmd[0]*10
                 self.pbcz = cmd[1]*10
                 self.pbc_box = [self.pbcx, self.pbcy, self.pbcz]
             elif len(cmd) == 3:
@@ -1130,7 +1140,7 @@ class CGSB:
         if not self.output_system_pdb_file_name and not self.output_system_gro_file_name:
             self.output_system_pdb_file_name = "output.pdb"
             self.output_system_gro_file_name = "output.gro"
-                
+    
     def run(self, kwargs):
         '''
         Runs the entire system creation process
@@ -1180,7 +1190,6 @@ class CGSB:
         self.print_term("Final system charge:", self.system_charge)
         self.print_term("--------------------", "\n")
 
-        self.plotter()
         self.pickler()
 
         ### Write the files
@@ -2139,7 +2148,7 @@ class CGSB:
                 ### Mono as explicitly upper added by request
                 monolayer_upper_designation = ["u", "up", "upper", "m", "mo", "mono", "monolayer", "mono_upper"]
                 monolayer_lower_designation = ["d", "do", "down", "l", "lo", "lower", "mono_lower", "mono_down"]
-                bilayer_designation = ["b", "bi", "bilayer", "memb", "membrane"]
+                bilayer_designation = ["b", "bi", "bilayer", "memb", "membrane", "both"]
                 
                 layer_definition = "bilayer"
                 ### Some values must always be for the membrane, as they make little sense to do per-leaflet
@@ -2155,10 +2164,13 @@ class CGSB:
                     if sub_cmd[0].lower() in ["type"]:
                         if sub_cmd[1].lower() in bilayer_designation:
                             layer_definition = "bilayer"
+                            dict_target      = "membrane"
                         elif sub_cmd[1].lower() in monolayer_upper_designation:
                             layer_definition = "upper"
+                            dict_target      = "upper_leaf"
                         elif sub_cmd[1].lower() in monolayer_lower_designation:
                             layer_definition = "lower"
+                            dict_target      = "lower_leaf"
                     
                     ### Sets whether following sub commands are for a specific leaflet or the whole membrane
                     elif sub_cmd[0].lower() in ["leaflet", "leaf", "side"]:
@@ -5322,6 +5334,9 @@ parser.add_argument("-x", dest = "pbcx", type=str, action=IsStored_ActionStore)
 parser.add_argument("-y", dest = "pbcy", type=str, action=IsStored_ActionStore)
 parser.add_argument("-z", dest = "pbcz", type=str, action=IsStored_ActionStore)
 
+### pbc box size [nm]
+parser.add_argument("-box_type", "-pbc_type", dest = "pbc_box_type", type=str, action=IsStored_ActionStore)
+
 ####################
 ### OUTPUT FILES ###
 ####################
@@ -5380,10 +5395,11 @@ for CGSB_cmd, parse, arg_name in [
     ("lipid_params", args.lipid_params, "lipid_params"),
     ("solv_params",  args.solv_params,  "solv_params"),
     
-    ("box", args.pbc_box, "pbc_box"),
-    ("x",   args.pbcx,    "pbcx"),
-    ("y",   args.pbcy,    "pbcy"),
-    ("z",   args.pbcz,    "pbcz"),
+    ("box",        args.pbc_box,      "pbc_box"),
+    ("x",          args.pbcx,         "pbcx"),
+    ("y",          args.pbcy,         "pbcy"),
+    ("z",          args.pbcz,         "pbcz"),
+    ("box_type",   args.pbc_box_type, "pbc_box_type"),
     
     ("out_sys",     args.out_system_file_name,     "out_system_file_name"),
     ("out_sys_pdb", args.out_system_pdb_file_name, "out_system_pdb_file_name"),
@@ -5393,11 +5409,11 @@ for CGSB_cmd, parse, arg_name in [
     
     ("sn", args.system_name, "args.system_name"),
     
-    ("quiet", args.quiet,               "args.quiet"),
-    ("debug", args.debug,               "args.debug"),
-    ("extra", args.extra,               "args.extra"),
+    ("quiet",    args.quiet,            "args.quiet"),
+    ("debug",    args.debug,            "args.debug"),
+    ("extra",    args.extra,            "args.extra"),
     ("sl_extra", args.subleaflet_extra, "args.subleaflet_extra"),
-    ("warn", args.warnings,             "args.warnings"),
+    ("warn",     args.warnings,         "args.warnings"),
 ]:
     if arg_name in given_arguments:
         parser_kwargs[CGSB_cmd] = parse
