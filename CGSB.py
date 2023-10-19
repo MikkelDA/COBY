@@ -748,8 +748,7 @@ class PROTEIN(MOLECULE):
 
 class CGSB:
     
-    def __init__(self, terminal_run_kwargs = False, **kwargs):
-        
+    def __init__(self, terminal_run_kwargs = False, **kwargs):        
         if terminal_run_kwargs:
             kwargs.update(terminal_run_kwargs)
         
@@ -834,7 +833,7 @@ class CGSB:
         
         self.RUN = True
         
-        self.commands_handler(kwargs)
+        self.run(kwargs)
     
     ##############################
     ### GIVE COMMANDS TO CLASS ###
@@ -1130,64 +1129,70 @@ class CGSB:
         if not self.output_system_pdb_file_name and not self.output_system_gro_file_name:
             self.output_system_pdb_file_name = "output.pdb"
             self.output_system_gro_file_name = "output.gro"
-        
-        if self.RUN:
-            self.run()
-        
-    def run(self):
+                
+    def run(self, kwargs):
         '''
         Runs the entire system creation process
         '''
-        ### Initial checks
-#         assert len(self.pbc_box) > 0, "Box dimensions not set. Please do so using 'box=[x,y,z]'"
-#         assert len(self.pbc_box) == 3, "Box dimensions improperly defined. 3 dimensions must be given"
-#         assert all([self.is_number(ax)[0] for ax in self.pbc_box]), "Not all box values are numbers"
+        CGSB_run_tic = time.time()
+        self.commands_handler(kwargs)
         
-        assert any([len(cmd) > 0 for cmd in [self.PROTEINS_cmds, self.MEMBRANES_cmds, self.SOLVATIONS_cmds]]), (
-            "Running requires at least one command of one of the following types: 'protein', 'membrane' or 'solvation'"
-        )
+        if self.RUN:
         
-        ### Topology
-        self.itp_read_initiater()
-        
-        self.print_term("------------------------------ PREPROCESSING", spaces=0)
-        preprocessing_tic = time.time()
-        ### Definition preprocessing
-        self.import_structures_handler()
-        self.lipid_defs_preprocessor()
-        self.solvent_defs_preprocessor()
-        self.ion_defs_preprocessor()
-        
-        ### Command preprocessing
-        self.prot_preprocessor()
-        self.memb_preprocessor()
-        self.solv_preprocessor()
-        preprocessing_toc = time.time()
-        preprocessing_time = round(preprocessing_toc - preprocessing_tic, 4)
-        self.print_term("------------------------------ PREPROCESSING COMPLETE", "(time spent: "+str(preprocessing_time)+" [s])", "\n", spaces=0)
-        
-        ### Run the program
-        self.prot_placer()
-        self.subleaflet_poly_maker()
-        self.holed_subleaflet_bbox_maker()
-        self.lipid_calculator()
-        self.planar_grid_maker()
-        self.lipid_inserter()
-        self.solvater()
-        
-        self.print_term("--------------------")
-        self.print_term("Final system charge:", self.system_charge)
-        self.print_term("--------------------", "\n")
-        
-        self.plotter()
-        self.pickler()
-        
-        ### Write the files
-        self.system_file_writer()
-        self.topol_file_writer()
-        self.log_file_writer()
-        
-        self.print_term("My task is complete. Did i do a good job?")
+            ### Initial checks
+    #         assert len(self.pbc_box) > 0, "Box dimensions not set. Please do so using 'box=[x,y,z]'"
+    #         assert len(self.pbc_box) == 3, "Box dimensions improperly defined. 3 dimensions must be given"
+    #         assert all([self.is_number(ax)[0] for ax in self.pbc_box]), "Not all box values are numbers"
+
+            assert any([len(cmd) > 0 for cmd in [self.PROTEINS_cmds, self.MEMBRANES_cmds, self.SOLVATIONS_cmds]]), (
+                "Running requires at least one command of one of the following types: 'protein', 'membrane' or 'solvation'"
+            )
+
+            ### Topology
+            self.itp_read_initiater()
+
+            self.print_term("------------------------------ PREPROCESSING", spaces=0)
+            preprocessing_tic = time.time()
+            ### Definition preprocessing
+            self.import_structures_handler()
+            self.lipid_defs_preprocessor()
+            self.solvent_defs_preprocessor()
+            self.ion_defs_preprocessor()
+
+            ### Command preprocessing
+            self.prot_preprocessor()
+            self.memb_preprocessor()
+            self.solv_preprocessor()
+            preprocessing_toc = time.time()
+            preprocessing_time = round(preprocessing_toc - preprocessing_tic, 4)
+            self.print_term("------------------------------ PREPROCESSING COMPLETE", "(time spent: "+str(preprocessing_time)+" [s])", "\n", spaces=0)
+
+            ### Run the program
+            self.prot_placer()
+            self.subleaflet_poly_maker()
+            self.holed_subleaflet_bbox_maker()
+            self.lipid_calculator()
+            self.planar_grid_maker()
+            self.lipid_inserter()
+            self.solvater()
+
+            self.print_term("--------------------")
+            self.print_term("Final system charge:", self.system_charge)
+            self.print_term("--------------------", "\n")
+
+            self.plotter()
+            self.pickler()
+
+            ### Write the files
+            self.system_file_writer()
+            self.topol_file_writer()
+            self.log_file_writer()
+
+            self.print_term("My task is complete. Did i do a good job?")
+            CGSB_run_toc  = time.time()
+            CGSB_run_time = round(CGSB_run_toc - CGSB_run_tic, 4)
+            print("Time spent running CGSB:", CGSB_run_time)
+
     
     #####################################
     ### Specialized printing function ###
@@ -4068,6 +4073,7 @@ class CGSB:
                 bins_arr       = binning_func()
                 neighborlist   = update_neighborlist(bins_arr)
             
+            ### Lipid-lipid pushes
             for pi1, point1 in enumerate(points_arr):
                 neighbor_is = np.nonzero(neighborlist[pi1])[0]
                 for pi2 in neighbor_is:
@@ -4295,8 +4301,10 @@ class CGSB:
                 dist = polygon.boundary.distance(point_Point)
                 point_contained = polygon.contains(point_Point)
 
-                eq_dist = lipid_sizes[pi1]*(1+occupation_modifier/2*step_modifier)
-
+#                 eq_dist = lipid_sizes[pi1]*(1+occupation_modifier/2*step_modifier)
+                eq_dist = lipid_sizes[pi1]*(1+occupation_modifier*2)
+                
+                ### Lipid contained in legal areas but close to edge
                 if point_contained and dist < eq_dist:
                     poly_nearest, point_Point = shapely.ops.nearest_points(polygon.boundary, point_Point)
                     vector = np.array(get_vector((poly_nearest.x, poly_nearest.y), (point_Point.x, point_Point.y)))
@@ -4314,7 +4322,9 @@ class CGSB:
                     points_arr[pi1]     += vector_push
                     pushes[pi1]         += vector_push_len # abs(push)
                     dists_traveled[pi1] += vector_push_len # abs(push)
-                    
+                
+                ### Lipid outside legal areas
+                ### Push it just enough for it to be contained in legal areas
                 elif not point_contained:
                     all_contained = False
                     
@@ -5463,9 +5473,6 @@ parser.add_argument("--output_struct_gro", "-out_gro", "-out_sys_gro", "-o_gro",
 ### Output topology file
 parser.add_argument("--output_topol", "-top_out", "-t", dest = "out_topol_file_name", action=IsStored_ActionStore)
 
-### Output imported file
-# parser.add_argument("--output_import", "-imp_out", dest = "output_imported", default = False)
-
 #############################
 ### PRINTING AND LOG FILE ###
 #############################
@@ -5532,12 +5539,12 @@ for CGSB_cmd, parse, arg_name in [
     ("warn", args.warnings,             "args.warnings"),
 ]:
     if arg_name in given_arguments:
-        parser_kwargs[CGSB_cmd]: parse
+        parser_kwargs[CGSB_cmd] = parse
 
 if parser_kwargs:
     CGSB(
         run = True,
-        *parser_kwargs
+        terminal_run_kwargs = parser_kwargs,
     )
 
 ##############################
@@ -5551,4 +5558,3 @@ if parser_kwargs:
 #####################################################################
 ########################## YOU HAVE PARSED ##########################
 #####################################################################
-
