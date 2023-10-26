@@ -18,7 +18,7 @@ It includes:
 
 * **membrane with protein system**: symmetric complex membrane with specified membrane APL and a transmembrane protein
 
-![](../figures/protein_in_solvent.png)
+![](../figures/membrane_protein.png)
 
 * **asymmetric membrane system**: asymmetric complex membrane with bespoke APL values in each leaflet
 
