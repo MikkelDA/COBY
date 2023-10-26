@@ -42,8 +42,8 @@ A [tutorial](Tutorial) is available as a Jupyter Notebook and it systematically 
 
 It includes:
 
-* **simple system**: simple POPC membrane in solvent (water + 0.15 M NaCl)
-* **basic system**: symmetric complex membrane (POPC and CHOL) in solvent
+* **basic system**: simple POPC membrane in solvent (water + 0.15 M NaCl)
+* **simple system**: symmetric complex membrane (POPC and CHOL) in solvent
 * **membrane with protein system**: symmetric complex membrane with specified membrane APL and a transmembrane protein
 * **asymmetric membrane system**: asymmetric complex membrane with bespoke APL values in each leaflet
 * **protein in solvent**: protein in water and 0.15 M NaCl, without a membrane
@@ -55,7 +55,7 @@ It includes:
 * **flooding system**: flooding the membrane-containing system with solute molecules, followed by solvation
 * **abstract art**: just for fun
 
-## License
+## Licence
 
 CGSB is preserved under the [Apache License 2.0](https://github.com/MikkelDA/CGSB/blob/main/LICENSE).
 
