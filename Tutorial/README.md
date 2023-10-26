@@ -8,50 +8,50 @@ This tutorial is available as a Jupyter Notebook and it systematically presents 
 
 It includes:
 
-* **basic system**: simple POPC membrane in solvent (water + 0.15 M NaCl)
+* **Basic system**: A simple POPC membrane in solvent (water + 0.15 M NaCl)
 
 ![](../figures/basic_system.png)
 
-* **simple system**: symmetric complex membrane (POPC and CHOL) in solvent
+* **Simple system**: A symmetric complex membrane (POPC and CHOL) in solvent
 
 ![](../figures/simple_system.png)
 
-* **membrane with protein system**: symmetric complex membrane with specified membrane APL and a transmembrane protein
+* **Membrane with protein system**: A symmetric complex membrane with a specified membrane APL and a transmembrane protein
 
 ![](../figures/membrane_protein.png)
 
-* **asymmetric membrane system**: asymmetric complex membrane with bespoke APL values in each leaflet
+* **Asymmetric membrane system**: An asymmetric complex membrane with bespoke APL values in each leaflet
 
 ![](../figures/asymmetric_membrane.png)
 
-* **protein in solvent**: protein in water and 0.15 M NaCl, without a membrane
+* **Protein in solvent**: A protein in water and 0.15 M NaCl, without a membrane
 
 ![](../figures/protein_in_solvent.png)
 
-* **phase-separated system**: membrane with defined patches of different compositions
+* **Phase-separated system**: A membrane with defined patches of different compositions
 
 ![](../figures/phase_separated_system.png)
 
-* **phase-separated system generator**: a code for making of customisable grid of membrane patches
+* **Phase-separated system generator**: Code for creating a customisable grid of membrane patches
 
 ![](../figures/phase_separated_generator.png)
 
-* **multiple bilayers system**: two membranes offset in the z direction
+* **Multiple bilayers system**: Two membranes offset in the z direction
 
 ![](../figures/multiple_bilayers.png)
 
-* **monolayer system**: upper-facing complex monolayer
+* **Monolayer system**: An upper-facing complex monolayer
 
 ![](../figures/monolayer.png)
 
-* **mixed solvent system**: symmetric complex membrane solvated with regular and small water beads in specified ratios
+* **Mixed solvent system**: A symmetric complex membrane solvated with regular and small water beads in specified ratios
 
 ![](../figures/mixed_solvent.png)
 
-* **flooding system**: flooding the membrane-containing system with solute molecules, followed by solvation
+* **Flooding system**: A membrane system that has been flooeded with solute molecules, followed by solvation
 
 ![](../figures/flooding_system.png)
 
-* **abstract art**: just for fun
+* **Abstract art**: Just for fun
 
 ![](../figures/abstract_art.png)
