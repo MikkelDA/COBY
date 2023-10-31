@@ -25,7 +25,6 @@ import pickle
 
 import_toc = time.time()
 import_time = round(import_toc - import_tic, 4)
-print("Time spent importing packages:", import_time)
 
 lipid_defs = {}
 solvent_defs = {}
@@ -282,33 +281,33 @@ lipid_defs[(lipid_type, params)]["lipids"] = {
 ### density: [g/cm^3]
 params = "default"
 solvent_defs[params] = {
-    "W" : {"beads": "W",  "x": (0,), "y": (0,), "z": (0,), "solvcount": 4, "density": 0.99669, "molar_mass": 18.01528},
-    "SW": {"beads": "SW", "x": (0,), "y": (0,), "z": (0,), "solvcount": 3, "density": 0.99669, "molar_mass": 18.01528},
-    "TW": {"beads": "TW", "x": (0,), "y": (0,), "z": (0,), "solvcount": 2, "density": 0.99669, "molar_mass": 18.01528},
+    "W" : {"beads": "W",  "x": (0,), "y": (0,), "z": (0,), "mapping_ratio": 4, "density": 0.99669, "molar_mass": 18.01528},
+    "SW": {"beads": "SW", "x": (0,), "y": (0,), "z": (0,), "mapping_ratio": 3, "density": 0.99669, "molar_mass": 18.01528},
+    "TW": {"beads": "TW", "x": (0,), "y": (0,), "z": (0,), "mapping_ratio": 2, "density": 0.99669, "molar_mass": 18.01528},
 }
 ### Amino acids
 solvent_defs[params].update({
-    "GLY": {"beads": ("BB",), "solvcount": 1, "x": (0,), "y": (0,), "z": (0,)},
-    "ALA": {"beads": ("BB",), "solvcount": 1, "x": (0,), "y": (0,), "z": (0,)},
+    "GLY": {"beads": ("BB",), "mapping_ratio": 1, "x": (0,), "y": (0,), "z": (0,)},
+    "ALA": {"beads": ("BB",), "mapping_ratio": 1, "x": (0,), "y": (0,), "z": (0,)},
     
-    "ASN": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "ASP": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0), "charge": -1},
-    "GLU": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0), "charge": -1},
-    "GLN": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "LEU": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "ILE": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "VAL": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "SER": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "THR": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "CYS": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "LYS": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0), "charge": 1},
-    "PRO": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "HYP": {"beads": ("BB", "SC1"), "solvcount": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "ASN": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "ASP": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0), "charges": ("SC1", -1)},
+    "GLU": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0), "charges": ("SC1", -1)},
+    "GLN": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "LEU": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "ILE": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "VAL": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "SER": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "THR": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "CYS": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "LYS": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0), "charges": ("SC2", 1)},
+    "PRO": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "HYP": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
     
-    "ARG": {"beads": ("BB", "SC1", "SC2"), "solvcount": 1, "x": (0.25, 0, -0.25), "y": (0, 0, 0.125), "z": (0, 0, 0), "charge": 1},
-    "PHE": {"beads": ("BB", "SC1", "SC2", "SC3"), "solvcount": 1, "x": (0.25, 0, -0.25, -0.25), "y": (0, 0, 0.125, -0.125), "z": (0, 0, 0, 0)},
-    "TYR": {"beads": ("BB", "SC1", "SC2", "SC3"), "solvcount": 1, "x": (0.25, 0, -0.25, -0.25), "y": (0, 0, 0.125, -0.125), "z": (0, 0, 0, 0)},
-    "TRP": {"beads": ("BB", "SC1", "SC2", "SC3", "SC4"), "solvcount": 1, "x": (0.25, 0.25, 0, 0, -0.25), "y": (0.125, 0, -0.125, 0.125, 0), "z": (0, 0, 0, 0, 0)},
+    "ARG": {"beads": ("BB", "SC1", "SC2"), "mapping_ratio": 1, "x": (0.25, 0, -0.25), "y": (0, 0, 0.125), "z": (0, 0, 0), "charges": ("SC2", 1)},
+    "PHE": {"beads": ("BB", "SC1", "SC2", "SC3"), "mapping_ratio": 1, "x": (0.25, 0, -0.25, -0.25), "y": (0, 0, 0.125, -0.125), "z": (0, 0, 0, 0)},
+    "TYR": {"beads": ("BB", "SC1", "SC2", "SC3"), "mapping_ratio": 1, "x": (0.25, 0, -0.25, -0.25), "y": (0, 0, 0.125, -0.125), "z": (0, 0, 0, 0)},
+    "TRP": {"beads": ("BB", "SC1", "SC2", "SC3", "SC4"), "mapping_ratio": 1, "x": (0.25, 0.25, 0, 0, -0.25), "y": (0.125, 0, -0.125, 0.125, 0), "z": (0, 0, 0, 0, 0)},
 })
 
 ### Example of a multi-residue solvent molecule
@@ -317,21 +316,23 @@ solvent_defs[params].update({
 #         "residues": [
 #             {
 #                 "resname": "RES1",
-#                 "beads": ("R1A1", "R1A2", "R1A3", "R1A4", "R1A5"),
-#                 "x":     (     1,      2,      3,      4,      5),
-#                 "y":     (     0,      0,    0.5,      0,   -0.5),
-#                 "z":     (     0,      1,      0,    0.5,      0),
+#                 "beads":   ("R1A1", "R1A2", "R1A3", "R1A4", "R1A5"),
+#                 "x":       (     1,      2,      3,      4,      5),
+#                 "y":       (     0,      0,    0.5,      0,   -0.5),
+#                 "z":       (     0,      1,      0,    0.5,      0),
+#                 "charges": (R1A2, 1),
 #             },
 #             {
 #                 "resname": "RES2",
-#                 "beads": ("R2A1", "R2A2", "R2A3", "R2A4", "R2A5"),
-#                 "x":     (     1,      2,      3,      4,      5),
-#                 "y":     (    -1,      0,      0,   -0.5,      0),
-#                 "z":     (     1,      2,      1,    1.5,      1),
+#                 "beads":   ("R2A1", "R2A2", "R2A3", "R2A4", "R2A5"),
+#                 "x":       (     1,      2,      3,      4,      5),
+#                 "y":       (    -1,      0,      0,   -0.5,      0),
+#                 "z":       (     1,      2,      1,    1.5,      1),
+#                 "charges": (R2A5, -1),
 #             },
 #         ],
-#         "solvcount": 1,
-#         "charge": 0,
+#         "mapping_ratio": 1,
+#         "charges": ((RES1, R1A2, 1), (RES2, R2A5, -1)),
 #     },
 # })
 
@@ -396,15 +397,16 @@ def center_coords(self, coords):
     return centered_coords
 
 class ATOM:
-    def __init__(self, bead, beadnr, x, y, z, resname, resnumber):
-        self.bead = bead
+    def __init__(self, bead, beadnr, x, y, z, resname, resnumber, charge=0):
+        self.bead   = bead
         self.beadnr = beadnr
         self.x = x
         self.y = y
         self.z = z
         self.resname = resname
-        self.resnr = resnumber
-    
+        self.resnr   = resnumber
+        self.charge  = charge
+        
     def movex(self, x):
         self.x = x
     def movey(self, y):
@@ -417,8 +419,11 @@ class ATOM:
         self.movey(y)
         self.movez(z)
     
+    def set_charge(self, charge):
+        self.charge = charge
+    
     def get_tuple(self):
-        return (self.bead, self.beadnr, self.x, self.y, self.z, self.resname, self.resnr)
+        return (self.bead, self.beadnr, self.x, self.y, self.z, self.resname, self.resnr, self.charge)
     
 class RESIDUE:
     def __init__(self, resname, resnumber):
@@ -426,18 +431,23 @@ class RESIDUE:
         self.resnr = resnumber
         self.beads = []
         
-    def add_bead_to_res(self, bead, beadnr, x, y, z):
-        self.beads.append(ATOM(bead, beadnr, x, y, z, self.resname, self.resnr))
+    def add_bead_to_res(self, bead, beadnr, x, y, z, charge=0):
+        self.beads.append(ATOM(bead, beadnr, x, y, z, self.resname, self.resnr, charge))
             
-    def add_beads_to_res(self, beads = False, beadnrs = False, xs = False, ys = False, zs = False):
+    def add_beads_to_res(self, beads = False, beadnrs = False, xs = False, ys = False, zs = False, charges = False):
         assert beads and beadnrs and xs and ys and zs, "Lacking data for either 'beads', 'beadnr', 'xs', 'ys' or 'zs'"
-        for bead, beadnr, x, y, z in zip(beads, beadnrs, xs, ys, zs):
-            self.beads.append(ATOM(bead, beadnr, x, y, z, self.resname, self.resnr))
+        if not charges:
+            charges = [0 for _ in range(len(beads))]
+        for bead, beadnr, x, y, z, charge in zip(beads, beadnrs, xs, ys, zs, charges):
+            self.beads.append(ATOM(bead, beadnr, x, y, z, self.resname, self.resnr, charge))
     
     def add_bead_data_to_res(self, bead_data):
-        assert len(bead_data) == 5, "Length of list is " + str(len(bead_data)) + ". Lacking data for either 'beads', 'xs', 'ys' or 'zs'"
-        for bead, beadnr, x, y, z in zip(bead_data):
-            self.beads.append(ATOM(bead, beadnr, x, y, z, self.resname, self.resnr))
+#         assert len(bead_data) == 5, "Length of list is " + str(len(bead_data)) + ". Lacking data for either 'beads', 'xs', 'ys' or 'zs'"
+        if len(bead_data) == 5:
+            ### Adding charge if not given
+            bead_data.append([0 for _ in range(len(bead_data[0]))])
+        for bead, beadnr, x, y, z, charge in zip(bead_data):
+            self.beads.append(ATOM(bead, beadnr, x, y, z, self.resname, self.resnr, charge))
     
     def get_coords_res(self, AXs = "xyz"):
         AXs.lower()
@@ -484,17 +494,11 @@ class RESIDUE:
         return tuple(centers)
 
 class MOLECULE:
-    def __init__(self, charge = False, molname = False):
+    def __init__(self, molname = False, moleculetype = False):
         self.residues = []
         self.center = False
         self.n_residues = 0
         self.resnames = []
-        if charge is False:
-            self.charge = 0
-            self.charge_has_been_set = False
-        else:
-            self.charge = charge
-            self.charge_has_been_set = True
         self.molname = molname
         self.last_res_n = 0
     
@@ -507,14 +511,12 @@ class MOLECULE:
         self.last_res_n = self.n_residues
         self.n_residues += 1
     
-    def add_bead(self, bead, beadnr, x, y, z, resnumber = False, addcharge = 0):
+    def add_bead(self, bead, beadnr, x, y, z, resnumber = False, charge=0):
         if not resnumber:
             resnumber = self.last_res_n
-        self.residues[resnumber].add_bead_to_res(bead, beadnr, x, y, z)
-        if addcharge != 0:
-            self.charge_add(addcharge)
+        self.residues[resnumber].add_bead_to_res(bead, beadnr, x, y, z, charge)
     
-    def add_res_and_beads(self, resname, beads = False, beadnrs = False, xs = False, ys = False, zs = False, bead_data = False, resnumber = False):
+    def add_res_and_beads(self, resname, beads = False, beadnrs = False, xs = False, ys = False, zs = False, bead_data = False, resnumber = False, charges = False):
         if not resnumber:
             resnumber = self.n_residues
         self.residues.append(RESIDUE(resname, resnumber))
@@ -524,15 +526,14 @@ class MOLECULE:
         if bead_data:
             self.residues[self.last_res_n].add_bead_data_to_res(bead_data)
         else:
-            self.residues[self.last_res_n].add_beads_to_res(beads, beadnrs, xs, ys, zs)
+            self.residues[self.last_res_n].add_beads_to_res(beads, beadnrs, xs, ys, zs, charges)
     
-    def charge_add(self, charge):
-        self.charge += charge
-        self.charge_has_been_set = True
-    
-    def charge_set(self, charge):
-        self.charge = charge
-        self.charge_has_been_set = True
+    def set_bead_charges(self, charges):
+        i = 0
+        for ri, res in enumerate(self.residues):
+            for bi, bead in enumerate(res.beads):
+                self.residues[ri].beads[bi].set_charge(charges[i])
+                i += 1
     
     def get_coords(self, AXs = "xyz"):
         AXs.lower()
@@ -549,7 +550,15 @@ class MOLECULE:
         AXsList = self.get_coords(AXs)
         assert len(AXsList) > 1, "Length of AXsList must be greater than 1 to create beads"
         return list(zip(*AXsList))
-    
+
+    def get_mol_charge(self):
+        charge = sum(self.get_bead_charges())
+        return charge
+
+    def get_bead_charges(self):
+        charges = [bead.charge for res in self.residues for bead in res.beads]
+        return charges
+
     def get_centered_coords(self, centering = "ax", AXs = "xyz", target = False):
         coords_AXs = self.get_coords(AXs)
         centered_coords = []
@@ -603,6 +612,12 @@ class MOLECULE:
             elif centering == "vals":
                 centers.append(target[ci])
         return tuple(centers)
+    
+    def get_radius(self, AXs="xyz"):
+        beads  = self.get_beads(AXs)
+        center = self.get_center_point("ax", AXs)
+        radius = max([math.dist(bead, center) for bead in beads])
+        return radius
     
     def set_coords_to_center(self, centering = "ax", target = False):
         xsc, ysc, zsc = self.get_centered_coords(centering, "xyz", target)
@@ -694,16 +709,10 @@ class MOLECULE:
         return res_beads_info
     
 class LIPID(MOLECULE):
-    def __init__(self, charge = 0, hydr_z = 0, molname = False):
-        super().__init__(charge = charge, molname = molname)
+    def __init__(self, hydr_z = 0, molname = False, moleculetype = False):
+        super().__init__(molname = molname, moleculetype = False)
         self.hydr_z = hydr_z ### Hydrophobic z-height delimiter
         self.ratio = 0
-    
-    def get_radius(self):
-        beads  = self.get_beads("xy")
-        center = self.get_center_point("ax", "xy")
-        radius = max([math.dist(bead, center) for bead in beads])
-        return radius
     
     def set_xy_to_center(self, centering = "ax"):
         xsc, ysc = self.get_centered_coords(centering, "xy")
@@ -720,21 +729,24 @@ class LIPID(MOLECULE):
         self.ratio = ratio
 
 class SOLVENT(MOLECULE):
-    def __init__(self, charge = 0, solvcount = 1, molname = False):
-        super().__init__(charge = charge, molname = molname)
-        self.solvcount = solvcount ### AA-to-CG convertion
+    def __init__(self, mapping_ratio = 1, molname = False, moleculetype = False):
+        super().__init__(molname = molname, moleculetype = False)
+        self.mapping_ratio = mapping_ratio ### AA-to-CG convertion
         self.molarity = False
         self.density = False
         self.molar_mass = False
         
-    def solvcount_set(self, solvcount):
-        self.solvcount = solvcount
+    def mapping_ratio_set(self, mapping_ratio):
+        self.mapping_ratio = mapping_ratio
 
     def molarity_set(self, molarity):
         self.molarity = molarity
     
     def density_set(self, density):
         self.density = density
+    
+    def ratio_set(self, ratio):
+        self.ratio = ratio
     
     def molar_mass_set(self, molar_mass):
         self.molar_mass = molar_mass
@@ -743,12 +755,12 @@ class SOLVENT(MOLECULE):
         self.count = count
     
 class PROTEIN(MOLECULE):
-    def __init__(self, charge = 0, molname = False):
-        super().__init__(charge = charge, molname = molname)
+    def __init__(self, molname = False, moleculetype = False):
+        super().__init__(molname = molname, moleculetype = False)
 
 class CGSB:
     
-    def __init__(self, run = True, terminal_run_kwargs = False, **kwargs):        
+    def __init__(self, run = True, terminal_run_kwargs = False, **kwargs):
         self.RUN = run
         
         if terminal_run_kwargs:
@@ -833,6 +845,8 @@ class CGSB:
         self.warnings = True
         self.quiet = False
         
+        self.verbose = 6
+        
         if self.RUN:
             self.run(kwargs)
     
@@ -913,7 +927,7 @@ class CGSB:
                         val = int(val)
                     else:
                         val = float(val)
-                momentary_x = cmd
+                momentary_x = val
                 
             if key == "y":
                 val = cmd
@@ -923,7 +937,7 @@ class CGSB:
                         val = int(val)
                     else:
                         val = float(val)
-                momentary_y = cmd
+                momentary_y = val
                 
             if key == "z":
                 val = cmd
@@ -933,7 +947,7 @@ class CGSB:
                         val = int(val)
                     else:
                         val = float(val)
-                momentary_z = cmd
+                momentary_z = val
             
             ### Imports
             if key in ["itp_input", "itp_in"]:
@@ -949,7 +963,13 @@ class CGSB:
                     self.SOLUTE_INPUT_cmds.extend([subcmd])
             
             ### Outputs
-            if key in ["out_sys", "out", "o"]:
+            if key in ["out_all", "o_all"]:
+                self.output_system_pdb_file_name = cmd + ".pdb"
+                self.output_system_gro_file_name = cmd + ".gro"
+                self.output_topol_file_name      = cmd + ".top"
+                self.output_log_file_name        = cmd + ".log"
+            
+            if key in ["out_sys", "o_sys"]:
                 if not any([cmd.endswith(i) for i in [".pdb", ".gro"]]):
                     self.output_system_pdb_file_name = cmd + ".pdb"
                     self.output_system_gro_file_name = cmd + ".gro"
@@ -958,27 +978,31 @@ class CGSB:
                 elif cmd.endswith(".gro"):
                     self.output_system_gro_file_name = cmd
                 else:
-                    assert False, "Unknown file extension used for 'output_system': " + pdb
+                    assert False, "Unknown file extension used for 'output_system': " + cmd
                     
-            if key in ["out_sys_pdb", "out_pdb", "o_pdb"]:
-                if cmd.endswith("pdb"):
-                    self.output_system_pdb_file_name = cmd + ".pdb"
-                else:
-                    self.output_system_pdb_file_name = cmd + ".pdb"
+            if key in ["out_pdb", "o_pdb"]:
+                if not cmd.endswith("gro"):
+                    cmd = cmd + ".pdb"
+                self.output_system_pdb_file_name = cmd + ".pdb"
                     
-            if key in ["out_sys_gro", "out_gro", "o_gro"]:
-                if cmd.endswith("gro"):
-                    self.output_system_gro_file_name = cmd + ".gro"
-                else:
-                    self.output_system_gro_file_name = cmd + ".gro"
+            if key in ["out_gro", "o_gro"]:
+                if not cmd.endswith("gro"):
+                    cmd = cmd + ".gro"
+                self.output_system_gro_file_name = cmd + ".gro"
             
-            if key in ["output_topol", "out_top", "top_out", "top_output"]:
+            if key in ["out_top", "o_top"]:
+                if not cmd.endswith(".top"):
+                    cmd = cmd + ".top"
                 self.output_topol_file_name = cmd
                 
-            if key in ["output_log", "out_log", "log_out", "log"]:
+            if key in ["out_log", "o_log"]:
+                if not cmd.endswith(".log"):
+                    cmd = cmd + ".log"
                 self.output_log_file_name = cmd
             
             if key in ["plot_grid"]:
+                if type(cmd) == str:
+                    cmd = ast.literal_eval(cmd)
                 self.plot_grid = True
                     
             if key in ["rand", "randseed"]:
@@ -997,6 +1021,8 @@ class CGSB:
                 self.PICKLE_cmd = cmd
                 
             if key in ["backup"]:
+                if type(cmd) == str:
+                    cmd = ast.literal_eval(cmd)
                 self.backup = cmd
 
             if key in ["params", "sys_params"]:
@@ -1013,19 +1039,31 @@ class CGSB:
             
             ### Printer settings
             if key in ["quiet"]:
+                if type(cmd) == str:
+                    cmd = ast.literal_eval(cmd)
                 self.quiet = cmd
                 
             if key in ["debug"]:
+                if type(cmd) == str:
+                    cmd = ast.literal_eval(cmd)
                 self.debug_prints = cmd
                 
             if key in ["extra"]:
+                if type(cmd) == str:
+                    cmd = ast.literal_eval(cmd)
                 self.extra_info = cmd
             
-            if key in ["sl_extra", "subleaflet_extra"]:
-                self.subleaflet_extra_info = cmd
-                
             if key in ["warn"]:
+                if type(cmd) == str:
+                    cmd = ast.literal_eval(cmd)
                 self.warnings = cmd
+                
+            if key == "verbose":
+                number = self.get_number_from_string(cmd)
+                if number is False:
+                    self.verbose = len(cmd)
+                else:
+                    self.verbose = number
                 
             ### Run the program
             if key in ["run"]:
@@ -1133,7 +1171,7 @@ class CGSB:
         self.pbc_box = [self.pbcx, self.pbcy, self.pbcz]
         
         ### Setting randseed
-        self.print_term("\n" + "Setting random seed to:", self.randseed)
+        self.print_term("\n" + "Setting random seed to:", self.randseed, verbose=1)
         random.seed(self.randseed)
         np.random.seed(self.randseed)
         
@@ -1161,7 +1199,7 @@ class CGSB:
         ### Topology
         self.itp_read_initiater()
 
-        self.print_term("------------------------------ PREPROCESSING", spaces=0)
+        self.print_term("------------------------------ PREPROCESSING", spaces=0, verbose=1)
         preprocessing_tic = time.time()
         ### Definition preprocessing
         self.import_structures_handler()
@@ -1175,7 +1213,7 @@ class CGSB:
         self.solv_preprocessor()
         preprocessing_toc = time.time()
         preprocessing_time = round(preprocessing_toc - preprocessing_tic, 4)
-        self.print_term("------------------------------ PREPROCESSING COMPLETE", "(time spent: "+str(preprocessing_time)+" [s])", "\n", spaces=0)
+        self.print_term("------------------------------ PREPROCESSING COMPLETE", "(time spent: "+str(preprocessing_time)+" [s])", "\n", spaces=0, verbose=1)
 
         ### Run the program
         self.prot_placer()
@@ -1186,9 +1224,9 @@ class CGSB:
         self.lipid_inserter()
         self.solvater()
 
-        self.print_term("--------------------")
-        self.print_term("Final system charge:", self.system_charge)
-        self.print_term("--------------------", "\n")
+        self.print_term("--------------------", verbose=1)
+        self.print_term("Final system charge:", self.system_charge, verbose=1)
+        self.print_term("--------------------", "\n", verbose=1)
 
         self.pickler()
 
@@ -1197,19 +1235,20 @@ class CGSB:
         self.topol_file_writer()
         self.log_file_writer()
 
-        self.print_term("My task is complete. Did i do a good job?")
+        self.print_term("My task is complete. Did i do a good job?", verbose=1)
         CGSB_run_toc  = time.time()
         CGSB_run_time = round(CGSB_run_toc - CGSB_run_tic, 4)
-        print("Time spent running CGSB:", CGSB_run_time)
+        self.print_term("Time spent running CGSB:", CGSB_run_time, verbose=1)
     
     #####################################
     ### Specialized printing function ###
     #####################################
-    def print_term(self, *string, spaces=0, space="    ", sep=" ", end="\n", debug = False, extra = False, warn = False):
+    def print_term(self, *string, spaces=0, verbose=0, space="    ", sep=" ", end="\n", debug = False, extra = False, warn = False):
         '''
         Specialized printing function.
         Allows for easy customization of requirements for when a print statement should be printed
         '''
+        
         print_true = False
         if type(string) in [tuple, list]:
             string = space*spaces + sep.join([str(i) for i in string])
@@ -1233,7 +1272,7 @@ class CGSB:
             print_true = True
 
         ### Print to terminal if not quiet
-        if print_true and not self.quiet:
+        if print_true and not self.quiet and self.verbose >= verbose:
             print(string, end=end)
         
         ### Appends string to log file, for later writing
@@ -1493,7 +1532,7 @@ class CGSB:
             files_string = "files"
         else:
             files_string = "file"
-        self.print_term("Writing structure", files_string, "(" + "/".join(out_stringlist) + ")")
+        self.print_term("Writing structure", files_string, "(" + "/".join(out_stringlist) + ")", verbose=1)
             
         output_system_pdb_file_lines = []
         output_system_gro_file_lines = []
@@ -1518,14 +1557,12 @@ class CGSB:
                     z = 1,            zL = 4,
                 ),
                 "MODEL        1",
-        #         "".join([str(i) for i in range(1, 10)]) + "".join([str(i) for _ in range(8) for i in range(0, 10)]),
             ]
         if self.output_system_gro_file_name:
             
             output_system_gro_file_lines = [
                 self.system_name,
                 "PLACEHOLDER_ATOM_COUNT",
-        #         "".join([str(i) for i in range(1, 10)]) + "".join([str(i) for _ in range(8) for i in range(0, 10)]),
             ]
 
         atom_count = 0
@@ -1546,7 +1583,7 @@ class CGSB:
                 
                 original_bead_info = protein["beads"].keys()
                 bead_vals = [bead.get_tuple() for bead in protein["protein"].get_res_beads_info()]
-                for (i, atom, res), (a_name, beadnr, x, y, z, r_name, resnr) in zip(original_bead_info, bead_vals):
+                for (i, atom, res), (a_name, beadnr, x, y, z, r_name, resnr, charge) in zip(original_bead_info, bead_vals):
 #                 for (i, atom, res), bead_vals in protein["beads_centered"].items():
                     if current_prot_res != res:
                         current_prot_res = res
@@ -1603,7 +1640,7 @@ class CGSB:
                                 output_system_pdb_file_lines.append(self.pdb_atom_writer("ATOM", atom_nr, a_name, " ", r_name, "A", res_nr, " ", float(x), float(y), float(z), float(1), float(0), " ", " ", " "))
                             if self.output_system_gro_file_name: ### gro coordinates are in [nm] not [Å]
                                 output_system_gro_file_lines.append(self.gro_atom_writer(res_nr, r_name, a_name, atom_nr, x / 10, y / 10, z / 10, " ", " ", " "))
-
+        
         #########################
         ### Solvent/ion lines ###
         #########################
@@ -1668,18 +1705,18 @@ class CGSB:
             for line in output_system_pdb_file_lines:
                 new_file.write(line + "\n")
             new_file.close()
-            self.print_term("---- PDB file written:", self.output_system_pdb_file_name)
+            self.print_term("---- PDB file written:", self.output_system_pdb_file_name, verbose=1)
         if self.output_system_gro_file_name:
             new_file = open(self.output_system_gro_file_name, "w")
             for line in output_system_gro_file_lines:
                 new_file.write(line + "\n")
             new_file.close()
-            self.print_term("---- GRO file written:", self.output_system_gro_file_name)
-        self.print_term("")
+            self.print_term("---- GRO file written:", self.output_system_gro_file_name, verbose=1)
+        self.print_term("", verbose=1)
 
     def topol_file_writer(self):
         if self.output_topol_file_name:
-            self.print_term("Writing topology file:", self.output_topol_file_name)
+            self.print_term("Writing topology file:", self.output_topol_file_name, verbose=1)
             output_topol_file_lines = [
                 "",
                 "[ system ]",
@@ -1704,18 +1741,18 @@ class CGSB:
             for line in output_topol_file_lines:
                 new_file.write(line + "\n")
             new_file.close()
-            self.print_term("---- Topology file written", "\n")
+            self.print_term("---- Topology file written", "\n", verbose=1)
     
     def log_file_writer(self):
         if self.output_log_file_name:
-            self.print_term("Writing log file file:", self.output_log_file_name)
+            self.print_term("Writing log file file:", self.output_log_file_name, verbose=1)
             if self.backup:
                 self.backupper(self.output_log_file_name)
             new_file = open(self.output_log_file_name, "w")
             for line in self.LOG_FILE:
                 new_file.write(line)
             new_file.close()
-            self.print_term("---- Log file written", "\n")
+            self.print_term("---- Log file written", "\n", verbose=1)
     
     ###################################################
     ### Lipid/solvent/ion definitions preprocessors ###
@@ -1724,7 +1761,7 @@ class CGSB:
         '''
         Preprocesses lipid defintions, by rearranging the data into a class
         '''
-        self.print_term("Preprocessing lipid definitions")
+        self.print_term("Preprocessing lipid definitions", verbose=2)
         ### Loop over generel lipid types (e.g. phospholipids, sterols, etc.)
         for (lipid_type, params), lipid_type_dict in self.lipid_defs.items():
             if params not in self.lipid_dict.keys():
@@ -1748,31 +1785,54 @@ class CGSB:
             else:
                 lipid_type_charges = 0
             
-            lipid_names = []
-            
+            ### Checks what specifiers have been given for each lipid name
+            ### Used to check if lipid-specific charges have been given
+            dict_keys, dict_vals = zip(*lipid_type_dict["lipids"].items())
+            lipid_names, data_specifiers = zip(*dict_keys)
+            lipid_name_data_specifiers = {lipid_name: {} for lipid_name in lipid_names}
             for (lipid_name, data_specifier), lipid_details in lipid_type_dict["lipids"].items():
-                lipid_names.append(lipid_name)
+                if data_specifier not in lipid_name_data_specifiers[lipid_name]:
+                    lipid_name_data_specifiers[lipid_name][data_specifier] = lipid_details
+            
+            ### Removing duplicates from lipid_names list while keeping the order
+            lipid_names = list(dict.fromkeys(lipid_names))
+            
+            for lipid_name in lipid_names:
+        
                 if lipid_name not in self.lipid_dict[params].keys():
                     self.lipid_dict[params][lipid_name] = LIPID(hydr_z = hydr_z, molname = lipid_name)
-                if data_specifier == "beads":
+                
+                ### Checks if lipid-specific charges are given and joins them with lipid_type charges
+                if "charges" in lipid_name_data_specifiers[lipid_name]:
+                    lipid_details = lipid_type_dict["lipids"][(lipid_name, "charges")]
+                    specifc_charge_names = zip(*lipid_details)[0]
+                    lipid_charge_dict = lipid_details + tuple([(key, val) for key, val in lipid_type_charges if key not in specifc_charge_names])
+                else:
+                    lipid_charge_dict = lipid_type_charges
+            
+                if "beads" in lipid_name_data_specifiers[lipid_name]:
+                    lipid_details = lipid_type_dict["lipids"][(lipid_name, "beads")]
                     beads = list(filter(None, lipid_details.split(" ")))
                     ### Remove coordinate and bead indexes if no bead is assigned
-                    ### x and z are centered using "set_xy_to_center()" method
+                    ### x and z are centered in the plane using "set_xy_to_center()" method
                     ### z centering according to hydrophobic height "hydr_z"
                     lx = [xi * bdx * 10 for xi, bead in zip(x, beads) if bead != "-"]
                     ly = [yi * bdy * 10 for yi, bead in zip(y, beads) if bead != "-"]
                     lz = [(zi - hydr_z) * bdz * 10 for zi, bead in zip(z, beads) if bead != "-"]
                     beads = [bead for bead in beads if bead != "-"]
+                    charges = []
                     beadnrs = list([i for i in range(len(beads))])
                     
-                    if not self.lipid_dict[params][lipid_name].charge_has_been_set:
-                        self.lipid_dict[params][lipid_name].charge_set(0)
-                        if lipid_type_charges != 0:
-                            charge_beads, charge_vals = zip(*lipid_type_charges)
-                            for bead in beads:
-                                if bead in charge_beads:
-                                    charge_index = charge_beads.index(bead)
-                                    self.lipid_dict[params][lipid_name].charge_add(charge_vals[charge_index])
+                    if lipid_charge_dict:
+                        charge_beads, charge_vals = zip(*lipid_type_charges)
+                        for bead in beads:
+                            if bead in charge_beads:
+                                charge_index = charge_beads.index(bead)
+                                charges.append(charge_vals[charge_index])
+                            else:
+                                charges.append(0)
+                    else:
+                        charges = [0 for _ in range(len(beads))]
                     
                     self.lipid_dict[params][lipid_name].add_res_and_beads(
                         lipid_name,
@@ -1781,17 +1841,15 @@ class CGSB:
                         xs = lx,
                         ys = ly,
                         zs = lz,
+                        charges = charges,
                     )
                     self.lipid_dict[params][lipid_name].set_xy_to_center()
                     
-                if data_specifier == "charges":
-                    self.lipid_dict[params][lipid_name].set_charge(lipid_details)
-            
         tot_lipids = sum([len(vals) for vals in self.lipid_dict.values()])
         
-        self.print_term("Number of lipids preprocessed:", tot_lipids, "\n", spaces=1)
+        self.print_term("Number of lipids preprocessed:", tot_lipids, "\n", spaces=1, verbose=3)
     
-    def solute_beads_checker(self, res_dict):
+    def solute_beads_checker(self, res_dict, cur_name, resname):
         xs = res_dict["x"]
         ys = res_dict["y"]
         zs = res_dict["z"]
@@ -1807,6 +1865,8 @@ class CGSB:
         
         assert len(beads) == len(xs) == len(ys) == len(zs), (
             "Number of beads, x-values, y-values and z-values must be the same within a residue." + "\n"
+            "molecule name: " + cur_name + "\n"
+            "name of problematic: " + resname + "\n"
             "len(beads) " + str(len(beads)) + ", values: " + str(beads) + "\n"
             "len(xs)    " + str(len(xs)) + ", values: " + str(xs) + "\n"
             "len(ys)    " + str(len(ys)) + ", values: " + str(ys) + "\n"
@@ -1820,22 +1880,12 @@ class CGSB:
         return beads, lx, ly, lz
     
     def solute_defs_checker(self, mol_class, cur_name, cur_dict):
-        if "solvcount" in cur_dict.keys():
-            mol_class.solvcount_set(cur_dict["solvcount"])
+        charge_dict = {}
+        tot_charge = False
+        moleculetype = False
         
-        if "charge" in cur_dict.keys():
-            charge = 0
-            if type(cur_dict["charge"]) in [int, float]:
-                charge = cur_dict["charge"]
-            elif type(cur_dict["charge"]) == str:
-                isnumber, isinteger = self.is_number(cur_dict["charge"])
-                if isnumber:
-                    charge = ast.literal_eval(cur_dict["charge"])
-                elif cur_dict["charge"] in self.itp_moltypes.keys():
-                    charge = self.itp_moltypes[cur_dict["charge"]]["charge_sum"]
-                else:
-                    self.print_term("WARNING: moleculetype '" + cur_dict["charge"] + "' for solute name '" + cur_name + "' not found in topology")
-            mol_class.charge_set(charge)
+        if "mapping_ratio" in cur_dict.keys():
+            mol_class.mapping_ratio_set(cur_dict["mapping_ratio"])
 
         if "density" in cur_dict.keys():
             mol_class.density_set(cur_dict["density"])
@@ -1843,58 +1893,136 @@ class CGSB:
         if "molar_mass" in cur_dict.keys():
             mol_class.molar_mass_set(cur_dict["molar_mass"])
         
-        if "residues" in cur_dict.keys():
-            molbeadnrs = []
-            for res_dict in cur_dict["residues"]:
-                resname = res_dict["resname"]
-                beads, xs, ys, zs = self.solute_beads_checker(res_dict)
-                if molbeadnrs == []:
-                    beadnrs = list([i for i in range(len(beads))])
-                    molbeadnrs = beadnrs[:]
-                else:
-                    beadnrs = list([i for i in range(max(molbeadnrs)+1, len(molbeadnrs)-1+len(beads))])
+        if "residues" not in cur_dict.keys():
+            residues_dict = [{
+                    "resname": cur_name,
+                    "beads": cur_dict["beads"],
+                    "x": cur_dict["x"],
+                    "y": cur_dict["y"],
+                    "z": cur_dict["z"],
+            }]
+            if "charges" in cur_dict:
+                if type(cur_dict["charges"][0]) == str:
+                    cur_dict["charges"] = (cur_dict["charges"],)
+                residues_dict[0]["charges"] = tuple([(bead, charge) for bead, charge in cur_dict["charges"]])
 
-                mol_class.add_res_and_beads(
-                    resname = resname, beads = beads, beadnrs = beadnrs,
-                    xs = xs, ys = ys, zs = zs
-                )
-        else:
-            resname = cur_name
-            beads, xs, ys, zs = self.solute_beads_checker(cur_dict)
-            beadnrs = list([i for i in range(len(beads))])
+        elif type(cur_dict["residues"]) == dict:
+            residues_dict = [cur_dict["residues"]]
+        elif isinstance(cur_dict["residues"], (list, tuple)):
+            residues_dict = cur_dict["residues"]
+        
+        ### Molecule-wide charges
+        if "charges" in cur_dict.keys() and "residues" in cur_dict.keys():
+            if type(cur_dict["charges"][0]) == str:
+                cur_dict["charges"] = (cur_dict["charges"],)
+            if "residues" in cur_dict.keys():
+                ress, beads, charges = zip(*cur_dict["charges"])
+            else:
+                ress = [cur_name]
+                beads, charges = zip(*cur_dict["charges"])
+            for res, bead, charge in zip(ress, beads, charges):
+                if res not in res_charge_dict.keys():
+                    charge_dict[res] = {}
+                charge_dict[res][bead] = charge
+        
+        ### Residue-specific charges
+        if "residues" in cur_dict.keys():
+            for res_dict in residues_dict:
+                resname = res_dict["resname"]
+                if "charges" in res_dict:
+                    if type(res_dict["charges"][0]) == str:
+                        res_dict["charges"] = (res_dict["charges"],)
+                    for bead, charge in res_dict["charges"]:
+                        charge_dict[resname][bead] = charge
+        
+        ### Total charge.
+        ### Spreads charge across all beads. Should only be used if no bead-specfic charges are given.
+        ### Ideally only use this for single bead solutes/solvents where the bead is obvious
+        if "charge" in cur_dict.keys():
+            number = self.get_number_from_string(cur_dict["charge"])
+            if number is not False:
+                tot_charge = number
+            else:
+                moleculetype = cur_dict["charge"]
+        
+        ### Dictionaries without "residues" key have had the beads, and positions converted to "residues" key:val pair
+        ### Thus "residues" will always be present
+        molbeadnrs = []
+        for res_dict in residues_dict:
+            resname = res_dict["resname"]
+            beads, xs, ys, zs = self.solute_beads_checker(res_dict, cur_name, resname)
+
+            if molbeadnrs == []:
+                beadnrs = list([i for i in range(len(beads))])
+                molbeadnrs = beadnrs[:]
+            else:
+                beadnrs = list([i for i in range(max(molbeadnrs)+1, len(molbeadnrs)-1+len(beads))])
+            
+            if tot_charge is not False:
+                charges = [tot_charge/len(beads) for _ in range(len(beads))]
+            elif moleculetype is not False:
+                ### If topology is given
+                moleculetype = tot_charge
+                ### Set charges to be 0 for now, since they will be obtained from topology later
+                charges = [0 for _ in range(len(beads))]
+            else:
+                charges = []
+                for bead in beads:
+                    if resname in charge_dict:
+                        if bead in charge_dict[resname]:
+                            charges.append(charge_dict[resname][bead])
+                        else:
+                            charges.append(0)
+                    else:
+                        charges.append(0)
+
             mol_class.add_res_and_beads(
                 resname = resname, beads = beads, beadnrs = beadnrs,
-                xs = xs, ys = ys, zs = zs
+                xs = xs, ys = ys, zs = zs,
+                charges = charges,
             )
+        
+        if moleculetype:
+            ### If explicit topology name is given
+            mol_class.moleculetype = moleculetype
+        else:
+            ### Else assume cur_name to be topology name
+            mol_class.moleculetype = cur_name
+        
         mol_class.set_coords_to_center()
     
     def solvent_defs_preprocessor(self):
         '''
         Preprocesses solvent defintions by rearranging the data into a class
         '''
-        self.print_term("Preprocessing solvent definitions")
-        ### Loop over generel lipid types (e.g. phospholipids, sterols, etc.)
+        self.print_term("Preprocessing solvent definitions", verbose=2)
         for params, solvent_type_dict in self.solvent_defs.items():
             if params not in self.solvent_dict.keys():
                 self.solvent_dict[params] = {}
             ### Loop over indexes
             for cur_name, cur_dict in solvent_type_dict.items():
                 if cur_name not in self.solvent_dict[params].keys():
-                    self.solvent_dict[params][cur_name] = SOLVENT(charge = 0, solvcount = 1, molname = cur_name)
+                    self.solvent_dict[params][cur_name] = SOLVENT(mapping_ratio = 1, molname = cur_name)
                 else:
                     continue
                 
                 self.solute_defs_checker(self.solvent_dict[params][cur_name], cur_name, cur_dict)
                 
         tot_solvents = sum([len(vals) for vals in self.solvent_dict.values()])
-        self.print_term("Number of solvents preprocessed:", tot_solvents, "\n", spaces=1)
+        self.print_term("Number of solvents preprocessed:", tot_solvents, "\n", spaces=1, verbose=3)
 
     def ion_defs_preprocessor(self):
         '''
         Preprocesses ion defintions by rearranging the data into a class
         '''
-        self.print_term("Preprocessing ion definitions")
-        ### Loop over generel lipid types (e.g. phospholipids, sterols, etc.)
+        self.print_term("Preprocessing ion definitions", verbose=2)
+        ### Creates parameter libraries in the solvent defs for positive and negative ions
+        ### In case people want to flood a system with a specific number of ions
+        if "pos_ions" not in self.solvent_defs.keys():
+            self.solvent_defs["pos_ions"] = {}
+        if "neg_ions" not in self.solvent_defs.keys():
+            self.solvent_defs["neg_ions"] = {}
+            
         for params, charge_type_dict in self.ion_defs.items():
             if params not in self.ion_dict.keys():
                 self.ion_dict[params] = {}
@@ -1904,16 +2032,22 @@ class CGSB:
                 ### Loop over indexes
                 for cur_name, cur_dict in ion_type_dict.items():
                     if cur_name not in self.ion_dict[params][charge_name].keys():
-                        self.ion_dict[params][charge_name][cur_name] = SOLVENT(charge = 0, solvcount = 1, molname = cur_name)
+                        ion = SOLVENT(mapping_ratio = 1, molname = cur_name)
+                        self.ion_dict[params][charge_name][cur_name] = ion
+                        if params == "default":
+                            if charge_name not in self.solvent_defs["pos_ions"].keys():
+                                self.solvent_defs["pos_ions"][cur_name] = ion
+                            if charge_name not in self.solvent_defs["neg_ions"].keys():
+                                self.solvent_defs["neg_ions"][cur_name] = ion
                     else:
                         continue
                     
                     self.solute_defs_checker(self.ion_dict[params][charge_name][cur_name], cur_name, cur_dict)
                     
         tot_pos_ions = sum([len(vals["positive"]) for vals in self.ion_dict.values()])
-        self.print_term("Number of positive ions preprocessed:", tot_pos_ions, spaces=1)
+        self.print_term("Number of positive ions preprocessed:", tot_pos_ions, spaces=1, verbose=3)
         tot_neg_ions = sum([len(vals["negative"]) for vals in self.ion_dict.values()])
-        self.print_term("Number of negative ions preprocessed:", tot_neg_ions, spaces=1)
+        self.print_term("Number of negative ions preprocessed:", tot_neg_ions, spaces=1, verbose=3)
     
     ##############################################
     ### Protein/membrane/solvent preprocessors ###
@@ -1924,9 +2058,9 @@ class CGSB:
         '''
         self.PROTEINS = {}
         if len(self.PROTEINS_cmds) != 0:
-            self.print_term("\nPreprocessing protein requests")
+            self.print_term("\nPreprocessing protein requests", verbose=2)
             for cmd_nr, prot_cmd in enumerate(self.PROTEINS_cmds, 1):
-                self.print_term("Starting protein:", cmd_nr, spaces=1)
+                self.print_term("Starting protein:", cmd_nr, spaces=1, verbose=3)
 
                 ### Defaults
                 prot_dict = {
@@ -1970,8 +2104,6 @@ class CGSB:
                         ### Finally assume .pdb format if neither .pdb nor .gro is found
                         else:
                             prot_dict["beads"] = self.pdb_reader(file_name)
-
-                    
                     
                     ### Center method "cog/axis/ax" (center of geometry), "mean", "bead:INT", "res:INT" or "point:x:y:z"
                     elif sub_cmd[0].lower() == "cen_method":
@@ -1984,15 +2116,15 @@ class CGSB:
 
                     ### True/False whether or not lipds may be placed within protein area
                     elif sub_cmd[0].lower() == "lipids_inside":
-                        prot_dict["lipids_inside"] = ast.literal_eval(sub_cmd[1])
+                        prot_dict["lipids_inside"] = ast.literal_eval(str(sub_cmd[1]))
 
                     ### True/False whether to check for pbc crossing
                     elif sub_cmd[0].lower() == "pbc_check":
-                        prot_dict["pbc_check"] = ast.literal_eval(sub_cmd[1])
+                        prot_dict["pbc_check"] = ast.literal_eval(str(sub_cmd[1]))
 
                     ### True/False whether to check for pbc crossing
                     elif sub_cmd[0].lower() == "buffer":
-                        prot_dict["buffer"] = ast.literal_eval(sub_cmd[1])
+                        prot_dict["buffer"] = ast.literal_eval(str(sub_cmd[1]))
 
                     ### Integer multiplier for radius used in alphashape function [multiplier]
                     elif sub_cmd[0].lower() in ["mol_names", "mol_name"]:
@@ -2006,24 +2138,24 @@ class CGSB:
                         elif sub_cmd[1] == "auto":
                             prot_dict["charge"] = "auto"
                         else:
-                            prot_dict["charge"] = ast.literal_eval(sub_cmd[1])
+                            prot_dict["charge"] = ast.literal_eval(str(sub_cmd[1]))
 
                     ### xyz axis translations [nm]
                     elif sub_cmd[0].lower() in ["tx", "ty", "tz"]:
-                        prot_dict[sub_cmd[0].lower()] = ast.literal_eval(sub_cmd[1]) * 10
+                        prot_dict[sub_cmd[0].lower()] = ast.literal_eval(str(sub_cmd[1])) * 10
 
                     ### xyz axis rotations [degrees]
                     elif sub_cmd[0].lower() in ["rx", "ry", "rz"]:
-                        prot_dict[sub_cmd[0].lower()] = ast.literal_eval(sub_cmd[1])
+                        prot_dict[sub_cmd[0].lower()] = ast.literal_eval(str(sub_cmd[1]))
 
                     ### Random kick to beads x/y/z positions [nm] #[Å]
                     elif sub_cmd[0].lower() in ["kick", "kickx", "kicky", "kickz"]:
                         if sub_cmd[0].lower() == "kick":
-                            prot_dict["kickx"] = ast.literal_eval(sub_cmd[1])
-                            prot_dict["kicky"] = ast.literal_eval(sub_cmd[1])
-                            prot_dict["kickz"] = ast.literal_eval(sub_cmd[1])
+                            prot_dict["kickx"] = ast.literal_eval(str(sub_cmd[1]))
+                            prot_dict["kicky"] = ast.literal_eval(str(sub_cmd[1]))
+                            prot_dict["kickz"] = ast.literal_eval(str(sub_cmd[1]))
                         else:
-                            prot_dict[sub_cmd[0].lower()] = ast.literal_eval(sub_cmd[1])
+                            prot_dict[sub_cmd[0].lower()] = ast.literal_eval(str(sub_cmd[1]))
 
                     ### Errors out if unknown subcommand used, and prints the subcommand to console
                     else:
@@ -2034,42 +2166,64 @@ class CGSB:
                     '''
                     Finds the charge of a protein based on residue names and the 'prot_defs' dictionary
                     '''
-                    charge = 0
                     counted_residues = []
+                    protein_bead_charges = []
                     for (bead_i, bead_nr, res_nr), values in beads.items():
                         if res_nr not in counted_residues:
                             params = self.prot_params or self.sys_params
                             if values["res_name"] in self.prot_defs[params]["charges"]:
-                                charge += self.prot_defs[params]["charges"][values["res_name"]]
+                                protein_bead_charges.append(self.prot_defs[params]["charges"][values["res_name"]])
                             else:
-                                self.print_term(values["res_name"], "residue name not in 'prot_defs' charges for system parameters:", params)
+                                self.print_term(values["res_name"], "residue name not in 'prot_defs' charges for system parameters:", params, warn=True)
+                                protein_bead_charges.append(0)
                             counted_residues.append(res_nr)
-                    return charge
+                    return protein_bead_charges
                 
                 ### Post-preprocessing (topology and charge determination)
                 if isinstance(prot_dict["charge"], (float, int)):
-                    prot_dict["tot_charge"] += prot_dict["charge"]
+                    ### Sets charge manually
+                    ### Evenly distributes charges accross all beads as there is no way of knowing where they are located based on a single charge value
+                    protein_bead_charges = [prot_dict["charge"]/len(prot_dict["beads"]) for _ in range(len(prot_dict["beads"]))]
                     
                 elif prot_dict["charge"] == "auto":
-                    prot_dict["tot_charge"] += prot_charge_finder(prot_dict["beads"])
-                    
+                    ### Finds charge information from prot_defs charge dictionary
+                    protein_bead_charges = prot_charge_finder(prot_dict["beads"])
+                
                 elif prot_dict["charge"] == "top":
+                    ### Finds charge information in topology files
                     if prot_dict["mol_names"] == []:
-                        self.print_term("No protein names given.  Will estimate charges from residue names. Use 'mol_name' to assign protein names (name used in topology files)", spaces=2)
-                        prot_dict["tot_charge"] = prot_charge_finder(prot_dict["beads"])
+                        ### Reverts to getting charge data from prot_defs charge dictionary if molecule names not given
+                        self.print_term("No protein names given. Will estimate charges from residue names. Use 'mol_name' to assign protein names (name used in topology files)", spaces=2, warn=True)
+                        protein_bead_charges = prot_charge_finder(prot_dict["beads"])
                     else:
+                        ### Finds charge data from topology files
+                        protein_bead_charges = []
+                        erase_charges = False
                         for mol_name in prot_dict["mol_names"]:
                             if mol_name not in self.itp_moltypes.keys():
-                                self.print_term("A protein name could not be found in your topology file(s): " +  mol_name, warn=True, spaces=2)
+                                self.print_term("A molecule name could not be found in your topology file(s): " +  mol_name, warn=True, spaces=2)
+                                self.print_term("Setting all molecule bead charges to 0", warn=True, spaces=2)
+                                erase_charges = True
                             else:
-                                prot_dict["tot_charge"] += self.itp_moltypes[mol_name]["charge_sum"]
-
+                                protein_bead_charges.extend([
+                                    atom["charge"] for atom in self.itp_moltypes[mol_name]["atoms"].values()
+                                ])
+                        if erase_charges:
+                            protein_bead_charges = [0 for _ in range(len(prot_dict["beads"]))]
+                
                 prot_dict["mol_names"] = prot_dict["mol_names"] or "_".join(["PROT", str(cmd_nr)])
                 
+                ### ### Mapping charge values to int/float data type
+                ### First ensure values are strings otherwise ast.literal_eval will error
+                protein_bead_charges = list(map(str, protein_bead_charges))
+                ### The map strings to int/float
+                protein_bead_charges = list(map(ast.literal_eval, protein_bead_charges))
+                
                 ### Converting data into protein class
-                prot_dict["protein"] = PROTEIN(charge = prot_dict["tot_charge"], molname = "_".join(["PROT", str(cmd_nr)]))
+                prot_dict["protein"] = PROTEIN(molname = prot_dict["mol_names"])
+                
                 cur_res = False
-                for key, vals in prot_dict["beads"].items():
+                for (key, vals), charge in zip(prot_dict["beads"].items(), protein_bead_charges):
                     if vals["res_nr"] != cur_res:
                         prot_dict["protein"].add_res(vals["res_name"], vals["res_nr"])
                         cur_res = vals["res_nr"]
@@ -2080,10 +2234,13 @@ class CGSB:
                         vals["x"],
                         vals["y"],
                         vals["z"],
+                        charge=charge,
                     )
                 
+                self.system_charge += prot_dict["protein"].get_mol_charge()
+                
                 self.PROTEINS[cmd_nr] = prot_dict.copy()
-            self.print_term("Number of molecule insertions preprocessed:", len(self.PROTEINS), spaces=1)
+            self.print_term("Number of molecule insertions preprocessed:", len(self.PROTEINS), spaces=1, verbose=3)
 
     def memb_preprocessor(self):
         '''
@@ -2092,9 +2249,9 @@ class CGSB:
         self.MEMBRANES = {}
         ### ### Preprocessing membranes
         if len(self.MEMBRANES_cmds) != 0:
-            self.print_term("\nPreprocessing membrane requests")
+            self.print_term("\nPreprocessing membrane requests", verbose=2)
             for cmd_nr, leaf_cmd in enumerate(self.MEMBRANES_cmds, 1):
-                self.print_term("Starting membrane command:", cmd_nr, spaces=1)
+                self.print_term("Starting membrane command:", cmd_nr, spaces=1, verbose=3)
                 ### "membrane" settings always apply to the whole membrane instead of individual leaflets
                 ### "default" settings can be overwritten by individual leaflets
                 settings_dict = {
@@ -2418,14 +2575,20 @@ class CGSB:
                             l_ratio = rest[0]
                             l_params = leaflet["params"] or self.lipid_params or self.sys_params # (sys_params defaults to "default")
 
-                        leaflet["lipids"][l_name] = self.lipid_dict[l_params][l_name]
+                        leaflet["lipids"][l_name] = copy.deepcopy(self.lipid_dict[l_params][l_name])
 
                         if type(l_ratio) == str:
                             l_ratio = ast.literal_eval(l_ratio)
                         leaflet["lipids"][l_name].ratio_add(l_ratio)
                             
+                        ### Finds charge data from topology files
                         if leaflet["charge"] == "top" and l_name in self.itp_moltypes.keys():
-                            leaflet["lipids"][l_name].charge_set(self.itp_moltypes[l_name]["charge_sum"])
+                            bead_charges = list(map(self.get_number_from_string, [
+                                atom["charge"] for atom in self.itp_moltypes[l_name]["atoms"].values()
+                            ]))
+                            leaflet["lipids"][l_name].set_bead_charges(bead_charges)
+                        else:
+                            self.print_term("Lipid ({lipid_name}) could not be found in the topology".format(lipid_name=l_name), warn=True)
                         
                     maxx, maxy, maxz, minx, miny, minz = [
                         func([
@@ -2434,6 +2597,10 @@ class CGSB:
                             for val in leaflet["lipids"][lipid].get_coords(ax)[0]
                         ])
                         for func, sign in [(max, +1), (min, -1)] for ax, wr in [("x", "plane"), ("y", "plane"), ("z", "height")]
+                    ]
+                    lipid_radii = [
+                            lipid_class.get_radius(AXs="xy")
+                            for lipid_class in leaflet["lipids"].values()
                     ]
                     
                     ### Update leaflet dictionary. Some are duplicated here, but potentially overwritten later
@@ -2447,7 +2614,7 @@ class CGSB:
                         "zOverLipCen": abs(maxz),
                         "zUnderLipCen": abs(minz),
                         "lipid_height": abs(maxz) + abs(minz),
-                        "lipid_radius": max(abs(maxx), abs(maxy), abs(minx), abs(miny)),
+                        "lipid_radius": max(lipid_radii),
                     }
                 
                 memb_dict.update({
@@ -2466,7 +2633,7 @@ class CGSB:
                 elif layer_definition in bilayer_designation:
                     self.MEMBRANES[cmd_nr] = memb_dict
             
-            self.print_term("Number of membranes preprocessed:", len(self.MEMBRANES), spaces=1)
+            self.print_term("Number of membranes preprocessed:", len(self.MEMBRANES), spaces=1, verbose=3)
 
     def solv_preprocessor(self):
         '''
@@ -2475,52 +2642,59 @@ class CGSB:
         self.SOLVATIONS = {}
         
         if len(self.SOLVATIONS_cmds) != 0:
-            self.print_term("\nPreprocessing solvent requests")
+            self.print_term("\nPreprocessing solvent requests", verbose=2)
             for cmd_nr, solvate_cmd in enumerate(self.SOLVATIONS_cmds, 1):
-                self.print_term("Starting Solvent command:", cmd_nr, spaces=1)
+                self.print_term("Starting Solvent command:", cmd_nr, spaces=1, verbose=3)
                 ### Defaults
                 solv_dict = {
                     ### ### Solvent
                     "solvent": {}, # empty
                     "solv_preprocessing": [], # empty
-            #         "solvcount": False, # [bool] whether to consider solvcount or not
                     "solv_molarity": 55.56, # [int] or [float] # mol/L
                     "solvfreevol": True,
-                    ### molarity of water = 55.56, thus molarity of regular bead water should be a fourth of that (13.89)
 
                     ### ### Ions
                     "neg_ions": {}, # empty
                     "pos_ions": {}, # empty
                     "neg_ions_preprocessing": [], # empty
                     "pos_ions_preprocessing": [], # empty
-            #         "ionscount": False, # [bool] whether to consider solvcount or not
                     "charge": 0, # int or float # Target charge for system
                     "sys_charge": True, # [bool]
+                    ### starting mol/liter concentration of both negative and positive ions (each will have the concentration) 
                     "salt_molarity": 0.15, # int or float # mol/L
                     "ionsvol": "solv", # "box", "free", "solv"
-                    ### starting mol/liter concentration of both negative and positive ions (each will have the concentration) 
+                    "salt_method": "add",
                     
                     ### ### Flooding specific
                     "flooding": False,
                     
                     ### ### General
+                    ### Solvent box center:
+                    "x": self.pbcx / 10, # [nm] converted to [Å]
+                    "y": self.pbcy / 10, # [nm] converted to [Å]
+                    "z": self.pbcz / 10, # [nm] converted to [Å]
+                    "center": [0, 0, 0], # [nm] converted to [Å]
+                    
+                    "charges_from_top": True, # bool
+                    
                     "count": False, # [bool] Uses specific molarity value as absolute number of molecules instead of molarity ratio. Will be rounded using int(val+0.5)
-                    "kick": 2.64/5*2, # [Å]
+#                     "kick": 0.264/5*2, # [nm] converted to [Å]
+                    "kick": 0.264/4, # [nm] converted to [Å]
+                    
                     "bdx": 1.0, # [multiplier]
                     "bdy": 1.0, # [multiplier]
                     "bdz": 1.0, # [multiplier]
-                    "params": False, # False or str
-                    "bead_radius": 2.64, # [Å]
-                    "gridres": 2.64, # [Å] # 1.32
-                    "WR": 2.64, # [Å]
-                    "buffer": 2.0, # [Å]
-                    "protein_extra_buffer": 2,
-                    "lipid_extra_buffer": 0,
-                    "solute_extra_buffer": 0,
-                    "min_cellsize": 1, # Integer value
                     
-                    ### ### Choose solvation algorithm
-                    "algorithm": "v2", # (v2: Fast), (v1: old, same result but slower, kept for now just in case)
+                    "params": False, # False or str
+                    "bead_radius": 0.264, # [nm] converted to [Å] # Used for volume calculations
+#                     "gridres": 0.264, # [nm] converted to [Å] # 1.32
+                    "gridres": 0.264, # [nm] converted to [Å] # 1.32
+                    
+                    "WR": 0.264, # [nm] converted to [Å]
+                    "buffer": 0.2, # [nm] converted to [Å]
+                    "protein_extra_buffer": 0.2, # [nm] converted to [Å]
+                    "lipid_extra_buffer": 0, # [nm] converted to [Å]
+                    "solute_extra_buffer": 0, # [nm] converted to [Å]
                 }
                 
                 ### Added "default" solvation command per user request
@@ -2529,6 +2703,7 @@ class CGSB:
                 
                 for cmd in solvate_cmd.split():
                     sub_cmd = cmd.split(":")
+                    
                     ########################
                     ### SOLVENT SPECIFIC ###
                     ########################
@@ -2539,10 +2714,6 @@ class CGSB:
                     ### Solvent concentration
                     elif sub_cmd[0].lower() == "solv_molarity":
                         solv_dict["solv_molarity"] = ast.literal_eval(sub_cmd[1])
-
-                    ### Solvent count
-                    elif sub_cmd[0].lower() == "solvcount":
-                        solv_dict["solvcount"] = ast.literal_eval(sub_cmd[1])
 
                     ### Whether to consider free volume (excluding lipid and protein) or purely the box volume
                     elif sub_cmd[0].lower() == "solvfreevol":
@@ -2559,29 +2730,72 @@ class CGSB:
                     elif sub_cmd[0].lower() == "pos":
                         solv_dict["pos_ions_preprocessing"].append(sub_cmd[1:])
 
-                    ### Solvent count
-                    elif sub_cmd[0].lower() == "ionscount":
-                        solv_dict["ionscount"] = ast.literal_eval(sub_cmd[1])
-
                     ### Target charge [int/float] or False for no "neutralization"
                     elif sub_cmd[0].lower() == "charge":
                         solv_dict["charge"] = ast.literal_eval(sub_cmd[1])
 
                     ### Whether to consider system charge for charge calculations
                     elif sub_cmd[0].lower() == "sys_charge":
-                        solv_dict["sys_charge"] = ast.literal_eval(sub_cmd[1])
+                        if type(sub_cmd[1]) == bool:
+                            solv_dict["sys_charge"] = sub_cmd[1]
+                        else:
+                            solv_dict["sys_charge"] = ast.literal_eval(sub_cmd[1])
 
                     ### Salt concentration
-                    elif sub_cmd[0].lower() == "salt_molarity":
+                    elif sub_cmd[0].lower() in ["salt_molarity", "salt"]:
                         solv_dict["salt_molarity"] = ast.literal_eval(sub_cmd[1])
 
                     ### Whether to consider free volume (excluding lipid and protein) or purely the box volume
                     elif sub_cmd[0].lower() == "ionsvol":
                         solv_dict["ionsvol"] = sub_cmd[1].lower()
 
+                    ### Whether to consider system charge for charge calculations
+                    elif sub_cmd[0].lower() == "salt_method":
+                        valid_settings = ["add", "remove", "mean"]
+                        if sub_cmd[1] in valid_settings:
+                            solv_dict["salt_method"] = sub_cmd[1]
+                        else:
+                            self.print_term(
+                                "Subcommand", "'salt_method'", "has been given with an invalid setting",
+                                "\nSetting used was:", "'" + sub_cmd[1] + "'",
+                                "\nValid settings are:", " ".join(["'"+s+"'" for s in valid_settings]),
+                                warn=True
+                            )
+
                     ###############
                     ### GENERAL ###
                     ###############
+                    ### Solvation box x-length
+                    elif sub_cmd[0].lower() == "x":
+                        solv_dict["x"] = ast.literal_eval(sub_cmd[1])
+                    ### Solvation box y-length
+                    elif sub_cmd[0].lower() == "y":
+                        solv_dict["y"] = ast.literal_eval(sub_cmd[1])
+                    ### Solvation box z-length
+                    elif sub_cmd[0].lower() == "z":
+                        solv_dict["z"] = ast.literal_eval(sub_cmd[1])
+                        
+                    ### Solvation box x center
+                    elif sub_cmd[0].lower() == "cx":
+                        solv_dict["center"][0] = ast.literal_eval(sub_cmd[1])
+                    ### Solvation box y center
+                    elif sub_cmd[0].lower() == "cy":
+                        solv_dict["center"][1] = ast.literal_eval(sub_cmd[1])
+                    ### Solvation box z center
+                    elif sub_cmd[0].lower() == "cz":
+                        solv_dict["center"][2] = ast.literal_eval(sub_cmd[1])
+                        
+                    ### Solvation box center
+                    elif sub_cmd[0].lower() == "center":
+                        solv_dict["center"] = [ast.literal_eval(val) for val in sub_cmd[1:]]
+                    
+                    ### Whether charges should be obtained from topology
+                    elif sub_cmd[0].lower() in ["charges_from_top", "top"]:
+                        val = sub_cmd[1]
+                        if type(val) == str:
+                            val = ast.literal_eval(sub_cmd[1])
+                        solv_dict["charges_from_top"] = val
+                        
                     ### Whether to use ratios as absolute number of molecules. True/False
                     elif sub_cmd[0].lower() == "count":
                         solv_dict["count"] = ast.literal_eval(sub_cmd[1])
@@ -2626,14 +2840,6 @@ class CGSB:
                     ### Extra buffer given to prior solvents (solutes)
                     elif sub_cmd[0].lower() == "solute_extra_buffer":
                         solv_dict["solute_extra_buffer"] = ast.literal_eval(sub_cmd[1])
-
-                    ### Buffer for solvent placement from leaflet hydrophobic area
-                    elif sub_cmd[0].lower() == "min_cellsize":
-                        solv_dict["min_cellsize"] = int(ast.literal_eval(sub_cmd[1]) + 0.5)
-
-                    ### Chooses solvation algorithm
-                    elif sub_cmd[0].lower() in ["alg", "algorithm"]:
-                        solv_dict["algorithm"] = sub_cmd[1]
                     
                     #########################
                     ### FLOODING SPECIFIC ###
@@ -2642,12 +2848,30 @@ class CGSB:
                     elif sub_cmd[0].lower() == "flooding":
                         solv_dict["flooding"] = ast.literal_eval(sub_cmd[1])
                         
-                    elif solv_dict["flooding"] and sub_cmd[0] in [key for params in solvent_defs.keys() for key in solvent_defs[params].keys()]:
+                    elif solv_dict["flooding"] and sub_cmd[0] in [key for params in self.solvent_defs.keys() for key in self.solvent_defs[params].keys()]:
                         solv_dict["solv_preprocessing"].append(sub_cmd[0:])
                     
                     ### Errors out if unknown subcommand used, and prints the subcommand to terminal
                     else:
                         assert False, "Unknown subcommand given to '-solvate'. The subcommand is: '" + str(cmd) + "'"
+                
+                ### fixing a couple of values such that they are in angstrom
+                solv_dict.update({
+                    "x": solv_dict["x"]*10,
+                    "y": solv_dict["y"]*10,
+                    "z": solv_dict["z"]*10,
+                    "center": [val*10 for val in solv_dict["center"]],
+                    
+                    "kick":        solv_dict["kick"]*10,
+                    "bead_radius": solv_dict["bead_radius"]*10,
+                    "gridres":     solv_dict["gridres"]*10,
+                    "WR":          solv_dict["WR"]*10,
+                    
+                    "buffer":               solv_dict["buffer"]*10,
+                    "protein_extra_buffer": solv_dict["protein_extra_buffer"]*10,
+                    "lipid_extra_buffer":   solv_dict["lipid_extra_buffer"]*10,
+                    "solute_extra_buffer":  solv_dict["solute_extra_buffer"]*10,
+                })
                 
                 ######################################
                 ### SOLVENT/ION DATA INCORPORATION ###
@@ -2661,33 +2885,56 @@ class CGSB:
                     rest_molarity = False
                     if len(subcmd_rest) > 0:
                         for val in subcmd_rest:
-                            isnumber, isinteger = self.is_number(rest[-1])
+                            isnumber, isinteger = self.is_number(val)
                             if isnumber:
                                 rest_molarity = ast.literal_eval(val)
                             else:
                                 rest_params = val
-                    return rest_params, rest_molarity 
-                    
+                    return rest_params, rest_molarity
+                
+                solv_dict["solv_tot_ratio"] = 0
+                solv_dict["pos_tot_ratio"] = 0
+                solv_dict["neg_tot_ratio"] = 0
+                
                 ### ### SOLVENT DATA
                 for subcommand_values in solv_dict["solv_preprocessing"]:
                     name = subcommand_values[0]
                     rest = subcommand_values[1:]
                     solv_type = "solvent"
-                    rest_params, rest_molarity = values_checker(rest)
+                    rest_params, rest_ratio = values_checker(rest)
                     if rest_params:
                         params = rest_params
                     else:
                         params = solv_dict["params"] or self.solv_params or self.sys_params # (sys_params defaults to "default")
                     ### Adding name:dict combo to solvent dict
-                    solv_dict[solv_type][name] = self.solvent_dict[params][name]
+                    solv_dict[solv_type][name] = copy.deepcopy(self.solvent_dict[params][name])
+                    
+                    ### Finds charge data from topology files
+                    if solv_dict["charges_from_top"] and name in self.itp_moltypes.keys():
+                        bead_charges = list(map(self.get_number_from_string, [
+                            atom["charge"] for atom in self.itp_moltypes[name]["atoms"].values()
+                        ]))
+                        solv_dict[solv_type][name].set_bead_charges(bead_charges)
+                    else:
+                        self.print_term("Solvent ({name}) could not be found in the topology".format(name=name), warn=True)
                     
                     ### If count has been set, then convert to integer value and treat as absolute number of molecules
-                    if solv_dict["count"] and rest_molarity:
-                        solv_dict[solv_type][name].molarity_set(int(ast.literal_eval(rest[-1]) + 0.5))
-                    elif solv_dict["count"]:
-                        solv_dict[solv_type][name].molarity_set(int(solv_dict["solv_molarity"] + 0.5))
+                    if solv_dict["count"]:
+                        if rest_ratio:
+                            solv_dict[solv_type][name].molarity_set(int(rest_ratio + 0.5))
+                            solv_dict[solv_type][name].ratio_set(0)
+                        else:
+                            solv_dict[solv_type][name].molarity_set(int(solv_dict["solv_molarity"] + 0.5))
+                            solv_dict[solv_type][name].ratio_set(0)
                     else:
-                        solv_dict[solv_type][name].molarity_set(solv_dict["solv_molarity"])
+                        if rest_ratio:
+                            solv_dict[solv_type][name].molarity_set(solv_dict["solv_molarity"])
+                            solv_dict[solv_type][name].ratio_set(rest_ratio)
+                            solv_dict["solv_tot_ratio"] += rest_ratio
+                        else:
+                            solv_dict[solv_type][name].molarity_set(solv_dict["solv_molarity"])
+                            solv_dict[solv_type][name].ratio_set(1)
+                            solv_dict["solv_tot_ratio"] += 1
                 
                 ion_types_to_be_processed = []
                 if solv_dict["pos_ions_preprocessing"]:
@@ -2699,33 +2946,54 @@ class CGSB:
                 for solv_type, subcommand_values in ion_types_to_be_processed:
                     name = subcommand_values[0]
                     rest = subcommand_values[1:]
-                    rest_params, rest_molarity = values_checker(rest)
+                    rest_params, rest_ratio = values_checker(rest)
                     if rest_params:
                         params = rest_params
                     else:
                         params = solv_dict["params"] or self.solv_params or self.sys_params # (sys_params defaults to "default")
+                    
                     ### Adding name:dict combo to solvent dict
                     if solv_type == "pos_ions":
-                        solv_dict[solv_type][name] = self.ion_dict[params]["positive"][name]
+                        solv_dict[solv_type][name] = copy.deepcopy(self.ion_dict[params]["positive"][name])
+                        solv_ratio_type = "pos_tot_ratio"
                     elif solv_type == "neg_ions":
-                        solv_dict[solv_type][name] = self.ion_dict[params]["negative"][name]
+                        solv_dict[solv_type][name] = copy.deepcopy(self.ion_dict[params]["negative"][name])
+                        solv_ratio_type = "neg_tot_ratio"
                     
-                    rest_params, rest_molarity = values_checker(rest)
-                    ### If count has been set, then convert to integer value and treat as absolute number of molecules
-                    if solv_dict["count"] and rest_molarity:
-                        solv_dict[solv_type][name].molarity_set(int(ast.literal_eval(rest[-1]) + 0.5))
-                    elif solv_dict["count"]:
-                        solv_dict[solv_type][name].molarity_set(int(solv_dict["salt_molarity"] + 0.5))
+                    ### Finds charge data from topology files
+                    if solv_dict["charges_from_top"] and name in self.itp_moltypes.keys():
+                        bead_charges = list(map(self.get_number_from_string, [
+                            atom["charge"] for atom in self.itp_moltypes[name]["atoms"].values()
+                        ]))
+                        solv_dict[solv_type][name].set_bead_charges(bead_charges)
                     else:
-                        solv_dict[solv_type][name].molarity_set(solv_dict["salt_molarity"])
+                        self.print_term("Solvent ({name}) could not be found in the topology".format(name=name), warn=True)
+                    
+                    ### If count has been set, then convert to integer value and treat as absolute number of molecules
+                    if solv_dict["count"]:
+                        if rest_ratio:
+                            solv_dict[solv_type][name].molarity_set(int(rest_ratio + 0.5))
+                            solv_dict[solv_type][name].ratio_set(0)
+                        else:
+                            solv_dict[solv_type][name].molarity_set(int(solv_dict["salt_molarity"] + 0.5))
+                            solv_dict[solv_type][name].ratio_set(0)
+                    else:
+                        if rest_ratio:
+                            solv_dict[solv_type][name].molarity_set(solv_dict["salt_molarity"])
+                            solv_dict[solv_type][name].ratio_set(rest_ratio)
+                            solv_dict[solv_ratio_type] += rest_ratio
+                        else:
+                            solv_dict[solv_type][name].molarity_set(solv_dict["salt_molarity"])
+                            solv_dict[solv_type][name].ratio_set(1)
+                            solv_dict[solv_ratio_type] += 1
 
-                self.SOLVATIONS[cmd_nr] = solv_dict
+                self.SOLVATIONS[cmd_nr] = solv_dict.copy()
                 
-            self.print_term("Number of solvent commands preprocessed:", len(self.SOLVATIONS), spaces=1)
+            self.print_term("Number of solvent commands preprocessed:", len(self.SOLVATIONS), spaces=1, verbose=3)
     
     def itp_read_initiater(self):
         if len(self.ITP_INPUT_cmds) != 0:
-            self.print_term("\nLoading topology file(s)", spaces=0)
+            self.print_term("\nLoading topology file(s)", spaces=0, verbose=1)
             self.itp_defs = {
                 "bondtypes": {},
                 "angletypes": {},
@@ -2742,7 +3010,7 @@ class CGSB:
                         charge_sum += ast.literal_eval(atom_vals["charge"])
                 self.itp_moltypes[moltype]["charge_sum"] = charge_sum
 
-            self.print_term("Finished loading topologies. Number of moleculetypes found:", len(self.itp_moltypes), spaces=1)
+            self.print_term("Finished loading topologies. Number of moleculetypes found:", len(self.itp_moltypes), "\n", spaces=1, verbose=2)
     
     def import_structures_handler(self):
         if len(self.SOLUTE_INPUT_cmds) != 0:
@@ -2807,6 +3075,7 @@ class CGSB:
                 assert not (sum(V1_check) > 0 and sum(V2_check) > 0), "Both V1 and V2 import commands used. Stick to one."
                 
                 for cmd in imp_struc.split():
+                    
                     sub_cmd = cmd.split(":")
                     ### Read pdb/gro file
                     if any([extension in sub_cmd[0].lower() for extension in [".pdb", ".gro"]]) or sub_cmd[0] in ["f", "file", "solute_file"]:
@@ -3098,20 +3367,33 @@ class CGSB:
                     break
 
     def is_number(self, s):
-        sign = "+"
-        number = False
-        integer = False
+        
         if type(s) == str:
             if s.startswith("-"):
-                sign, s = "-", s[1:]
+                s = s[1:]
+        else:
+            s = str(s)
+        
         try:
-            s = float(s)
+            test = float(s)
             number = True
-            if s.is_integer():
+            if s.isdigit():
                 integer = True
+            else:
+                integer = False
             return number, integer
+        
         except ValueError:
             return False, False
+    
+    def get_number_from_string(self, s):
+        isnumber, isint = self.is_number(s)
+        if isnumber and isint:
+            return int(s)
+        elif isnumber:
+            return float(s)
+        else:
+            return False
     
     ########################
     ### PROTEIN INSERTER ###
@@ -3123,11 +3405,11 @@ class CGSB:
         '''
         if len(self.PROTEINS) != 0:
             prot_placer_tic = time.time()
-            self.print_term("------------------------------ PROTEIN PLACEMENT", spaces=0)
+            self.print_term("------------------------------ PROTEIN PLACEMENT", spaces=0, verbose=1)
             for protein_i, (protein_nr, protein) in enumerate(self.PROTEINS.items()):
                 if protein_i != 0:
-                    self.print_term("")
-                self.print_term("Starting protein nr", protein_nr, spaces=0)
+                    self.print_term("", verbose=3)
+                self.print_term("Starting protein nr", protein_nr, spaces=0, verbose=2)
                 
                 #################
                 ### CENTERING ###
@@ -3158,7 +3440,12 @@ class CGSB:
                     target = protein["cen_method"][1:]
                 
                 xcen, ycen, zcen = self.PROTEINS[protein_nr]["protein"].get_center_point(centering = centering, target = target)
-                self.print_term("Centering protein using", "'" + " ".join([str(i) for i in protein["cen_method"]])+"'", "at x/y/z:", round(xcen, 3), round(ycen, 3), round(zcen, 3), "(Input file coordinate system [Å])", spaces=1)
+                self.print_term(
+                    "Centering protein using", "'" + " ".join([str(i) for i in protein["cen_method"]])+"'",
+                    "at x/y/z:", round(xcen, 3), round(ycen, 3), round(zcen, 3), "(Input file coordinate system [Å])",
+                    spaces=1,
+                    verbose=3
+                )
                 self.PROTEINS[protein_nr]["protein"].set_coords_to_center(centering = centering, target = target)
 
                 #################
@@ -3199,15 +3486,13 @@ class CGSB:
 
                 xcen_new, ycen_new, zcen_new = 0, 0, 0
                 xcen_new, ycen_new, zcen_new = xcen_new + tx, ycen_new + ty, zcen_new + tz
-                self.print_term("New protein center at x/y/z:", round(xcen_new, 3), round(ycen_new, 3), round(zcen_new, 3), "(Internal coordinate system [Å])", spaces=1)
-
-                self.system_charge += self.PROTEINS[protein_nr]["protein"].charge
+                self.print_term("New protein center at x/y/z:", round(xcen_new, 3), round(ycen_new, 3), round(zcen_new, 3), "(Internal coordinate system [Å])", spaces=1, verbose=3)
                 
-                self.print_term("Finished placing protein nr", protein_nr, spaces=1)
+                self.print_term("Finished placing protein nr", protein_nr, spaces=1, verbose=3)
                 
             prot_placer_toc = time.time()
             prot_placer_time = round(prot_placer_toc - prot_placer_tic, 4)
-            self.print_term("------------------------------ PLACEMENT COMPLETE", "(time spent: "+str(prot_placer_time)+" [s])", "\n", spaces=0)
+            self.print_term("------------------------------ PLACEMENT COMPLETE", "(time spent: "+str(prot_placer_time)+" [s])", "\n", spaces=0, verbose=1)
     
     ######################
     ### POLYGON MAKERS ###
@@ -3215,16 +3500,16 @@ class CGSB:
     def subleaflet_poly_maker(self):
         if len(self.MEMBRANES) != 0:
             subleaflet_poly_maker_tic = time.time()
-            self.print_term("------------------------------ CREATING LEAFLET BOUNDARY BOXES", spaces=0)
+            self.print_term("------------------------------ CREATING LEAFLET BOUNDARY BOXES", spaces=0, verbose=1)
             for memb_i, (memb_key, memb_dict) in enumerate(self.MEMBRANES.items()):
                 if memb_i != 0:
-                    self.print_term("")
-                self.print_term("Starting membrane nr", memb_key, spaces=0)
+                    self.print_term("", verbose=2)
+                self.print_term("Starting membrane nr", memb_key, spaces=0, verbose=2)
                 
                 for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
                     leaflet["subleaflets"] = {}
-                    self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=1)
-                    self.print_term("Base parameters:", "x=" + str(leaflet["x"] / 10) + "nm", "y=" + str(leaflet["y"] / 10) + "nm", "APL=" + str(leaflet["apl"] / 100) + "nm^2", spaces=2)
+                    self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=1, verbose=3)
+                    self.print_term("Base parameters:", "x=" + str(leaflet["x"] / 10) + "nm", "y=" + str(leaflet["y"] / 10) + "nm", "APL=" + str(leaflet["apl"] / 100) + "nm^2", spaces=2, verbose=4)
                     
                     if leaflet["gridsplits"][0] == "auto":
                         xsplits = leaflet["x"] // leaflet["gridsplits"][1] + 1
@@ -3232,11 +3517,11 @@ class CGSB:
                     else:
                         xsplits, ysplits = leaflet["gridsplits"]
                     if xsplits > 1:
-                        self.print_term("x-axis split into", xsplits, "subleaflets due to axis length or manual designation", spaces=2)
+                        self.print_term("x-axis split into", xsplits, "subleaflets due to axis length or manual designation", spaces=2, verbose=4)
                     if ysplits > 1:
-                        self.print_term("y-axis split into", ysplits, "subleaflets due to axis length or manual designation", spaces=2)
+                        self.print_term("y-axis split into", ysplits, "subleaflets due to axis length or manual designation", spaces=2, verbose=4)
                     if xsplits * ysplits > 1:
-                        self.print_term("A total of", xsplits*ysplits, "subleaflets have been made for the current leaflet", spaces=2)
+                        self.print_term("A total of", xsplits*ysplits, "subleaflets have been made for the current leaflet", spaces=2, verbose=4)
                     
                     xmin, xmax = leaflet["center"][0] - leaflet["x"]/2, leaflet["center"][0] + leaflet["x"]/2
                     ymin, ymax = leaflet["center"][1] - leaflet["y"]/2, leaflet["center"][1] + leaflet["y"]/2
@@ -3272,16 +3557,16 @@ class CGSB:
             
             subleaflet_poly_maker_toc = time.time()
             subleaflet_poly_maker_time = round(subleaflet_poly_maker_toc - subleaflet_poly_maker_tic, 4)
-            self.print_term("------------------------------ LEAFLET BOUNDARY BOXES CREATED", "(time spent: "+str(subleaflet_poly_maker_time)+" [s])", "\n", spaces=0)
+            self.print_term("------------------------------ LEAFLET BOUNDARY BOXES CREATED", "(time spent: "+str(subleaflet_poly_maker_time)+" [s])", "\n", spaces=0, verbose=1)
             
     def holed_subleaflet_bbox_maker(self):
         if len(self.MEMBRANES) != 0:
             holed_subleaflet_bbox_maker_tic = time.time()
-            self.print_term("------------------------------ CREATING HOLED BOUNDARY BOXES", spaces=0)
+            self.print_term("------------------------------ CREATING HOLED BOUNDARY BOXES", spaces=0, verbose=1)
             for memb_i, (memb_key, memb_dict) in enumerate(self.MEMBRANES.items()):
                 if memb_i != 0:
-                    self.print_term("")
-                self.print_term("Starting membrane nr", memb_key, spaces=0)
+                    self.print_term("", verbose=3)
+                self.print_term("Starting membrane nr", memb_key, spaces=0, verbose=2)
                 
                 ### Defnining some default values for union, intersection and holed_bbox
                 for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
@@ -3296,10 +3581,10 @@ class CGSB:
                 ######################################
                 ### Getting all the protein bead positions
                 if len(self.PROTEINS) != 0:
-                    self.print_term("Finding protein beads inside leaflets", spaces=1)
+                    self.print_term("Finding protein beads inside leaflets", spaces=1, verbose=3)
 
                     for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
-                        self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=2)
+                        self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=2, verbose=4)
                         polygon_list = []
 
                         ####################################################
@@ -3320,10 +3605,10 @@ class CGSB:
                         ]
 
                         if len(prod_beads_in_memb) == 0:
-                            self.print_term("No leaflet-protein overlap found", spaces=3)
+                            self.print_term("No leaflet-protein overlap found", spaces=3, verbose=5)
                             leaflet["prot_points"] = False
                         else:
-                            self.print_term("Leaflet-protein overlap found for", str(len(prod_beads_in_memb)), "protein beads", spaces=3)
+                            self.print_term("Leaflet-protein overlap found for", str(len(prod_beads_in_memb)), "protein beads", spaces=3, verbose=5)
                             leaflet["prot_points"] = prod_beads_in_memb
                             #################################
                             ### CONCAVE HULL / ALPHASHAPE ###
@@ -3390,10 +3675,10 @@ class CGSB:
                 ####################################################
                 ### COMBINING SHAPELY SHAPES FOR ALL SUBLEAFLETS ###
                 ####################################################
-                self.print_term("")
-                self.print_term("Calculating holed boundary box", spaces=1)
+                self.print_term("", verbose=4) # verbose=4 to avoid blank line for verbose < 4
+                self.print_term("Calculating holed boundary box", spaces=1, verbose=3)
                 for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
-                    self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=2)
+                    self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=2, verbose=4)
                     
                     ### All the various polygons to be removed from the bbox
                     ### Unique to each leaflet but the same for each subleaflet
@@ -3420,7 +3705,7 @@ class CGSB:
             
             holed_subleaflet_bbox_maker_toc = time.time()
             holed_subleaflet_bbox_maker_time = round(holed_subleaflet_bbox_maker_toc - holed_subleaflet_bbox_maker_tic, 4)
-            self.print_term("------------------------------ HOLED BOUNDARY BOXES CREATED", "(time spent: "+str(holed_subleaflet_bbox_maker_time)+" [s])", "\n", spaces=0)
+            self.print_term("------------------------------ HOLED BOUNDARY BOXES CREATED", "(time spent: "+str(holed_subleaflet_bbox_maker_time)+" [s])", "\n", spaces=0, verbose=1)
     
     ########################
     ### LIPID CALCULATOR ###
@@ -3429,12 +3714,13 @@ class CGSB:
         self.SYS_lipids_dict = {}
         if len(self.MEMBRANES) != 0:
             lipid_calculator_tic = time.time()
-            self.print_term("------------------------------ CALCULATING LIPID RATIOS", spaces=0)
+            self.print_term("------------------------------ CALCULATING LIPID RATIOS", spaces=0, verbose=1)
             printer_spacing = 1
             for memb_i, (memb_key, memb_dict) in enumerate(self.MEMBRANES.items()):
+                membrane_lipid_count_dict = {}
                 if memb_i != 0:
-                    self.print_term("")
-                self.print_term("Starting membrane nr", memb_key, spaces=0)
+                    self.print_term("", verbose=3)
+                self.print_term("Starting membrane nr", memb_key, spaces=0, verbose=2)
                 
                 ### Checks if any leaflets contain multiple subleaflets for printer spacing
                 for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
@@ -3443,35 +3729,37 @@ class CGSB:
                 
                 for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
                     if leaflet_i != 0:
-                        self.print_term("")
-                    self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=1)
+                        self.print_term("", verbose=4)
+                    self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=1, verbose=3)
                     
                     ### Lipid optimization printing
                     ### Printing here so it isn't spammed if multiple subleafs
-                    self.print_term("Lipid optimization 'lipid_optim' setting:", leaflet["lipid_optim"], spaces=1+printer_spacing)
+                    self.print_term("Lipid optimization 'lipid_optim' setting:", leaflet["lipid_optim"], spaces=2, verbose=4)
                     if leaflet["lipid_optim"] in ["force_fill", "fill"]:
                         if leaflet["lipid_optim"] == "fill":
-                            self.print_term("Filling leaflet until perfect ratio between lipids is achieved or leaflet is full", spaces=2+printer_spacing)
+                            self.print_term("Filling leaflet until perfect ratio between lipids is achieved or leaflet is full", spaces=3, verbose=5)
                         elif leaflet["lipid_optim"] == "force_fill":
-                            self.print_term("Forcefully filling leaflet until all grid points have a lipid", spaces=2+printer_spacing)
+                            self.print_term("Forcefully filling leaflet until all grid points have a lipid", spaces=3, verbose=5)
                     elif leaflet["lipid_optim"] == "avg_optimal":
-                        self.print_term("Optimizing based on the average deviation from expected ratios", spaces=2+printer_spacing)
-
+                        self.print_term("Optimizing based on the average deviation from expected ratios", spaces=3, verbose=5)
+                    self.print_term("", verbose=4)
+                    
                     apl_sqrt = math.sqrt(leaflet["apl"])
                     
                     leaflet["leaf_lipid_count_dict"] = {}
                     leaflet["lipid_names"] = [lipid_name for lipid_name in leaflet["lipids"].keys()]
                     leaflet["lipid_ratios"] = [0 for _ in leaflet["lipid_names"]]
                     
+                    if len(leaflet["subleaflets"]) > 1:
+                        printer_leaf_name = "Subleaflet"
+                    else:
+                        printer_leaf_name = "Leaflet"
+                        
                     for subleaflet_i, ((slxi, slyi), subleaflet) in enumerate(leaflet["subleaflets"].items()):
+                        if subleaflet_i != 0:
+                            self.print_term("", verbose=5)
                         if len(leaflet["subleaflets"]) > 1:
-                            if self.subleaflet_extra_info:
-                                if subleaflet_i != 0:
-                                    self.print_term("")
-                                self.print_term("Starting subleaflet", str(subleaflet_i+1)+"/"+str(len(leaflet["subleaflets"])), spaces=2)
-                            printer_leaf_name = "Subleaflet"
-                        else:
-                            printer_leaf_name = "Leaflet"
+                            self.print_term("Starting subleaflet", str(subleaflet_i+1)+"/"+str(len(leaflet["subleaflets"])), spaces=2, verbose=5)
                         
                         ### Initial area per lipid calculations and max potential lipids in area
                         subleaflet_area = subleaflet["holed_bbox"].area
@@ -3496,8 +3784,6 @@ class CGSB:
                         original_ratios = lipid_ratios[:]
 
                         expected_ratios_decimal = [round(ratio / sum(lipid_ratios_decimal) * 100, 3) for ratio in lipid_ratios_decimal]
-
-                        
 
                         ### Just take integer lipid values and remove excess grid points
                         if leaflet["lipid_optim"] == "abs_val":
@@ -3529,16 +3815,10 @@ class CGSB:
 
                             ### Filling in lipids
                             if leaflet["lipid_optim"] in ["force_fill", "fill"]:
-#                                 if leaflet["lipid_optim"] == "fill":
-#                                     self.print_term("Filling leaflet until perfect ratio between lipids is achieved or leaflet is full", spaces=2+printer_spacing)
-#                                 elif leaflet["lipid_optim"] == "force_fill":
-#                                     self.print_term("Forcefully filling leaflet until all grid points have a lipid", spaces=2+printer_spacing)
                                 lipid_ratios = iters[-1]
 
                             ### Optimizing lipids
                             elif leaflet["lipid_optim"] == "avg_optimal": # lipid_ratios_decimal
-#                                 self.print_term("Optimizing based on the average deviation from expected ratios", spaces=2+printer_spacing)
-
                                 iters_decimal = [[round(iteration[i] / sum(iteration) * 100, 3) for i in range(len(iteration))] for iteration in iters]
                                 iters_abs_diff = [
                                     [abs(iteration[i] - expected_ratios_decimal[i]) for i in range(len(iteration))]
@@ -3558,60 +3838,70 @@ class CGSB:
                             else:
                                 leaflet["leaf_lipid_count_dict"][name] += count
                         
-                        ##################################################
-                        ### PRINTING SUBLEAFLET SPECIFIC LIPID DETAILS ###
-                        ##################################################
                         if self.extra_info:
-                            ### Printing mean, min and max deviation from wanted ratios
-                            ratios_final_decimal = [round(lipid_ratios[i] / sum(lipid_ratios) * 100, 3) for i in range(len(lipid_ratios))]
-                            ratios_final_abs_diff = [abs(ratios_final_decimal[i] - expected_ratios_decimal[i]) for i in range(len(ratios_final_decimal))]
-                            ratios_final_avg = round(np.mean(ratios_final_abs_diff), 5) # Don't multiply by 100 as they are already percentages
-                            ratios_final_min = round(min(ratios_final_abs_diff), 5) # Don't multiply by 100 as they are already percentages
-                            ratios_final_max = round(max(ratios_final_abs_diff), 5) # Don't multiply by 100 as they are already percentages
+                            if (len(leaflet["subleaflets"]) > 1 and self.verbose >= 5) or (len(leaflet["subleaflets"]) == 1 and self.verbose >= 4):
+                                ### Printing mean, min and max deviation from wanted ratios
+                                ratios_final_decimal = [round(lipid_ratios[i] / sum(lipid_ratios) * 100, 3) for i in range(len(lipid_ratios))]
+                                ratios_final_abs_diff = [abs(ratios_final_decimal[i] - expected_ratios_decimal[i]) for i in range(len(ratios_final_decimal))]
+                                ratios_final_avg = round(np.mean(ratios_final_abs_diff), 5) # Don't multiply by 100 as they are already percentages
+                                ratios_final_min = round(min(ratios_final_abs_diff), 5) # Don't multiply by 100 as they are already percentages
+                                ratios_final_max = round(max(ratios_final_abs_diff), 5) # Don't multiply by 100 as they are already percentages
 
-                            final_ratios_decimal = [round(ratio / sum(lipid_ratios) * 100, 3) for ratio in lipid_ratios]
-                            final_lipid_data = [lipid_names, lipid_ratios, final_ratios_decimal, expected_ratios_decimal, original_ratios_decimal, original_ratios]
-
-                            headers = ["Lipid name", "Final lipids", "Final %", "Expected %", "Starting %", "Starting lipids"]
-                            lipids_for_printer = [[head] + data for head, data in zip(headers, final_lipid_data)]
-                            max_lengths = [len(str(max(data, key = lambda d: len(str(d))))) for data in lipids_for_printer]
-                            
-                            for L0, L1, L2, L3, L4, L5 in list(zip(*lipids_for_printer))[1:]:
-                                if L0 not in self.SYS_lipids_dict.keys():
-                                    self.SYS_lipids_dict[L0] = L1
-                                else:
-                                    self.SYS_lipids_dict[L0] += L1
-                            
-                            if printer_spacing == 1 or (printer_spacing == 2 and self.subleaflet_extra_info):
-                                self.print_term("Final deviations from expected ratios:", "Difference in %-values", spaces=1+printer_spacing)
+                                self.print_term("Final deviations from expected ratios:", "Difference in %-values",
+                                                spaces=1+printer_spacing,                             )
                                 self.print_term("Maximum:", ratios_final_max, spaces=2+printer_spacing)
                                 self.print_term("Average:", ratios_final_avg, spaces=2+printer_spacing)
                                 self.print_term("Minimum:", ratios_final_min, spaces=2+printer_spacing)
+                        
+                        ##################################################
+                        ### PRINTING SUBLEAFLET SPECIFIC LIPID DETAILS ###
+                        ##################################################
+                        final_ratios_decimal = [round(ratio / sum(lipid_ratios) * 100, 3) for ratio in lipid_ratios]
+                        final_lipid_data = [lipid_names, lipid_ratios, final_ratios_decimal, expected_ratios_decimal, original_ratios_decimal, original_ratios]
 
+                        headers = ["Lipid name", "Final lipids", "Final %", "Expected %", "Starting %", "Starting lipids"]
+                        lipids_for_printer = [[head] + data for head, data in zip(headers, final_lipid_data)]
+                        max_lengths = [len(str(max(data, key = lambda d: len(str(d))))) for data in lipids_for_printer]
+
+                        for L0, L1, L2, L3, L4, L5 in list(zip(*lipids_for_printer))[1:]:
+                            if L0 not in self.SYS_lipids_dict.keys():
+                                self.SYS_lipids_dict[L0] = L1
+                            else:
+                                self.SYS_lipids_dict[L0] += L1
+
+                        if self.extra_info and len(leaflet["subleaflets"]) > 1 and self.verbose >= 5:
+                            self.print_term(
+                                printer_leaf_name, "specific lipid data",
+                                "(Max lipids: "+str(max_lipids_possible)+", Final lipids: "+str(sum(lipid_ratios))+")",
+                                spaces=1+printer_spacing,
+                                verbose=4,
+
+                            )
+                            for i, (L0, L1, L2, L3, L4, L5) in enumerate(list(zip(*lipids_for_printer))):
                                 self.print_term(
-                                    printer_leaf_name, "specific lipid data",
-                                    "(Max lipids: "+str(max_lipids_possible)+", Final lipids: "+str(sum(lipid_ratios))+")",
-                                    spaces=1+printer_spacing
-                                    
+                                    '{0: <{L}}'.format(L0, L = max_lengths[0]), ":",
+                                    '{0: <{L}}'.format(L1, L = max_lengths[1]), ":",
+                                    '{0: <{L}}'.format(L2, L = max_lengths[2]), ":",
+                                    '{0: <{L}}'.format(L3, L = max_lengths[3]), ":",
+                                    '{0: <{L}}'.format(L4, L = max_lengths[4]), ":",
+                                    '{0: <{L}}'.format(L5, L = max_lengths[5]),
+                                    spaces=2+printer_spacing,
+                                    verbose=4,
                                 )
-                                for i, (L0, L1, L2, L3, L4, L5) in enumerate(list(zip(*lipids_for_printer))):
-                                    self.print_term(
-                                        '{0: <{L}}'.format(L0, L = max_lengths[0]), ":",
-                                        '{0: <{L}}'.format(L1, L = max_lengths[1]), ":",
-                                        '{0: <{L}}'.format(L2, L = max_lengths[2]), ":",
-                                        '{0: <{L}}'.format(L3, L = max_lengths[3]), ":",
-                                        '{0: <{L}}'.format(L4, L = max_lengths[4]), ":",
-                                        '{0: <{L}}'.format(L5, L = max_lengths[5]),
-                                        spaces=2+printer_spacing
-                                    )
                     
-                    leaflet["leaf_lipid_count"] = [(n, c) for n, c in leaflet["leaf_lipid_count_dict"].items()]
-
+                    leaflet["leaf_lipid_count"] = []
+                    for n, c in leaflet["leaf_lipid_count_dict"].items():
+                        leaflet["leaf_lipid_count"].append((n, c))
+                        if n not in membrane_lipid_count_dict:
+                            membrane_lipid_count_dict[n] = c
+                        else:
+                            membrane_lipid_count_dict[n] += c
+                    
                     ###############################################
                     ### PRINTING LEAFLET SPECIFIC LIPID DETAILS ###
                     ###############################################
-                    if self.extra_info and len(leaflet["subleaflets"]) > 1:
-                        self.print_term()
+                    if self.extra_info:
+                        self.print_term("", verbose=4)
                         LEAF_headers = ["Lipid name", "Total lipids", "Total %"]
                         LEAF_lipid_names, LEAF_lipid_vals = zip(*leaflet["leaf_lipid_count"])
                         LEAF_tot_lipids = sum(LEAF_lipid_vals)
@@ -3621,19 +3911,46 @@ class CGSB:
                         LEAF_lipids_for_printer = [tuple(LEAF_headers)] + LEAF_lipids_for_printer
                         LEAF_max_lengths = [len(str(max(data, key = lambda d: len(str(d))))) for data in zip(*LEAF_lipids_for_printer)]
 
-                        self.print_term("Leaflet specific lipid data (Combined subleafs)", spaces=2)
+                        self.print_term("Leaflet specific lipid data (Combined subleafs)", spaces=2, verbose=4)
                         for L0, L1, L2 in LEAF_lipids_for_printer:
                             self.print_term(
                                 '{0: <{L}}'.format(L0, L = LEAF_max_lengths[0]), ":",
                                 '{0: <{L}}'.format(L1, L = LEAF_max_lengths[1]), ":",
                                 '{0: <{L}}'.format(L2, L = LEAF_max_lengths[2]),
-                                spaces=2+printer_spacing
+                                spaces=2+printer_spacing,
+                                verbose=4,
                             )
 
+                ################################################
+                ### PRINTING MEMBRANE SPECIFIC LIPID DETAILS ###
+                ################################################
+                if self.extra_info and len(memb_dict["leaflets"]) > 1:
+                    self.print_term("", verbose=3)
+                    membrane_lipid_count_tuples = [(n, c) for n, c in membrane_lipid_count_dict.items()]
+                    MEMB_headers = ["Lipid name", "Total lipids", "Total %"]
+                    MEMB_lipid_names, MEMB_lipid_vals = zip(*membrane_lipid_count_tuples)
+                    MEMB_tot_lipids = sum(MEMB_lipid_vals)
+                    MEMB_lipid_percentages = [round(val / MEMB_tot_lipids * 100, 3) for val in MEMB_lipid_vals]
+
+                    MEMB_lipids_for_printer = list(zip(MEMB_lipid_names, MEMB_lipid_vals, MEMB_lipid_percentages))
+                    MEMB_lipids_for_printer = [tuple(MEMB_headers)] + MEMB_lipids_for_printer
+                    MEMB_max_lengths = [len(str(max(data, key = lambda d: len(str(d))))) for data in zip(*MEMB_lipids_for_printer)]
+
+                    self.print_term("Membrane-wide lipid data", spaces=1, verbose=3)
+                    for L0, L1, L2 in MEMB_lipids_for_printer:
+                        self.print_term(
+                            '{0: <{L}}'.format(L0, L = MEMB_max_lengths[0]), ":",
+                            '{0: <{L}}'.format(L1, L = MEMB_max_lengths[1]), ":",
+                            '{0: <{L}}'.format(L2, L = MEMB_max_lengths[2]),
+                            spaces=2+printer_spacing,
+                            verbose=3,
+                        )
+            
             #########################################
             ### PRINTING SYSTEMWIDE LIPID DETAILS ###
             #########################################
-            if self.extra_info:
+            if self.extra_info and len(self.MEMBRANES) > 1:
+                self.print_term("", verbose=2)
                 SYS_headers = ["Lipid name", "Total lipids", "Total %"]
                 SYS_lipid_names = [name for name in self.SYS_lipids_dict.keys()]
                 SYS_lipid_vals = [val for val in self.SYS_lipids_dict.values()]
@@ -3643,19 +3960,20 @@ class CGSB:
                 SYS_lipids_for_printer = list(zip(SYS_lipid_names, SYS_lipid_vals, SYS_lipid_percentages))
                 SYS_lipids_for_printer = [tuple(SYS_headers)] + SYS_lipids_for_printer
                 SYS_max_lengths = [len(str(max(data, key = lambda d: len(str(d))))) for data in zip(*SYS_lipids_for_printer)]
-
-                self.print_term("\nLipid data for whole system", spaces=0)
+                
+                self.print_term("\nLipid data for whole system", spaces=0, verbose=3)
                 for L0, L1, L2 in SYS_lipids_for_printer:
                     self.print_term(
                         '{0: <{L}}'.format(L0, L = SYS_max_lengths[0]), ":",
                         '{0: <{L}}'.format(L1, L = SYS_max_lengths[1]), ":",
                         '{0: <{L}}'.format(L2, L = SYS_max_lengths[2]),
-                        spaces=2+printer_spacing
+                        spaces=2+printer_spacing,
+                        verbose=3,
                     )
             
             lipid_calculator_toc = time.time()
             lipid_calculator_time = round(lipid_calculator_toc - lipid_calculator_tic, 4)
-            self.print_term("------------------------------ LIPID RATIO CALCULATIONS COMPLETE", "(time spent: "+str(lipid_calculator_time)+" [s])", "\n", spaces=0)
+            self.print_term("------------------------------ LIPID RATIO CALCULATIONS COMPLETE", "(time spent: "+str(lipid_calculator_time)+" [s])", "\n", spaces=0, verbose=1)
     
     #######################################
     ### PLANAR GRID MAKER AND OPTIMIZER ###
@@ -3665,26 +3983,32 @@ class CGSB:
         self.GRID_PLOTTING = {}
         if len(self.MEMBRANES) != 0:
             grid_making_tic = time.time()
-            self.print_term("------------------------------ CREATING LIPID GRID", spaces=0)
+            self.print_term("------------------------------ CREATING LIPID GRID", spaces=0, verbose=1)
             for memb_i, (memb_key, memb_dict) in enumerate(self.MEMBRANES.items()):
                 if memb_i != 0:
-                    self.print_term("")
-                self.print_term("Starting membrane nr", memb_key, spaces=0)
+                    self.print_term("", verbose=3)
+                self.print_term("Starting membrane nr", memb_key, spaces=0, verbose=2)
                 for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
                     if leaflet_i != 0:
-                        self.print_term("")
-                    self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=1)
+                        self.print_term("", verbose=4)
+                    self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=1, verbose=3)
+    
+                    
+                    if (self.verbose == 4 and len(leaflet["subleaflets"]) > 1) or (self.verbose > 4 and len(leaflet["subleaflets"]) == 1):
+                        self.print_term("Starting optimization", spaces=2)
                     
                     for sli, ((slxi, slyi), subleaflet) in enumerate(leaflet["subleaflets"].items()):
-                        
+                        if self.verbose > 4 and len(leaflet["subleaflets"]) > 1:
+                            self.print_term("Starting optimization for subleaflet nr", sli+1, spaces=2, verbose=5)
                         lipid_names_nlipids_radii = [
                             (
                                 name,
                                 ratio,
-                                leaflet["lipids"][name].get_radius() + max([leaflet["kickx"], leaflet["kicky"]]) + leaflet["plane_buffer"]
+                                leaflet["lipids"][name].get_radius(AXs="xy") + max([leaflet["kickx"], leaflet["kicky"]]) + leaflet["plane_buffer"]
                             )
                             for name, ratio in zip(subleaflet["lipid_names"], subleaflet["lipid_ratios"])
                         ]
+                        
                         lipids = []
                         
                         leaflet_area = subleaflet["holed_bbox"].area
@@ -3692,20 +4016,18 @@ class CGSB:
                         lipids_square_area = sum([((radius*2)**2)*ratio for name, ratio, radius in lipid_names_nlipids_radii])
                         lipids_mean_area = (lipids_circle_area + lipids_square_area)/2
                         occupation_modifier = (leaflet_area-lipids_square_area)/(leaflet_area*2) # *2 to half the modifier
-    
                         self.print_term("leaflet_area       ", leaflet_area, debug=True)
                         self.print_term("lipids_circle_area ", lipids_circle_area, debug=True)
                         self.print_term("lipids_square_area ", lipids_square_area, debug=True)
                         self.print_term("lipids_mean_area   ", lipids_mean_area, debug=True)
                         self.print_term("occupation_modifier", occupation_modifier, debug=True)
                         
-                        if occupation_modifier < 0.1:
+                        if occupation_modifier < 0.2:
                             self.print_term(
                                 "WARNING:",
                                 "Chosen apl ("+str(leaflet["apl"]/100)+" [nm^2]) and buffer ("+str(leaflet["plane_buffer"]/10)+" [nm]) cause lipids to be very closely packed.",
                                 "Optimization may be slow and some lipid overlaps may not be avoidable.",
                                 "Consider increasing the apl using the subcommand 'apl' or decreasing the plane buffer using the subcommand 'plane_buffer'",
-                                
                                 warn=True
                             )
                         
@@ -3714,7 +4036,6 @@ class CGSB:
                             lipid = []
                             for i in range(nlipids):
                                 lipid.append((name, radius))
-
                             lipids.append(lipid)
                         
                         if leaflet["lipid_distribution"] == "evenly":
@@ -3737,10 +4058,6 @@ class CGSB:
                         z_values_arr = np.asarray([[grid_z_value] for _ in range(len(grid_points_arr))])
                         
                         if leaflet["optimize"]:
-                            if len(leaflet["subleaflets"]) > 1 and self.subleaflet_extra_info:
-                                self.print_term("Starting optimization for subleaflet nr", sli+1, spaces=2)
-                            else:
-                                self.print_term("Starting optimization", spaces=2)
                             
                             optimized_grid_points_arr, POINT_STEPS, step, steps_time, mean_steps_time, max_push, bin_size = self.plane_grid_point_optimizer(
                                 grid_points_arr,
@@ -3764,18 +4081,24 @@ class CGSB:
                             subleaflet["grid_points"] = np.hstack([optimized_grid_points_arr, z_values_arr])
                             
                             if self.plot_grid:
-                                self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi)] = {
+                                self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi)] = {}
+                                if "prot_points" in leaflet:
+                                    
+                                    self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi)].update({
+                                        "prot_points" : leaflet["prot_points"],
+                                        "alphashape_1" : leaflet["alphashape_1"],
+                                        "ConcaveHulls_Polygon_1" : leaflet["ConcaveHulls_Polygon_1"],
+                                        "protein_poly" : leaflet["protein_poly"],
+                                        "alphashape_2" : leaflet["alphashape_2"],
+                                        "ConcaveHulls_Polygon_2" : leaflet["ConcaveHulls_Polygon_2"],
+                                        "protein_poly" : leaflet["protein_poly"],
+                                    })
+
+                                    
+                                self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi)].update({
                                     ### Inputs
                                     "lipids"      : lipids,
                                     "bbox_polygon": subleaflet["holed_bbox"],
-                                    "prot_points" : leaflet["prot_points"],
-                                    
-                                    "alphashape_1" : leaflet["alphashape_1"],
-                                    "ConcaveHulls_Polygon_1" : leaflet["ConcaveHulls_Polygon_1"],
-                                    "protein_poly" : leaflet["protein_poly"],
-                                    "alphashape_2" : leaflet["alphashape_2"],
-                                    "ConcaveHulls_Polygon_2" : leaflet["ConcaveHulls_Polygon_2"],
-                                    "protein_poly" : leaflet["protein_poly"],
                                     
                                     "xdims"       : (subleaflet["xmin"], subleaflet["xmax"]),
                                     "ydims"       : (subleaflet["ymin"], subleaflet["ymax"]),
@@ -3792,18 +4115,18 @@ class CGSB:
                                     "steps_time"           : steps_time,
                                     "mean_steps_time"      : mean_steps_time,
                                     "max_push"             : max_push,
-                                }
+                                })
                         else:
                             subleaflet["grid_points"] = np.hstack([grid_points_arr, z_values_arr])
             grid_making_toc = time.time()
             grid_making_time = round(grid_making_toc - grid_making_tic, 4)
-            self.print_term("------------------------------ LIPID GRID CREATED", "(time spent: "+str(grid_making_time)+" [s])", "\n", spaces=0)
+            self.print_term("------------------------------ LIPID GRID CREATED", "(time spent: "+str(grid_making_time)+" [s])", "\n", spaces=0, verbose=1)
     
     def make_rect_grid(self, leaflet, subleaflet):
         xmin, xmax, ymin, ymax = itemgetter("xmin", "xmax", "ymin", "ymax")(subleaflet)
         
         sidelen      = math.sqrt(leaflet["apl"])
-        edge_buffer  = leaflet["lipid_dimensions"]["lipid_radius"]*1.1
+        edge_buffer  = leaflet["lipid_dimensions"]["lipid_radius"] + max([leaflet["kickx"], leaflet["kicky"]]) + leaflet["plane_buffer"]
         bbox_polygon = subleaflet["holed_bbox"]
         lipids       = subleaflet["lipids"]
         
@@ -3896,14 +4219,15 @@ class CGSB:
         ### Respacing points on a line due to removal of points
         grid_points = []
         grid_points_no_random = []
-        rand_force = 10
+        rand_force = 1
         for xval, ymin, ymax, npoints_in_line in grid_points_instructions:
             new_yvals = np.linspace(start=ymin, stop=ymax, num=npoints_in_line)
             for yval in new_yvals:
-                grid_points.append(
-                    (xval+random.uniform(-sidelen/rand_force, sidelen/rand_force),
-                     yval+random.uniform(-sidelen/rand_force, sidelen/rand_force))
-                )
+#                 randx = random.uniform(-leaflet["kickx"]/rand_force, leaflet["kickx"]/rand_force)
+#                 randy = random.uniform(-leaflet["kicky"]/rand_force, leaflet["kicky"]/rand_force)
+                randx = random.uniform(-leaflet["kickx"]/rand_force, leaflet["kickx"]/rand_force)
+                randy = random.uniform(-leaflet["kicky"]/rand_force, leaflet["kicky"]/rand_force)
+                grid_points.append((xval+randx, yval+randy))
                 grid_points_no_random.append((xval, yval))
 
 #         return grid_points
@@ -4025,7 +4349,7 @@ class CGSB:
         bounce_counter = np.zeros((len(points_arr)))
         max_push = 0
         
-        self.print_term("CURRENT STEP:", end=" ", spaces=3)
+        self.print_term("CURRENT STEP:", end=" ", spaces=3, verbose=5)
         
         for si, step in enumerate(np.arange(1, maxsteps+1)):
             '''CODE LEGEND
@@ -4067,7 +4391,7 @@ class CGSB:
             else:
                 step_modifier = 1-(step/step_modifier_limit)
             
-            self.print_term(step, end=" ", spaces=0)
+            self.print_term(step, end=" ", spaces=0, verbose=5)
             
             push_arr = np.empty((len(points_arr)), dtype=object)
             for i in range(len(push_arr)):
@@ -4365,11 +4689,10 @@ class CGSB:
         steps_toc = time.time()
         steps_time = steps_toc - steps_tic
         mean_steps_time = steps_time/end
-        self.print_term("")
-        self.print_term("Last step:         ", step, spaces=3)
-        self.print_term("Optimization time: ", round(steps_time, 4), "[s]", spaces=3)
-        self.print_term("Mean step time:    ", round(steps_time/end, 4), "[s]", spaces=3)
-#         self.print_term("    ", "    ", "    ", "Max push:          ", max_push)
+        self.print_term("", verbose=5)
+        self.print_term("Last step:         ", step, spaces=3, verbose=5)
+        self.print_term("Optimization time: ", round(steps_time, 4), "[s]", spaces=3, verbose=5)
+        self.print_term("Mean step time:    ", round(steps_time/end, 4), "[s]", spaces=3, verbose=5)
         
         return points_arr, POINT_STEPS, step, steps_time, mean_steps_time, max_push, bin_size
 
@@ -4379,11 +4702,11 @@ class CGSB:
     def lipid_inserter(self):
         if len(self.MEMBRANES) != 0:
             lipid_inserter_tic = time.time()
-            self.print_term("------------------------------ CREATING LIPIDS", spaces=0)
+            self.print_term("------------------------------ CREATING LIPIDS", spaces=0, verbose=1)
             for memb_key, memb_dict in self.MEMBRANES.items():
-                self.print_term("Starting membrane nr", memb_key, spaces=0)
+                self.print_term("Starting membrane nr", memb_key, spaces=0, verbose=2)
                 for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
-                    self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=1)
+                    self.print_term("Starting", leaflet["leaflet_type"], "leaflet", spaces=1, verbose=3)
                         
                     if leaflet["HG_direction"] == "up":
                         sign = +1
@@ -4414,234 +4737,426 @@ class CGSB:
                                 "x": [x      + grid_point_x + random.uniform(-leaflet["kickx"], leaflet["kickx"]) for x in new_x],
                                 "y": [y      + grid_point_y + random.uniform(-leaflet["kicky"], leaflet["kicky"]) for y in new_y],
                                 "z": [z*sign + grid_point_z + random.uniform(-leaflet["kickz"], leaflet["kickz"]) for z in new_z],
+                                "charges": [bead.charge for bead in leaflet["lipids"][l_name].get_res_beads_info()],
                             }
                             leaflet["grid_lipids"][-1].update({"lipid": lipid_dict})
-                            self.system_charge += leaflet["lipids"][l_name].charge
+                            self.system_charge += leaflet["lipids"][l_name].get_mol_charge()
             lipid_inserter_toc = time.time()
             lipid_inserter_time = round(lipid_inserter_toc - lipid_inserter_tic, 4)
-            self.print_term("------------------------------ LIPID CREATION COMPLETE", "(time spent: "+str(lipid_inserter_time)+" [s])", "\n", spaces=0)
+            self.print_term("------------------------------ LIPID CREATION COMPLETE", "(time spent: "+str(lipid_inserter_time)+" [s])", "\n", spaces=0, verbose=1)
 
     ################
     ### SOLVATER ###
     ################
+    def get_solute_volume(self, cxmin, cxmax, cymin, cymax, czmin, czmax):
+        solvent_beads_for_cell_checker = []
+        solvent_box_solute_charge = 0
+        if len(self.SOLVATIONS) > 0:
+            '''
+            Finds the solvents beads and estimates their volume
+            '''
+            for solv_key, solv_dict in self.SOLVATIONS.items():
+                if "grid" in solv_dict:
+                    for grid_point in solv_dict["grid"]:
+                        beads, charges = itemgetter("coords", "bead_charges")(grid_point)
+                        for x, y, z in beads:
+                            if cxmin < x <= cxmax and cymin < y <= cymax and czmin < z <= czmax:
+                                solvent_beads_for_cell_checker.append((x, y, z))
+                                solvent_box_solute_charge += sum(charges)
+        return solvent_beads_for_cell_checker, solvent_box_solute_charge
+
+    def get_lipid_volume(self, cxmin, cxmax, cymin, cymax, czmin, czmax):
+        lipid_beads_for_cell_checker = []
+        solvent_box_lipids_charge = 0
+        if len(self.MEMBRANES) > 0:
+            '''
+            Finds the lipids beads and estimates their volume
+            '''
+            for memb_key, memb_dict in self.MEMBRANES.items():
+                for leaflet_key, leaflet in memb_dict["leaflets"].items():
+                    for grid_point in leaflet["grid_lipids"]:
+                        xs, ys, zs, charges = itemgetter("x", "y", "z", "charges")(grid_point["lipid"])
+                        for x, y, z, charge in zip(xs, ys, zs, charges):
+                            if cxmin < x <= cxmax and cymin < y <= cymax and czmin < z <= czmax:
+                                lipid_beads_for_cell_checker.append((x, y, z))
+                                solvent_box_lipids_charge += charge
+        return lipid_beads_for_cell_checker, solvent_box_lipids_charge
+
+    def get_protein_volume(self, cxmin, cxmax, cymin, cymax, czmin, czmax):
+        prot_beads_for_cell_checker = []
+        solvent_box_proteins_charge = 0
+        if len(self.PROTEINS) > 0:
+            '''
+            Finds the proteins beads and estimates their volume
+            '''
+            for protein_i, (protein_nr, protein) in enumerate(self.PROTEINS.items()):
+                beads = protein["protein"].get_beads("xyz")
+                charges = protein["protein"].get_bead_charges()
+                for (x, y, z), charge in zip(beads, charges):
+                    if cxmin < x <= cxmax and cymin < y <= cymax and czmin < z <= czmax:
+                        prot_beads_for_cell_checker.append((x, y, z))
+                        solvent_box_proteins_charge += charge
+        return prot_beads_for_cell_checker, solvent_box_proteins_charge
+    
     def solvater(self):
         if len(self.SOLVATIONS_cmds) != 0:
             solvation_tic = time.time()
+            self.print_term("------------------------------ SOLVATING SYSTEM", spaces=0, verbose=1)
             solv_beads_for_cell_checker = []
-            self.print_term("------------------------------ SOLVATING SYSTEM", spaces=0)
+
             for solvation_i, (solvation_nr, solvation) in enumerate(self.SOLVATIONS.items()):
                 if solvation_i != 0:
-                    self.print_term("")
-                self.print_term("Starting solvation nr", solvation_nr, spaces=0)
+                    self.print_term("", verbose=3)
+                self.print_term("Starting solvation nr", solvation_nr, spaces=0, verbose=2)
 
                 #########################################
                 ### CALCULATION FREE VOLUME OF SYSTEM ###
                 #########################################
-                self.print_term("Calculating box volume: (all values in [nm^3])", spaces=1)
-                self.print_term("Bead radius used for volume calculations 'bead_radius':", solvation["bead_radius"], "[Å]", spaces=2)
+                self.print_term("Calculating box volume: (all values in [nm^3])", spaces=1, verbose=4)
+                self.print_term("Bead radius used for volume calculations 'bead_radius':", solvation["bead_radius"]/10, "[nm]", spaces=2, verbose=4)
 
                 bead_radius = solvation["bead_radius"]
-                ### Leaflet volume based on beads exclusively
-                non_solv_beads = []
-                prot_beads_for_cell_checker = []
-                lipid_beads_for_cell_checker = []
-                leafs_volume = 0
-                if len(self.MEMBRANES) > 0:
-                    '''
-                    Estimates a volume for all lipids, and finds the lipid bead positions
-                    '''
-                    for memb_key, memb_dict in self.MEMBRANES.items():
-                        for leaflet_key, leaflet in memb_dict["leaflets"].items():
-                            for grid_point in leaflet["grid_lipids"]:
-                                xs, ys, zs = grid_point["lipid"]["x"], grid_point["lipid"]["y"], grid_point["lipid"]["z"]
-                                lipid_beads = list(zip(xs, ys, zs))
-                                leafs_volume += (4/3 * math.pi * (bead_radius ** 3)) * len(lipid_beads) * 10**-27
-                                non_solv_beads.extend(lipid_beads)
-                                gridz = abs(max(zs)) + abs(min(zs))
-                                lipid_beads_for_cell_checker.extend(lipid_beads)
+                bead_volume = (4/3 * math.pi * (bead_radius ** 3)) * 10**-27
+                
+                cx, cy, cz = solvation["center"]
+                xlen, ylen, zlen = itemgetter("x", "y", "z")(solvation)
+                cxmin, cxmax = cx-xlen/2, cx+xlen/2
+                cymin, cymax = cy-ylen/2, cy+ylen/2
+                czmin, czmax = cz-zlen/2, cz+zlen/2
+                
+                self.print_term("cx, cy, cz:", cx, cy, cz, debug=True)
+                self.print_term("xlen, ylen, zlen:", xlen, ylen, zlen, debug=True)
+                self.print_term("cxmin, cxmax:", cxmin, cxmax, debug=True)
+                self.print_term("cymin, cymax:", cymin, cymax, debug=True)
+                self.print_term("czmin, czmax:", czmin, czmax, debug=True)
+                
+                ### Solvent/solute volume
+                solvent_beads_for_cell_checker, solvent_box_solute_charge = self.get_solute_volume(
+                    cxmin, cxmax, cymin, cymax, czmin, czmax
+                )
+                solvs_volume = bead_volume * len(solvent_beads_for_cell_checker)
+                
+                ### Lipid volume
+                lipid_beads_for_cell_checker, solvent_box_lipids_charge = self.get_lipid_volume(
+                    cxmin, cxmax, cymin, cymax, czmin, czmax
+                )
+                leafs_volume = bead_volume * len(lipid_beads_for_cell_checker)
 
-                ### Protein volume based on beads exclusively
-                prots_volume = 0
-                if len(self.PROTEINS) > 0:
-                    '''
-                    Estimates a volume for all proteins, and finds the protein bead positions
-                    '''
-                    for protein_i, (protein_nr, protein) in enumerate(self.PROTEINS.items()):
-                        prot_points = protein["protein"].get_beads("xyz")
-                        prots_volume += (4/3 * math.pi * (bead_radius ** 3)) * len(prot_points) * 10**-27
-                        prot_beads_for_cell_checker.extend(prot_points)
-
-                ### Solvent volume from previous solvation commands
-                solvs_volume = (4/3 * math.pi * (bead_radius ** 3)) * len(solv_beads_for_cell_checker) * 10**-27
-
+                ### Protein volume
+                prot_beads_for_cell_checker, solvent_box_proteins_charge = self.get_protein_volume(
+                    cxmin, cxmax, cymin, cymax, czmin, czmax
+                )
+                prots_volume = bead_volume * len(prot_beads_for_cell_checker)
+                
+                solvent_box_charge = solvent_box_solute_charge + solvent_box_lipids_charge + solvent_box_proteins_charge
+                
                 N_A = 6.02214076 * 10**23
-                box_volume = (self.pbc_box[0] * self.pbc_box[1] * self.pbc_box[2]) * 10**-27
+                box_volume = (xlen * ylen * zlen) * 10**-27
                 non_free_volume = leafs_volume + prots_volume + prots_volume
                 box_free_volume = box_volume - non_free_volume
-                self.print_term("Box volume:            ", round(box_volume * 10**24, 3), spaces=2)
-                self.print_term("Lipid volume:          ", round(leafs_volume * 10**24, 3), spaces=2)
-                self.print_term("Protein volume:        ", round(prots_volume * 10**24, 3), spaces=2)
-                self.print_term("(Prior) Solvent volume:", round(solvs_volume * 10**24, 3), spaces=2)
-                self.print_term("Excluded volume:       ", round(non_free_volume * 10**24, 3), spaces=2)
-                self.print_term("Free volume:           ", round(box_free_volume * 10**24, 3), spaces=2)
-
+                self.print_term("Solvent box volume:", round(box_volume      * 10**24, 3), spaces=2, verbose=4)
+                self.print_term("Excluded volume:   ", round(non_free_volume * 10**24, 3), spaces=2, verbose=4)
+                
+                self.print_term("Solute volume: ", round(solvs_volume    * 10**24, 3), spaces=3, verbose=5)
+                self.print_term("Lipid volume:  ", round(leafs_volume    * 10**24, 3), spaces=3, verbose=5)
+                self.print_term("Protein volume:", round(prots_volume    * 10**24, 3), spaces=3, verbose=5)
+                
+                self.print_term("Free volume:       ", round(box_free_volume * 10**24, 3), spaces=2, verbose=4)
+                
                 ###########################
                 ### CALCULATING SOLVENT ###
                 ###########################
-                solv_volume = 0
-                sol_charges = 0
-                sol_ratios = []
 
                 ### List used to find the maximum solvent/ion size
-                solvent_molecules = []
+                solvent_radii = []
+                                
+                solvent_radii = [
+                    vals.get_radius()
+                    for dict_pointer in ["solvent", "pos_ions", "neg_ions"]
+                    for key, vals in solvation[dict_pointer].items()
+                ]
 
-                ### Solvent
-                if solvation["solvent"] != []:
-                    for solv_key, solv_vals in solvation["solvent"].items():
-                        '''
-                        Calculates the number of solvent particles based on molarity, density and solvent count (CG-to-AA mapping).
-                        Calculates the solvent volume to precisely estimate the amount of volume that the solvent should occupy.
-                        Solvent volume can be used for ion-centration calculations (Used by default)
-                        '''
-                        if solvation["count"]: ### Treats molarity as absolute number of molecules
-                            count = solv_vals.molarity
-                        else: ### Treats molarity as molarity
-                            ### Using the free volume for concentration calculations (default)
-                            if solvation["solvfreevol"] == True:
-                                count = int(N_A * box_free_volume * solv_vals.molarity / solv_vals.solvcount)
-                            ### Using box volume for concentration calculations
-                            elif solvation["solvfreevol"] == False:
-                                count = int(N_A * box_volume * solv_vals.molarity / solv_vals.solvcount)
+                def get_solvent_ratios(solvent_type_dict, tot_ratio):
+                    ratios = [
+                        round(1 / tot_ratio * vals.ratio, 4)
+                        for key, vals in solvent_type_dict.items()
+                    ]
+                    return ratios
+                
+                if not solvation["count"]:
+                    sol_ratios = get_solvent_ratios(solvation["solvent"], solvation["solv_tot_ratio"])
+                    pos_ratios = get_solvent_ratios(solvation["pos_ions"], solvation["pos_tot_ratio"])
+                    neg_ratios = get_solvent_ratios(solvation["neg_ions"], solvation["neg_tot_ratio"])
+                else:
+                    sol_ratios = [1 for _ in solvation["solvent"].keys()]
+                    pos_ratios = [1 for _ in solvation["pos_ions"].keys()]
+                    neg_ratios = [1 for _ in solvation["neg_ions"].keys()]
+
+                def solvent_count_calculator(solvent_type_dict, ratios, count_bool, volume):
+                    counts = []
+                    for (key, vals), ratio in zip(solvent_type_dict.items(), ratios):
+                        if count_bool:
+                            ### Treats molarity as absolute number of molecules
+                            counts.append(vals.molarity)
+                        else:
+                            ### Treats molarity as molarity
+                            counts.append(int(N_A * volume * vals.molarity / vals.mapping_ratio * ratio))
+                    return counts
+                
+                ### Using the free volume for concentration calculations (default)
+                if solvation["solvfreevol"] == True:
+                    volume_for_solv = box_free_volume
+                ### Using box volume for concentration calculations
+                elif solvation["solvfreevol"] == False:
+                    volume_for_solv = box_volume
+                
+                sol_counts = solvent_count_calculator(solvation["solvent"], sol_ratios, solvation["count"], volume_for_solv)
+                
+                solv_volume = 0
+                sol_charges = 0
+
+                for (key, vals), count in zip(solvation["solvent"].items(), sol_counts):
+                    vals.count_set(count)
+                    sol_charges += vals.count * vals.get_mol_charge()
+                    if not vals.molar_mass and solvation["ionsvol"] == "solv" and not solvation["count"]:
+                        self.print_term("WARNING: Chosen solvent [" + key + "] is missing a 'molar_mass' entry in the solvent defines. Please add it if you wish to use solvent volume for ion concentration.", warn = True)
+                    if not vals.density and solvation["ionsvol"] == "solv" and not solvation["count"]:
+                        self.print_term("WARNING: Chosen solvent [" + key + "] is missing a 'density' entry in the solvent defines. Please add it if you wish to use solvent volume for ion concentration.", warn = True)
+                    if vals.molar_mass and vals.density:
+                        solv_volume += (count * vals.mapping_ratio * vals.molar_mass) / (N_A * vals.density) * 10**-3
+                
+                self.print_term("Solvent volume:    ", round(solv_volume * 10**24, 3), spaces=2, verbose=4)
+
+                def ions_neutraliser(pos_ions, neg_ions, target_charge, current_charge, direction):
+                    charge_difference = target_charge - current_charge
+                    if charge_difference > 0:
+                        ions = pos_ions
+                    elif charge_difference < 0:
+                        ions = neg_ions
+                    else:
+                        return pos_ions, neg_ions
+                    
+                    if direction == "add":
+                        sign = +1
+                    if direction == "remove":
+                        sign = -1
                         
-                        ### Adds charge to solvent charge if it is specified in defines (0 by default)
-                        sol_charges += count * solv_vals.charge
+                    keys = list(ions.keys())
+                    keys_sorted_after_ratio = list(sorted(keys, key=lambda key: ions[key]["ratio"], reverse = True))
+                    tot_ions = sum([vals["count"] for vals in ions.values()])
+                    counter = 0
+                    while round(current_charge) != round(target_charge):
+                        counter += 1
+                        ### Find which ion is furthest from ideal ratio
+                        if tot_ions == 0:
+                            ### No ions yet, just sort them from highest to lowest ratio
+                            furthest_dist_keys = keys_sorted_after_ratio[::sign]
+                        else:
+                            ### Calculate how far each ion is from its ideal ratio
+                            dists_from_ratio = []
+                            for key, vals in list(ions.items()):
+                                dists_from_ratio.append((key, vals["count"]/tot_ions - vals["ratio"]))
+                            ### Sort them from most underrepresented to most overrepresented
+                            ### Secondarily sort them according to their ideal ratios in case the are equally underrepresented
+                            dists_from_ratio_sorted = sorted(
+                                dists_from_ratio,
+                                key=lambda x: (x[1], keys_sorted_after_ratio.index(x[0])),
+                                reverse = False
+                            )
+                            ### Get just the keys
+                            furthest_dist_keys = [key for key, dist_from_ratio in dists_from_ratio_sorted][::sign]
+                        
+                        ### Checks from most underrepresented to most overrepresented if adding another ion
+                        ### would cause the total added charge to become greater that then difference that is being corrected
+                        for key in furthest_dist_keys:
+                            if abs(target_charge - current_charge) >= abs(ions[key]["charge"]):
+                                furthest_dist_key = key
+                                break
+                        else:
+                            ### If an ion should be added but no ion can be added without adding
+                            ### more charge than is needed for neutralization
+                            ### then just return as is
+                            return pos_ions, neg_ions
+                        
+                        tot_ions += sign
+                        current_charge += ions[furthest_dist_key]["charge"]
+                        ions[furthest_dist_key]["count"] += sign
+                        
+                    return pos_ions, neg_ions
+    
+                ### Using the solvent volume for concentration calculations (default)
+                if solvation["ionsvol"] == "solv" and solv_volume > 0 and not solvation["count"]:
+                    volume_for_ions = solv_volume
+                ### Using the free volume for concentration calculations
+                elif solvation["ionsvol"] == "free" or (solvation["ionsvol"] == "solv" and solvation["count"]):
+                    volume_for_ions = box_free_volume
+                ### Using the box volume for concentration calculations
+                elif solvation["ionsvol"] == "box":
+                    volume_for_ions = box_volume
 
-                        ### Checks if molar mass and density is specified for the solvent in defines
-                        ### Only prints warning if solvent volume is to be used for ions
-                        if not solv_vals.molar_mass and solvation["ionsvol"] == "solv" and not solvation["count"]:
-                            self.print_term("WARNING: Chosen solvent [" + solv_key + "] is missing a 'molar_mass' entry in the solvent defines. Please add it if you wish to use solvent volume for ion concentration.", warn = True)
-                        if not solv_vals.density and solvation["ionsvol"] == "solv" and not solvation["count"]:
-                            self.print_term("WARNING: Chosen solvent [" + solv_key + "] is missing a 'density' entry in the solvent defines. Please add it if you wish to use solvent volume for ion concentration.", warn = True)
-
-                        solvation["solvent"][solv_key].count_set(count)
-                        ### Adds volume for solvent type to solvent volume if molar mass and density are both specified
-                        if solv_vals.molar_mass and solv_vals.density:
-                            solv_volume += (count * solv_vals.solvcount * solv_vals.molar_mass) / (N_A * solv_vals.density) * 10**-3
-
-                        solvent_molecules.append(list(solv_vals.get_beads("xyz")))
-
-                self.print_term("Solvent volume:        ", round(solv_volume * 10**24, 3), spaces=2)
-                self.print_term(spaces=2)
-
-                ########################
-                ### CALCULATING IONS ###
-                ########################
+                ### First ensures that the ion concentration is equal to salt_molarity
+                pos_counts = solvent_count_calculator(solvation["pos_ions"], pos_ratios, solvation["count"], volume_for_ions)
+                neg_counts = solvent_count_calculator(solvation["neg_ions"], neg_ratios, solvation["count"], volume_for_ions)
+                
                 pos_charges = 0
-                pos_ratios = []
-
-                if solvation["pos_ions"] != []:
-                    ### ### Calculating number of particles for each ion and their contribution to the total charge
-                    ### Positive ions
-                    for pos_key, pos_vals in solvation["pos_ions"].items():
-                        if solvation["count"]: ### Treats molarity as absolute number of molecules
-                            count = pos_vals.molarity
-                        else: ### Treats molarity as molarity
-                            ### Using the solvent volume for concentration calculations (default)
-                            if solvation["ionsvol"] == "solv":
-                                count = int(N_A * solv_volume * pos_vals.molarity / pos_vals.solvcount)
-                            ### Using the free volume for concentration calculations
-                            elif solvation["ionsvol"] == "free":
-                                count = int(N_A * box_free_volume * pos_vals.molarity / pos_vals.solvcount)
-                            ### Using the box volume for concentration calculations
-                            elif solvation["ionsvol"] == "box":
-                                count = int(N_A * box_volume * pos_vals.molarity / pos_vals.solvcount)
-
-                        solvation["pos_ions"][pos_key].count_set(count)
-                        pos_charges += count * pos_vals.charge
-                        pos_ratios.append((pos_key, pos_vals.charge, count)) # Used for ion optimizer/neutralization
-
-                        solvent_molecules.append(list(pos_vals.get_beads("xyz")))
-
                 neg_charges = 0
-                neg_ratios = []
+                
+                ions_dict = {}
+                zipped1 = zip(["pos_ions", "neg_ions"], [pos_counts, neg_counts], [pos_ratios, neg_ratios])
+                for ion_type, ion_counts, ion_ratios in zipped1:
+                    ions_dict[ion_type] = {}
+                    zipped2 = zip(solvation[ion_type].items(), ion_counts, ion_ratios)
+                    for (key, vals), count, ratio in zipped2:
+                        vals.count_set(count)
+                        if ion_type == "pos_ions":
+                            pos_charges += vals.count * vals.get_mol_charge()
+                        elif ion_type == "neg_ions":
+                            neg_charges += vals.count * vals.get_mol_charge()
+                        ions_dict[ion_type][key] = {
+                            "charge": vals.get_mol_charge(),
+                            "ratio": ratio,
+                            "count": vals.count,
+                        }
+                
+                current_charge = solvent_box_charge + sol_charges + pos_charges + neg_charges
+                
+                pos_charges = 0
+                neg_charges = 0
+                
+                if solvation["salt_method"] == "add":
+                    '''
+                    Adds extra ions to neutralize the solvent box
+                    '''
+                    pos_ions, neg_ions = ions_neutraliser(
+                        ions_dict["pos_ions"],
+                        ions_dict["neg_ions"],
+                        solvation["charge"],
+                        current_charge,
+                        direction = "add",
+                    )
+                    zipped = zip(["pos_ions", "neg_ions"],
+                                 [pos_ions, neg_ions])
+                    for ion_type, ions_dicts in zipped:
+                        for (key, vals), (ions_dict_key, ions_dict_vals) in zip(solvation[ion_type].items(), ions_dicts.items()):
+                            vals.count_set(ions_dict_vals["count"])
+                            if ion_type == "pos_ions":
+                                pos_charges += vals.count * vals.get_mol_charge()
+                            elif ion_type == "neg_ions":
+                                neg_charges += vals.count * vals.get_mol_charge()
 
-                if solvation["neg_ions"] != []:
-                    ### Negative ions
-                    for neg_key, neg_vals in solvation["neg_ions"].items():
-                        if solvation["count"]: ### Treats molarity as absolute number of molecules
-                            count = neg_vals.molarity
-                        else: ### Treats molarity as molarity
-                            ### Using the solvent volume for concentration calculations (default)
-                            if solvation["ionsvol"] == "solv":
-                                count = int(N_A * solv_volume * neg_vals.molarity / neg_vals.solvcount)
-                            ### Using the free volume for concentration calculations
-                            elif solvation["ionsvol"] == "free":
-                                count = int(N_A * box_free_volume * neg_vals.molarity / neg_vals.solvcount)
-                            ### Using the box volume for concentration calculations
-                            elif solvation["ionsvol"] == "box":
-                                count = int(N_A * box_volume * neg_vals.molarity / neg_vals.solvcount)
+                elif solvation["salt_method"] == "remove":
+                    '''
+                    Removes excess ions to neutralize the solvent box
+                    '''
+                    pos_ions, neg_ions = ions_neutraliser(
+                        ions_dict["pos_ions"],
+                        ions_dict["neg_ions"],
+                        solvation["charge"],
+                        -current_charge,
+                        direction = "remove",
+                    )
+                    zipped = zip(["pos_ions", "neg_ions"],
+                                 [pos_ions, neg_ions])
+                    for ion_type, ions_dicts in zipped:
+                        for (key, vals), (ions_dict_key, ions_dict_vals) in zip(solvation[ion_type].items(), ions_dicts.items()):
+                            vals.count_set(ions_dict_vals["count"])
+                            if ion_type == "pos_ions":
+                                pos_charges += vals.count * vals.get_mol_charge()
+                            elif ion_type == "neg_ions":
+                                neg_charges += vals.count * vals.get_mol_charge()
+                    
+                elif solvation["salt_method"] == "mean":
+                    '''
+                    Adds ions with either a positive or negative charge and removes the other type
+                    Ends up with ion concentrations in between "add" and "remove"
+                    Does an extra ion addition at the end to ensure no errors have been made when
+                        adding/removing ions.
+                    '''
+                    ### Need to deepcopy, otherwise the nested dictionaries will be modified 
+                    ions_dict_add = copy.deepcopy(ions_dict)
+                    pos_ions_add, neg_ions_add = ions_neutraliser(
+                        ions_dict_add["pos_ions"],
+                        ions_dict_add["neg_ions"],
+                        solvation["charge"],
+                        +math.ceil(current_charge/2),
+                        direction = "add",
+                    )
+                    ions_dict_remove = copy.deepcopy(ions_dict)
+                    pos_ions_remove, neg_ions_remove = ions_neutraliser(
+                        ions_dict_remove["pos_ions"],
+                        ions_dict_remove["neg_ions"],
+                        solvation["charge"],
+                        -math.floor(current_charge/2),
+                        direction = "remove",
+                    )
+                    
+                    zipped1 = zip(["pos_ions", "neg_ions"],
+                                  [pos_counts, neg_counts],
+                                  [pos_ions_add, neg_ions_add],
+                                  [pos_ions_remove, neg_ions_remove])
+                    for ion_type, ion_counts, ions_dicts_add, ions_dicts_remove in zipped1:
+                        zipped2 = zip(solvation[ion_type].items(),
+                                      ion_counts,
+                                      ions_dicts_add.values(),
+                                      ions_dicts_remove.values())
+                        for (key, vals), count, ions_dict_add_vals, ions_dict_remove_vals in zipped2:
+                            add_diff = abs(count - ions_dict_add_vals["count"])
+                            rem_diff = abs(count - ions_dict_remove_vals["count"])
+                            vals.count_set(count + add_diff - rem_diff)
+                            if ion_type == "pos_ions":
+                                pos_charges += vals.count * vals.get_mol_charge()
+                            elif ion_type == "neg_ions":
+                                neg_charges += vals.count * vals.get_mol_charge()
 
-                        solvation["neg_ions"][neg_key].count_set(count)
-                        neg_charges += count * neg_vals.charge
-                        neg_ratios.append((neg_key, neg_vals.charge, count)) # Used for ion optimizer/neutralization
+                    ### Extra ion addtion to prevent errors (e.g. non-neutralized systems)
+                    ions_dict = {}
+                    for ion_type, ion_ratios in zip(["pos_ions", "neg_ions"], [pos_ratios, neg_ratios]):
+                        ions_dict[ion_type] = {}
+                        for (key, vals), ratio in zip(solvation[ion_type].items(), ion_ratios):
+                            ions_dict[ion_type][key] = {
+                                "charge": vals.get_mol_charge(),
+                                "ratio": ratio,
+                                "count": vals.count,
+                            }
 
-                        solvent_molecules.append(list(neg_vals.get_beads("xyz")))
+                    current_charge = solvent_box_charge + sol_charges + pos_charges + neg_charges
 
-                ### Summing positive and negative charges
-                tot_charges = pos_charges + neg_charges
-                if solvation["sys_charge"]:
-                    ### Taking into account system charge if requested (default)
-                    tot_charges += self.system_charge
+                    pos_ions, neg_ions = ions_neutraliser(
+                        ions_dict["pos_ions"],
+                        ions_dict["neg_ions"],
+                        solvation["charge"],
+                        current_charge,
+                        direction = "add",
+                    )
 
-                ### If both positive and negative ions
-                def ions_optimizer(ions, charge_change):
-                    ions_abscharge = [(name, abs(charge), ratio) for name, charge, ratio in ions]
-                    charged_ratios = [ratio * charge for name, charge, ratio in ions_abscharge]
-                    weighted_ratios = [w_ratio / sum(charged_ratios) for w_ratio in charged_ratios]
-                    int_ratios = [int(w_ratio * charge_change / ions_abscharge[i][1]) for i, w_ratio in enumerate(weighted_ratios)]
-                    charge_change -= sum([ratio * ions_abscharge[i][1] for i, ratio in enumerate(int_ratios)])
-                    change = True
-                    while charge_change != 0 and change: 
-                        change = False
-                        for i, ratio in enumerate(int_ratios):
-                            if charge_change - ions_abscharge[i][1] >= 0:
-                                int_ratios[i] += 1
-                                charge_change -= ions_abscharge[i][1]
-                                change = True
-                    return int_ratios
+                    pos_charges = 0
+                    neg_charges = 0
 
-                ### ### "Neutralizes" system towards the requested charge-value
-                if str(solvation["charge"]) != "False" and not solvation["count"]: # Strings required, else if charge is 0 then, 0 == False would be true
-                    ### Adds extra negative ions
-                    if tot_charges > solvation["charge"]:
-                        if solvation["neg_ions"] != []:
-                            neg_charges = 0 
-                            charge_diff = abs(solvation["charge"] - tot_charges)
-                            extra_ions = ions_optimizer(neg_ratios, charge_diff)
-
-                            for (name, vals), count in zip(solvation["neg_ions"].items(), extra_ions):
-                                solvation["neg_ions"][name].count_set(vals.count + count)
-                                neg_charges += vals.charge * vals.count
-
-                        else:
-                            self.print_term("WARNING: I cannot neutralize with NEGATIVE ions when none are given")
-
-                    ### Adds extra positive ions
-                    elif tot_charges < solvation["charge"]:
-                        if solvation["pos_ions"] != []:
-                            pos_charges = 0
-                            charge_diff = abs(solvation["charge"] - tot_charges)
-                            extra_ions = ions_optimizer(pos_ratios, charge_diff)
-
-                            for (name, vals), count in zip(solvation["pos_ions"].items(), extra_ions):
-                                solvation["pos_ions"][name].count_set(vals.count + count)
-                                pos_charges += vals.charge * vals.count
-
-                        else:
-                            self.print_term("WARNING: I cannot neutralize with POSITIVE ions when none are given")
-
+                    zipped = zip(["pos_ions", "neg_ions"], [pos_ions, neg_ions])
+                    for ion_type, ions_dicts in zipped:
+                        for (key, vals), (ions_dict_key, ions_dict_vals) in zip(solvation[ion_type].items(), ions_dicts.items()):
+                            vals.count_set(ions_dict_vals["count"])
+                            if ion_type == "pos_ions":
+                                pos_charges += vals.count * vals.get_mol_charge()
+                            elif ion_type == "neg_ions":
+                                neg_charges += vals.count * vals.get_mol_charge()
+                
                 ### Adding charges from ions and solvent to system charge
-                self.system_charge += sol_charges + pos_charges + neg_charges
+                solvent_box_solvent_charge = sol_charges + pos_charges + neg_charges
+                self.system_charge += solvent_box_solvent_charge
+                
+                self.print_term("", verbose=4)
+                self.print_term("Solvent box charge information:", spaces=1, verbose=4)
+                self.print_term("Solvent box charge before solvent insertion:", round(solvent_box_charge, 1), spaces=2, verbose=4)
+                self.print_term("Prior solvent beads: ", round(solvent_box_solute_charge, 1), spaces=3, verbose=5)
+                self.print_term("Lipid beads:         ", round(solvent_box_lipids_charge, 1), spaces=3, verbose=5)
+                self.print_term("Protein beads:       ", round(solvent_box_proteins_charge, 1), spaces=3, verbose=5)
+                solvent_box_charge += solvent_box_solvent_charge
+                self.print_term("Solvent box charge after solvent insertion: ", round(solvent_box_charge, 1), spaces=2, verbose=4)
+                self.print_term("New solvent beads:", round(solvent_box_solvent_charge, 1), spaces=3, verbose=5)
+                self.print_term("Solvent       (solv):", round(sol_charges, 1), spaces=4, verbose=5)
+                self.print_term("Positive ions (pos): ", round(pos_charges, 1), spaces=4, verbose=5)
+                self.print_term("Negative ions (neg): ", round(neg_charges, 1), spaces=4, verbose=5)
 
                 ### Randomly shuffle solvent particles for random distribution in box
                 collected_solvent = []
@@ -4660,28 +5175,28 @@ class CGSB:
                         ssize = max([maxi - mini for maxi, mini in [(maxx, minx), (maxy, miny), (maxz, minz)]])
                         solvent_sizes.append(ssize)
                         collected_solvent.extend([[sname, stype, ssize]] * scount)
-                                
+                
                 ##############################################
                 ### RUNNING SOLVENT OPTIMIZATION ALGORITHM ###
                 ##############################################
                 ### Finds the maximum size of molecules used as solvent/ions
                 ### Also includes buffer/kick size to prevent edge overlap cases
-                max_mol_size = max([max([math.dist(bead1, bead2) for bead1 in molecule for bead2 in molecule]) for molecule in solvent_molecules]) #+ solvation["kick"] + solvation["buffer"]
-                    
+                max_mol_size = max(solvent_radii)
+                
                 self.print_term("gridres first:", solvation["gridres"], debug=True)
                 self.print_term("max_mol_size:", max_mol_size, debug=True)
                 self.print_term("max_mol_size*1.2:", max_mol_size*1.2, debug=True)
                 self.print_term("kick:", solvation["kick"], debug=True)
                 self.print_term("kick*1.2:", solvation["kick"]*1.2, debug=True)
                 
+                gridres = solvation["gridres"]
+                
                 ### if the maximum molecule size is bigger than the designated grid resolution then change the gridres
-                if max_mol_size*1.2 >= solvation["gridres"]:
+                if max_mol_size*1.2 >= gridres:
                     gridres = (max_mol_size + solvation["kick"]*2) * 1.2 # 20% larger than largest molecule
                     self.print_term("NOTE: Requested solvent is too large for the grid resolution. Adjusting grid resolution to prevent solvent molecule overlaps.", warn = True)
                     self.print_term("Original grid resolution was:", round(solvation["gridres"]/10, 4), "[nm]", warn = True)
                     self.print_term("New grid resolution is:      ", round(gridres/10, 4), "[nm]", "\n", warn = True)
-                else:
-                    gridres = solvation["gridres"]
                     
                 self.print_term("gridres mid:", gridres, debug=True)
                 
@@ -4694,412 +5209,119 @@ class CGSB:
                 
                 self.print_term("gridres last:", gridres, debug=True)
                 
-                solvent_buffer = gridres + solvation["buffer"]
+#                 solvent_buffer = gridres + solvation["buffer"]
+                solvent_buffer = solvation["buffer"]
 
                 #################################
                 ### CHOOSES ALGORITHM VERSION ###
                 #################################
-                self.print_term("Calculating the number of available grid points", spaces=1)
-                if solvation["algorithm"] == "v1":
-                    #########################################################################
-                    ### DEFINING FUNCTIONS USED FOR SOLVENT CELL DIMENSIONALITY REDUCTION ###
-                    #########################################################################
-                    def cell_checker(cell, prot_beads, lipid_beads, solv_beads):
-                        '''
-                        Checks 3 different conditions for a solvent cell
-                        1: If the cell is entirely contained within the hydrophobic area of a leaflet.
-                            If True:
-                                Signal that the cell should be deleted
+                self.print_term("", verbose=4)
+                self.print_term("Calculating the number of available grid points", spaces=1, verbose=4)
 
-                        2: If the cell is too close to any bead (protein, lipid and/or solvent).
-                            If True:
-                                Keep track of which beads are inside the cell.
-                                Return the marked beads and signal that subcells should be spawned.
+                def coord_to_indices(pos, dim, center, real_gridres, max_int, min_buffer, max_buffer):
+                    ### Buffer limit
+                    bead_min = pos-min_buffer
+                    bead_max = pos+max_buffer
 
-                        3: If the cell is partially contained within the hydrophobic area of a leaflet.
-                            If True:
-                                Return all original beads for the cell and signal that subcells should be spawned.
+                    ### Convert solvent buffer limit to decimal index
+                    beadi_min_dec = (bead_min+dim/2-center)/real_gridres
+                    beadi_max_dec = (bead_max+dim/2-center)/real_gridres
 
-                        max_mol_size includes both 'solvation["buffer"]' and 'solvation["kick"]'
-                        '''
-                        ### Abbreviating some dictionary calls
-                        ccx, ccy, ccz = cell["xc"], cell["yc"], cell["zc"]
-                        cdx, cdy, cdz = cell["xdim"], cell["ydim"], cell["zdim"]
+                    ### Round buffer decimal index to integer index
+                    beadi_min_int = math.floor(beadi_min_dec+0.5)
+                    beadi_max_int = math.ceil(beadi_max_dec-0.5)
 
-                        marked_prot_beads = []
-                        marked_lipid_beads = []
-                        marked_solv_beads = []
-                        internal = False
-                        proximity = False
-                        hydrophobic = False
+                    if beadi_min_int < 0:
+                        beadi_min_int = 0
+                    if beadi_max_int < 0:
+                        beadi_max_int = 0
 
-    #                     solvent_buffer = solvation["bead_radius"] + solvation["gridres"]
-                        solvent_buffer = solvation["gridres"] + solvation["buffer"]
+                    return beadi_min_int, beadi_max_int
+                
+                xpoints, ypoints, zpoints = int(xlen/gridres), int(ylen/gridres), int(zlen/gridres)
+                ### Calculates actual coordinate ranges for each axis and calculates the "real" grid resolution
+                xcoords, xreal_gridres = np.linspace(cxmin-gridres/2, cxmax+gridres/2, xpoints+2, retstep=True)
+                ycoords, yreal_gridres = np.linspace(cymin-gridres/2, cymax+gridres/2, ypoints+2, retstep=True)
+                zcoords, zreal_gridres = np.linspace(czmin-gridres/2, czmax+gridres/2, zpoints+2, retstep=True)
+                ### Removes the first and last points as they are the actual edges of the box
+                xcoords = xcoords[1:-1]
+                ycoords = ycoords[1:-1]
+                zcoords = zcoords[1:-1]
+                
+                solute_buffer = solvent_buffer+solvation["solute_extra_buffer"]
+                lipid_buffer = solvent_buffer+solvation["lipid_extra_buffer"]
+                protein_buffer = solvent_buffer+solvation["protein_extra_buffer"]
+                
+                self.print_term("xpoints, xreal_gridres", xpoints, round(xreal_gridres, 4), debug=True)
+                self.print_term("ypoints, yreal_gridres", ypoints, round(yreal_gridres, 4), debug=True)
+                self.print_term("zpoints, zreal_gridres", zpoints, round(zreal_gridres, 4), debug=True)
+                self.print_term("points total", xpoints*ypoints*zpoints, debug=True)
+                self.print_term("solvent_buffer     ", solvent_buffer, debug=True)
+                self.print_term('solvation["buffer"]', solvent_buffer, debug=True)
+                self.print_term("solute_buffer      ", solute_buffer, debug=True)
+                self.print_term("lipid_buffer       ", lipid_buffer, debug=True)
+                self.print_term("protein_buffer     ", protein_buffer, debug=True)
+                
+                ### Creates a 3D matrix indicating the points in space that are allowed to have solvent
+                ### Starts out being completely filled with ones indicating allowed space
+                grid_bool_matrix = np.ones((xpoints, ypoints, zpoints))
+                
+                ### ### Marks coordinates as "occupied" by setting boolean to False
+                ### Marks points located in hydrophobic volume
+                if len(self.MEMBRANES) != 0:
+                    for memb_key, memb_dict in self.MEMBRANES.items():
+                        for leaflet_key, leaflet in memb_dict["leaflets"].items():
+                            lcx, lcy, lcz = leaflet["center"] # Center of leaflet on given axis
+                            llx, lly = leaflet["x"], leaflet["y"] # Length of leaflet in given axis
+                            lhydrophob = leaflet["lipid_dimensions"]["zUnderLipCen"] # Height of hydrophobic volume
+                            if leaflet["HG_direction"] == "up":
+                                zminbuffer = solvent_buffer
+                                zmaxbuffer = lhydrophob + solvent_buffer
+                            if leaflet["HG_direction"] == "down":
+                                zminbuffer = lhydrophob + solvent_buffer
+                                zmaxbuffer = solvent_buffer
+                                
+                            xmin, xmax = coord_to_indices(lcx, xlen, cx, xreal_gridres, xpoints, llx/2, llx/2)
+                            ymin, ymax = coord_to_indices(lcy, ylen, cy, yreal_gridres, ypoints, lly/2, lly/2)
+                            zmin, zmax = coord_to_indices(lcz, zlen, cz, zreal_gridres, zpoints, zminbuffer, zmaxbuffer)
+                            
+                            grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
 
-                        #################################################################
-                        ### CHECK IF WHOLE SOLVENT CELL CONTAINED IN HYDROPHOBIC AREA ###
-                        #################################################################
-                        if len(self.MEMBRANES) != 0:
-                            '''
-                            pos: the "positive" (coordinate) side of a hydrophobic box in a given dimension (x/y/z)
-                            neg: the "negative" (coordinate) side of a hydrophobic box in a given dimension (x/y/z)
-                            '''
-                            for memb_key, memb_dict in self.MEMBRANES.items():
-                                for leaflet_key, leaflet in memb_dict["leaflets"].items():
-                                    lcx, lcy, lcz = leaflet["center"] # Center of leaflet on given axis
-                                    llx, lly = leaflet["x"], leaflet["y"] # Length of leaflet in given axis
-                                    lhydrophob = leaflet["lipid_dimensions"]["zUnderLipCen"] # Height of hydrophobic volume
+                ### Prior solvent beads
+                for xpos, ypos, zpos in solv_beads_for_cell_checker:
+                    ### Checks if any non-solvent bead is within the solvent cell
+                    xmin, xmax = coord_to_indices(xpos, xlen, cx, xreal_gridres, xpoints, solute_buffer, solute_buffer)
+                    ymin, ymax = coord_to_indices(ypos, ylen, cy, yreal_gridres, ypoints, solute_buffer, solute_buffer)
+                    zmin, zmax = coord_to_indices(zpos, zlen, cz, zreal_gridres, zpoints, solute_buffer, solute_buffer)
+                    grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
 
-                                    xhydr_pos = ccx + cdx/2 < lcx + llx/2 + solvent_buffer
-                                    xhydr_neg = ccx - cdx/2 > lcx - llx/2 - solvent_buffer
-                                    yhydr_pos = ccy + cdy/2 < lcy + lly/2 + solvent_buffer
-                                    yhydr_neg = ccy - cdy/2 > lcy - lly/2 - solvent_buffer
-                                    if leaflet["HG_direction"] == "up":
-                                        zhydr_pos = ccz + cdz/2 < lcz + lhydrophob + solvent_buffer
-                                        zhydr_neg = ccz - cdz/2 > lcz - solvent_buffer
-                                    if leaflet["HG_direction"] == "down":
-                                        zhydr_pos = ccz + cdz/2 < lcz + solvent_buffer
-                                        zhydr_neg = ccz - cdz/2 > lcz - lhydrophob - solvent_buffer
-                                    if all([xhydr_pos, xhydr_neg, yhydr_pos, yhydr_neg, zhydr_pos, zhydr_neg]):
-                                        return "hydrophobic", [], [], []
+                ### Lipid beads
+                for xpos, ypos, zpos in lipid_beads_for_cell_checker:
+                    ### Checks if any non-solvent bead is within the solvent cell
+                    xmin, xmax = coord_to_indices(xpos, xlen, cx, xreal_gridres, xpoints, lipid_buffer, lipid_buffer)
+                    ymin, ymax = coord_to_indices(ypos, ylen, cy, yreal_gridres, ypoints, lipid_buffer, lipid_buffer)
+                    zmin, zmax = coord_to_indices(zpos, zlen, cz, zreal_gridres, zpoints, lipid_buffer, lipid_buffer)
+                    grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
 
-                        ##############################################
-                        ### CHECK FOR BEADS INSIDE OF SOLVENT CELL ###
-                        ##############################################
-                        ### Protein beads
-                        for bcx, bcy, bcz in prot_beads:
-                            ### Checks if any non-solvent bead is within the solvent cell
-                            xinternal = math.dist((ccx,), (bcx,)) <= cdx/2 + solvent_buffer
-                            yinternal = math.dist((ccy,), (bcy,)) <= cdy/2 + solvent_buffer
-                            zinternal = math.dist((ccz,), (bcz,)) <= cdz/2 + solvent_buffer
-                            if all([xinternal, yinternal, zinternal]):
-                                marked_prot_beads.append((bcx, bcy, bcz))
-                                internal = True
-
-                        ### Lipid beads
-                        for bcx, bcy, bcz in lipid_beads:
-                            ### Checks if any non-solvent bead is within the solvent cell
-                            xinternal = math.dist((ccx,), (bcx,)) <= cdx/2 + solvent_buffer
-                            yinternal = math.dist((ccy,), (bcy,)) <= cdy/2 + solvent_buffer
-                            zinternal = math.dist((ccz,), (bcz,)) <= cdz/2 + solvent_buffer
-
-                            if all([xinternal, yinternal, zinternal]):
-                                marked_lipid_beads.append((bcx, bcy, bcz))
-                                internal = True
-
-                        ### Solvent beads (solvent created using earlier solvent commands)
-                        for bcx, bcy, bcz in solv_beads:
-                            ### Checks if any non-(current)solvent bead is within the solvent cell
-                            xinternal = math.dist((ccx,), (bcx,)) <= cdx/2 + solvent_buffer
-                            yinternal = math.dist((ccy,), (bcy,)) <= cdy/2 + solvent_buffer
-                            zinternal = math.dist((ccz,), (bcz,)) <= cdz/2 + solvent_buffer
-                            if all([xinternal, yinternal, zinternal]):
-                                marked_solv_beads.append((bcx, bcy, bcz))
-                                internal = True
-
-                        if internal:
-                            return "internal", marked_prot_beads, marked_lipid_beads, marked_solv_beads
-
-                        ####################################################################################################
-                        ### Check if partially within hydrophobic area without containing any internal non-solvent beads ###
-                        ####################################################################################################
-                        if len(self.MEMBRANES) != 0:
-                            '''
-                            Finds solvent cells that are only partially contained in a hydrophobic box.
-                            Used to find edge cases where cells are partially contained in a hydrophobic box without overlapping with a particle.
-
-                            pos: the "positive" (coordinate) side of a hydrophobic box in a given dimension (x/y/z)
-                            neg: the "negative" (coordinate) side of a hydrophobic box in a given dimension (x/y/z)
-
-                            top: the "positive" (coordinate) side of a solvent cell in a given dimension (x/y/z)
-                            bot: the "negative" (coordinate) side of a solvent cell in a given dimension (x/y/z)
-                            '''
-                            for memb_key, memb_dict in self.MEMBRANES.items():
-                                for leaflet_key, leaflet in memb_dict["leaflets"].items():
-                                    lcx, lcy, lcz = leaflet["center"] # Center of leaflet on given axis
-                                    llx, lly = leaflet["x"], leaflet["y"] # Length of leaflet in given axis
-                                    lhydrophob = leaflet["lipid_dimensions"]["zUnderLipCen"] # Height of hydrophobic volume
-
-                                    xhydr_pos_top = ccx + cdx/2 < lcx + llx / 2 + solvent_buffer
-                                    xhydr_pos_bot = ccx + cdx/2 > lcx - llx / 2 - solvent_buffer
-                                    xhydr_neg_top = ccx - cdx/2 < lcx + llx / 2 + solvent_buffer
-                                    xhydr_neg_bot = ccx - cdx/2 > lcx - llx / 2 - solvent_buffer
-
-                                    yhydr_pos_top = ccy + cdy/2 < lcy + lly / 2 + solvent_buffer
-                                    yhydr_pos_bot = ccy + cdy/2 > lcy - lly / 2 - solvent_buffer
-                                    yhydr_neg_top = ccy - cdy/2 < lcy + lly / 2 + solvent_buffer
-                                    yhydr_neg_bot = ccy - cdy/2 > lcy - lly / 2 - solvent_buffer
-
-                                    if leaflet["HG_direction"] == "up":
-                                        zhydr_pos_top = ccz + cdz/2 < lcz + lhydrophob + solvent_buffer
-                                        zhydr_pos_bot = ccz + cdz/2 > lcz - solvent_buffer
-                                        zhydr_neg_top = ccz - cdz/2 < lcz + lhydrophob + solvent_buffer
-                                        zhydr_neg_bot = ccz - cdz/2 > lcz - solvent_buffer
-                                    if leaflet["HG_direction"] == "down":
-                                        zhydr_pos_top = ccz + cdz/2 < lcz + solvent_buffer
-                                        zhydr_pos_bot = ccz + cdz/2 > lcz - lhydrophob - solvent_buffer
-                                        zhydr_neg_top = ccz - cdz/2 < lcz + solvent_buffer
-                                        zhydr_neg_bot = ccz - cdz/2 > lcz - lhydrophob - solvent_buffer
-
-                                    xhydr_pos = xhydr_pos_top and xhydr_pos_bot
-                                    xhydr_neg = xhydr_neg_top and xhydr_neg_bot
-                                    yhydr_pos = yhydr_pos_top and yhydr_pos_bot
-                                    yhydr_neg = yhydr_neg_top and yhydr_neg_bot
-                                    zhydr_pos = zhydr_pos_top and zhydr_pos_bot
-                                    zhydr_neg = zhydr_neg_top and zhydr_neg_bot
-
-                                    partially_contained = (xhydr_pos or xhydr_neg) and (yhydr_pos or yhydr_neg) and (zhydr_pos or zhydr_neg)
-                                    if partially_contained:
-                                        return "internal", [], [], []
-
-                        ### If no hits from above checks, then assume the cell is free
-                        return "free", [], [], []
-
-                    def subcell_spawner_ax(cell, ax):
-                        '''
-                        Divides a specific axis into two subcells
-                        '''
-                        new_axn = list(filter(lambda x: x != 0, [math.floor(cell[ax + "n"] / 2), math.ceil(cell[ax + "n"] / 2)]))
-                        if len(new_axn) == 1:
-                            new_axdim = [cell[ax + "dim"]]
-                            new_axc = [cell[ax + "c"]]
-                        else:
-                            new_axdim = [cell[ax + "dim"] / cell[ax + "n"] * n for n in new_axn]
-                            new_axc = [cell[ax + "c"] - sign * cell[ax + "dim"] / 2 + sign * axdim / 2 for axdim, sign in zip(new_axdim, [+1, -1])]
-                        return new_axc, new_axdim, new_axn
-
-                    def subcell_spawner(cell, marked_prot_beads, marked_lipid_beads, marked_solv_beads):
-                        '''
-                        Spawns smaller subcell(s) from a primary cell.
-                        Attempts to divide cell into two boxes in each dimension.
-                        '''
-
-                        new_axcs = []
-                        new_axdims = []
-                        new_axns = []
-
-                        for ax in ["x", "y", "z"]:
-                            output = subcell_spawner_ax(cell, ax)
-                            new_axcs.append(output[0])
-                            new_axdims.append(output[1])
-                            new_axns.append(output[2])
-
-                        subcells = []
-                        for xc, xdim, xn in zip(new_axcs[0], new_axdims[0], new_axns[0]):
-                            for yc, ydim, yn in zip(new_axcs[1], new_axdims[1], new_axns[1]):
-                                for zc, zdim, zn in zip(new_axcs[2], new_axdims[2], new_axns[2]):
-                                    subcells.append({
-                                        "xc": xc, "xdim": xdim, "xn": xn,
-                                        "yc": yc, "ydim": ydim, "yn": yn,
-                                        "zc": zc, "zdim": zdim, "zn": zn,
-                                    })
-
-                        return [(subcell, marked_prot_beads, marked_lipid_beads, marked_solv_beads) for subcell in subcells]
-
-                    start_cell = {
-                        "xc": 0,
-                        "yc": 0,
-                        "zc": 0,
-                        "xdim": self.pbcx,
-                        "ydim": self.pbcy,
-                        "zdim": self.pbcz,
-                        "xn": int(self.pbcx / gridres),
-                        "yn": int(self.pbcy / gridres),
-                        "zn": int(self.pbcz / gridres),
-                    }
-                    self.print_term("    ", "Beads used for solvent cell overlaps:")
-                    self.print_term("    ", "    ", "Number of lipid beads:             ", len(lipid_beads_for_cell_checker))
-                    self.print_term("    ", "    ", "Number of protein beads:           ", len(prot_beads_for_cell_checker))
-                    self.print_term("    ", "    ", "Number of (previous) solvent beads:", len(solv_beads_for_cell_checker))
-                    self.print_term("    ", "    ", "Total number of beads:             ", len(lipid_beads_for_cell_checker) + len(prot_beads_for_cell_checker) + len(solv_beads_for_cell_checker))
-                    self.print_term("")
-                    self.print_term("    ", "Solvent cell calculations:")
-                    self.print_term("    ", "    ", "Buffer space 'buffer':                         ", solvation["buffer"], "[Å]")
-                    self.print_term("    ", "    ", "Grid resolution 'gridres':                     ", gridres, "[Å]")
-                    self.print_term("    ", "    ", "Minimum implicit solvent 'min_cellsize':       ", solvation["min_cellsize"])
-                    self.print_term("    ", "    ", "Max potential solvent particles in x dimension:", start_cell["xn"])
-                    self.print_term("    ", "    ", "Max potential solvent particles in y dimension:", start_cell["yn"])
-                    self.print_term("    ", "    ", "Max potential solvent particles in z dimension:", start_cell["zn"])
-                    self.print_term("    ", "    ", "Max potential total solvent:                   ", start_cell["xn"] * start_cell["yn"] * start_cell["zn"])
-                    self.print_term("    ", "    ", "    ", "Iteratively reducing solvent cell dimensions:")
+                ### Protein beads
+                for xpos, ypos, zpos in prot_beads_for_cell_checker:
+                    ### Checks if any non-solvent bead is within the solvent cell
+                    xmin, xmax = coord_to_indices(xpos, xlen, cx, xreal_gridres, xpoints, protein_buffer, protein_buffer)
+                    ymin, ymax = coord_to_indices(ypos, ylen, cy, yreal_gridres, ypoints, protein_buffer, protein_buffer)
+                    zmin, zmax = coord_to_indices(zpos, zlen, cz, zreal_gridres, zpoints, protein_buffer, protein_buffer)
+                    grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
 
 
+                ### Gets all the indices that are not occupied
+                free_indices = grid_bool_matrix.nonzero()
+                free_xs, free_ys, free_zs = free_indices
+                free_xs_coords = xcoords[free_xs]
+                free_ys_coords = ycoords[free_ys]
+                free_zs_coords = zcoords[free_zs]
+                
+                solv_grid_3D = list(zip(free_xs_coords, free_ys_coords, free_zs_coords))
 
-                    free_cells = []
-                    hydr_cells = []
-                    internal_cells = [(start_cell, prot_beads_for_cell_checker, lipid_beads_for_cell_checker, solv_beads_for_cell_checker)]
-
-                    iterations = 0
-                    max_iterations = 1
-                    max_n = max(start_cell["xn"], start_cell["yn"], start_cell["zn"])
-                    ### Counting the maximum possible number of iterations
-                    while max_n > 1:
-                        max_iterations += 1
-                        max_n = int(max_n / 2 + 0.5)
-
-
-                    self.print_term("Iteration nr:", iterations, "    internal:", len(internal_cells), "    free:", len(free_cells), "    hydrophobic:", len(hydr_cells), debug = True)
-                    self.print_term("xn", "yn", "zn", "  :  ", "xdim", "ydim", "zdim", "  :  ", "xc", "yc", "zc", debug = True,)
-                    self.print_term(
-                        internal_cells[0][0]["xn"]  , internal_cells[0][0]["yn"]  , internal_cells[0][0]["zn"]  , "  :  ",
-                        internal_cells[0][0]["xdim"], internal_cells[0][0]["ydim"], internal_cells[0][0]["zdim"], "  :  ",
-                        internal_cells[0][0]["xc"]  , internal_cells[0][0]["yc"]  , internal_cells[0][0]["zc"]  ,
-                        debug = True,
-                    )
-                    while len(internal_cells) > 0:
-                        '''
-                        Continuesly goes through all remaning non-free cells.
-                        Checks them for overlaps and splits them if needed.
-                        '''
-                        iterations += 1
-                        self.print_term("    ", "    ", "    ", "    ", "Iteration:", str(iterations), "/", str(max_iterations))
-                        new_internal_cells = []
-                        self.print_term("----------------------------------------------------------", debug = True)
-                        for cell_i, (cell, prot_beads, lipid_beads, solv_beads) in enumerate(internal_cells):
-                            check, marked_prot_beads, marked_lipid_beads, marked_solv_beads = cell_checker(cell, prot_beads, lipid_beads, solv_beads)
-                            if check == "free":
-                                free_cells.append(internal_cells[cell_i][0])
-                            if check == "hydrophobic":
-                                hydr_cells.append(internal_cells[cell_i][0])
-                            if check == "internal":
-                                if not all([axn <= solvation["min_cellsize"] for axn in [cell["xn"], cell["yn"], cell["zn"]]]):
-                                    '''Cells containing overlaps but are indivisible in all axes, should be removed'''
-                                    new_internal_cells.extend(subcell_spawner(cell, marked_prot_beads, marked_lipid_beads, marked_solv_beads))
-
-                        ### For the next iteration
-                        internal_cells = new_internal_cells
-
-                        self.print_term("Iteration nr:", iterations, "    internal:", len(internal_cells), "    free:", len(free_cells), "    hydrophobic:", len(hydr_cells), debug = True)
-                        if internal_cells != []:
-                            self.print_term("xn", "yn", "zn", "  :  ", "xdim", "ydim", "zdim", "  :  ", "xc", "yc", "zc", debug = True,)
-                            for i in [0, -1]:
-                                self.print_term(
-                                    internal_cells[i][0]["xn"]  , internal_cells[i][0]["yn"]  , internal_cells[i][0]["zn"]  , "  :  ",
-                                    internal_cells[i][0]["xdim"], internal_cells[i][0]["ydim"], internal_cells[i][0]["zdim"], "  :  ",
-                                    internal_cells[i][0]["xc"]  , internal_cells[i][0]["yc"]  , internal_cells[i][0]["zc"]  ,
-                                    debug = True,
-                                )
-
-                    if self.debug_prints:
-                        counts = {}
-                        for cell in sorted(free_cells, key = lambda cell: cell["xn"] * cell["yn"] * cell["zn"]):
-                            prod = cell["xn"] * cell["yn"] * cell["zn"]
-                            if prod not in counts.keys():
-                                counts[prod] = 1
-                            else:
-                                counts[prod] += 1
-                        for key, vals in counts.items():
-                            self.print_term("xn*yn*zn product and number of cells", key, "    ", vals, debug = True)
-
-                    self.print_term("Lengths:", debug = True)
-                    self.print_term("    ", "Internal cells:", len(internal_cells), debug = True)
-                    self.print_term("    ", "Free cells:", len(free_cells), debug = True)
-                    self.print_term("    ", "Hydrophobic cells:", len(hydr_cells), debug = True)
-
-                    solv_grid_3D = [
-                        [
-                            (
-                                cell["xc"] - cell["xdim"] / 2 + (cell["xdim"] / cell["xn"]) * (xn - 0.5),
-                                cell["yc"] - cell["ydim"] / 2 + (cell["ydim"] / cell["yn"]) * (yn - 0.5),
-                                cell["zc"] - cell["zdim"] / 2 + (cell["zdim"] / cell["zn"]) * (zn - 0.5),
-                            )
-                            for xn in range(1, cell["xn"] + 1) for yn in range(1, cell["yn"] + 1) for zn in range(1, cell["zn"] + 1)
-                        ] for cell in free_cells
-                    ]
-                    solv_grid_3D = [item for sublist in solv_grid_3D for item in sublist]
-
-                elif solvation["algorithm"] == "v2":
-                    ### Creates a 3D matrix indicating the points in space that are allowed to have solvent
-                    grid_bool_matrix = np.ones((int(self.pbcx/gridres), int(self.pbcy/gridres), int(self.pbcz/gridres)))
-                    xpoints, ypoints, zpoints = grid_bool_matrix.shape
-                    ### Calculates actual coordinate ranges for each axis and calculates the "real" grid resolution
-                    xcoords, xreal_gridres = np.linspace(-self.pbcx//2-gridres/2, self.pbcx//2+gridres/2, xpoints+2, retstep=True)#[1:-1]
-                    ycoords, yreal_gridres = np.linspace(-self.pbcy//2-gridres/2, self.pbcy//2+gridres/2, ypoints+2, retstep=True)#[1:-1]
-                    zcoords, zreal_gridres = np.linspace(-self.pbcz//2-gridres/2, self.pbcz//2+gridres/2, zpoints+2, retstep=True)#[1:-1]
-                    ### Real grid resolution is different from given to to axis lengths not being perfectly divisible by given grid resolution
-#                     xreal_gridres = abs(xcoords[0]) - abs(xcoords[1])
-#                     yreal_gridres = abs(ycoords[0]) - abs(ycoords[1])
-#                     zreal_gridres = abs(zcoords[0]) - abs(zcoords[1])
-                    ### Removes the first and last points as they are the actual edges of the box
-                    xcoords = xcoords[1:-1]
-                    ycoords = ycoords[1:-1]
-                    zcoords = zcoords[1:-1]
-
-                    def coord_to_indices(pos, dim, real_gridres, min_buffer, max_buffer):
-                        ### Buffer limit
-                        bead_min = pos-min_buffer
-                        bead_max = pos+max_buffer
-
-                        ### Convert solvent buffer limit to decimal index
-                        beadi_min_dec = (bead_min+dim/2)/real_gridres
-                        beadi_max_dec = (bead_max+dim/2)/real_gridres
-
-                        ### Round buffer decimal index to integer index
-                        beadi_min_int = math.floor(beadi_min_dec+0.5)
-                        beadi_max_int = math.ceil(beadi_max_dec-0.5)
-                        
-                        if beadi_min_int < 0:
-                            beadi_min_int = 0
-
-                        return beadi_min_int, beadi_max_int
-
-
-                    ### ### Marks coordinates as "occupied" by setting boolean to False
-                    ### Marks points located in hydrophobic volume
-                    if len(self.MEMBRANES) != 0:
-                        for memb_key, memb_dict in self.MEMBRANES.items():
-                            for leaflet_key, leaflet in memb_dict["leaflets"].items():
-                                lcx, lcy, lcz = leaflet["center"] # Center of leaflet on given axis
-                                llx, lly = leaflet["x"], leaflet["y"] # Length of leaflet in given axis
-                                lhydrophob = leaflet["lipid_dimensions"]["zUnderLipCen"] # Height of hydrophobic volume
-                                if leaflet["HG_direction"] == "up":
-                                    zminbuffer = solvent_buffer
-                                    zmaxbuffer = lhydrophob + solvent_buffer
-                                if leaflet["HG_direction"] == "down":
-                                    zminbuffer = lhydrophob + solvent_buffer
-                                    zmaxbuffer = solvent_buffer
-
-                                xmin, xmax = coord_to_indices(lcx, self.pbcx, xreal_gridres, llx/2, llx/2)
-                                ymin, ymax = coord_to_indices(lcy, self.pbcy, yreal_gridres, lly/2, lly/2)
-                                zmin, zmax = coord_to_indices(lcz, self.pbcz, zreal_gridres, zminbuffer, zmaxbuffer)
-                                grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
-
-                    ### Protein beads
-                    protein_buffer = solvent_buffer+solvation["protein_extra_buffer"]
-                    for xpos, ypos, zpos in prot_beads_for_cell_checker:
-                        ### Checks if any non-solvent bead is within the solvent cell
-                        xmin, xmax = coord_to_indices(xpos, self.pbcx, xreal_gridres, protein_buffer, protein_buffer)
-                        ymin, ymax = coord_to_indices(ypos, self.pbcy, yreal_gridres, protein_buffer, protein_buffer)
-                        zmin, zmax = coord_to_indices(zpos, self.pbcz, zreal_gridres, protein_buffer, protein_buffer)
-                        grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
-
-                    ### Lipid beads
-                    lipid_buffer = solvent_buffer+solvation["lipid_extra_buffer"]
-                    for xpos, ypos, zpos in lipid_beads_for_cell_checker:
-                        ### Checks if any non-solvent bead is within the solvent cell
-                        xmin, xmax = coord_to_indices(xpos, self.pbcx, xreal_gridres, lipid_buffer, lipid_buffer)
-                        ymin, ymax = coord_to_indices(ypos, self.pbcy, yreal_gridres, lipid_buffer, lipid_buffer)
-                        zmin, zmax = coord_to_indices(zpos, self.pbcz, zreal_gridres, lipid_buffer, lipid_buffer)
-                        grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
-
-                    ### Prior solvent beads
-                    solute_buffer = solvent_buffer+solvation["solute_extra_buffer"]
-                    for xpos, ypos, zpos in solv_beads_for_cell_checker:
-                        ### Checks if any non-solvent bead is within the solvent cell
-                        xmin, xmax = coord_to_indices(xpos, self.pbcx, xreal_gridres, solute_buffer, solute_buffer)
-                        ymin, ymax = coord_to_indices(ypos, self.pbcy, yreal_gridres, solute_buffer, solute_buffer)
-                        zmin, zmax = coord_to_indices(zpos, self.pbcz, zreal_gridres, solute_buffer, solute_buffer)
-                        grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
-
-                    ### Gets all the indices that are not occupied
-                    free_indices = grid_bool_matrix.nonzero()
-                    free_xs, free_ys, free_zs = free_indices
-                    free_xs_coords = xcoords[free_xs]
-                    free_ys_coords = ycoords[free_ys]
-                    free_zs_coords = zcoords[free_zs]
-                    solv_grid_3D = list(zip(free_xs_coords, free_ys_coords, free_zs_coords))
-
-                self.print_term("Final number of 3D grid points available for solvent placement:", len(solv_grid_3D), spaces=1)
+                self.print_term("Final number of 3D grid points available for solvent placement:", len(solv_grid_3D), spaces=2, verbose=4)
 
                 ################################
                 ### INSERT SOLVENT MOLECULES ###
@@ -5119,28 +5341,27 @@ class CGSB:
                         coords = [coord - (np.sign(coord) * max(abs(min(diffs)), abs(max(diffs)))) for coord in coords]
                     return coords
                 
-                ### Shuffles the grid to ensure randomness
-                random.shuffle(solv_grid_3D)
                 ### random.sample extracts k random elements from the list without duplicates
-                self.print_term("Inserting", len(collected_solvent), "solvent molecules into random grid points:", spaces=1)
+                self.print_term("Inserting", len(collected_solvent), "solvent molecules into random grid points:", spaces=2, verbose=4)
                 random_grid_points = random.sample(solv_grid_3D, k = len(collected_solvent))
+                
                 grid_solvated = []
-#                 counter = 0
                 generated_spots = []
                 for counter, ((sname, stype, ssize), (gx, gy, gz)) in enumerate(zip(collected_solvent, random_grid_points), 1):
                     '''
                     Finds a 3D-grid point for the solvent and places it there.
                     '''
                     if counter == 1 or counter % 25000 == 0:
-                        self.print_term("Currently at solvent number:", counter, spaces=2)
+                        self.print_term("Currently at solvent number:", counter, spaces=3, verbose=4)
                     sdata = solvation[stype][sname]
                     sinfo = solvation[stype][sname].get_res_beads_info()
                     
-                    sbeads     = [bead.bead for bead in sinfo]
-                    sresnames  = [bead.resname for bead in sinfo]
-                    scharge    = sdata.charge
-                    sx, sy, sz = sdata.get_coords("xyz")
-                    rx, ry, rz = random.uniform(0, 360), random.uniform(0, 360), random.uniform(0, 360)
+                    sbeads        = [bead.bead for bead in sinfo]
+                    sresnames     = [bead.resname for bead in sinfo]
+                    sbeadcharges  = [bead.charge for bead in sinfo]
+                    scharge       = sdata.get_mol_charge()
+                    sx, sy, sz    = sdata.get_coords("xyz")
+                    rx, ry, rz    = random.uniform(0, 360), random.uniform(0, 360), random.uniform(0, 360)
                     for j, (x, y, z) in enumerate(zip(sx, sy, sz)):
                         sx[j], sy[j], sz[j] = self.rotate_point(x, y, z, rx, ry, rz)
                         kx = random.uniform(-solvation["kick"], solvation["kick"])
@@ -5162,72 +5383,129 @@ class CGSB:
                         order = 3
 
                     grid_solvated.append({
-                        "order":    order,
-                        "name":     sname,
-                        "resnames": sresnames,
-                        "type":     stype,
-                        "beads":    sbeads,
-                        "charge":   scharge,
-                        "coords":   list(zip(sx, sy, sz)),
+                        "order":        order,
+                        "name":         sname,
+                        "resnames":     sresnames,
+                        "type":         stype,
+                        "beads":        sbeads,
+                        "bead_charges": sbeadcharges,
+                        "charge":       scharge,
+                        "coords":       list(zip(sx, sy, sz)),
                     })
-                self.print_term("Currently at solvent number:", counter, spaces=2)
+                self.print_term("Currently at solvent number:", counter, spaces=3, verbose=4)
                 
                 ### Orders the solvent key:value pairs to ensure topology-structure file match
-                self.SOLVATIONS[solvation_nr]["grid"] = sorted(grid_solvated, key=lambda g: (g["order"], g["name"]))
+                solvation["grid"] = sorted(grid_solvated, key=lambda g: (g["order"], g["name"]))
 
-                ### Remembers the beads for subsequent solvation commands
-                solv_beads_for_cell_checker.extend([(x, y, z) for vals in solvation["grid"] for x, y, z in vals["coords"]])
+#                 ### Remembers the beads for subsequent solvation commands
+#                 solv_beads_for_cell_checker.extend([(x, y, z) for vals in solvation["grid"] for x, y, z in vals["coords"]])
 
-                self.SOLVATIONS[solvation_nr]["solv_count"] = {}
-                for grid_point_3D in self.SOLVATIONS[solvation_nr]["grid"]:
+                solvation["solv_count"] = {}
+                for grid_point_3D in solvation["grid"]:
                     '''
                     Counts all solvent for this specific solvation command
                     '''
                     if (grid_point_3D["name"], grid_point_3D["type"], grid_point_3D["charge"]) not in solvation["solv_count"].keys():
-                        self.SOLVATIONS[solvation_nr]["solv_count"][(grid_point_3D["name"], grid_point_3D["type"], grid_point_3D["charge"])] = 1
+                        solvation["solv_count"][(grid_point_3D["name"], grid_point_3D["type"], grid_point_3D["charge"])] = 1
                     else:
-                        self.SOLVATIONS[solvation_nr]["solv_count"][(grid_point_3D["name"], grid_point_3D["type"], grid_point_3D["charge"])] += 1
-
-            SYS_solv_count = {}
-            for solvation_nr, solvation in self.SOLVATIONS.items():
-                '''
-                Counts all solvent in the system
-                '''
+                        solvation["solv_count"][(grid_point_3D["name"], grid_point_3D["type"], grid_point_3D["charge"])] += 1
+                
+                
+                if solvation_i == 0:
+                    SYS_solv_count = {}
+                    SYS_solv_volume = solv_volume
+                else:
+                    SYS_solv_volume += solv_volume
+                
+                CMD_solv_count = {}
                 for (sname, stype, scharge), count in solvation["solv_count"].items():
+                    '''
+                    Counts all solvent in the solvation command
+                    '''
+                    if (sname, stype, scharge) not in CMD_solv_count.keys():
+                        CMD_solv_count[(sname, stype, scharge)] = count
+                    else:
+                        CMD_solv_count[(sname, stype, scharge)] += count
+                    
                     if (sname, stype, scharge) not in SYS_solv_count.keys():
                         SYS_solv_count[(sname, stype, scharge)] = count
                     else:
                         SYS_solv_count[(sname, stype, scharge)] += count
 
+                CMD_headers = ["Name", "Totals", "Total %", "Molarity(box)", "Molarity(free)", "Molarity(solvent)", "Charge"]
+                CMD_names, CMD_charges, CMD_counts = list(zip(*[(sname, scharge, scount) for (sname, stype, scharge), scount in CMD_solv_count.items()]))
+                CMD_tot = sum(CMD_counts)
+                CMD_percentages = [round(count / CMD_tot * 100, 3) for count in CMD_counts]
+                CMD_box_molarity = [round(scount / (N_A * box_volume), 3) for scount in CMD_counts]
+                CMD_free_molarity = [round(scount / (N_A * box_free_volume), 3) for scount in CMD_counts]
+                if solv_volume > 0:
+                    CMD_solv_molarity = [round(scount / (N_A * solv_volume), 3) for scount in CMD_counts]
+                else:
+                    CMD_solv_molarity = ["NaN" for scount in CMD_counts]
+                CMD_printer = [tuple(CMD_headers)] + list(zip(CMD_names, CMD_counts, CMD_percentages, CMD_box_molarity, CMD_free_molarity, CMD_solv_molarity, CMD_charges))
+                CMD_max_lengths = [len(str(max(data, key = lambda d: len(str(d))))) for data in zip(*CMD_printer)]
+                if self.extra_info:
+                    '''
+                    Prints command-specific solvent information to the terminal
+                    '''
+                    self.print_term("", verbose=4)
+                    self.print_term("Solvent data for the the specific solvation command", spaces=1, verbose=4)
+                    for string in CMD_printer:
+                        for_printer = []
+                        for si, substring in enumerate(string):
+                            for_printer.append('{0: <{L}}'.format(substring, L = CMD_max_lengths[si]))
+                            for_printer.append(":")
+                        self.print_term(
+                            *for_printer,
+                            spaces=2,
+                            verbose=4,
+                        )
+
             if self.extra_info:
                 '''
                 Prints system-wide solvent information to the terminal
                 '''
-                self.print_term()
+                self.print_term("", verbose=3)
                 SYS_headers = ["Name", "Totals", "Total %", "Molarity(box)", "Molarity(free)", "Molarity(solvent)", "Charge"]
                 SYS_names, SYS_charges, SYS_counts = list(zip(*[(sname, scharge, scount) for (sname, stype, scharge), scount in SYS_solv_count.items()]))
                 SYS_tot = sum(SYS_counts)
                 SYS_percentages = [round(count / SYS_tot * 100, 3) for count in SYS_counts]
-                SYS_box_molarity = [round(scount / (N_A * box_volume), 3) for scount in SYS_counts]
-                SYS_free_molarity = [round(scount / (N_A * box_free_volume), 3) for scount in SYS_counts]
-                SYS_solv_molarity = [round(scount / (N_A * solv_volume), 3) for scount in SYS_counts]
+                ### Lipid volume
+                lipid_beads_for_cell_checker, solvent_box_lipids_charge = self.get_lipid_volume(
+                    -self.pbcx/2, self.pbcx/2, -self.pbcy/2, self.pbcy/2, -self.pbcz/2, self.pbcz/2
+                )
+                SYS_leafs_volume = bead_volume * len(lipid_beads_for_cell_checker)
+
+                ### Protein volume
+                prot_beads_for_cell_checker, solvent_box_proteins_charge = self.get_protein_volume(
+                    -self.pbcx/2, self.pbcx/2, -self.pbcy/2, self.pbcy/2, -self.pbcz/2, self.pbcz/2
+                )
+                SYS_prots_volume = bead_volume * len(prot_beads_for_cell_checker)
+                SYS_box_volume = (self.pbcx * self.pbcy * self.pbcz) * 10**-27
+                SYS_free_volume = SYS_box_volume - leafs_volume - prots_volume
+                
+                SYS_box_molarity = [round(scount / (N_A * SYS_box_volume), 3) for scount in SYS_counts]
+                SYS_free_molarity = [round(scount / (N_A * SYS_free_volume), 3) for scount in SYS_counts]
+                if SYS_solv_volume > 0:
+                    SYS_solv_molarity = [round(scount / (N_A * SYS_solv_volume), 3) for scount in SYS_counts]
+                else:
+                    SYS_solv_molarity = ["NaN" for scount in SYS_counts]
                 SYS_printer = [tuple(SYS_headers)] + list(zip(SYS_names, SYS_counts, SYS_percentages, SYS_box_molarity, SYS_free_molarity, SYS_solv_molarity, SYS_charges))
                 SYS_max_lengths = [len(str(max(data, key = lambda d: len(str(d))))) for data in zip(*SYS_printer)]
-                self.print_term("Solvent data for whole system")
-                for L0, L1, L2, L3, L4, L5, L6 in SYS_printer:
+                self.print_term("Solvent data for whole system", verbose=3)
+                for string in SYS_printer:
+                    for_printer = []
+                    for si, substring in enumerate(string):
+                        for_printer.append('{0: <{L}}'.format(substring, L = SYS_max_lengths[si]))
+                        for_printer.append(":")
                     self.print_term(
-                        '{0: <{L}}'.format(L0, L = SYS_max_lengths[0]), ":",
-                        '{0: <{L}}'.format(L1, L = SYS_max_lengths[1]), ":",
-                        '{0: <{L}}'.format(L2, L = SYS_max_lengths[2]), ":",
-                        '{0: <{L}}'.format(L3, L = SYS_max_lengths[3]), ":",
-                        '{0: <{L}}'.format(L4, L = SYS_max_lengths[4]), ":",
-                        '{0: <{L}}'.format(L5, L = SYS_max_lengths[5]), ":",
-                        '{0: <{L}}'.format(L6, L = SYS_max_lengths[6]),
+                        *for_printer,
                         spaces=2,
+                        verbose=3,
                     )
             
             solvation_toc = time.time()
-            solvation_time = round(solvation_toc - solvation_tic, 4)
+            solvation_time = round(solvation_toc - solvation_tic, 3)
             self.print_term("------------------------------ SOLVATION COMPLETE", "(time spent: "+str(solvation_time)+" [s])", "\n", spaces=0)
     
     ###############
@@ -5235,9 +5513,9 @@ class CGSB:
     ###############
     def pickler(self):
         if self.PICKLE_cmd:
-            self.print_term("-------------------")
-            self.print_term("Pickling data into:", self.PICKLE_cmd)
-            self.print_term("-------------------", "\n")
+            self.print_term("-------------------", verbose=1)
+            self.print_term("Pickling data into:", self.PICKLE_cmd, verbose=1)
+            self.print_term("-------------------", "\n", verbose=1)
             
             ### ### To unpickle use the following and change "pickled_file_path" to your pickled file name
             ### with open(pickled_file_path, 'rb') as pickled_file:
@@ -5280,12 +5558,22 @@ class IsStored_ActionExtend(argparse.Action):
         items.extend(values)
         setattr(namespace, self.dest, items)
 
+### Does not work
+# class IsStored_ActionCount(argparse.Action):
+#     def __call__(self, parser, namespace, values, option_string=None):
+#         given_arguments.add(self.dest)
+#         setattr(namespace, self.dest + '_set', True)
+#         items = getattr(namespace, self.dest, None)
+#         items = argparse._copy_items(items)
+#         items += 1
+#         setattr(namespace, self.dest, items)
+
 parser = argparse.ArgumentParser(
     formatter_class=argparse.RawTextHelpFormatter,
-    add_help = False
+    add_help = False,
 )
 
-parser.add_argument("-h", "--help", dest = "help")
+parser.add_argument("--help", "-h", dest = "help", action=IsStored_ActionStore)
 
 ### Leaflet commands
 parser.add_argument("--membrane", "-memb", "-membrane", dest = "membrane_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
@@ -5303,70 +5591,86 @@ parser.add_argument("--flooding", "-flood", "-flooding", dest = "flooding_cmds",
 parser.add_argument("--itp_input", "-itp_in", dest = "itp_input_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
 ### Import commands
-parser.add_argument("--solute_input", "-solute_in", dest = "solute_input_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
+parser.add_argument("--solute_input", "-solute_in", "-sol_in", dest = "solute_input_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
 ### Plotting command
 parser.add_argument("--plot_grid", "-plot", dest = "plot_grid_cmd", action=IsStored_ActionStore)
 
 ### Pickle commands
-parser.add_argument("-pickle", dest = "pickle_cmd", action=IsStored_ActionStore)
+parser.add_argument("--pickle", "-pickle", dest = "pickle_cmd", action=IsStored_ActionStore)
 
 ### Whether to backup files i they would be overwritten
-parser.add_argument("-backup", dest = "backup_cmd", action=IsStored_ActionStore)
+parser.add_argument("--backup", "-backup", dest = "backup_cmd", action=IsStored_ActionStore)
 
 ### Random seed
 parser.add_argument("--randseed", "-rand", dest = "randseed_cmd", action=IsStored_ActionStore)
 
 ### System parameters
-parser.add_argument("--sys_params", "-params", dest = "sys_params", action=IsStored_ActionStore)
-parser.add_argument("-prot_params", dest = "prot_params", action=IsStored_ActionStore)
-parser.add_argument("-lipid_params", dest = "lipid_params", action=IsStored_ActionStore)
-parser.add_argument("-solv_params", dest = "solv_params", action=IsStored_ActionStore)
+parser.add_argument("--sys_params",   "-sysp", dest = "sys_params",   action=IsStored_ActionStore)
+parser.add_argument("--prot_params",  "-pp",   dest = "prot_params",  action=IsStored_ActionStore)
+parser.add_argument("--lipid_params", "-lp",   dest = "lipid_params", action=IsStored_ActionStore)
+parser.add_argument("--solv_params",  "-sp",   dest = "solv_params",  action=IsStored_ActionStore)
 
 ### System name
-parser.add_argument("-sn", "-system_name", dest = "system_name", action=IsStored_ActionStore)
+parser.add_argument("--system_name", "-sn", dest = "system_name", action=IsStored_ActionStore)
 
 ### pbc box size [nm]
-parser.add_argument("-box", "-pbc", dest = "pbc_box", action=IsStored_ActionExtend, type=str, default = [], nargs="+")
+parser.add_argument("--box", "-box", dest = "pbc_box", action=IsStored_ActionExtend, type=str, default = [], nargs="+")
+parser.add_argument("--pbc", "-pbc", dest = "pbc_box", action=IsStored_ActionExtend, type=str, default = [], nargs="+")
 
 ### x/y/z size of box [nm]
-parser.add_argument("-x", dest = "pbcx", type=str, action=IsStored_ActionStore)
-parser.add_argument("-y", dest = "pbcy", type=str, action=IsStored_ActionStore)
-parser.add_argument("-z", dest = "pbcz", type=str, action=IsStored_ActionStore)
+parser.add_argument("--x", "-x", dest = "pbcx", type=str, action=IsStored_ActionStore)
+parser.add_argument("--y", "-y", dest = "pbcy", type=str, action=IsStored_ActionStore)
+parser.add_argument("--z", "-z", dest = "pbcz", type=str, action=IsStored_ActionStore)
 
 ### pbc box size [nm]
-parser.add_argument("-box_type", "-pbc_type", dest = "pbc_box_type", type=str, action=IsStored_ActionStore)
+parser.add_argument("--box_type", "-box_type", dest = "pbc_box_type", type=str, action=IsStored_ActionStore)
+parser.add_argument("--pbc_type", "-pbc_type", dest = "pbc_box_type", type=str, action=IsStored_ActionStore)
 
 ####################
 ### OUTPUT FILES ###
 ####################
+### Output pdb/gro/top/log file
+parser.add_argument("--out_all", "-out_all", "-o_all", dest = "out_all_file_name", action=IsStored_ActionStore)
+
 ### Output pdb/gro file
-parser.add_argument("--output_struct"    , "-out"    , "-out_sys"    , "-o"    , dest = "out_system_file_name"    , action=IsStored_ActionStore)
+parser.add_argument("--out_sys", "-out_sys", "-o_sys", dest = "out_sys_file_name", action=IsStored_ActionStore)
 ### Output pdb file
-parser.add_argument("--output_struct_pdb", "-out_pdb", "-out_sys_pdb", "-o_pdb", dest = "out_system_pdb_file_name", action=IsStored_ActionStore)
+parser.add_argument("--out_pdb", "-out_pdb", "-o_pdb", dest = "out_pdb_file_name", action=IsStored_ActionStore)
 ### Output gro file
-parser.add_argument("--output_struct_gro", "-out_gro", "-out_sys_gro", "-o_gro", dest = "out_system_gro_file_name", action=IsStored_ActionStore)
+parser.add_argument("--out_gro", "-out_gro", "-o_gro", dest = "out_gro_file_name", action=IsStored_ActionStore)
 
 ### Output topology file
-parser.add_argument("--output_topol", "-top_out", "-t", dest = "out_topol_file_name", action=IsStored_ActionStore)
+parser.add_argument("--out_top", "-out_top", "-t",     dest = "out_top_file_name", action=IsStored_ActionStore)
 
-#############################
-### PRINTING AND LOG FILE ###
-#############################
 ### Log file
-parser.add_argument("--output_log", "-log", "-out_log", dest = "out_log_file_name", action=IsStored_ActionStore)
+parser.add_argument("--out_log", "-out_log", "-log",   dest = "out_log_file_name", action=IsStored_ActionStore)
 
+################
+### PRINTING ###
+################
 ### Prints
-parser.add_argument("--print_quiet",    "-quiet", dest = "quiet",            action=IsStored_ActionStore)
-parser.add_argument("--print_debug",    "-debug", dest = "debug",            action=IsStored_ActionStore)
-parser.add_argument("--print_extra",    "-extra", dest = "extra",            action=IsStored_ActionStore)
-parser.add_argument("--print_sl_extra", "-sl_extra",  dest = "subleaflet_extra", action=IsStored_ActionStore)
-parser.add_argument("--print_warnings", "-warn",  dest = "warnings",         action=IsStored_ActionStore)
+parser.add_argument("--print_quiet",    "-quiet",    dest = "quiet",    action=IsStored_ActionStore)
+parser.add_argument("--print_debug",    "-debug",    dest = "debug",    action=IsStored_ActionStore)
+parser.add_argument("--print_extra",    "-extra",    dest = "extra",    action=IsStored_ActionStore)
+parser.add_argument("--print_warnings", "-warn",     dest = "warnings", action=IsStored_ActionStore)
+parser.add_argument("--verbose",        "-verbose", "-v",  dest = "verbose",  action=IsStored_ActionStore)
 
 ### ### Parser for handling '-f' when importing module to Jupyter
-parser.add_argument("-f", dest = "debug_flag_for_jupyter")
+parser.add_argument("-fff", "-f", dest = "debug_flag_for_ipython")
+### unknown variable includes the weird -f flag that jupyter puts in so no need for added argument.
+### Argument still needed otherwise jupyter will throw the following error:
+### "ipykernel_launcher.py: error: ambiguous option: -f could match -flood, -flooding"
 
-args = parser.parse_args()
+args, unknown = parser.parse_known_args()
+
+##############################
+### HELP FOR THOSE IN NEED ###
+##############################
+
+if "help" in given_arguments or len(sys.argv) == 1:
+    print_helper()
+    sys.exit()
 
 parser_kwargs = {}
 
@@ -5395,42 +5699,36 @@ for CGSB_cmd, parse, arg_name in [
     ("lipid_params", args.lipid_params, "lipid_params"),
     ("solv_params",  args.solv_params,  "solv_params"),
     
-    ("box",        args.pbc_box,      "pbc_box"),
-    ("x",          args.pbcx,         "pbcx"),
-    ("y",          args.pbcy,         "pbcy"),
-    ("z",          args.pbcz,         "pbcz"),
-    ("box_type",   args.pbc_box_type, "pbc_box_type"),
+    ("box",      args.pbc_box,      "pbc_box"),
+    ("x",        args.pbcx,         "pbcx"),
+    ("y",        args.pbcy,         "pbcy"),
+    ("z",        args.pbcz,         "pbcz"),
+    ("box_type", args.pbc_box_type, "pbc_box_type"),
     
-    ("out_sys",     args.out_system_file_name,     "out_system_file_name"),
-    ("out_sys_pdb", args.out_system_pdb_file_name, "out_system_pdb_file_name"),
-    ("out_sys_gro", args.out_system_gro_file_name, "out_system_gro_file_name"),
-    ("out_top",     args.out_topol_file_name,      "out_topol_file_name"),
-    ("out_log",     args.out_log_file_name,        "args.out_log_file_name"),
+    ("out_all", args.out_all_file_name, "out_all_file_name"),
+    ("out_sys", args.out_sys_file_name, "out_sys_file_name"),
+    ("out_pdb", args.out_pdb_file_name, "out_pdb_file_name"),
+    ("out_gro", args.out_gro_file_name, "out_gro_file_name"),
+    ("out_top", args.out_top_file_name, "out_top_file_name"),
+    ("out_log", args.out_log_file_name, "out_log_file_name"),
     
-    ("sn", args.system_name, "args.system_name"),
+    ("sn", args.system_name, "system_name"),
     
-    ("quiet",    args.quiet,            "args.quiet"),
-    ("debug",    args.debug,            "args.debug"),
-    ("extra",    args.extra,            "args.extra"),
-    ("sl_extra", args.subleaflet_extra, "args.subleaflet_extra"),
-    ("warn",     args.warnings,         "args.warnings"),
+    ("quiet",    args.quiet,        "quiet"),
+    ("debug",    args.debug,        "debug"),
+    ("extra",    args.extra,        "extra"),
+    ("warn",     args.warnings,     "warnings"),
+    ("verbose",  args.verbose,      "verbose"),
 ]:
     if arg_name in given_arguments:
         parser_kwargs[CGSB_cmd] = parse
 
 if parser_kwargs:
+    print("Time spent importing packages:", import_time)
     CGSB(
         run = True,
         terminal_run_kwargs = parser_kwargs,
     )
-
-##############################
-### HELP FOR THOSE IN NEED ###
-##############################
-
-# if args.help != None or len(sys.argv) == 1:
-#     print_helper()
-#     sys.exit()
 
 #####################################################################
 ########################## YOU HAVE PARSED ##########################
