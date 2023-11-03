@@ -1132,7 +1132,11 @@ class CGSB:
 
         ### PBC type settings:
         if self.pbc_type == "rectangular":
-            if len(cmd) == 2:
+            if len(cmd) == 1:
+                self.pbcx = cmd[0]*10
+                self.pbcy = cmd[0]*10
+                self.pbcz = cmd[0]*10
+            elif len(cmd) == 2:
                 self.pbcx = cmd[0]*10
                 self.pbcy = cmd[0]*10
                 self.pbcz = cmd[1]*10
@@ -1164,7 +1168,11 @@ class CGSB:
         ### Following math taken from insane.py and https://manual.gromacs.org/current/reference-manual/algorithms/periodic-boundary-conditions.html
         elif self.pbc_type == "hexagonal":
             ### Not actually a hexagon, but instead a parallelepiped constituting a third of it
-            if len(cmd) == 2:
+            if len(cmd) == 1:
+                self.pbcx = cmd[0]*10
+                self.pbcy = math.sqrt(3)*self.pbcx/2
+                self.pbcz = cmd[0]*10
+            elif len(cmd) == 2:
                 self.pbcx = cmd[0]*10
                 self.pbcy = math.sqrt(3)*self.pbcx/2
                 self.pbcz = cmd[1]*10
@@ -1193,15 +1201,21 @@ class CGSB:
         elif self.pbc_type == "dodecahedron":
             ### Not actually a dodecahedron, but instead a parallelepiped constituting a third of it
             if len(cmd) == 1:
-                self.pbcx = cmd[0]
-                self.pbcy = math.sqrt(3)*self.pbcx/2
-                self.pbcz = math.sqrt(6)*self.pbcx/3
+                if momentary_z:
+                    ### Done when "stacked_membranes" is used as the box size is defined by the z-height
+                    self.pbcz = cmd[0]*10
+                    self.pbcx = self.pbcz/math.sqrt(6)*3
+                    self.pbcy = math.sqrt(3)*self.pbcx/2
+                else:
+                    self.pbcx = cmd[0]*10
+                    self.pbcy = math.sqrt(3)*self.pbcx/2
+                    self.pbcz = math.sqrt(6)*self.pbcx/3
             else:
                 assert False, "Incorrect pbc box dimensions for pbc type '"+self.pbc_type+"': " + str(cmd)
             self.gro_box_vectors = [
                 float(self.pbcx/10),                  # vector: vax or v1x
-                float(self.pbcy/10),                  # vector: vby or v2y
-                float(self.pbcz/10),                  # vector: vcz or v3z
+                float(self.pbcx/10),                  # vector: vby or v2y
+                float(self.pbcx/10),                  # vector: vcz or v3z
                 float(0),                             # vector: vay or v1y
                 float(0),                             # vector: vaz or v1z
                 float((self.pbcx/10)/2),              # vector: vbx or v2x
