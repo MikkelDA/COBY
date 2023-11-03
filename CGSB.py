@@ -548,7 +548,10 @@ class MOLECULE:
     
     def get_beads(self, AXs = "all"):
         AXsList = self.get_coords(AXs)
-        assert len(AXsList) > 1, "Length of AXsList must be greater than 1 to create beads"
+#         print(AXsList)
+#         print(list(zip(*AXsList)))
+        ### Not sure why following assert was made
+#         assert len(AXsList) > 1, "Length of AXsList must be greater than 1 to create beads"
         return list(zip(*AXsList))
 
     def get_mol_charge(self):
@@ -800,8 +803,12 @@ class CGSB:
         
         self.SOLVATIONS = {}
         self.SOLVATIONS_cmds = []
+        
         ### Floodings are just solvations with some different default settings
         self.FLOODINGS_cmds = []
+        
+        ### Stakced membranes are special combinations of membranes and solvations
+        self.STACKED_MEMBRANES_cmds = []
         
         self.itp_moltypes = {}
         self.ITP_INPUT_cmds = []
@@ -845,6 +852,10 @@ class CGSB:
         self.warnings = True
         self.quiet = False
         
+        self.pbcx = 0
+        self.pbcy = 0
+        self.pbcz = 0
+        
         self.verbose = 6
         
         if self.RUN:
@@ -853,6 +864,13 @@ class CGSB:
     ##############################
     ### GIVE COMMANDS TO CLASS ###
     ##############################
+    def flooding_to_solvation_converter(self, subcmd):
+        if "flooding:" in subcmd:
+            subcmd_split = subcmd.split()
+            subcmd = " ".join([string for string in subcmd_split if not string.startswith("flooding:")])
+        subcmd = " ".join(["flooding:True", subcmd, "count:True", "solv_molarity:1", "salt_molarity:1"])
+        return subcmd
+    
     def commands_handler(self, kwargs):
         momentary_pbc = []
         momentary_x = 0
@@ -882,11 +900,18 @@ class CGSB:
                 if type(cmd) not in [list, tuple]:
                     cmd = [cmd]
                 for subcmd in cmd:
-                    if "flooding:" in subcmd:
-                        subcmd_split = subcmd.split()
-                        subcmd = " ".join([string for string in subcmd_split if not string.startswith("flooding:")])
-                    subcmd = " ".join(["flooding:True", subcmd, "count:True", "solv_molarity:1", "salt_molarity:1"])
+#                     if "flooding:" in subcmd:
+#                         subcmd_split = subcmd.split()
+#                         subcmd = " ".join([string for string in subcmd_split if not string.startswith("flooding:")])
+#                     subcmd = " ".join(["flooding:True", subcmd, "count:True", "solv_molarity:1", "salt_molarity:1"])
+                    subcmd = self.flooding_to_solvation_converter(subcmd)
                     self.FLOODINGS_cmds.extend([subcmd])
+            
+            if any(key.startswith(i) for i in ["stacked_membranes", "stack_memb"]):
+                if type(cmd) not in [list, tuple]:
+                    cmd = [cmd]
+                for subcmd in cmd:
+                    self.STACKED_MEMBRANES_cmds.extend([subcmd])
             
             ### Box type
             if key in ["pbc_type", "box_type"]:
@@ -964,6 +989,9 @@ class CGSB:
             
             ### Outputs
             if key in ["out_all", "o_all"]:
+                ### Cuts the extension so that all files can be generated with proper extensions
+                if any(cmd.endswith(string) for string in [".pdb", ".gro", ".top", ".log"]):
+                    cmd = cmd[:-4]
                 self.output_system_pdb_file_name = cmd + ".pdb"
                 self.output_system_gro_file_name = cmd + ".gro"
                 self.output_topol_file_name      = cmd + ".top"
@@ -1071,6 +1099,28 @@ class CGSB:
                     cmd = ast.literal_eval(cmd)
                 self.RUN = cmd
         
+        ### Setting randseed
+        self.print_term("\n" + "Setting random seed to:", self.randseed, verbose=1)
+        random.seed(self.randseed)
+        np.random.seed(self.randseed)
+        
+        self.print_term("------------------------------ PREPROCESSING DEFINITIONS", spaces=0, verbose=1)
+        ### Definition preprocessing
+        preprocessing_tic = time.time()
+        self.itp_read_initiater()
+        self.import_structures_handler()
+        self.lipid_defs_preprocessor()
+        self.solvent_defs_preprocessor()
+        self.ion_defs_preprocessor()
+        preprocessing_toc = time.time()
+        preprocessing_time = round(preprocessing_toc - preprocessing_tic, 4)
+        self.print_term("------------------------------ DEFINITIONS PREPROCESSING COMPLETE", "(time spent: "+str(preprocessing_time)+" [s])", "\n", spaces=0, verbose=1)
+        
+        if len(self.STACKED_MEMBRANES_cmds) > 0:
+            self.print_term("------------------------------ PROCESSING SPECIAL COMMANDS", spaces=0, verbose=1)
+            momentary_z = self.stacked_membranes_preprocessor()
+            self.print_term("------------------------------ SPECIAL COMMAND PROCESSING COMPLETE", "(time spent: "+str(preprocessing_time)+" [s])", "\n", spaces=0, verbose=1)
+        
         if len(self.FLOODINGS_cmds) > 0:
             self.SOLVATIONS_cmds = self.FLOODINGS_cmds + self.SOLVATIONS_cmds
         
@@ -1170,11 +1220,6 @@ class CGSB:
             
         self.pbc_box = [self.pbcx, self.pbcy, self.pbcz]
         
-        ### Setting randseed
-        self.print_term("\n" + "Setting random seed to:", self.randseed, verbose=1)
-        random.seed(self.randseed)
-        np.random.seed(self.randseed)
-        
         if not self.output_system_pdb_file_name and not self.output_system_gro_file_name:
             self.output_system_pdb_file_name = "output.pdb"
             self.output_system_gro_file_name = "output.gro"
@@ -1196,20 +1241,22 @@ class CGSB:
             "Running requires at least one command of one of the following types: 'protein', 'membrane' or 'solvation'"
         )
 
-        ### Topology
-        self.itp_read_initiater()
+#         self.print_term("------------------------------ PREPROCESSING DEFINITIONS", spaces=0, verbose=1)
+#         ### Definition preprocessing
+#         preprocessing_tic = time.time()
+#         self.itp_read_initiater()
+#         self.import_structures_handler()
+#         self.lipid_defs_preprocessor()
+#         self.solvent_defs_preprocessor()
+#         self.ion_defs_preprocessor()
+#         preprocessing_time = round(preprocessing_toc - preprocessing_tic, 4)
+#         self.print_term("------------------------------ DEFINITIONS PREPROCESSING COMPLETE", "(time spent: "+str(preprocessing_time)+" [s])", "\n", spaces=0, verbose=1)
 
-        self.print_term("------------------------------ PREPROCESSING", spaces=0, verbose=1)
-        preprocessing_tic = time.time()
-        ### Definition preprocessing
-        self.import_structures_handler()
-        self.lipid_defs_preprocessor()
-        self.solvent_defs_preprocessor()
-        self.ion_defs_preprocessor()
-
+        self.print_term("------------------------------ PREPROCESSING COMMANDS", spaces=0, verbose=1)
         ### Command preprocessing
+        preprocessing_tic = time.time()
         self.prot_preprocessor()
-        self.memb_preprocessor()
+        self.memb_preprocessor(return_self = "self", cmds_given = False)
         self.solv_preprocessor()
         preprocessing_toc = time.time()
         preprocessing_time = round(preprocessing_toc - preprocessing_tic, 4)
@@ -2049,6 +2096,277 @@ class CGSB:
         tot_neg_ions = sum([len(vals["negative"]) for vals in self.ion_dict.values()])
         self.print_term("Number of negative ions preprocessed:", tot_neg_ions, spaces=1, verbose=3)
     
+    ####################################
+    ### Special system preprocessors ###
+    ####################################
+    def stacked_membranes_preprocessor(self):
+        '''
+        Preprocesses stacked membrane commands for later ease of use
+        '''
+        box_heights = []
+        if len(self.STACKED_MEMBRANES_cmds) > 0:
+            self.print_term("Preprocessing stacked membrane commands", verbose=2)
+            for cmd_nr, sm_cmd in enumerate(self.STACKED_MEMBRANES_cmds, 1):
+                self.print_term("Starting command:", cmd_nr, spaces=1, verbose=3)
+
+                ### Defaults
+                settings_dict = {
+                    "dz": [5], # Can be set for each individual space
+                    "dtype": ["surface"], # Can be set for each individual space
+                    "dn": 0,
+                    "membrane_commands": [],
+                    "solvation_commands": [],
+                }
+                current_sub_cmd = False
+                memb_i = -1
+                solv_i = -1
+                
+                dn_lipid_sizes = []
+                
+                if type(sm_cmd) == str:
+                    split_cmds = sm_cmd.split()
+                elif isinstance(sm_cmd, list, tuple):
+                    split_cmds = " ".join(sm_cmd).split()
+                
+                ### ### Check protein command
+                for cmd in split_cmds:
+                    sub_cmd = cmd.split(":")
+                    
+                    if not current_sub_cmd and sub_cmd[0] not in ["membrane", "memb", "solvation", "solv"]:
+                        if sub_cmd[0].lower() == "dz":
+                            settings_dict["dz"] = [self.get_number_from_string(dz) for dz in sub_cmd[1:]]
+
+                        elif sub_cmd[0].lower() == "dtype":
+                            if sub_cmd[1] in ["surface", "center", "mean_surface"]:
+                                settings_dict["dtype"] = [d_type for d_type in sub_cmd[1:]]
+
+                        elif sub_cmd[0].lower() == "dn":
+                            settings_dict["dn"] = int(self.get_number_from_string(sub_cmd[1]))
+                    
+                    elif sub_cmd[0].lower() in ["membrane", "memb"] and len(sub_cmd) == 1:
+                        settings_dict["membrane_commands"].append({"subcommands": []})
+                        memb_i += 1
+                        current_sub_cmd = "membrane"
+                    
+                    elif sub_cmd[0].lower() in ["solvation", "solv"] and len(sub_cmd) == 1:
+                        settings_dict["solvation_commands"].append({"subcommands": []})
+                        solv_i += 1
+                        current_sub_cmd = "solvation"
+                    
+                    else:
+                        if current_sub_cmd == "membrane":
+                            if sub_cmd[0] == "dn":
+                                settings_dict["membrane_commands"][memb_i]["dn"] = [
+                                    int(self.get_number_from_string(dn)) for dn in sub_cmd[1:]
+                                ]
+                            else:
+                                settings_dict["membrane_commands"][memb_i]["subcommands"].append(cmd)
+                                
+                        elif current_sub_cmd == "solvation":
+                            if sub_cmd[0] == "dn":
+                                settings_dict["solvation_commands"][solv_i]["dn"] = [
+                                    int(self.get_number_from_string(dn)) for dn in sub_cmd[1:]
+                                ]
+                            else:
+                                settings_dict["solvation_commands"][solv_i]["subcommands"].append(cmd)
+                
+                ### Sets command "dn" if no value has been explicitly given
+                if settings_dict["dn"] == 0:
+                    settings_dict["dn"] = max(len(settings_dict["membrane_commands"]), len(settings_dict["solvation_commands"]))
+                
+                ### Checks if mulitple "dz" values have been given
+                if len(settings_dict["dz"]) == 1:
+                    settings_dict["dz"] = [settings_dict["dz"][0] for dn in range(settings_dict["dn"])]
+                elif len(settings_dict["dz"]) > 1 and len(settings_dict["dz"]) != settings_dict["dn"]:
+                    assert False, (
+                        "Multiple 'dz' values ("+str(len(settings_dict["dz"]))+") have been given but the amount does not equal 'dn' ("+str(settings_dict["dn"])+")",
+                        "I you want to provide multiple 'dz' values, please ensure that you provide a number of values equal to 'dn'"
+                    )
+                
+                ### converts all "dz" values from [nm] to [Å]
+                settings_dict["dz"] = [dz*10 for dz in settings_dict["dz"]]
+                
+                ### Checks if mulitple "dtype" values have been given
+                if len(settings_dict["dtype"]) == 1:
+                    settings_dict["dtype"] = [settings_dict["dtype"][0] for dn in range(settings_dict["dn"])]
+                elif len(settings_dict["dtype"]) > 1 and len(settings_dict["dtype"]) != settings_dict["dn"]:
+                    assert False, (
+                        "Multiple 'd_type' values ("+str(len(settings_dict["dtype"]))+") have been given but the amount does not equal 'dn' ("+str(settings_dict["dn"])+")",
+                        "I you want to provide multiple 'd_type' values, please ensure that you provide a number of values equal to 'dn'"
+                    )
+                
+                ### Checks largest "dn" value used for membranes
+                ### Also runs the membrane commands through the memb_preprocessor method
+                memb_max_dn = 0
+                for memb_i, memb_dict in enumerate(settings_dict["membrane_commands"]):
+                    if "dn" in memb_dict.keys():
+                        memb_max_dn = max(memb_max_dn, max(memb_dict["dn"]))
+                    memb_dict["preprocessed"] = self.memb_preprocessor(return_self = "return", cmds_given = [" ".join(memb_dict["subcommands"])])
+                
+                if memb_max_dn > settings_dict["dn"]:
+                    self.print_term(
+                        "Largest 'dn' value used for membranes ("+str(memb_max_dn)+") is larger than stacked_membranes 'dn' ("+str(settings_dict["dn"])+").",
+                        "Will ignore membranes using 'dn' values larger than ("+str(settings_dict["dn"])+")",
+                        warn=True
+                    )
+                
+                ### Checks largest "dn" value used for solvations
+                solv_max_dn = 0
+                for solv_i, solv_dict in enumerate(settings_dict["solvation_commands"]):
+                    if "dn" in solv_dict.keys():
+                        solv_max_dn = max(solv_max_dn, max(solv_dict["dn"]))
+                
+                if solv_max_dn > settings_dict["dn"]:
+                    self.print_term(
+                        "Largest 'dn' value used for solvations ("+str(solv_max_dn)+") is larger than command 'dn' ("+str(settings_dict["dn"])+").",
+                        "Will ignore solvations using 'dn' values larger than ("+str(settings_dict["dn"])+")",
+                        warn=True
+                    )
+                
+                ### Makes sure all "dn" values have been used
+                dn_memb_pointers = {}
+                dn_solv_pointers = {}
+                for dn in range(1, settings_dict["dn"] + 1):
+                    for memb_i, memb_dict in enumerate(settings_dict["membrane_commands"]):
+                        if "dn" in memb_dict.keys():
+                            if dn in memb_dict["dn"]:
+                                if dn not in dn_memb_pointers.keys():
+                                    dn_memb_pointers[dn] = memb_i
+                                else:
+                                    self.print_term(
+                                        "One 'dn' value ("+str(dn)+") has been used for multiple membranes.",
+                                        "Make sure to only use a 'dn' value once.",
+                                        warn=True
+                                    )
+                                    
+                    for solv_i, solv_dict in enumerate(settings_dict["solvation_commands"]):
+                        if "dn" in solv_dict.keys():
+                            if dn in solv_dict["dn"]:
+                                if dn not in dn_solv_pointers.keys():
+                                    dn_solv_pointers[dn] = solv_i
+                                else:
+                                    self.print_term(
+                                        "One 'dn' value ("+str(dn)+") has been used for multiple solvations.",
+                                        "Make sure to only use a 'dn' value once.",
+                                        warn=True
+                                    )
+                
+                ### Checks if number of given "dn" pointers are zero or matches "dn" setting for command
+                if not (len(dn_memb_pointers) == 0 or len(dn_memb_pointers) == settings_dict["dn"]):
+                    assert False, (
+                        "Number of membrane 'dn' values ("+str(len(dn_memb_pointers))+") must be either 0 or equal the 'dn' value of the command ("+str(settings_dict["dn"])+")."
+                    )
+                
+                if not (len(dn_solv_pointers) == 0 or len(dn_solv_pointers) == settings_dict["dn"]):
+                    assert False, (
+                        "Number of solvation 'dn' values ("+str(len(dn_solv_pointers))+") must be either 0 or equal the 'dn' value of the command ("+str(settings_dict["dn"])+")."
+                    )
+                
+                ### Sets "dn" pointers if they have not been specified
+                if len(dn_memb_pointers) == 0 and len(settings_dict["membrane_commands"]) > 0:
+                    if len(settings_dict["membrane_commands"]) == settings_dict["dn"]:
+                        ### If multiple membrane commands
+                        for i in range(settings_dict["dn"]):
+                            settings_dict["membrane_commands"][i]["dn"] = [i+1]
+                            dn_memb_pointers[i+1] = i
+                    else:
+                        ### If single membrane command
+                        settings_dict["membrane_commands"][0]["dn"] = [i for i in range(settings_dict["dn"])]
+                        dn_memb_pointers = {i+1: 0 for i in range(settings_dict["dn"])}
+                
+                if len(dn_solv_pointers) == 0 and len(settings_dict["solvation_commands"]) > 0:
+                    if len(settings_dict["membrane_commands"]) == settings_dict["dn"]:
+                        ### If multiple solvation commands
+                        for i in range(settings_dict["dn"]):
+                            settings_dict["solvation_commands"][i]["dn"] = [i+1]
+                            dn_solv_pointers[i+1] = i
+                    else:
+                        ### If single solvation command
+                        settings_dict["solvation_commands"][0]["dn"] = [i for i in range(settings_dict["dn"])]
+                        dn_solv_pointers = {i+1: 0 for i in range(settings_dict["dn"])}
+                
+                ### Sorting according to dn value just to be sure. Probably unnecessary
+                dn_memb_pointers = dict(sorted(dn_memb_pointers.items(), key=lambda x: x[0]))
+                dn_solv_pointers = dict(sorted(dn_solv_pointers.items(), key=lambda x: x[0]))
+                
+                ### Calculates intermembrane spacing
+                membrane_centers = []
+                solvation_delimiters = []
+                cur_center = 0
+                box_height = 0
+                
+                ### Creates membrane commands and finds solvent command z-delimiters
+                for dni, dn in enumerate(dn_memb_pointers.keys()):
+                    
+                    dz    = settings_dict["dz"][dni]
+                    dtype = settings_dict["dtype"][dni]
+                    
+                    if dn-1 in dn_memb_pointers:
+                        upper_dn = dn-1
+                    else:
+                        upper_dn = max(dn_memb_pointers.keys())
+                    lower_dn = dn
+                    
+                    upper_memb = settings_dict["membrane_commands"][dn_memb_pointers[upper_dn]]["preprocessed"]
+                    lower_memb = settings_dict["membrane_commands"][dn_memb_pointers[lower_dn]]["preprocessed"]
+                    
+                    if dtype == "center":
+                        upper_space = 0
+                        lower_space = 0
+                    elif dtype == "surface":
+                        upper_space = abs(upper_memb["bead_maxz"])
+                        lower_space = abs(lower_memb["bead_minz"])
+                    elif dtype == "mean_surface":
+                        upper_space = abs(upper_memb["bead_mean_maxz"])
+                        lower_space = abs(lower_memb["bead_mean_minz"])
+                    
+                    ### (total distance, upper solvent space, lower solvent space)
+                    upper_space = dz/2 + upper_space
+                    lower_space = dz/2 + lower_space
+                    total_space = upper_space + lower_space
+                    
+                    if dni == 0:
+                        first_dn_lower_delimiters = (cur_center, cur_center + lower_space)
+                        last_space = round(upper_space, 3)
+                        cur_center += round(lower_space, 3)
+                    else:
+                        lower_delimiters = (cur_center, cur_center + lower_space)
+                        cur_center += round(lower_space, 3)
+                        upper_delimiters = (cur_center, cur_center + upper_space)
+                        cur_center += round(upper_space, 3)
+                        solvation_delimiters.append((lower_delimiters, upper_delimiters))
+                    box_height += total_space
+                    membrane_centers.append(cur_center)
+                
+                first_dn_upper_delimiters = (cur_center, cur_center + last_space)
+                solvation_delimiters = [(first_dn_lower_delimiters, first_dn_upper_delimiters)] + solvation_delimiters
+                
+                membrane_commands = []
+                for dni, (dn, memb_pointer) in enumerate(dn_memb_pointers.items()):
+                    membrane_command = settings_dict["membrane_commands"][memb_pointer]["subcommands"].copy()
+                    membrane_center = round((membrane_centers[dni] - box_height/2)/10, 3)
+                    membrane_command.append("cz:" + str(membrane_center))
+                    membrane_commands.append(" ".join(membrane_command))
+                
+                ### Creates solvation commands
+                solvation_commands = []
+                for dni, (dn, solv_pointer) in enumerate(dn_solv_pointers.items()):
+                    main_solvation_command = settings_dict["solvation_commands"][solv_pointer]["subcommands"].copy()
+                    
+                    for bot_delimiter, top_delimiter in solvation_delimiters[dni]:
+                        cz = round((np.mean([top_delimiter, bot_delimiter]) - box_height/2)/10, 3)
+                        z = round((top_delimiter - bot_delimiter)/10, 3)
+                        solvation_command = main_solvation_command.copy()
+                        solvation_command.append("cz:" + str(cz))
+                        solvation_command.append("z:" + str(z))
+                        solvation_commands.append(" ".join(solvation_command))
+                
+                self.MEMBRANES_cmds.extend(membrane_commands)
+                self.SOLVATIONS_cmds.extend(solvation_commands)
+                box_heights.append(round(box_height/10, 3))
+        
+        return max(box_heights)
+    
     ##############################################
     ### Protein/membrane/solvent preprocessors ###
     ##############################################
@@ -2056,9 +2374,8 @@ class CGSB:
         '''
         Preprocesses protein commands for later ease of use
         '''
-        self.PROTEINS = {}
         if len(self.PROTEINS_cmds) != 0:
-            self.print_term("\nPreprocessing protein requests", verbose=2)
+            self.print_term("Preprocessing protein requests", verbose=2)
             for cmd_nr, prot_cmd in enumerate(self.PROTEINS_cmds, 1):
                 self.print_term("Starting protein:", cmd_nr, spaces=1, verbose=3)
 
@@ -2242,18 +2559,27 @@ class CGSB:
                 self.PROTEINS[cmd_nr] = prot_dict.copy()
             self.print_term("Number of molecule insertions preprocessed:", len(self.PROTEINS), spaces=1, verbose=3)
 
-    def memb_preprocessor(self):
+    def memb_preprocessor(self, return_self = "self", cmds_given = False):
         '''
         Preprocesses membrane commands for later ease of use
         '''
-        self.MEMBRANES = {}
         ### ### Preprocessing membranes
-        if len(self.MEMBRANES_cmds) != 0:
-            self.print_term("\nPreprocessing membrane requests", verbose=2)
-            for cmd_nr, leaf_cmd in enumerate(self.MEMBRANES_cmds, 1):
+        
+        if return_self == "return":
+            MEMBRANES = {}
+        
+        if cmds_given:
+            MEMBRANES_cmds = cmds_given
+        else:
+            MEMBRANES_cmds = self.MEMBRANES_cmds
+            
+        if len(MEMBRANES_cmds) != 0:
+            self.print_term("Preprocessing membrane requests", verbose=2)
+            for cmd_nr, leaf_cmd in enumerate(MEMBRANES_cmds, 1):
                 self.print_term("Starting membrane command:", cmd_nr, spaces=1, verbose=3)
                 ### "membrane" settings always apply to the whole membrane instead of individual leaflets
                 ### "default" settings can be overwritten by individual leaflets
+                
                 settings_dict = {
                     "upper_leaf": {},
                     "lower_leaf": {},
@@ -2492,6 +2818,12 @@ class CGSB:
                         if isnumber:
                             settings_dict[dict_target]["optim_push_mult"] = ast.literal_eval(sub_cmd[1])
                     
+                    elif sub_cmd[0].lower() == "lipid":
+                        if any([sub_cmd[1] in self.lipid_dict[params].keys() for params in self.lipid_dict.keys()]):
+                            if "lipids_preprocessing" not in settings_dict[dict_target].keys():
+                                settings_dict[dict_target]["lipids_preprocessing"] = []
+                            settings_dict[dict_target]["lipids_preprocessing"].append(sub_cmd[1])
+                    
                     ### Processes only lipids in lipid dictionary
                     elif any([sub_cmd[0] in self.lipid_dict[params].keys() for params in self.lipid_dict.keys()]):
                         if "lipids_preprocessing" not in settings_dict[dict_target].keys():
@@ -2513,6 +2845,7 @@ class CGSB:
                     memb_dict["leaflets"]["upper_leaf"] = settings_dict["upper_leaf"]
                     memb_dict["leaflets"]["upper_leaf"].update({
                         "HG_direction": "up",
+                        "HG_sign":      +1,
                         "leaflet_type": "upper",
                     })
                 
@@ -2520,6 +2853,7 @@ class CGSB:
                     memb_dict["leaflets"]["lower_leaf"] = settings_dict["lower_leaf"]
                     memb_dict["leaflets"]["lower_leaf"].update({
                         "HG_direction": "down",
+                        "HG_sign":      -1,
                         "leaflet_type": "lower",
                     })
                 
@@ -2559,7 +2893,11 @@ class CGSB:
                 ################################
                 
                 ### Reconfigures lipid-specific data for leaflet according to subcommands
+                ### Adding zero to "memb_directional_heights" to ensure "min" or "max" is defaults to zero
+                memb_directional_heights = [0]
+                memb_mean_directional_heights = [0]
                 for leaflet_key, leaflet in memb_dict["leaflets"].items():
+                    tot_ratio = 0
                     assert len(leaflet["lipids_preprocessing"]) > 0, "No lipids given to '-membrane' flag. Please specify at least one lipid if you use it."
                     for l_name, *rest in leaflet["lipids_preprocessing"]:
                         """
@@ -2580,6 +2918,7 @@ class CGSB:
                         if type(l_ratio) == str:
                             l_ratio = ast.literal_eval(l_ratio)
                         leaflet["lipids"][l_name].ratio_add(l_ratio)
+                        tot_ratio += leaflet["lipids"][l_name].ratio
                             
                         ### Finds charge data from topology files
                         if leaflet["charge"] == "top" and l_name in self.itp_moltypes.keys():
@@ -2598,10 +2937,25 @@ class CGSB:
                         ])
                         for func, sign in [(max, +1), (min, -1)] for ax, wr in [("x", "plane"), ("y", "plane"), ("z", "height")]
                     ]
+                    
                     lipid_radii = [
                             lipid_class.get_radius(AXs="xy")
                             for lipid_class in leaflet["lipids"].values()
                     ]
+                    
+                    lipid_heights = [
+                            lipid_class.get_radius(AXs="z") * 2
+                            for lipid_class in leaflet["lipids"].values()
+                    ]
+                    
+                    memb_directional_heights.append(max(lipid_heights) * leaflet["HG_sign"])
+                    
+                    lipid_heights_ratios = [
+                            lipid_class.get_radius(AXs="z") * 2 * lipid_class.ratio / tot_ratio
+                            for lipid_class in leaflet["lipids"].values()
+                    ]
+                    
+                    memb_mean_directional_heights.append(np.sum(lipid_heights_ratios) * leaflet["HG_sign"])
                     
                     ### Update leaflet dictionary. Some are duplicated here, but potentially overwritten later
                     leaflet["lipid_dimensions"] = {
@@ -2613,25 +2967,36 @@ class CGSB:
                         "minz": minz,
                         "zOverLipCen": abs(maxz),
                         "zUnderLipCen": abs(minz),
-                        "lipid_height": abs(maxz) + abs(minz),
+                        "lipid_height": max(lipid_heights),
                         "lipid_radius": max(lipid_radii),
                     }
-                
+                    
                 memb_dict.update({
-                    "maxz"           : max([leaflet["lipid_dimensions"]["maxz"]         for leaflet in memb_dict["leaflets"].values()]),
-                    "minz"           : min([leaflet["lipid_dimensions"]["minz"]         for leaflet in memb_dict["leaflets"].values()]),
+#                     "maxz"           : max([leaflet["lipid_dimensions"]["maxz"]         for leaflet in memb_dict["leaflets"].values()]),
+#                     "minz"           : min([leaflet["lipid_dimensions"]["minz"]         for leaflet in memb_dict["leaflets"].values()]),
+                    "bead_maxz"      : max(memb_directional_heights),
+                    "bead_minz"      : min(memb_directional_heights),
+                    "bead_mean_maxz" : max(memb_mean_directional_heights),
+                    "bead_mean_minz" : min(memb_mean_directional_heights),
                     "membrane_height": sum([leaflet["lipid_dimensions"]["lipid_height"] for leaflet in memb_dict["leaflets"].values()]),
                 })
-                    
-                ### Upper leaflet monolayer
-                if layer_definition in monolayer_upper_designation:
+                
+                if return_self == "self":
                     self.MEMBRANES[cmd_nr] = memb_dict
-                ### Lower leaflet monolayer
-                elif layer_definition in monolayer_lower_designation:
-                    self.MEMBRANES[cmd_nr] = memb_dict
-                ### Bilayer
-                elif layer_definition in bilayer_designation:
-                    self.MEMBRANES[cmd_nr] = memb_dict
+#                     ### Upper leaflet monolayer
+#                     if layer_definition in monolayer_upper_designation:
+#                         self.MEMBRANES[cmd_nr] = memb_dict
+#                     ### Lower leaflet monolayer
+#                     elif layer_definition in monolayer_lower_designation:
+#                         self.MEMBRANES[cmd_nr] = memb_dict
+#                     ### Bilayer
+#                     elif layer_definition in bilayer_designation:
+#                         self.MEMBRANES[cmd_nr] = memb_dict
+                elif return_self == "return":
+                    MEMBRANES[cmd_nr] = memb_dict
+        
+            if return_self == "return":
+                return MEMBRANES[cmd_nr]
             
             self.print_term("Number of membranes preprocessed:", len(self.MEMBRANES), spaces=1, verbose=3)
 
@@ -2639,10 +3004,8 @@ class CGSB:
         '''
         Preprocesses solvation commands for later ease of use
         '''
-        self.SOLVATIONS = {}
-        
         if len(self.SOLVATIONS_cmds) != 0:
-            self.print_term("\nPreprocessing solvent requests", verbose=2)
+            self.print_term("Preprocessing solvent requests", verbose=2)
             for cmd_nr, solvate_cmd in enumerate(self.SOLVATIONS_cmds, 1):
                 self.print_term("Starting Solvent command:", cmd_nr, spaces=1, verbose=3)
                 ### Defaults
@@ -2677,6 +3040,9 @@ class CGSB:
                     
                     "charges_from_top": True, # bool
                     
+                    ### "count" and "solv_per_lipid" are mutually exclusive
+                    ### "solv_per_lipid" takes priority if both are given
+                    "solv_per_lipid": False, # Number of solv particles per lipid contained in solvent box
                     "count": False, # [bool] Uses specific molarity value as absolute number of molecules instead of molarity ratio. Will be rounded using int(val+0.5)
 #                     "kick": 0.264/5*2, # [nm] converted to [Å]
                     "kick": 0.264/4, # [nm] converted to [Å]
@@ -2795,6 +3161,10 @@ class CGSB:
                         if type(val) == str:
                             val = ast.literal_eval(sub_cmd[1])
                         solv_dict["charges_from_top"] = val
+                        
+                    ### Whether to use ratios as absolute number of molecules. True/False
+                    elif sub_cmd[0].lower() == "solv_per_lipid":
+                        solv_dict["solv_per_lipid"] = self.get_number_from_string(sub_cmd[1])
                         
                     ### Whether to use ratios as absolute number of molecules. True/False
                     elif sub_cmd[0].lower() == "count":
@@ -2918,6 +3288,10 @@ class CGSB:
                     else:
                         self.print_term("Solvent ({name}) could not be found in the topology".format(name=name), warn=True)
                     
+                    ### If solv_dict["solv_per_lipid"] has been set, then ignore count command
+                    if solv_dict["solv_per_lipid"] and solv_dict["count"]:
+                        solv_dict["count"] = False
+                    
                     ### If count has been set, then convert to integer value and treat as absolute number of molecules
                     if solv_dict["count"]:
                         if rest_ratio:
@@ -2993,7 +3367,7 @@ class CGSB:
     
     def itp_read_initiater(self):
         if len(self.ITP_INPUT_cmds) != 0:
-            self.print_term("\nLoading topology file(s)", spaces=0, verbose=1)
+            self.print_term("Loading topology file(s)", spaces=0, verbose=1)
             self.itp_defs = {
                 "bondtypes": {},
                 "angletypes": {},
@@ -4848,6 +5222,23 @@ class CGSB:
                 )
                 prots_volume = bead_volume * len(prot_beads_for_cell_checker)
                 
+                n_lipids = 0
+                if solvation["solv_per_lipid"]:
+                    if len(self.MEMBRANES) > 0:
+                        ### Counts the number of lipids inside the solvent box
+                        for memb_key, memb_dict in self.MEMBRANES.items():
+                            for leaflet_key, leaflet in memb_dict["leaflets"].items():
+                                for grid_point in leaflet["grid_lipids"]:
+                                    xs, ys, zs = itemgetter("x", "y", "z")(grid_point["lipid"])
+                                    beads_total = len(xs)
+                                    beads_inside = 0
+                                    for x, y, z in zip(xs, ys, zs):
+                                        if cxmin < x <= cxmax and cymin < y <= cymax and czmin < z <= czmax:
+                                            beads_inside += 1
+                                    if beads_inside > beads_total/2:
+                                        n_lipids += 1
+                
+                
                 solvent_box_charge = solvent_box_solute_charge + solvent_box_lipids_charge + solvent_box_proteins_charge
                 
                 N_A = 6.02214076 * 10**23
@@ -4892,12 +5283,15 @@ class CGSB:
                     pos_ratios = [1 for _ in solvation["pos_ions"].keys()]
                     neg_ratios = [1 for _ in solvation["neg_ions"].keys()]
 
-                def solvent_count_calculator(solvent_type_dict, ratios, count_bool, volume):
+#                 def solvent_count_calculator(solvent_type_dict, ratios, count_bool, solv_per_lipid, n_lipids, volume):
+                def solvent_count_calculator(solvent_type, ratios, volume):
                     counts = []
-                    for (key, vals), ratio in zip(solvent_type_dict.items(), ratios):
-                        if count_bool:
+                    for (key, vals), ratio in zip(solvation[solvent_type].items(), ratios):
+                        if solvation["count"]:
                             ### Treats molarity as absolute number of molecules
                             counts.append(vals.molarity)
+                        elif solvation["solv_per_lipid"] and solvent_type == "solvent":
+                            counts.append(round(solvation["solv_per_lipid"] * n_lipids * ratio))
                         else:
                             ### Treats molarity as molarity
                             counts.append(int(N_A * volume * vals.molarity / vals.mapping_ratio * ratio))
@@ -4910,7 +5304,11 @@ class CGSB:
                 elif solvation["solvfreevol"] == False:
                     volume_for_solv = box_volume
                 
-                sol_counts = solvent_count_calculator(solvation["solvent"], sol_ratios, solvation["count"], volume_for_solv)
+                sol_counts = solvent_count_calculator(
+                    "solvent",
+                    sol_ratios,
+                    volume_for_solv,
+                )
                 
                 solv_volume = 0
                 sol_charges = 0
@@ -4995,8 +5393,16 @@ class CGSB:
                     volume_for_ions = box_volume
 
                 ### First ensures that the ion concentration is equal to salt_molarity
-                pos_counts = solvent_count_calculator(solvation["pos_ions"], pos_ratios, solvation["count"], volume_for_ions)
-                neg_counts = solvent_count_calculator(solvation["neg_ions"], neg_ratios, solvation["count"], volume_for_ions)
+                pos_counts = solvent_count_calculator(
+                    "pos_ions",
+                    pos_ratios,
+                    volume_for_ions
+                )
+                neg_counts = solvent_count_calculator(
+                    "neg_ions",
+                    neg_ratios,
+                    volume_for_ions
+                )
                 
                 pos_charges = 0
                 neg_charges = 0
