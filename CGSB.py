@@ -1214,8 +1214,8 @@ class CGSB:
                 assert False, "Incorrect pbc box dimensions for pbc type '"+self.pbc_type+"': " + str(cmd)
             self.gro_box_vectors = [
                 float(self.pbcx/10),                  # vector: vax or v1x
-                float(self.pbcx/10),                  # vector: vby or v2y
-                float(self.pbcx/10),                  # vector: vcz or v3z
+                float(self.pbcy/10),                  # vector: vby or v2y
+                float(self.pbcz/10),                  # vector: vcz or v3z
                 float(0),                             # vector: vay or v1y
                 float(0),                             # vector: vaz or v1z
                 float((self.pbcx/10)/2),              # vector: vbx or v2x
