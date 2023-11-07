@@ -3978,35 +3978,58 @@ class CGSB:
                         ####################################################
                         ### Finding protein points contained in leaflets ###
                         ####################################################
-                        prod_beads_in_memb = [
+                        prot_beads_in_memb = [
                             (beadx, beady)
                             for protein_i, (protein_nr, protein) in enumerate(self.PROTEINS.items())
                             for beadx, beady, beadz in protein["protein"].get_beads("xyz")
                             if (
-                                leaflet["center"][2] - protein["buffer"] < beadz < leaflet["center"][2] + leaflet["lipid_dimensions"]["lipid_height"] + protein["buffer"]
-                                and leaflet["HG_direction"] == "up"
+                                leaflet["HG_direction"] == "up" and (
+                                    leaflet["center"][2] - protein["buffer"] < beadz < leaflet["center"][2] + leaflet["lipid_dimensions"]["lipid_height"] + protein["buffer"]
+                                )
                             )
                             or (
-                                leaflet["center"][2] + protein["buffer"] > beadz > leaflet["center"][2] - leaflet["lipid_dimensions"]["lipid_height"] - protein["buffer"]
-                                and leaflet["HG_direction"] == "down"
+                                leaflet["HG_direction"] == "down" and (
+                                    leaflet["center"][2] + protein["buffer"] > beadz > leaflet["center"][2] - leaflet["lipid_dimensions"]["lipid_height"] - protein["buffer"]
+                                )
                             )
                         ]
 
-                        if len(prod_beads_in_memb) == 0:
+                        if len(prot_beads_in_memb) == 0:
                             self.print_term("No leaflet-protein overlap found", spaces=3, verbose=5)
                             leaflet["prot_points"] = False
                         else:
-                            self.print_term("Leaflet-protein overlap found for", str(len(prod_beads_in_memb)), "protein beads", spaces=3, verbose=5)
-                            leaflet["prot_points"] = prod_beads_in_memb
+                            self.print_term("Leaflet-protein overlap found for", str(len(prot_beads_in_memb)), "protein beads", spaces=3, verbose=5)
+                            leaflet["prot_points"] = prot_beads_in_memb
                             #################################
                             ### CONCAVE HULL / ALPHASHAPE ###
                             #################################
+                            Points = [shapely.Point(point) for point in prot_beads_in_memb]
                             
-                            alpha = 1 / (leaflet["lipid_dimensions"]["lipid_radius"]*2 * leaflet["alpha_mult"])
+                            Points_buffered = []
+                            for Point in Points:
+                                Points_buffered.append(
+                                    Point.buffer(
+                                        distance = leaflet["prot_buffer"], # [Å]
+                                        resolution = 3, # "quad_segs" in the docs
+                                    )
+                                )
+                            
+                            leaflet["prot_Points_buffered"] = Points_buffered
+                            
+                            Points_buffered_union = shapely.ops.unary_union(Points_buffered)
+                            
+                            poly_points = []
+                            for poly in list(Points_buffered_union.geoms):
+                                xs, ys = poly.exterior.coords.xy
+                                poly_points.extend(list(zip(xs, ys)))
+                            
+                            leaflet["prot_poly_points"] = poly_points
+    
+                            alpha = 1 / (leaflet["lipid_dimensions"]["lipid_radius"] * 2 * leaflet["alpha_mult"] + leaflet["prot_buffer"])
                             ### alpha = radius^-1
-                            ALPHASHAPE = alphashape.alphashape(points = prod_beads_in_memb, alpha = alpha)
+                            ALPHASHAPE = alphashape.alphashape(points = poly_points, alpha = alpha)
                             self.print_term(type(ALPHASHAPE), debug = True)
-                            
+
                             leaflet["alphashape_1"] = ALPHASHAPE
                             
                             ### Alphashape output can be a bit unpredictable so need to check all possibilities
@@ -4019,46 +4042,8 @@ class CGSB:
                             elif ConcaveHulls_Polygon[-1].geom_type == "MultiPolygon":
                                 self.print_term("list of MultiPolygon", debug = True)
                                 ConcaveHulls_Polygon = list(ALPHASHAPE[-1].geoms)
-                                
+                            
                             leaflet["ConcaveHulls_Polygon_1"] = ConcaveHulls_Polygon
-
-                            ConcaveHulls_Polygon_Buffered = []
-                            ### Iterate over polygons
-                            for poly in ConcaveHulls_Polygon:
-                                ### Buffering to add a bit of space around protein concave hull
-                                poly_buffered = poly.buffer(distance = leaflet["prot_buffer"]) # [Å]
-                                ConcaveHulls_Polygon_Buffered.append(poly_buffered)
-                            
-                            leaflet["protein_poly"] = ConcaveHulls_Polygon_Buffered
-                            
-                            ############################################
-                            ### SECOND ALPHASHAPE TO REMOVE CREVICES ###
-                            ############################################
-                            buffered_poly_points = []
-                            for poly in ConcaveHulls_Polygon_Buffered:
-                                try:
-                                    buffered_poly_points.extend(list(poly.coords))
-                                except:
-                                    buffered_poly_points.extend(list(poly.exterior.coords))
-                            
-                            ALPHASHAPE = alphashape.alphashape(points = buffered_poly_points, alpha = alpha/2)
-                            
-                            leaflet["alphashape_2"] = ALPHASHAPE
-                            
-                            ### Alphashape output can be a bit unpredictable so need to check all possibilities
-                            if ALPHASHAPE.geom_type == "Polygon":
-                                self.print_term("Polygon", debug = True)
-                                New_ConcaveHulls_Polygon = [ALPHASHAPE]
-                            elif ALPHASHAPE.geom_type == "MultiPolygon":
-                                self.print_term("MultiPolygon", debug = True)
-                                New_ConcaveHulls_Polygon = list(ALPHASHAPE.geoms)
-                            elif ConcaveHulls_Polygon[-1].geom_type == "MultiPolygon":
-                                self.print_term("list of MultiPolygon", debug = True)
-                                New_ConcaveHulls_Polygon = list(ALPHASHAPE[-1].geoms)
-                            
-                            leaflet["ConcaveHulls_Polygon_2"] = New_ConcaveHulls_Polygon
-                            
-                            leaflet["protein_poly"] = ConcaveHulls_Polygon_Buffered + New_ConcaveHulls_Polygon
                 
                 ####################################################
                 ### COMBINING SHAPELY SHAPES FOR ALL SUBLEAFLETS ###
@@ -4071,7 +4056,7 @@ class CGSB:
                     ### All the various polygons to be removed from the bbox
                     ### Unique to each leaflet but the same for each subleaflet
                     ### To be expanded later with manually defined holes
-                    protein_poly    = leaflet["protein_poly"]
+                    protein_poly    = leaflet["ConcaveHulls_Polygon_1"]
                     poly_check_list = []
 
                     for val in [protein_poly]:
@@ -4439,7 +4424,7 @@ class CGSB:
                         if leaflet["HG_direction"] == "down":
                             sign = -1
                         
-                        grid_points, grid_points_no_random = self.make_rect_grid(leaflet, subleaflet)
+                        grid_points, grid_points_no_random = self.make_rect_grid(leaflet, subleaflet, occupation_modifier)
                         grid_points_arr = np.asarray(grid_points)
                         
                         grid_z_value = leaflet["center"][2] + (sign * leaflet["lipid_dimensions"]["zUnderLipCen"])
@@ -4470,17 +4455,19 @@ class CGSB:
                             
                             if self.plot_grid:
                                 self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi)] = {}
-                                if "prot_points" in leaflet:
-                                    
-                                    self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi)].update({
-                                        "prot_points" : leaflet["prot_points"],
-                                        "alphashape_1" : leaflet["alphashape_1"],
-                                        "ConcaveHulls_Polygon_1" : leaflet["ConcaveHulls_Polygon_1"],
-                                        "protein_poly" : leaflet["protein_poly"],
-                                        "alphashape_2" : leaflet["alphashape_2"],
-                                        "ConcaveHulls_Polygon_2" : leaflet["ConcaveHulls_Polygon_2"],
-                                        "protein_poly" : leaflet["protein_poly"],
-                                    })
+                                for key in ["prot_points", "prot_Points_buffered", "prot_Points_buffered_union", "prot_poly_points", "alphashape_1", "ConcaveHulls_Polygon_1", "protein_poly"]:
+                                    if key in leaflet and leaflet[key]:
+                                        self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi)].update({
+                                            key: leaflet[key]
+                                        })
+#                                         self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi)].update({
+#                                             "prot_points" : leaflet["prot_points"],
+#                                             "alphashape_1" : leaflet["alphashape_1"],
+#                                             "ConcaveHulls_Polygon_1" : leaflet["ConcaveHulls_Polygon_1"],
+#     #                                         "alphashape_2" : leaflet["alphashape_2"],
+#     #                                         "ConcaveHulls_Polygon_2" : leaflet["ConcaveHulls_Polygon_2"],
+#                                             "protein_poly" : leaflet["protein_poly"],
+#                                         })
 
                                     
                                 self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi)].update({
@@ -4510,11 +4497,11 @@ class CGSB:
             grid_making_time = round(grid_making_toc - grid_making_tic, 4)
             self.print_term("------------------------------ LIPID GRID CREATED", "(time spent: "+str(grid_making_time)+" [s])", "\n", spaces=0, verbose=1)
     
-    def make_rect_grid(self, leaflet, subleaflet):
+    def make_rect_grid(self, leaflet, subleaflet, occupation_modifier):
         xmin, xmax, ymin, ymax = itemgetter("xmin", "xmax", "ymin", "ymax")(subleaflet)
         
         sidelen      = math.sqrt(leaflet["apl"])
-        edge_buffer  = leaflet["lipid_dimensions"]["lipid_radius"] + max([leaflet["kickx"], leaflet["kicky"]]) + leaflet["plane_buffer"]
+        edge_buffer  = (leaflet["lipid_dimensions"]["lipid_radius"] + max([leaflet["kickx"], leaflet["kicky"]]) + leaflet["plane_buffer"]) * (1+occupation_modifier*2)
         bbox_polygon = subleaflet["holed_bbox"]
         lipids       = subleaflet["lipids"]
         
