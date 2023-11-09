@@ -2632,9 +2632,15 @@ class CGSB:
                         "prot_buffer": 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 2
                         "alpha_mult": 1.0,
                         
-                        "lip_round_func": ("int", int), # int, round, math.floor or math.ceil
+                        "lip_round_func": ("int", int), # int, round, math.floor, math.ceil
 
-                        "lipid_optim": 'avg_optimal', # str: 'abs_val', 'force_fill', 'fill', 'avg_optimal', 'no'
+                        "lipid_optim": 'avg_optimal', # str: see beloww
+                        ### 'avg_optimal': Ratios are optimised based on average lipid distance from optimal composition
+                        ### 'abs_val':     Ratio-values are treated as absolute number of lipids
+                        ### 'no':          No optimization.
+                        ### 'insane':      'no' and initial lipid calculation is intentionally wrong like in insane
+                        ### 'force_fill':  Fills up to the allowed number number of lipids
+                        ### 'fill:         Same as 'force_fill' but stops if perfect lipid ratio has been achieved
                         "params": False, # False or str
                         "charge": "top", # "lib" or "top"
                     }
@@ -2783,7 +2789,7 @@ class CGSB:
 
                     ### Lipid optimization method
                     elif sub_cmd[0].lower() == "lipid_optim":
-                        valid_lipid_optim = sub_cmd[1] in ['avg_optimal', 'abs_val', 'force_fill', 'fill', 'no']
+                        valid_lipid_optim = sub_cmd[1] in ["avg_optimal", "abs_val", "force_fill", "fill", "no", "insane"]
                         assert valid_lipid_optim, "Invalid lipid selection method: '" + str(sub_cmd[1]) + "'"
                         settings_dict[dict_target]["lipid_optim"] = sub_cmd[1]
 
@@ -4117,7 +4123,6 @@ class CGSB:
                             self.print_term("Forcefully filling leaflet until all grid points have a lipid", spaces=3, verbose=5)
                     elif leaflet["lipid_optim"] == "avg_optimal":
                         self.print_term("Optimizing based on the average deviation from expected ratios", spaces=3, verbose=5)
-                    self.print_term("", verbose=4)
                     
                     apl_sqrt = math.sqrt(leaflet["apl"])
                     
@@ -4137,29 +4142,42 @@ class CGSB:
                             self.print_term("Starting subleaflet", str(subleaflet_i+1)+"/"+str(len(leaflet["subleaflets"])), spaces=2, verbose=5)
                         
                         ### Initial area per lipid calculations and max potential lipids in area
-                        subleaflet_area = subleaflet["holed_bbox"].area
-                        max_lipids_possible_decimal = subleaflet_area / leaflet["apl"]
                         
                         ### Rounding max number of possible lipids according to requested rounding method
-                        if leaflet["lip_round_func"][1] == int: # int rounding
-                            max_lipids_possible = int(max_lipids_possible_decimal + 0.5)
-                            func_for_printer = str(round(max_lipids_possible_decimal, 3)) + "+0.5"
-                        else: # round(), math.floor() or math.ceil() rounding
-                            max_lipids_possible = leaflet["lip_round_func"][1](max_lipids_possible_decimal)
-                            func_for_printer = str(round(max_lipids_possible_decimal, 3))
-
+                        if leaflet["lipid_optim"] == "insane":
+                            nlipidsx = abs(subleaflet["xmax"] - subleaflet["xmin"]) / math.sqrt(leaflet["apl"])
+                            nlipidsy = abs(subleaflet["ymax"] - subleaflet["ymin"]) / math.sqrt(leaflet["apl"])
+                            if "intersection" in subleaflet:
+                                area_ratio = math.sqrt(subleaflet["holed_bbox"].area / subleaflet["box_poly"].area)
+                                ### Using 'round' here instead of 'int' because insane-protein compatability part is very iffy
+                                ### Definitely not the same as insane, but too much has to be changed for it to be possible to make systems identical to insane systems
+                                nlipidsx = round(nlipidsx * area_ratio)
+                                nlipidsy = round(nlipidsy * area_ratio)
+                            max_lipids_possible = int(nlipidsx) * int(nlipidsy)
+                        else:
+                            subleaflet_area = subleaflet["holed_bbox"].area
+                            max_lipids_possible_decimal = subleaflet_area / leaflet["apl"]
+                            if leaflet["lip_round_func"][1] == int: # int rounding
+                                max_lipids_possible = int(max_lipids_possible_decimal + 0.5)
+                            else: # round(), math.floor() or math.ceil() rounding
+                                max_lipids_possible = leaflet["lip_round_func"][1](max_lipids_possible_decimal)
+                        
+                        self.print_term("Maximum number of lipids allowed:", max_lipids_possible, spaces=3, verbose=5)
+                        self.print_term("", verbose=4)
+                        
                         ### Initial rounded estimations
                         lipids = [(lipid_name, lipid_vals.ratio) for lipid_name, lipid_vals in leaflet["lipids"].items()]
                         lipid_names = [name for name, ratio in lipids]
                         lipid_ratios_decimal = [ratio for name, ratio in lipids]
                         lipids_tot = sum(lipid_ratios_decimal)
                         lipid_ratios = [round(int(i / lipids_tot * max_lipids_possible), 3) for i in lipid_ratios_decimal]
+                        lipid_ratios_TEST = [(i, lipids_tot, max_lipids_possible) for i in lipid_ratios_decimal]
 
-                        original_ratios_decimal = [round(i / sum(lipid_ratios) * 100, 3) for i in lipid_ratios]
                         original_ratios = lipid_ratios[:]
+                        original_ratios_decimal = [round(i / sum(original_ratios) * 100, 3) for i in original_ratios]
 
                         expected_ratios_decimal = [round(ratio / sum(lipid_ratios_decimal) * 100, 3) for ratio in lipid_ratios_decimal]
-
+                        
                         ### Just take integer lipid values and remove excess grid points
                         if leaflet["lipid_optim"] == "abs_val":
                             lipid_ratios = [ratio for name, ratio in lipids]
@@ -4203,7 +4221,11 @@ class CGSB:
                                 iters_avg = [(np.mean(iters), i) for i, iters in enumerate(iters_abs_diff)]
                                 iters_avg_optimal = min(iters_avg, key=lambda i: i[0])
                                 lipid_ratios = iters[iters_avg_optimal[1]]
-
+                        
+                        elif leaflet["lipid_optim"] in ["no", "insane"]:
+                            ### E.g. do nothing. Just here to show that the options are understood.
+                            pass
+            
                         subleaflet["lipid_names"]  = lipid_names
                         subleaflet["lipid_ratios"] = lipid_ratios
                         
