@@ -4056,12 +4056,14 @@ class CGSB:
                     ### All the various polygons to be removed from the bbox
                     ### Unique to each leaflet but the same for each subleaflet
                     ### To be expanded later with manually defined holes
-                    protein_poly    = leaflet["ConcaveHulls_Polygon_1"]
                     poly_check_list = []
+                    
+                    if "ConcaveHulls_Polygon_1" in leaflet.keys():
+                        protein_poly    = leaflet["ConcaveHulls_Polygon_1"]
 
-                    for val in [protein_poly]:
-                        if val:
-                            poly_check_list.extend(val)
+                        for val in [protein_poly]:
+                            if val:
+                                poly_check_list.extend(val)
                     
                     ### Combining polygons into single shape
                     union = shapely.unary_union(poly_check_list)
