@@ -2941,13 +2941,14 @@ class CGSB:
                         tot_ratio += leaflet["lipids"][l_name].ratio
                             
                         ### Finds charge data from topology files
-                        if leaflet["charge"] == "top" and l_name in self.itp_moltypes.keys():
-                            bead_charges = list(map(self.get_number_from_string, [
-                                atom["charge"] for atom in self.itp_moltypes[l_name]["atoms"].values()
-                            ]))
-                            leaflet["lipids"][l_name].set_bead_charges(bead_charges)
-                        else:
-                            self.print_term("Lipid ({lipid_name}) could not be found in the topology".format(lipid_name=l_name), warn=True)
+                        if len(self.ITP_INPUT_cmds) > 0:
+                            if leaflet["charge"] == "top" and l_name in self.itp_moltypes.keys():
+                                bead_charges = list(map(self.get_number_from_string, [
+                                    atom["charge"] for atom in self.itp_moltypes[l_name]["atoms"].values()
+                                ]))
+                                leaflet["lipids"][l_name].set_bead_charges(bead_charges)
+                            else:
+                                self.print_term("Lipid ({lipid_name}) could not be found in the topology".format(lipid_name=l_name), warn=True)
                         
                     maxx, maxy, maxz, minx, miny, minz = [
                         func([
@@ -3066,6 +3067,7 @@ class CGSB:
                     "count": False, # [bool] Uses specific molarity value as absolute number of molecules instead of molarity ratio. Will be rounded using int(val+0.5)
 #                     "kick": 0.264/5*2, # [nm] converted to [Å]
                     "kick": 0.264/4, # [nm] converted to [Å]
+                    "mapping": True,# bool, Whether AA-to-CG mapping should be considered
                     
                     "bdx": 1.0, # [multiplier]
                     "bdy": 1.0, # [multiplier]
@@ -3073,7 +3075,6 @@ class CGSB:
                     
                     "params": False, # False or str
                     "bead_radius": 0.264, # [nm] converted to [Å] # Used for volume calculations
-#                     "gridres": 0.264, # [nm] converted to [Å] # 1.32
                     "gridres": 0.264, # [nm] converted to [Å] # 1.32
                     
                     "WR": 0.264, # [nm] converted to [Å]
@@ -3205,7 +3206,14 @@ class CGSB:
                     elif sub_cmd[0].lower() in ["kick"]:
                         ### Random kick to beads x/y/z positions [Å]
                         solv_dict["kick"] = ast.literal_eval(sub_cmd[1])
-                        
+                    
+                    ### Whether charges should be obtained from topology
+                    elif sub_cmd[0].lower() == "mapping":
+                        val = sub_cmd[1]
+                        if type(val) == str:
+                            val = ast.literal_eval(sub_cmd[1])
+                        solv_dict["mapping"] = val
+                    
                     ### Bead scaling distances
                     ### Bead distance scaling for z is 0.3 by default and 0.25 by default for x and y [multiplier]
                     elif sub_cmd[0].lower() in ["bdx", "bdy", "bdz"]:
@@ -3300,13 +3308,14 @@ class CGSB:
                     solv_dict[solv_type][name] = copy.deepcopy(self.solvent_dict[params][name])
                     
                     ### Finds charge data from topology files
-                    if solv_dict["charges_from_top"] and name in self.itp_moltypes.keys():
-                        bead_charges = list(map(self.get_number_from_string, [
-                            atom["charge"] for atom in self.itp_moltypes[name]["atoms"].values()
-                        ]))
-                        solv_dict[solv_type][name].set_bead_charges(bead_charges)
-                    else:
-                        self.print_term("Solvent ({name}) could not be found in the topology".format(name=name), warn=True)
+                    if len(self.ITP_INPUT_cmds) > 0:
+                        if solv_dict["charges_from_top"] and name in self.itp_moltypes.keys():
+                            bead_charges = list(map(self.get_number_from_string, [
+                                atom["charge"] for atom in self.itp_moltypes[name]["atoms"].values()
+                            ]))
+                            solv_dict[solv_type][name].set_bead_charges(bead_charges)
+                        else:
+                            self.print_term("Solvent ({name}) could not be found in the topology".format(name=name), warn=True)
                     
                     ### If solv_dict["solv_per_lipid"] has been set, then ignore count command
                     if solv_dict["solv_per_lipid"] and solv_dict["count"]:
@@ -3329,6 +3338,10 @@ class CGSB:
                             solv_dict[solv_type][name].molarity_set(solv_dict["solv_molarity"])
                             solv_dict[solv_type][name].ratio_set(1)
                             solv_dict["solv_tot_ratio"] += 1
+                    
+                    ### If mapping ratio should be ignored, set to 1 for all solvents
+                    if not solv_dict["mapping"]:
+                        solv_dict[solv_type][name].mapping_ratio_set(1)
                 
                 ion_types_to_be_processed = []
                 if solv_dict["pos_ions_preprocessing"]:
@@ -3355,13 +3368,14 @@ class CGSB:
                         solv_ratio_type = "neg_tot_ratio"
                     
                     ### Finds charge data from topology files
-                    if solv_dict["charges_from_top"] and name in self.itp_moltypes.keys():
-                        bead_charges = list(map(self.get_number_from_string, [
-                            atom["charge"] for atom in self.itp_moltypes[name]["atoms"].values()
-                        ]))
-                        solv_dict[solv_type][name].set_bead_charges(bead_charges)
-                    else:
-                        self.print_term("Solvent ({name}) could not be found in the topology".format(name=name), warn=True)
+                    if len(self.ITP_INPUT_cmds) > 0:
+                        if solv_dict["charges_from_top"] and name in self.itp_moltypes.keys():
+                            bead_charges = list(map(self.get_number_from_string, [
+                                atom["charge"] for atom in self.itp_moltypes[name]["atoms"].values()
+                            ]))
+                            solv_dict[solv_type][name].set_bead_charges(bead_charges)
+                        else:
+                            self.print_term("Solvent ({name}) could not be found in the topology".format(name=name), warn=True)
                     
                     ### If count has been set, then convert to integer value and treat as absolute number of molecules
                     if solv_dict["count"]:
@@ -3380,6 +3394,10 @@ class CGSB:
                             solv_dict[solv_type][name].molarity_set(solv_dict["salt_molarity"])
                             solv_dict[solv_type][name].ratio_set(1)
                             solv_dict[solv_ratio_type] += 1
+                    
+                    ### If mapping ratio should be ignored, set to 1 for all solvents
+                    if not solv_dict["mapping"]:
+                        solv_dict[solv_type][name].mapping_ratio_set(1)
 
                 self.SOLVATIONS[cmd_nr] = solv_dict.copy()
                 
@@ -4225,7 +4243,7 @@ class CGSB:
                         elif leaflet["lipid_optim"] in ["no", "insane"]:
                             ### E.g. do nothing. Just here to show that the options are understood.
                             pass
-            
+                        
                         subleaflet["lipid_names"]  = lipid_names
                         subleaflet["lipid_ratios"] = lipid_ratios
                         
@@ -5937,7 +5955,7 @@ class CGSB:
             
             solvation_toc = time.time()
             solvation_time = round(solvation_toc - solvation_tic, 3)
-            self.print_term("------------------------------ SOLVATION COMPLETE", "(time spent: "+str(solvation_time)+" [s])", "\n", spaces=0)
+            self.print_term("------------------------------ SOLVATION COMPLETE", "(time spent: "+str(solvation_time)+" [s])", "\n", spaces=0, verbose=1)
     
     ###############
     ### PICKLER ###
@@ -6006,6 +6024,9 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument("--help", "-h", dest = "help", action=IsStored_ActionStore)
 
+#######################
+### SYSTEM CREATION ###
+#######################
 ### Leaflet commands
 parser.add_argument("--membrane", "-memb", "-membrane", dest = "membrane_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
@@ -6018,6 +6039,15 @@ parser.add_argument("--solvation", "-solv", "-solvation", dest = "solvation_cmds
 ### Solvent commands
 parser.add_argument("--flooding", "-flood", "-flooding", dest = "flooding_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
+###############################
+### SPECIAL SYSTEM CREATION ###
+###############################
+### Solvent commands
+parser.add_argument("--stacked_membranes", "-stack_memb", "-stacked_membranes", dest = "stacked_membranes_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
+
+############
+### MISC ###
+############
 ### Topology commands
 parser.add_argument("--itp_input", "-itp_in", dest = "itp_input_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
@@ -6045,6 +6075,9 @@ parser.add_argument("--solv_params",  "-sp",   dest = "solv_params",  action=IsS
 ### System name
 parser.add_argument("--system_name", "-sn", dest = "system_name", action=IsStored_ActionStore)
 
+#########################
+### BOX SIZE AND TYPE ###
+#########################
 ### pbc box size [nm]
 parser.add_argument("--box", "-box", dest = "pbc_box", action=IsStored_ActionExtend, type=str, default = [], nargs="+")
 parser.add_argument("--pbc", "-pbc", dest = "pbc_box", action=IsStored_ActionExtend, type=str, default = [], nargs="+")
@@ -6054,7 +6087,7 @@ parser.add_argument("--x", "-x", dest = "pbcx", type=str, action=IsStored_Action
 parser.add_argument("--y", "-y", dest = "pbcy", type=str, action=IsStored_ActionStore)
 parser.add_argument("--z", "-z", dest = "pbcz", type=str, action=IsStored_ActionStore)
 
-### pbc box size [nm]
+### pbc box type
 parser.add_argument("--box_type", "-box_type", dest = "pbc_box_type", type=str, action=IsStored_ActionStore)
 parser.add_argument("--pbc_type", "-pbc_type", dest = "pbc_box_type", type=str, action=IsStored_ActionStore)
 
@@ -6105,20 +6138,22 @@ if "help" in given_arguments or len(sys.argv) == 1:
 
 parser_kwargs = {}
 
-parse_membrane_cmds      = [" ".join(i) for i in args.membrane_cmds]
-parse_protein_cmds       = [" ".join(i) for i in args.protein_cmds]
-parse_solvation_cmds     = [" ".join(i) for i in args.solvation_cmds]
-parse_flooding_cmds      = [" ".join(i) for i in args.flooding_cmds]
-parse_itp_input_cmds     = [" ".join(i) for i in args.itp_input_cmds]
-parse_solute_input_cmds  = [" ".join(i) for i in args.solute_input_cmds]
+parse_membrane_cmds          = [" ".join(i) for i in args.membrane_cmds]
+parse_protein_cmds           = [" ".join(i) for i in args.protein_cmds]
+parse_solvation_cmds         = [" ".join(i) for i in args.solvation_cmds]
+parse_flooding_cmds          = [" ".join(i) for i in args.flooding_cmds]
+parse_stacked_membranes_cmds = [" ".join(i) for i in args.stacked_membranes_cmds]
+parse_itp_input_cmds         = [" ".join(i) for i in args.itp_input_cmds]
+parse_solute_input_cmds      = [" ".join(i) for i in args.solute_input_cmds]
 
 for CGSB_cmd, parse, arg_name in [
-    ("membrane",     parse_membrane_cmds,     "membrane_cmds"),
-    ("protein",      parse_protein_cmds,      "protein_cmds"),
-    ("solvation",    parse_solvation_cmds,    "solvation_cmds"),
-    ("flooding",     parse_flooding_cmds,     "flooding_cmds"),
-    ("itp_input",    parse_itp_input_cmds,    "itp_input_cmds"),
-    ("solute_input", parse_solute_input_cmds, "solute_input_cmds"),
+    ("membrane",          parse_membrane_cmds,          "membrane_cmds"),
+    ("protein",           parse_protein_cmds,           "protein_cmds"),
+    ("solvation",         parse_solvation_cmds,         "solvation_cmds"),
+    ("flooding",          parse_flooding_cmds,          "flooding_cmds"),
+    ("stacked_membranes", parse_stacked_membranes_cmds, "stacked_membranes_cmds"),
+    ("itp_input",         parse_itp_input_cmds,         "itp_input_cmds"),
+    ("solute_input",      parse_solute_input_cmds,      "solute_input_cmds"),
     
     ("plot_grid", args.plot_grid_cmd, "plot_grid_cmd"),
     ("pickle",    args.pickle_cmd,    "pickle_cmd"),
@@ -6155,7 +6190,8 @@ for CGSB_cmd, parse, arg_name in [
         parser_kwargs[CGSB_cmd] = parse
 
 if parser_kwargs:
-    print("Time spent importing packages:", import_time)
+    if ("verbose" in parser_kwargs and int(parser_kwargs["verbose"]) > 0) or "verbose" not in parser_kwargs:
+        print("Time spent importing packages:", import_time)
     CGSB(
         run = True,
         terminal_run_kwargs = parser_kwargs,
