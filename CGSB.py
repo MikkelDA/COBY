@@ -2292,7 +2292,7 @@ class CGSB:
                         dn_memb_pointers = {i+1: 0 for i in range(settings_dict["dn"])}
                 
                 if len(dn_solv_pointers) == 0 and len(settings_dict["solvation_commands"]) > 0:
-                    if len(settings_dict["membrane_commands"]) == settings_dict["dn"]:
+                    if len(settings_dict["solvation_commands"]) == settings_dict["dn"]:
                         ### If multiple solvation commands
                         for i in range(settings_dict["dn"]):
                             settings_dict["solvation_commands"][i]["dn"] = [i+1]
@@ -2475,7 +2475,9 @@ class CGSB:
                             prot_dict["charge"] = ast.literal_eval(str(sub_cmd[1]))
 
                     ### xyz axis translations [nm]
-                    elif sub_cmd[0].lower() in ["tx", "ty", "tz"]:
+                    elif sub_cmd[0].lower() in ["tx", "ty", "tz", "cx", "cy", "cz"]:
+                        if sub_cmd[0].lower().startswith("c"):
+                            sub_cmd[0] = "t" + sub_cmd[0].lower()[-1]
                         prot_dict[sub_cmd[0].lower()] = ast.literal_eval(str(sub_cmd[1])) * 10
 
                     ### xyz axis rotations [degrees]
