@@ -1146,15 +1146,15 @@ class CGSB:
             else:
                 assert False, "Incorrect pbc box dimensions for pbc type '"+self.pbc_type+"': " + str(cmd)
             self.gro_box_vectors = [
-                float(self.pbcx/10),     # vector: vax or v1x
-                float(self.pbcy/10),     # vector: vby or v2y
-                float(self.pbcz/10),     # vector: vcz or v3z
-                float(0),                # vector: vay or v1y
-                float(0),                # vector: vaz or v1z
-                float((self.pbcx/10)/2), # vector: vbx or v2x
-                float(0),                # vector: vbz or v2z
-                float(0),                # vector: vcx or v3x
-                float(0),                # vector: vcy or v3y
+                float(self.pbcx/10), # vector: vax or v1x
+                float(self.pbcy/10), # vector: vby or v2y
+                float(self.pbcz/10), # vector: vcz or v3z
+                float(0),            # vector: vay or v1y
+                float(0),            # vector: vaz or v1z
+                float(0),            # vector: vbx or v2x
+                float(0),            # vector: vbz or v2z
+                float(0),            # vector: vcx or v3x
+                float(0),            # vector: vcy or v3y
             ]
             self.pdb_box_dimension = [
                 float(self.pbcx), # Axis length:  x
@@ -1168,6 +1168,7 @@ class CGSB:
         ### Following math taken from insane.py and https://manual.gromacs.org/current/reference-manual/algorithms/periodic-boundary-conditions.html
         elif self.pbc_type == "hexagonal":
             ### Not actually a hexagon, but instead a parallelepiped constituting a third of it
+            ### Uses 'rhombic dodecahedron (xy-hexagon) "a" and "b" vectors' and 'cubic "c" vector'
             if len(cmd) == 1:
                 self.pbcx = cmd[0]*10
                 self.pbcy = math.sqrt(3)*self.pbcx/2
@@ -1198,8 +1199,10 @@ class CGSB:
                 float(60),        # Corner angle: gamma
             ]
             
+        ### Following math taken from insane.py and https://manual.gromacs.org/current/reference-manual/algorithms/periodic-boundary-conditions.html
         elif self.pbc_type == "dodecahedron":
             ### Not actually a dodecahedron, but instead a parallelepiped constituting a third of it
+            ### Uses 'rhombic dodecahedron (xy-hexagon) vectors'
             if len(cmd) == 1:
                 if momentary_z:
                     ### Done when "stacked_membranes" is used as the box size is defined by the z-height
@@ -3405,7 +3408,7 @@ class CGSB:
     
     def itp_read_initiater(self):
         if len(self.ITP_INPUT_cmds) != 0:
-            self.print_term("Loading topology file(s)", spaces=0, verbose=1)
+            self.print_term("Loading topology file(s)", spaces=0, verbose=2)
             self.itp_defs = {
                 "bondtypes": {},
                 "angletypes": {},
@@ -3422,7 +3425,7 @@ class CGSB:
                         charge_sum += ast.literal_eval(atom_vals["charge"])
                 self.itp_moltypes[moltype]["charge_sum"] = charge_sum
 
-            self.print_term("Finished loading topologies. Number of moleculetypes found:", len(self.itp_moltypes), "\n", spaces=1, verbose=2)
+            self.print_term("Finished loading topologies. Number of moleculetypes found:", len(self.itp_moltypes), "\n", spaces=1, verbose=3)
     
     def import_structures_handler(self):
         if len(self.SOLUTE_INPUT_cmds) != 0:
@@ -6028,16 +6031,16 @@ parser.add_argument("--help", "-h", dest = "help", action=IsStored_ActionStore)
 ### SYSTEM CREATION ###
 #######################
 ### Leaflet commands
-parser.add_argument("--membrane", "-memb", "-membrane", dest = "membrane_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
+parser.add_argument("--membrane",  "-membrane",  "-memb", dest = "membrane_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
 ### Protein commands
-parser.add_argument("--protein", "-prot", "-protein", dest = "protein_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
+parser.add_argument("--protein",   "-protein",   "-prot", dest = "protein_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
 ### Solvent commands
-parser.add_argument("--solvation", "-solv", "-solvation", dest = "solvation_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
+parser.add_argument("--solvation", "-solvation", "-solv", dest = "solvation_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
 ### Solvent commands
-parser.add_argument("--flooding", "-flood", "-flooding", dest = "flooding_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
+parser.add_argument("--flooding",  "-flooding",  "-flood", dest = "flooding_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
 ###############################
 ### SPECIAL SYSTEM CREATION ###
@@ -6049,13 +6052,13 @@ parser.add_argument("--stacked_membranes", "-stack_memb", "-stacked_membranes", 
 ### MISC ###
 ############
 ### Topology commands
-parser.add_argument("--itp_input", "-itp_in", dest = "itp_input_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
+parser.add_argument("--itp_input", "-itp_input", "-itp_in", dest = "itp_input_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
 ### Import commands
 parser.add_argument("--solute_input", "-solute_in", "-sol_in", dest = "solute_input_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
 ### Plotting command
-parser.add_argument("--plot_grid", "-plot", dest = "plot_grid_cmd", action=IsStored_ActionStore)
+parser.add_argument("--plot_grid", "-plot_grid", "-plot", dest = "plot_grid_cmd", action=IsStored_ActionStore)
 
 ### Pickle commands
 parser.add_argument("--pickle", "-pickle", dest = "pickle_cmd", action=IsStored_ActionStore)
@@ -6064,16 +6067,16 @@ parser.add_argument("--pickle", "-pickle", dest = "pickle_cmd", action=IsStored_
 parser.add_argument("--backup", "-backup", dest = "backup_cmd", action=IsStored_ActionStore)
 
 ### Random seed
-parser.add_argument("--randseed", "-rand", dest = "randseed_cmd", action=IsStored_ActionStore)
+parser.add_argument("--randseed", "-randseed", "-rand", dest = "randseed_cmd", action=IsStored_ActionStore)
 
 ### System parameters
-parser.add_argument("--sys_params",   "-sysp", dest = "sys_params",   action=IsStored_ActionStore)
-parser.add_argument("--prot_params",  "-pp",   dest = "prot_params",  action=IsStored_ActionStore)
-parser.add_argument("--lipid_params", "-lp",   dest = "lipid_params", action=IsStored_ActionStore)
-parser.add_argument("--solv_params",  "-sp",   dest = "solv_params",  action=IsStored_ActionStore)
+parser.add_argument("--sys_params",   "-sys_params",   "-sysp", dest = "sys_params",   action=IsStored_ActionStore)
+parser.add_argument("--prot_params",  "-prot_params",  "-pp",   dest = "prot_params",  action=IsStored_ActionStore)
+parser.add_argument("--lipid_params", "-lipid_params", "-lp",   dest = "lipid_params", action=IsStored_ActionStore)
+parser.add_argument("--solv_params",  "-solv_params",  "-sp",   dest = "solv_params",  action=IsStored_ActionStore)
 
 ### System name
-parser.add_argument("--system_name", "-sn", dest = "system_name", action=IsStored_ActionStore)
+parser.add_argument("--system_name", "-system_name", "-sn", dest = "system_name", action=IsStored_ActionStore)
 
 #########################
 ### BOX SIZE AND TYPE ###
