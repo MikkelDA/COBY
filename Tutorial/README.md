@@ -48,7 +48,7 @@ It includes:
 
 ![](../figures/mixed_solvent.png)
 
-* **Flooding system**: A membrane system that has been flooeded with solute molecules, followed by solvation
+* **Flooding system**: A membrane system that has been flooded with solute molecules, followed by solvation
 
 ![](../figures/flooding_system.png)
 
