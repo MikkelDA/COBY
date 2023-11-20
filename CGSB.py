@@ -287,27 +287,55 @@ solvent_defs[params] = {
 }
 ### Amino acids
 solvent_defs[params].update({
-    "GLY": {"beads": ("BB",), "mapping_ratio": 1, "x": (0,), "y": (0,), "z": (0,)},
-    "ALA": {"beads": ("BB",), "mapping_ratio": 1, "x": (0,), "y": (0,), "z": (0,)},
+    ### ### 1 atom residues
+    "GLY":  {"beads": ("BB",), "mapping_ratio": 1, "x": (0,), "y": (0,), "z": (0,)},
     
-    "ASN": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "ASP": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0), "charges": ("SC1", -1)},
-    "GLU": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0), "charges": ("SC1", -1)},
-    "GLN": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "LEU": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "ILE": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "VAL": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "SER": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "THR": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "CYS": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "LYS": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0), "charges": ("SC2", 1)},
-    "PRO": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
-    "HYP": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    ### ### 2 atom residues
+    ### Residues without variants
+    "ALA":  {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "CYS":  {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "VAL":  {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "LEU":  {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "ILE":  {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "MET":  {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "PRO":  {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "HYP":  {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "ASN":  {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "GLN":  {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "THR":  {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    "SER":  {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)},
+    ### ASP variants
+    "ASP":  {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0), "charges": ("SC1", -1)},
+    "ASPP": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)}, # Neutral ASP
+    "ASH":  {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)}, # Neutral ASP
+    ### Glutamate variants
+    "GLU":  {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0), "charges": ("SC1", -1)},
+    "GLUP": {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)}, # Neutral GLU
+    "GLH":  {"beads": ("BB", "SC1"), "mapping_ratio": 1, "x": (0.25, -0.25), "y": (0, 0), "z": (0, 0)}, # Neutral GLU
     
-    "ARG": {"beads": ("BB", "SC1", "SC2"), "mapping_ratio": 1, "x": (0.25, 0, -0.25), "y": (0, 0, 0.125), "z": (0, 0, 0), "charges": ("SC2", 1)},
-    "PHE": {"beads": ("BB", "SC1", "SC2", "SC3"), "mapping_ratio": 1, "x": (0.25, 0, -0.25, -0.25), "y": (0, 0, 0.125, -0.125), "z": (0, 0, 0, 0)},
-    "TYR": {"beads": ("BB", "SC1", "SC2", "SC3"), "mapping_ratio": 1, "x": (0.25, 0, -0.25, -0.25), "y": (0, 0, 0.125, -0.125), "z": (0, 0, 0, 0)},
-    "TRP": {"beads": ("BB", "SC1", "SC2", "SC3", "SC4"), "mapping_ratio": 1, "x": (0.25, 0.25, 0, 0, -0.25), "y": (0.125, 0, -0.125, 0.125, 0), "z": (0, 0, 0, 0, 0)},
+    ### ### 3 atom residues
+    "ARG":  {"beads": ("BB", "SC1", "SC2"), "mapping_ratio": 1, "x": (0.25, 0, -0.25), "y": (0, 0, 0.125), "z": (0, 0, 0), "charges": ("SC2", 1)},
+    ### Lysine variants
+    "LYS":  {"beads": ("BB", "SC1", "SC2"), "mapping_ratio": 1, "x": (0.25, 0, -0.25), "y": (0, 0, 0.125), "z": (0, 0, 0), "charges": ("SC2", 1)},
+    "LSN":  {"beads": ("BB", "SC1", "SC2"), "mapping_ratio": 1, "x": (0.25, 0, -0.25), "y": (0, 0, 0.125), "z": (0, 0, 0)}, # Neutral LYS
+    "LYN":  {"beads": ("BB", "SC1", "SC2"), "mapping_ratio": 1, "x": (0.25, 0, -0.25), "y": (0, 0, 0.125), "z": (0, 0, 0)}, # Neutral LYS
+    
+    ### ### 4 atom residues
+    "PHE":  {"beads": ("BB", "SC1", "SC2", "SC3"), "mapping_ratio": 1, "x": (0.25, 0, -0.25, -0.25), "y": (0, 0, 0.125, -0.125), "z": (0, 0, 0, 0)},
+    ### Histidines
+    "HIS":  {"beads": ("BB", "SC1", "SC2", "SC3"), "mapping_ratio": 1, "x": (0.25, 0, -0.25, -0.25), "y": (0, 0, 0.125, -0.125), "z": (0, 0, 0, 0)},
+    "HIE":  {"beads": ("BB", "SC1", "SC2", "SC3"), "mapping_ratio": 1, "x": (0.25, 0, -0.25, -0.25), "y": (0, 0, 0.125, -0.125), "z": (0, 0, 0, 0)},
+    "HSE":  {"beads": ("BB", "SC1", "SC2", "SC3"), "mapping_ratio": 1, "x": (0.25, 0, -0.25, -0.25), "y": (0, 0, 0.125, -0.125), "z": (0, 0, 0, 0)},
+    "HSD":  {"beads": ("BB", "SC1", "SC2", "SC3"), "mapping_ratio": 1, "x": (0.25, 0, -0.25, -0.25), "y": (0, 0, 0.125, -0.125), "z": (0, 0, 0, 0)},
+    "HID":  {"beads": ("BB", "SC1", "SC2", "SC3"), "mapping_ratio": 1, "x": (0.25, 0, -0.25, -0.25), "y": (0, 0, 0.125, -0.125), "z": (0, 0, 0, 0)},
+    "HSP":  {"beads": ("BB", "SC1", "SC2", "SC3"), "mapping_ratio": 1, "x": (0.25, 0, -0.25, -0.25), "y": (0, 0, 0.125, -0.125), "z": (0, 0, 0, 0), "charges": (("SC2", 0.5), ("SC3", 0.5))},
+    "HIP":  {"beads": ("BB", "SC1", "SC2", "SC3"), "mapping_ratio": 1, "x": (0.25, 0, -0.25, -0.25), "y": (0, 0, 0.125, -0.125), "z": (0, 0, 0, 0), "charges": (("SC2", 0.5), ("SC3", 0.5))},
+    
+    ### ### 5 atom residues
+    "TYR":  {"beads": ("BB", "SC1", "SC2", "SC3", "SC4"), "mapping_ratio": 1, "x": (0.25, 0.25, 0, 0, -0.25), "y": (0.125, 0, -0.125, 0.125, 0), "z": (0, 0, 0, 0, 0)},
+    
+    ### ### 6 atom residues
+    "TRP":  {"beads": ("BB", "SC1", "SC2", "SC3", "SC4", "SC5"), "mapping_ratio": 1, "x": (0.25, 0.25, 0, 0, -0.25, -0.25), "y": (0.125, 0, -0.125, 0.125, 0, 0.125), "z": (0, 0, 0, 0, 0, 0)},
 })
 
 ### Example of a multi-residue solvent molecule
@@ -365,15 +393,55 @@ ion_defs[params]["negative"] = {
 params = "default"
 prot_defs[params] = {}
 prot_defs[params]["charges"] = {
-    "ARG": 1, "LYS": 1, "ASP": -1, "GLU": -1,
-    "GLY": 0, "ALA": 0, "ASN": 0,
-    "GLN": 0, "LEU": 0, "ILE": 0,
-    "VAL": 0, "SER": 0, "THR": 0,
-    "CYS": 0, "PRO": 0, "HYP": 0,
-    "PHE": 0, "TYR": 0, "TRP": 0,
-    "ASH": 0, # Neutral version of ASP
-    "MET": 0,
-    "HSD": 0, "HSP": 0,
+    ### ### 1 atom residues
+    "GLY":  {"BB": 0},
+    
+    ### ### 2 atom residues
+    ### Residues without variants
+    "ALA":  {"BB": 0, "SC1": 0},
+    "CYS":  {"BB": 0, "SC1": 0},
+    "VAL":  {"BB": 0, "SC1": 0},
+    "LEU":  {"BB": 0, "SC1": 0},
+    "ILE":  {"BB": 0, "SC1": 0},
+    "MET":  {"BB": 0, "SC1": 0},
+    "PRO":  {"BB": 0, "SC1": 0},
+    "HYP":  {"BB": 0, "SC1": 0},
+    "ASN":  {"BB": 0, "SC1": 0},
+    "GLN":  {"BB": 0, "SC1": 0},
+    "THR":  {"BB": 0, "SC1": 0},
+    "SER":  {"BB": 0, "SC1": 0},
+    ### ASP variants
+    "ASP":  {"BB": 0, "SC1": -1},
+    "ASPP": {"BB": 0, "SC1": 0}, # Neutral ASP
+    "ASH":  {"BB": 0, "SC1": 0}, # Neutral ASP
+    ### Glutamate variants
+    "GLU":  {"BB": 0, "SC1": -1},
+    "GLUP": {"BB": 0, "SC1": 0}, # Neutral GLU
+    "GLH":  {"BB": 0, "SC1": 0}, # Neutral GLU
+    
+    ### ### 3 atom residues
+    "ARG":  {"BB": 0, "SC1": 0, "SC2": 1},
+    ### Lysine variants
+    "LYS":  {"BB": 0, "SC1": 0, "SC2": 1},
+    "LSN":  {"BB": 0, "SC1": 0, "SC2": 0}, # Neutral LYS
+    "LYN":  {"BB": 0, "SC1": 0, "SC2": 0}, # Neutral LYS
+    
+    ### ### 4 atom residues
+    "PHE":  {"BB": 0, "SC1": 0, "SC2": 0, "SC3": 0},
+    ### Histidines
+    "HIS":  {"BB": 0, "SC1": 0, "SC2": 0, "SC3": 0},
+    "HIE":  {"BB": 0, "SC1": 0, "SC2": 0, "SC3": 0},
+    "HSE":  {"BB": 0, "SC1": 0, "SC2": 0, "SC3": 0},
+    "HSD":  {"BB": 0, "SC1": 0, "SC2": 0, "SC3": 0},
+    "HID":  {"BB": 0, "SC1": 0, "SC2": 0, "SC3": 0},
+    "HSP":  {"BB": 0, "SC1": 0, "SC2": 0.5, "SC3": 0.5},
+    "HIP":  {"BB": 0, "SC1": 0, "SC2": 0.5, "SC3": 0.5},
+    
+    ### ### 5 atom residues
+    "TYR":  {"BB": 0, "SC1": 0, "SC2": 0, "SC3": 0, "SC4": 0},
+    
+    ### ### 6 atom residues
+    "TRP":  {"BB": 0, "SC1": 0, "SC2": 0, "SC3": 0, "SC4": 0, "SC5": 0},
 }
 ########################################################################################################
 ########################################### THE ACTUAL CLASSES #########################################
@@ -2497,22 +2565,24 @@ class CGSB:
                     else:
                         assert False, "Unknown subcommand given to '-prot'. The subcommand is: '" + str(cmd) + "'"
 
-                
                 def prot_charge_finder(beads):
                     '''
                     Finds the charge of a protein based on residue names and the 'prot_defs' dictionary
                     '''
-                    counted_residues = []
                     protein_bead_charges = []
                     for (bead_i, bead_nr, res_nr), values in beads.items():
-                        if res_nr not in counted_residues:
-                            params = self.prot_params or self.sys_params
-                            if values["res_name"] in self.prot_defs[params]["charges"]:
-                                protein_bead_charges.append(self.prot_defs[params]["charges"][values["res_name"]])
+                        params   = self.prot_params or self.sys_params
+                        res_name  = values["res_name"]
+                        atom_name = values["atom_name"]
+                        if res_name in self.prot_defs[params]["charges"]:
+                            if atom_name in self.prot_defs[params]["charges"][res_name]:
+                                protein_bead_charges.append(self.prot_defs[params]["charges"][res_name][atom_name])
                             else:
-                                self.print_term(values["res_name"], "residue name not in 'prot_defs' charges for system parameters:", params, warn=True)
+                                self.print_term(atom_name, "atom name not in 'prot_defs' charges for residue ", res_name, " for system parameters:", params, warn=True)
                                 protein_bead_charges.append(0)
-                            counted_residues.append(res_nr)
+                        else:
+                            self.print_term(res_name, "residue name not in 'prot_defs' charges for system parameters:", params, warn=True)
+                            protein_bead_charges.append(0)
                     return protein_bead_charges
                 
                 ### Post-preprocessing (topology and charge determination)
