@@ -2617,7 +2617,7 @@ class CGSB:
                         if erase_charges:
                             protein_bead_charges = [0 for _ in range(len(prot_dict["beads"]))]
                 
-                prot_dict["mol_names"] = prot_dict["mol_names"] or "_".join(["PROT", str(cmd_nr)])
+                prot_dict["mol_names"] = prot_dict["mol_names"] or ["_".join(["PROT", str(cmd_nr)])]
                 
                 ### ### Mapping charge values to int/float data type
                 ### First ensure values are strings otherwise ast.literal_eval will error
