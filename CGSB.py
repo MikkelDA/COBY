@@ -10,6 +10,7 @@ import copy
 import scipy.spatial
 import alphashape
 import shapely
+import shapely.affinity
 import shapely.plotting
 import inspect
 import sys
@@ -443,6 +444,7 @@ prot_defs[params]["charges"] = {
     ### ### 6 atom residues
     "TRP":  {"BB": 0, "SC1": 0, "SC2": 0, "SC3": 0, "SC4": 0, "SC5": 0},
 }
+
 ########################################################################################################
 ########################################### THE ACTUAL CLASSES #########################################
 ########################################################################################################
@@ -1998,7 +2000,7 @@ class CGSB:
         assert len(beads) == len(xs) == len(ys) == len(zs), (
             "Number of beads, x-values, y-values and z-values must be the same within a residue." + "\n"
             "molecule name: " + cur_name + "\n"
-            "name of problematic: " + resname + "\n"
+            "name of problematic residue: " + resname + "\n"
             "len(beads) " + str(len(beads)) + ", values: " + str(beads) + "\n"
             "len(xs)    " + str(len(xs)) + ", values: " + str(xs) + "\n"
             "len(ys)    " + str(len(ys)) + ", values: " + str(ys) + "\n"
@@ -2472,15 +2474,19 @@ class CGSB:
                     "rx": 0,
                     "ry": 0,
                     "rz": 0,
+                    
                     "cen_method": ("cog",), # "cog/axis/ax" (center of geometry), "mean" (mean of all points), "bead:INT", "res:INT" or "point:x:y:z"
                     "lipids_inside": False, # [bool]
+                    
                     "pbc_check": True,
+                    ### Buffer used during solvations
                     "buffer": 1.32, # [Å] default = (vdw of regular beads) / 2
+                    
                     "mol_names": [],
                     "charge": "top", # int/float, "top" or "auto"
                     "tot_charge": 0,
                 }
-
+                
                 ### ### Check protein command
                 for cmd in prot_cmd.split():
                     sub_cmd = cmd.split(":")
@@ -2506,7 +2512,7 @@ class CGSB:
                         ### Finally assume .pdb format if neither .pdb nor .gro is found
                         else:
                             prot_dict["beads"] = self.pdb_reader(file_name)
-                    
+                            
                     ### Center method "cog/axis/ax" (center of geometry), "mean", "bead:INT", "res:INT" or "point:x:y:z"
                     elif sub_cmd[0].lower() == "cen_method":
                         if sub_cmd[1].lower() in ["cog", "axis", "ax", "mean"]:
@@ -2564,7 +2570,7 @@ class CGSB:
                     ### Errors out if unknown subcommand used, and prints the subcommand to console
                     else:
                         assert False, "Unknown subcommand given to '-prot'. The subcommand is: '" + str(cmd) + "'"
-
+                
                 def prot_charge_finder(beads):
                     '''
                     Finds the charge of a protein based on residue names and the 'prot_defs' dictionary
@@ -2673,8 +2679,6 @@ class CGSB:
                     "upper_leaf": {},
                     "lower_leaf": {},
                     "membrane"  : {
-#                         "shape": "rectangle", # "rectangle"
-                        
                         "x": self.pbcx / 10, # [nm] converted to [Å]
                         "y": self.pbcy / 10, # [nm] converted to [Å]
                         "center": [0, 0, 0], # [nm] converted to [Å]
@@ -2687,9 +2691,15 @@ class CGSB:
                         
                         "optimize": "v5", # False/"no"/0, "limited", True/"full"/1
                         "optim_maxsteps": 100,
-                        "optim_push_tol": 0.2,
+                        "optim_push_tol": 0.5,
                         "optim_push_mult": 1.0,
                         
+                        ### Readjusts the max/min x/y-values if cutouts/holes are made
+                        "readjust_bbox": True,
+                        ### Readjusts the max/min x/y-values if cutouts/holes are made
+                        "split_bbox": True,
+                        ### Allows empty space (holes/cutouts) to be solvated
+                        "solvate_empty": True,
                     },
                     "default": {
                         "lipids": {}, # empty
@@ -2701,8 +2711,9 @@ class CGSB:
 
                         "apl": 0.6, # [nm^2] converted to [Å^2]
                         
-                        "plane_buffer": 0.099, # 0.066, # 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 4
-                        "height_buffer": 0.099, # 0.066, # 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 4
+                        ### 0.264 = vdw of regular beads. 0.264/16*6 = 0.099, 0.264/4=0.066, # 0.264/2=0.132
+                        "plane_buffer": 0.264/16*6, # [nm] converted to [Å]
+                        "height_buffer": 0.264/16*6, # [nm] converted to [Å]
 
                         "prot_buffer": 0.132, # [nm] converted to [Å], default = (vdw of regular beads) / 2
                         "alpha_mult": 1.0,
@@ -2718,9 +2729,36 @@ class CGSB:
                         ### 'fill:         Same as 'force_fill' but stops if perfect lipid ratio has been achieved
                         "params": False, # False or str
                         "charge": "top", # "lib" or "top"
+                        
+                        "holes": {
+                            "ellipses": [],
+                            "polygons": [],
+                        },
                     }
                 }
-
+                
+                hole_types = ["circle", "ellipse", "square", "rectangle", "poly", "polygon"]
+                
+                ellipse_abbrevs = {}
+                ellipse_abbrevs_key_vals = [
+                    (("rot", "rotate", "rotation"), "rotation"),
+                    (("b", "buf", "buffer"),        "buffer"),
+                    (("inverse",),                  "inverse"),
+                ]
+                for keys, val in ellipse_abbrevs_key_vals:
+                    ellipse_abbrevs.update(dict.fromkeys(keys, val))
+                
+                polygon_abbrevs = {}
+                polygon_abbrevs_key_vals = [
+                    (("rot", "rotate", "rotation"), "rotation"),
+                    (("b", "buf", "buffer"),        "buffer"),
+                    (("p", "point"),                "point"),
+                    (("inverse",),                  "inverse"),
+                ]
+                for keys, val in polygon_abbrevs_key_vals:
+                    polygon_abbrevs.update(dict.fromkeys(keys, val))
+                
+                last_hole_type = False
                 
                 ### ### Membrane mono/bilayer names
                 ### Mono as explicitly upper added by request
@@ -2799,9 +2837,178 @@ class CGSB:
                                 "For subcommand gridsplits:values; values must be one of: 'number/False', 'number1/False:number2/False', 'auto', 'auto:number'",
                                 warn=True
                             )
+                    
+                    ### Creates holes or cutouts in membrane
+                    elif sub_cmd[0].lower() in ["h", "hole"] and sub_cmd[1].lower() in hole_types or sub_cmd[0].lower() in hole_types:
+                        if sub_cmd[0].lower() in ["h", "hole"]:
+                            sub_cmd = sub_cmd[1:]
+                        sub_cmd[0] = sub_cmd[0].lower()
+                        
+                        if "holes" not in settings_dict[dict_target]:
+                            settings_dict[dict_target]["holes"] = {
+                                "ellipses": [],
+                                "polygons": [],
+                            }
+                        
+                        key_vals = []
+                        if sub_cmd[-1] in ["inverse", "True", "true"]:
+                            key_vals.append(("inverse", True))
+                        
+                        if sub_cmd[0] in ["circle", "ellipse"]:
+                            settings_dict[dict_target]["holes"]["ellipses"].append({
+                                "cx": 0,
+                                "cy": 0,
+                                "xradius": 1,
+                                "yradius": 1,
+                                "rotation": 0,
+                                "buffer": 0,
+                                "inverse": False,
+                            })
 
+                            ### Command styles:
+                            ### circle:cx:cy:radius:inverse
+                            ### circle:cx:cy:radius
+                            ### circle:radius:inverse
+                            ### circle:radius
+                            if sub_cmd[0] == "circle":
+                                if len(sub_cmd) in [5, 4]:
+                                    key_vals.append(("cx", self.get_number_from_string(sub_cmd[1])))
+                                    key_vals.append(("cy", self.get_number_from_string(sub_cmd[2])))
+                                    key_vals.append(("xradius", self.get_number_from_string(sub_cmd[3])))
+                                    key_vals.append(("yradius", self.get_number_from_string(sub_cmd[3])))
+                                elif len(sub_cmd) in [3, 2]:
+                                    key_vals.append(("xradius", self.get_number_from_string(sub_cmd[1])))
+                                    key_vals.append(("yradius", self.get_number_from_string(sub_cmd[1])))
+                            
+                            if sub_cmd[0] == "ellipse":
+                                ### Command styles:
+                                ### ellipse:cx:cy:xradius:yradius:rotation:inverse
+                                ### ellipse:cx:cy:xradius:yradius:rotation
+                                ### ellipse:xradius:yradius:rotation:inverse
+                                ### ellipse:xradius:yradius:rotation
+                                if len(sub_cmd) in [5, 4]:
+                                    key_vals.append(("cx", self.get_number_from_string(sub_cmd[1])))
+                                    key_vals.append(("cy", self.get_number_from_string(sub_cmd[2])))
+                                    key_vals.append(("xradius", self.get_number_from_string(sub_cmd[3])))
+                                    key_vals.append(("yradius", self.get_number_from_string(sub_cmd[4])))
+                                elif len(sub_cmd) in [3, 2]:
+                                    key_vals.append(("xradius", self.get_number_from_string(sub_cmd[1])))
+                                    key_vals.append(("yradius", self.get_number_from_string(sub_cmd[2])))
+                            
+                            for key, val in key_vals:
+                                settings_dict[dict_target]["holes"]["ellipses"][-1][key] = val
+                            
+                            last_hole_type = "ellipse"
+                        
+                        elif sub_cmd[0] in ["square", "rectangle", "poly", "polygon"]:
+                            settings_dict[dict_target]["holes"]["polygons"].append({
+                                "points": [],
+                                "rotation": 0,
+                                "buffer": 0,
+                                "inverse": False,
+                            })
+                            last_hole_type = "polygon"
+                            
+                            if sub_cmd[0] in ["square", "rectangle"]:
+                                ### Command styles:
+                                ### square:cx:cy:sidelen:inverse
+                                ### square:cx:cy:sidelen
+                                ### square:sidelen:inverse
+                                ### square:sidelen
+
+                                ### rectangle:cx:cy:xlen:ylen:inverse
+                                ### rectangle:cx:cy:xlen:ylen
+                                ### rectangle:xlen:ylen:inverse
+                                ### rectangle:xlen:ylen
+                                if sub_cmd[0] == "square":
+                                    if len(sub_cmd) in [5, 4]:
+                                        cx = self.get_number_from_string(sub_cmd[1])
+                                        cy = self.get_number_from_string(sub_cmd[2])
+                                        xlen = self.get_number_from_string(sub_cmd[3])
+                                        ylen = self.get_number_from_string(sub_cmd[3])
+
+                                    elif len(sub_cmd) in [3, 2]:
+                                        cx, cy = 0, 0
+                                        xlen = self.get_number_from_string(sub_cmd[1])
+                                        ylen = self.get_number_from_string(sub_cmd[1])
+
+                                elif sub_cmd[0] == "rectangle":
+                                    if len(sub_cmd) in [6, 5]:
+                                        cx = self.get_number_from_string(sub_cmd[1])
+                                        cy = self.get_number_from_string(sub_cmd[2])
+                                        xlen = self.get_number_from_string(sub_cmd[3])
+                                        ylen = self.get_number_from_string(sub_cmd[4])
+
+                                    elif len(sub_cmd) in [4, 3]:
+                                        cx, cy = 0, 0
+                                        xlen = self.get_number_from_string(sub_cmd[1])
+                                        ylen = self.get_number_from_string(sub_cmd[2])
+                            
+                                points = [
+                                    (cx-xlen/2, cy-ylen/2),
+                                    (cx+xlen/2, cy-ylen/2),
+                                    (cx+xlen/2, cy+ylen/2),
+                                    (cx-xlen/2, cy+ylen/2),
+                                ]
+
+                                key_vals.append(("points", points))
+                                
+                            for key, val in key_vals:
+                                settings_dict[dict_target]["holes"]["polygons"][-1][key] = val
+                    
+                    elif sub_cmd[0].lower() in ["h", "hole"] and sub_cmd[1] in list(ellipse_abbrevs.keys()) + list(polygon_abbrevs.keys()):
+                        if last_hole_type == "ellipse":
+                            sub_cmd[1] = ellipse_abbrevs[sub_cmd[1].lower()]
+
+                            key_vals = []
+
+                            if sub_cmd[1] in ["rotation", "buffer"]:
+                                key_vals.append((sub_cmd[1], self.get_number_from_string(sub_cmd[2])))
+
+                            elif sub_cmd[1] == "inverse":
+                                if len(sub_cmd) == 2 or sub_cmd[-1].lower() in ["inverse", "true"]:
+                                    key_vals.append(("inverse", True))
+                                else:
+                                    key_vals.append(("inverse", False))
+
+                            for key, val in key_vals:
+                                settings_dict[dict_target]["holes"]["ellipses"][-1][key] = val
+                    
+                        elif last_hole_type == "polygon":# or sub_cmd[0].lower() in ["s", "square", "r", "rectangle", "p", "poly", "polygon"]:
+                            sub_cmd[1] = polygon_abbrevs[sub_cmd[1].lower()]
+
+                            if sub_cmd[1] in ["rotation", "buffer"]:
+                                key_vals.append((sub_cmd[1], self.get_number_from_string(sub_cmd[2])))
+
+                            elif sub_cmd[1] == "inverse":
+                                if len(sub_cmd) == 2 or sub_cmd[-1].lower() in ["inverse", "true"]:
+                                    key_vals.append((sub_cmd[1], True))
+                                else:
+                                    key_vals.append((sub_cmd[1], False))
+
+                            ### Points are a bit special as they must be appended to a list instead of overwriting a key:val pair
+                            elif sub_cmd[1] == "point":
+                                xval = self.get_number_from_string(sub_cmd[2])
+                                yval = self.get_number_from_string(sub_cmd[3])
+                                settings_dict[dict_target]["holes"]["polygons"][-1]["points"].append((xval, yval))
+
+                            for key, val in key_vals:
+                                settings_dict[dict_target]["holes"]["polygons"][-1][key] = val
+                    
+                    ### For use with "poly/polygon"
+                    ### Second way to designate points for polygons
+                    ### Essentially an abbreviation of "hole:point" / "h:p"
+                    elif sub_cmd[0].lower() in ["point", "poly_point", "polygon_point"]:
+                        ### Command style:
+                        ### point:xval:yval
+                        xval = self.get_number_from_string(sub_cmd[1])
+                        yval = self.get_number_from_string(sub_cmd[2])
+                        settings_dict[dict_target]["holes"]["polygons"][-1]["points"].append((xval, yval))
+                        
                     ### Center [nm]
-                    elif any(sub_cmd[0].lower() == cen for cen in ["c", "cen", "center"]):
+                    ### "c" removed from abbreviations due to it being an abbreviation for "circle"
+#                     elif any(sub_cmd[0].lower() == cen for cen in ["c", "cen", "center"]):
+                    elif any(sub_cmd[0].lower() == cen for cen in ["cen", "center"]):
                         if len(sub_cmd[1:]) == 3:
                             settings_dict["membrane"]["center"] = [ast.literal_eval(i) for i in sub_cmd[1:]]
                         elif len(sub_cmd[1:]) == 2:
@@ -2891,12 +3098,6 @@ class CGSB:
                             settings_dict[dict_target]["optimize"] = False
                         else:
                             settings_dict[dict_target]["optimize"] = sub_cmd[1].lower()
-#                         if sub_cmd[1] in ["True", "1", "full"]:
-#                             settings_dict[dict_target]["optimize"] = "full"
-#                         elif sub_cmd[1] in ["limited"]:
-#                             settings_dict[dict_target]["optimize"] = "limited"
-#                         elif sub_cmd[1] in ["False", "0", "no"]:
-#                             settings_dict[dict_target]["optimize"] = False
                     
                     elif sub_cmd[0].lower() in ["optim_maxsteps", "minim_maxsteps"]:
                         isnumber, isint = self.is_number(sub_cmd[1])
@@ -2912,6 +3113,18 @@ class CGSB:
                         isnumber, isint = self.is_number(sub_cmd[1])
                         if isnumber:
                             settings_dict[dict_target]["optim_push_mult"] = ast.literal_eval(sub_cmd[1])
+                    
+                    ### Readjusts the max/min x/y-values if cutouts/holes are made
+                    elif sub_cmd[0].lower() == "readjust_bbox":
+                        settings_dict["membrane"]["readjust_bbox"] = ast.literal_eval(sub_cmd[1])
+                    
+                    ### Splits subleaflet bbox into multiple subleaflets if they are not all connected
+                    elif sub_cmd[0].lower() == "split_bbox":
+                        settings_dict["membrane"]["split_bbox"] = ast.literal_eval(sub_cmd[1])
+                    
+                    ### Splits subleaflet bbox into multiple subleaflets if they are not all connected
+                    elif sub_cmd[0].lower() == "solvate_empty":
+                        settings_dict["membrane"]["solvate_empty"] = ast.literal_eval(sub_cmd[1])
                     
                     elif sub_cmd[0].lower() == "lipid":
                         if any([sub_cmd[1] in self.lipid_dict[params].keys() for params in self.lipid_dict.keys()]):
@@ -2957,7 +3170,7 @@ class CGSB:
                     for leaflet in memb_dict["leaflets"].values():
                         if key not in leaflet:
                             try:
-                                leaflet[key] = vals.copy()
+                                leaflet[key] = copy.deepcopy(vals)
                             except:
                                 leaflet[key] = vals
                 
@@ -2966,7 +3179,7 @@ class CGSB:
                     for leaflet in memb_dict["leaflets"].values():
                         if key not in leaflet:
                             try:
-                                leaflet[key] = vals.copy()
+                                leaflet[key] = copy.deepcopy(vals)
                             except:
                                 leaflet[key] = vals
                 
@@ -2982,6 +3195,16 @@ class CGSB:
                     leaflet["kickx"] *= 10
                     leaflet["kicky"] *= 10
                     leaflet["kickz"] *= 10
+                    for ellipse in leaflet["holes"]["ellipses"]:
+                        ellipse["cx"] *= 10
+                        ellipse["cy"] *= 10
+                        ellipse["xradius"] *= 10
+                        ellipse["yradius"] *= 10
+                        ellipse["buffer"] *= 10
+                    for polygon in leaflet["holes"]["polygons"]:
+                        polygon["buffer"] *= 10
+                        for pi, (xval, yval) in enumerate(polygon["points"]):
+                            polygon["points"][pi] = (xval*10, yval*10)
                     
                 ################################
                 ### Lipid data incorporation ###
@@ -4015,7 +4238,8 @@ class CGSB:
                     
                     xpoint_vals = np.linspace(start=xmin, stop=xmax, num=round(xsplits+1), endpoint=True)
                     ypoint_vals = np.linspace(start=ymin, stop=ymax, num=round(ysplits+1), endpoint=True)
-
+                    
+                    sli = 0
                     for xi in range(round(xsplits)):
                         for yi in range(round(ysplits)):
                             xmin = xpoint_vals[xi]
@@ -4033,14 +4257,19 @@ class CGSB:
                             box_Points = [shapely.Point(point) for point in box_points]
                             box_Poly   = shapely.Polygon(box_Points)
                             
-                            leaflet["subleaflets"][(xi, yi)] = {
-                                "xmin": xmin,
-                                "xmax": xmax,
-                                "ymin": ymin,
-                                "ymax": ymax,
-                                "box_points": box_points,
-                                "box_poly":   box_Poly,
+                            leaflet["subleaflets"][(xi, yi, sli)] = {
+                                "xmin":          xmin, # Cutouts change these values
+                                "xmax":          xmax, # Cutouts change these values
+                                "ymin":          ymin, # Cutouts change these values
+                                "ymax":          ymax, # Cutouts change these values
+                                "xmin_original": xmin, # Cutouts DO NOT change these values
+                                "xmax_original": xmax, # Cutouts DO NOT change these values
+                                "ymin_original": ymin, # Cutouts DO NOT change these values
+                                "ymax_original": ymax, # Cutouts DO NOT change these values
+                                "box_points":    box_points,
+                                "box_poly":      box_Poly,
                             }
+                            sli += 1
             
             subleaflet_poly_maker_toc = time.time()
             subleaflet_poly_maker_time = round(subleaflet_poly_maker_toc - subleaflet_poly_maker_tic, 4)
@@ -4055,11 +4284,16 @@ class CGSB:
                     self.print_term("", verbose=3)
                 self.print_term("Starting membrane nr", memb_key, spaces=0, verbose=2)
                 
-                ### Defnining some default values for union, intersection and holed_bbox
+                ### Defining some default values for union, intersection and holed_bbox
                 for leaflet_i, (leaflet_key, leaflet) in enumerate(memb_dict["leaflets"].items()):
-                    leaflet["protein_poly"] = False
-                    leaflet["union"] = False
-                    for (slxi, slyi), subleaflet in leaflet["subleaflets"].items():
+                    leaflet["protein_poly"]           = False
+                    leaflet["remove_union"]           = False
+                    leaflet["require_union"]          = False
+                    leaflet["prot_points"]            = False
+                    leaflet["prot_Points_buffered"]   = False
+                    leaflet["alphashape_1"]           = False
+                    leaflet["ConcaveHulls_Polygon_1"] = False
+                    for (slxi, slyi, sli), subleaflet in leaflet["subleaflets"].items():
                         subleaflet["intersection"] = False
                         subleaflet["holed_bbox"]   = subleaflet["box_poly"]
                 
@@ -4095,7 +4329,6 @@ class CGSB:
 
                         if len(prot_beads_in_memb) == 0:
                             self.print_term("No leaflet-protein overlap found", spaces=3, verbose=5)
-                            leaflet["prot_points"] = False
                         else:
                             self.print_term("Leaflet-protein overlap found for", str(len(prot_beads_in_memb)), "protein beads", spaces=3, verbose=5)
                             leaflet["prot_points"] = prot_beads_in_memb
@@ -4117,8 +4350,18 @@ class CGSB:
                             
                             Points_buffered_union = shapely.ops.unary_union(Points_buffered)
                             
+                            if Points_buffered_union.geom_type == "Polygon":
+                                self.print_term("Polygon", debug = True)
+                                Points_buffered_union_polygons = [Points_buffered_union]
+                            elif Points_buffered_union.geom_type == "MultiPolygon":
+                                self.print_term("MultiPolygon", debug = True)
+                                Points_buffered_union_polygons = list(Points_buffered_union.geoms)
+                            elif Points_buffered_union[-1].geom_type == "MultiPolygon":
+                                self.print_term("list of MultiPolygon", debug = True)
+                                Points_buffered_union_polygons = list(Points_buffered_union[-1].geoms)
+                            
                             poly_points = []
-                            for poly in list(Points_buffered_union.geoms):
+                            for poly in list(Points_buffered_union_polygons):
                                 xs, ys = poly.exterior.coords.xy
                                 poly_points.extend(list(zip(xs, ys)))
                             
@@ -4138,7 +4381,7 @@ class CGSB:
                             elif ALPHASHAPE.geom_type == "MultiPolygon":
                                 self.print_term("MultiPolygon", debug = True)
                                 ConcaveHulls_Polygon = list(ALPHASHAPE.geoms)
-                            elif ConcaveHulls_Polygon[-1].geom_type == "MultiPolygon":
+                            elif ALPHASHAPE[-1].geom_type == "MultiPolygon":
                                 self.print_term("list of MultiPolygon", debug = True)
                                 ConcaveHulls_Polygon = list(ALPHASHAPE[-1].geoms)
                             
@@ -4155,27 +4398,122 @@ class CGSB:
                     ### All the various polygons to be removed from the bbox
                     ### Unique to each leaflet but the same for each subleaflet
                     ### To be expanded later with manually defined holes
-                    poly_check_list = []
+                    poly_remove_list = []
+                    poly_require_list = []
                     
                     if "ConcaveHulls_Polygon_1" in leaflet.keys():
-                        protein_poly    = leaflet["ConcaveHulls_Polygon_1"]
-
+                        protein_poly = leaflet["ConcaveHulls_Polygon_1"]
                         for val in [protein_poly]:
                             if val:
-                                poly_check_list.extend(val)
+                                poly_remove_list.extend(val)
+                    
+                    #################################
+                    ### HANDLING CIRCLES/ELLIPSES ###
+                    #################################
+                    if leaflet["holes"]["ellipses"]:
+                        for settings in leaflet["holes"]["ellipses"]:
+                            circle = shapely.geometry.Point((settings["cx"], settings["cy"])).buffer(1)
+                            circle = shapely.affinity.scale(circle, settings["xradius"], settings["yradius"])
+                            if settings["rotation"]:
+                                circle = shapely.affinity.rotate(circle, settings["rotation"])
+                            if settings["buffer"]:
+                                circle = circle.buffer(settings["buffer"])
+                            if settings["inverse"]:
+                                poly_require_list.append(circle)
+                            else:
+                                poly_remove_list.append(circle)
+                    
+                    #########################
+                    ### HANDLING POLYGONS ###
+                    #########################
+                    if leaflet["holes"]["polygons"]:
+                        for settings in leaflet["holes"]["polygons"]:
+                            if len(settings["points"]) > 2:
+                                ### Polygon must contain at least two points
+                                polygon = shapely.Polygon(settings["points"])
+                            elif len(settings["points"]) == 2 and settings["buffer"] > 0:
+                                ### or be a line with a buffer
+                                polygon = shapely.LineString(settings["points"])
+                            elif len(settings["points"]) == 1 and settings["buffer"] > 0:
+                                ### or be a point with a buffer (e.g. just a circle)
+                                polygon = shapely.Point(settings["points"])
+                            else:
+                                continue
+                            if settings["rotation"]:
+                                polygon = shapely.affinity.rotate(polygon, settings["rotation"])
+                            if settings["buffer"]:
+                                polygon = polygon.buffer(settings["buffer"])
+                            if settings["inverse"]:
+                                poly_require_list.append(polygon)
+                            else:
+                                poly_remove_list.append(polygon)
                     
                     ### Combining polygons into single shape
-                    union = shapely.unary_union(poly_check_list)
-                    leaflet["union"] = union
+                    remove_union = shapely.unary_union(poly_remove_list)
+                    leaflet["remove_union"] = remove_union
                     
-                    for (slxi, slyi), subleaflet in leaflet["subleaflets"].items():
+                    if poly_require_list:
+                        require_union = shapely.unary_union(poly_require_list)
+                        leaflet["require_union"] = require_union
+                    
+                    for (slxi, slyi, sli), subleaflet in leaflet["subleaflets"].items():
                         ### The subleaflet box bbox polygon
-                        box_poly     = subleaflet["box_poly"]
-                        intersection = shapely.intersection(union, box_poly)
+                        box_poly = subleaflet["box_poly"]
+                        if leaflet["require_union"]:
+                            box_poly = shapely.intersection(leaflet["require_union"], box_poly)
+                        intersection = shapely.intersection(leaflet["remove_union"], box_poly)
                         holed_bbox   = shapely.difference(box_poly, intersection)
                         
                         subleaflet["intersection"] = intersection
                         subleaflet["holed_bbox"]   = holed_bbox
+                        
+                        ### Readjusts the dimensions of the subleaflet
+                        if leaflet["readjust_bbox"]:
+                            new_xmin, new_ymin, new_xmax, new_ymax = subleaflet["holed_bbox"].bounds
+                            subleaflet["xmin"] = new_xmin
+                            subleaflet["ymin"] = new_ymin
+                            subleaflet["xmax"] = new_xmax
+                            subleaflet["ymax"] = new_ymax
+                        
+                    ### Splits subleaflet into multiple subleaflets if the individual parts are not touching
+                    if leaflet["split_bbox"]:
+                        try:
+                            ### Following code can easily encounter problems
+                            ### Using "try" until all potential errors have been handled 
+                            new_subleaflets = {}
+                            new_sli = 0
+                            for (slxi, slyi, sli), subleaflet in leaflet["subleaflets"].items():
+                                if subleaflet["holed_bbox"].geom_type == "Polygon":
+                                    self.print_term("Polygon", debug = True)
+                                    geoms = [subleaflet["holed_bbox"]]
+                                elif subleaflet["holed_bbox"].geom_type == "MultiPolygon":
+                                    self.print_term("MultiPolygon", debug = True)
+                                    geoms = list(subleaflet["holed_bbox"].geoms)
+                                elif subleaflet["holed_bbox"][-1].geom_type == "MultiPolygon":
+                                    self.print_term("list of MultiPolygon", debug = True)
+                                    geoms = list(subleaflet["holed_bbox"][-1].geoms)
+
+                                for geom in geoms:
+                                    new_subleaflet = copy.deepcopy(subleaflet)
+                                    new_subleaflet["original_holed_bbox"] = new_subleaflet["holed_bbox"]
+                                    new_subleaflet["holed_bbox"] = geom
+                                    if leaflet["readjust_bbox"]:
+                                        new_xmin, new_ymin, new_xmax, new_ymax = new_subleaflet["holed_bbox"].bounds
+                                        new_subleaflet["xmin"] = new_xmin
+                                        new_subleaflet["ymin"] = new_ymin
+                                        new_subleaflet["xmax"] = new_xmax
+                                        new_subleaflet["ymax"] = new_ymax
+                                    new_subleaflets[(slxi, slyi, new_sli)] = new_subleaflet
+                                    new_sli += 1
+                            leaflet["subleaflets"] = new_subleaflets
+                        except:
+                            ### If error encounted then don't do it
+                            self.print_term(
+                                "CGSB tried to split the subleaflet bbox but encountered an error.\n",
+                                "This bit of code is prone to errors due to many potential inputs.\n",
+                                "Will continue running without splitting the bbox.",
+                                warn=True
+                            )
             
             holed_subleaflet_bbox_maker_toc = time.time()
             holed_subleaflet_bbox_maker_time = round(holed_subleaflet_bbox_maker_toc - holed_subleaflet_bbox_maker_tic, 4)
@@ -4228,7 +4566,7 @@ class CGSB:
                     else:
                         printer_leaf_name = "Leaflet"
                         
-                    for subleaflet_i, ((slxi, slyi), subleaflet) in enumerate(leaflet["subleaflets"].items()):
+                    for subleaflet_i, ((slxi, slyi, sli), subleaflet) in enumerate(leaflet["subleaflets"].items()):
                         if subleaflet_i != 0:
                             self.print_term("", verbose=5)
                         if len(leaflet["subleaflets"]) > 1:
@@ -4487,9 +4825,11 @@ class CGSB:
                     if (self.verbose == 4 and len(leaflet["subleaflets"]) > 1) or (self.verbose > 4 and len(leaflet["subleaflets"]) == 1):
                         self.print_term("Starting optimization", spaces=2)
                     
-                    for sli, ((slxi, slyi), subleaflet) in enumerate(leaflet["subleaflets"].items()):
+                    for sli, ((slxi, slyi, sli), subleaflet) in enumerate(leaflet["subleaflets"].items()):
                         if self.verbose > 4 and len(leaflet["subleaflets"]) > 1:
                             self.print_term("Starting optimization for subleaflet nr", sli+1, spaces=2, verbose=5)
+                        if self.plot_grid:
+                            self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi, sli)] = {}
                         lipid_names_nlipids_radii = [
                             (
                                 name,
@@ -4541,8 +4881,11 @@ class CGSB:
                         if leaflet["HG_direction"] == "down":
                             sign = -1
                         
-                        grid_points, grid_points_no_random = self.make_rect_grid(leaflet, subleaflet, occupation_modifier)
+                        grid_points, grid_points_no_random, dict_for_plotting = self.make_rect_grid(leaflet, subleaflet, occupation_modifier)
                         grid_points_arr = np.asarray(grid_points)
+                        if self.plot_grid:
+                            for key, vals in dict_for_plotting.items():
+                                self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi, sli)][key] = vals
                         
                         grid_z_value = leaflet["center"][2] + (sign * leaflet["lipid_dimensions"]["zUnderLipCen"])
                         z_values_arr = np.asarray([[grid_z_value] for _ in range(len(grid_points_arr))])
@@ -4571,32 +4914,29 @@ class CGSB:
                             subleaflet["grid_points"] = np.hstack([optimized_grid_points_arr, z_values_arr])
                             
                             if self.plot_grid:
-                                self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi)] = {}
-                                for key in ["prot_points", "prot_Points_buffered", "prot_Points_buffered_union", "prot_poly_points", "alphashape_1", "ConcaveHulls_Polygon_1", "protein_poly"]:
+                                for key in ["prot_points", "prot_Points_buffered", "prot_Points_buffered_union", "prot_poly_points", "alphashape_1", "ConcaveHulls_Polygon_1", "protein_poly", "remove_union", "require_union"]:
                                     if key in leaflet and leaflet[key]:
-                                        self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi)].update({
+                                        self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi, sli)].update({
                                             key: leaflet[key]
                                         })
-#                                         self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi)].update({
-#                                             "prot_points" : leaflet["prot_points"],
-#                                             "alphashape_1" : leaflet["alphashape_1"],
-#                                             "ConcaveHulls_Polygon_1" : leaflet["ConcaveHulls_Polygon_1"],
-#     #                                         "alphashape_2" : leaflet["alphashape_2"],
-#     #                                         "ConcaveHulls_Polygon_2" : leaflet["ConcaveHulls_Polygon_2"],
-#                                             "protein_poly" : leaflet["protein_poly"],
-#                                         })
-
+                                for key in ["original_holed_bbox"]:
+                                    if key in subleaflet and subleaflet[key]:
+                                        self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi, sli)].update({
+                                            key: subleaflet[key]
+                                        })
                                     
-                                self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi)].update({
+                                self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi, sli)].update({
                                     ### Inputs
                                     "lipids"      : lipids,
                                     "bbox_polygon": subleaflet["holed_bbox"],
                                     
-                                    "xdims"       : (subleaflet["xmin"], subleaflet["xmax"]),
-                                    "ydims"       : (subleaflet["ymin"], subleaflet["ymax"]),
-                                    "push_mult"   : leaflet["optim_push_mult"],
-                                    "apl"         : leaflet["apl"],
-                                    "bin_size"    : bin_size,
+                                    "xdims"          : (subleaflet["xmin"], subleaflet["xmax"]),
+                                    "ydims"          : (subleaflet["ymin"], subleaflet["ymax"]),
+                                    "xdims_original" : (subleaflet["xmin_original"], subleaflet["xmax_original"]),
+                                    "ydims_original" : (subleaflet["ymin_original"], subleaflet["ymax_original"]),
+                                    "push_mult"      : leaflet["optim_push_mult"],
+                                    "apl"            : leaflet["apl"],
+                                    "bin_size"       : bin_size,
 
                                     ### Outputs
                                     "grid_points"          : grid_points_arr,
@@ -4618,7 +4958,10 @@ class CGSB:
         xmin, xmax, ymin, ymax = itemgetter("xmin", "xmax", "ymin", "ymax")(subleaflet)
         
         sidelen      = math.sqrt(leaflet["apl"])
+        ### "edge_buffer" uses "occupation_modifier*2" while "mean_lipid_radius" uses only "occupation_modifier"
+        ### Done to ensure lipids are allowed to be placed right near the border
         edge_buffer  = (leaflet["lipid_dimensions"]["lipid_radius"] + max([leaflet["kickx"], leaflet["kicky"]]) + leaflet["plane_buffer"]) * (1+occupation_modifier*2)
+        mean_lipid_radius = (leaflet["lipid_dimensions"]["lipid_radius"] + max([leaflet["kickx"], leaflet["kicky"]]) + leaflet["plane_buffer"]) * (1+occupation_modifier)
         bbox_polygon = subleaflet["holed_bbox"]
         lipids       = subleaflet["lipids"]
         
@@ -4628,102 +4971,182 @@ class CGSB:
         ymax_edge = ymax - edge_buffer
         
         ### Making pointer for when number of points along x/y-axis should be expanded
-        xpoints_ratio = (xmax_edge-xmin_edge)/sidelen
-        ypoints_ratio = (ymax_edge-ymin_edge)/sidelen
-        xsum = round(xpoints_ratio/sum([xpoints_ratio, ypoints_ratio])*1000)
-        ysum = round(ypoints_ratio/sum([xpoints_ratio, ypoints_ratio])*1000)
-        xy_pointer = self.n_list_mixer(["x"]*xsum, ["y"]*ysum)
+        xlines_ideal = (xmax_edge-xmin_edge)/sidelen
+        ylines_ideal = (ymax_edge-ymin_edge)/sidelen
         
-        xpoints = 0
-        ypoints = 0
-        xy_pointer_counter = 0
-        while xpoints * ypoints < len(lipids):
-            if xy_pointer[xy_pointer_counter] == "x":
-                xpoints += 1
-            elif xy_pointer[xy_pointer_counter] == "y":
-                ypoints += 1
-            xy_pointer_counter += 1
-            if xy_pointer_counter == 1000:
-                xy_pointer_counter = 0
+        ratio_tot_ideal = xlines_ideal + ylines_ideal
+        xlines_ratio_ideal = xlines_ideal/ratio_tot_ideal
+        ylines_ratio_ideal = ylines_ideal/ratio_tot_ideal
+        
+        xlines = int(xlines_ideal)
+        ylines = int(ylines_ideal)
+        
+        while xlines * ylines < len(lipids):
+            new_ratio_tot = xlines + ylines
+            if xlines / new_ratio_tot < xlines_ratio_ideal:
+                xlines += 1
+            elif ylines / new_ratio_tot < ylines_ratio_ideal:
+                ylines += 1
+            else:
+                xlines += 1
+        
+        bbox_polygon_BufferedForLineStrings = shapely.buffer(bbox_polygon, -mean_lipid_radius)
+        dict_for_plotting = {"bbox_polygon_BufferedForLineStrings": bbox_polygon_BufferedForLineStrings}
         
         enough_points = False
         while enough_points == False:
-            xlinespace = np.linspace(start=xmin_edge, stop=xmax_edge, num=xpoints, endpoint=True)
-            ylinespace = np.linspace(start=ymin_edge, stop=ymax_edge, num=ypoints, endpoint=True)
-            np.round(
-                np.linspace(start=0, stop=xpoints*ypoints, num=len(lipids), endpoint=False)
-            ).astype(int)
-            grid_points_list = []
-
-            linepoints = []
+            xlinespace, xspace = np.linspace(start=xmin_edge, stop=xmax_edge, num=xlines, endpoint=True, retstep=True)
+            ylinespace, yspace = np.linspace(start=ymin_edge, stop=ymax_edge, num=ylines, endpoint=True, retstep=True)
+            
+            LineStrings            = []
+            LineStringsOverlapping = []
+            LineStringsContained   = []
+            
+            c = 0
             for xval in xlinespace:
-                for yval in ylinespace:
-                    point = (xval, yval)
-                    valid_point = bbox_polygon.contains(shapely.Point(point))
+                top_point = (xval, ylinespace[-1])
+                bot_point = (xval, ylinespace[0])
+                LineString = shapely.LineString([top_point, bot_point])
+                LineStrings.append(LineString)
+                
+                ### Finding parts of LineStrings that are contained within legal area and at least a certain distance from BBOX
+                LineStringContained = shapely.intersection(LineString, bbox_polygon_BufferedForLineStrings)
+                ### If LineStrings are cut into multiple smaller LineStrings
+                if LineStringContained.geom_type == "MultiLineString":
+                    momentary_LineStrings = [LineString for LineString in LineStringContained.geoms]
+                else:
+                    momentary_LineStrings = [LineStringContained]
+                ### Removes "empty" LineStrings
+                momentary_LineStrings = [LineString for LineString in momentary_LineStrings if not LineString.is_empty]
+                LineStringsOverlapping.extend(momentary_LineStrings)
+                
+                ### Checks if any endpoints on LineStrings are too close to each other
+                ### Cuts a portion of each if they are
+                new_momentary_LineStrings = []
+                for LS, LineString in enumerate(momentary_LineStrings):
+                    curr_xs, curr_ys = LineString.xy
+                    curr_xmax, curr_xmin = max(curr_xs), min(curr_xs)
+                    curr_ymax, curr_ymin = max(curr_ys), min(curr_ys)
+                    curr_length = curr_ymax - curr_ymin
+                    if len(new_momentary_LineStrings) > 0:
+                        y_diff = last_ymin - curr_ymax
+                        if y_diff <= yspace:
+                            tot_LS_lengths  = curr_length + last_length
+                            curr_LS_portion = curr_length / tot_LS_lengths
+                            last_LS_portion = last_length / tot_LS_lengths
 
-                    if valid_point:
-                        linepoints.append(point)
-                    elif linepoints != []:
-                        grid_points_list.append(linepoints)
-                        linepoints = []
-                if linepoints != []:
-                    grid_points_list.append(linepoints)
-                    linepoints = []
-            if linepoints != []:
-                grid_points_list.append(linepoints)
-                linepoints = []
-
-            ngridpoints = sum([len(l) for l in grid_points_list])
+                            yspace_diff = yspace - y_diff
+                            curr_cut = curr_LS_portion * yspace_diff
+                            last_cut = last_LS_portion * yspace_diff
+                            if last_cut >= last_length:
+                                ### Remove last LineString if it is too short
+                                new_momentary_LineStrings = new_momentary_LineStrings[:-1]
+                            else:
+                                ### Else cut a part of it off and add it to list
+                                last_ymin += last_cut
+                                last_top_point, last_bot_point = (last_xmax, last_ymax), (last_xmin, last_ymin)
+                                new_last_LS = shapely.LineString([last_top_point, last_bot_point])
+                                new_momentary_LineStrings[-1] = new_last_LS
+                            if curr_cut >= curr_length:
+                                ### If current LineString too short, then just don't do anything
+                                pass
+                            else:
+                                ### Else cut a part of it off and add it to list
+                                curr_ymax -= curr_cut
+                                curr_top_point, curr_bot_point = (curr_xmax, curr_ymax), (curr_xmin, curr_ymin)
+                                new_curr_LS = shapely.LineString([curr_top_point, curr_bot_point])
+                                new_momentary_LineStrings.append(new_curr_LS)
+                        else:
+                            new_momentary_LineStrings.append(LineString)
+                    else:
+                        new_momentary_LineStrings.append(LineString)
+                    
+                    ### Could happen that all LineStrings have been removed due to being too short.
+                    if len(new_momentary_LineStrings) > 0:
+                        last_xs, last_ys = new_momentary_LineStrings[-1].xy
+                        last_xmax, last_xmin = max(last_xs), min(last_xs)
+                        last_ymax, last_ymin = max(last_ys), min(last_ys)
+                        last_length = last_ymax - last_ymin
+                
+                LineStringsContained.extend(new_momentary_LineStrings)
+            
+            dict_for_plotting["LineStrings"]            = LineStrings
+            dict_for_plotting["LineStringsOverlapping"] = LineStringsOverlapping
+            dict_for_plotting["LineStringsContained"]   = LineStringsContained
+            
+            ngridpoints = 0
+            lines_info = []
+            for LineString in LineStringsContained:
+                line_length = LineString.length
+                npoints_on_line = round(line_length // yspace) + 1
+                ngridpoints += npoints_on_line
+                
+                if npoints_on_line > 1:
+                    real_yspace = line_length / (npoints_on_line-1)
+                else:
+                    real_yspace = 0
+                
+                xs, ys = LineString.xy
+                xval = xs[0] # both x-values are the same
+                ymin, ymax = min(ys), max(ys)
+                
+                lines_info.append({
+                    "LineString": LineString,
+                    "xval": xval,
+                    "ymin": ymin,
+                    "ymax": ymax,
+                    "line_length": line_length,
+                    "npoints_on_line": npoints_on_line,
+                    "real_yspace": real_yspace,
+                })
 
             if ngridpoints < len(lipids):
-                if xy_pointer[xy_pointer_counter] == "x":
-                    xpoints += 1
-                elif xy_pointer[xy_pointer_counter] == "y":
-                    ypoints += 1
-                xy_pointer_counter += 1
-                if xy_pointer_counter == 1000:
-                    xy_pointer_counter = 0
+                new_ratio_tot = xlines + ylines
+                if xlines / new_ratio_tot < xlines_ratio_ideal:
+                    xlines += 1
+                elif ylines / new_ratio_tot < ylines_ratio_ideal:
+                    ylines += 1
+                else:
+                    xlines += 1
             else:
                 enough_points = True
         
         ### Finding the points that should be removed due to number of lipids
         ### No duplicate index values as "len(lipids)" is always equal to or smaller than "ngridpoints"
-        point_is = np.round(
-            np.linspace(start=0, stop=ngridpoints, num=len(lipids), endpoint=False)
-        ).astype(int)
-
-        ### Removing points due to number of lipids
-        cur_i = 0
-        grid_points_instructions = []
-        for linepoints_old in grid_points_list:
-            npoints_in_line = 0
-            xvals, yvals = zip(*linepoints_old)
-            xval = np.mean(xvals)
-            ymin, ymax = min(yvals), max(yvals)
-
-            for point in linepoints_old:
-                if cur_i in point_is:
-                    npoints_in_line += 1
-                cur_i += 1
-            if npoints_in_line != 0:
-                grid_points_instructions.append((xval, ymin, ymax, npoints_in_line))
-
-        ### Respacing points on a line due to removal of points
+        while ngridpoints > len(lipids):
+            lines = [line for line in lines_info if line["real_yspace"] != 0]
+            
+            line_smallest_yspace = min(lines, key=lambda line: line["real_yspace"])
+            
+            line_smallest_yspace["npoints_on_line"] -= 1
+            
+            if line_smallest_yspace["npoints_on_line"] > 1:
+                line_smallest_yspace["real_yspace"] = line_smallest_yspace["line_length"] / (line_smallest_yspace["npoints_on_line"]-1)
+            else:
+                line_smallest_yspace["real_yspace"] = 0
+            
+            ngridpoints = sum([line["npoints_on_line"] for line in lines_info])
+                
+        ### Creating the points
         grid_points = []
         grid_points_no_random = []
         rand_force = 1
-        for xval, ymin, ymax, npoints_in_line in grid_points_instructions:
-            new_yvals = np.linspace(start=ymin, stop=ymax, num=npoints_in_line)
-            for yval in new_yvals:
-#                 randx = random.uniform(-leaflet["kickx"]/rand_force, leaflet["kickx"]/rand_force)
-#                 randy = random.uniform(-leaflet["kicky"]/rand_force, leaflet["kicky"]/rand_force)
+        for line in lines_info:
+            xval = line["xval"]
+            if line["real_yspace"] == 0:
+                yvals = [np.mean([line["ymin"], line["ymax"]])]
+            else:
+                yvals = np.linspace(start=line["ymin"], stop=line["ymax"], num=line["npoints_on_line"], endpoint=True)
+            
+            for yval in yvals:
+                point = (xval, yval)
                 randx = random.uniform(-leaflet["kickx"]/rand_force, leaflet["kickx"]/rand_force)
                 randy = random.uniform(-leaflet["kicky"]/rand_force, leaflet["kicky"]/rand_force)
                 grid_points.append((xval+randx, yval+randy))
                 grid_points_no_random.append((xval, yval))
 
 #         return grid_points
-        return grid_points, grid_points_no_random
+        return grid_points, grid_points_no_random, dict_for_plotting
     
     def plane_grid_point_optimizer(self, grid_points, lipid_sizes, polygon, xcenter, ycenter, xlen, ylen, maxsteps, push_tolerance, push_mult, buffer, occupation_modifier, optimize):
 
@@ -5130,8 +5553,8 @@ class CGSB:
                 dist = polygon.boundary.distance(point_Point)
                 point_contained = polygon.contains(point_Point)
 
-#                 eq_dist = lipid_sizes[pi1]*(1+occupation_modifier/2*step_modifier)
                 eq_dist = lipid_sizes[pi1]*(1+occupation_modifier*2)
+#                 eq_dist = lipid_sizes[pi1]*(1+occupation_modifier)
                 
                 ### Lipid contained in legal areas but close to edge
                 if point_contained and dist < eq_dist:
@@ -5206,7 +5629,7 @@ class CGSB:
                         sign = -1
                     leaflet["grid_lipids"] = []
                     
-                    for (slxi, slyi), subleaflet in leaflet["subleaflets"].items():
+                    for (slxi, slyi, sli), subleaflet in leaflet["subleaflets"].items():
                         lipids                    = subleaflet["lipids"]
                         grid_points               = subleaflet["grid_points"]
                         for (l_name, l_radius), (grid_point_x, grid_point_y, grid_point_z) in zip(lipids, grid_points):
@@ -5295,7 +5718,7 @@ class CGSB:
             solvation_tic = time.time()
             self.print_term("------------------------------ SOLVATING SYSTEM", spaces=0, verbose=1)
             solv_beads_for_cell_checker = []
-
+            
             for solvation_i, (solvation_nr, solvation) in enumerate(self.SOLVATIONS.items()):
                 if solvation_i != 0:
                     self.print_term("", verbose=3)
@@ -5355,7 +5778,6 @@ class CGSB:
                                             beads_inside += 1
                                     if beads_inside > beads_total/2:
                                         n_lipids += 1
-                
                 
                 solvent_box_charge = solvent_box_solute_charge + solvent_box_lipids_charge + solvent_box_proteins_charge
                 
@@ -5795,8 +6217,8 @@ class CGSB:
                 if len(self.MEMBRANES) != 0:
                     for memb_key, memb_dict in self.MEMBRANES.items():
                         for leaflet_key, leaflet in memb_dict["leaflets"].items():
-                            lcx, lcy, lcz = leaflet["center"] # Center of leaflet on given axis
-                            llx, lly = leaflet["x"], leaflet["y"] # Length of leaflet in given axis
+                            lcz = leaflet["center"][2]
+                            ### Z-related stuff is always the same for all subleaflets
                             lhydrophob = leaflet["lipid_dimensions"]["zUnderLipCen"] # Height of hydrophobic volume
                             if leaflet["HG_direction"] == "up":
                                 zminbuffer = solvent_buffer
@@ -5804,12 +6226,45 @@ class CGSB:
                             if leaflet["HG_direction"] == "down":
                                 zminbuffer = lhydrophob + solvent_buffer
                                 zmaxbuffer = solvent_buffer
-                                
-                            xmin, xmax = coord_to_indices(lcx, xlen, cx, xreal_gridres, xpoints, llx/2, llx/2)
-                            ymin, ymax = coord_to_indices(lcy, ylen, cy, yreal_gridres, ypoints, lly/2, lly/2)
                             zmin, zmax = coord_to_indices(lcz, zlen, cz, zreal_gridres, zpoints, zminbuffer, zmaxbuffer)
                             
-                            grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
+                            ### Advanced (and slow) solvent-in-membrane prevention method
+                            ### Creates a series of points in 2D and marks matrix coordinates one point at a time
+                            ### Allows hole to be solvated
+                            if leaflet["solvate_empty"] and any([leaflet["remove_union"], leaflet["require_union"]]):
+                                ### The actual leaflet
+                                for (slxi, slyi, sli), subleaflet in leaflet["subleaflets"].items():
+                                    xmin = subleaflet["xmin"] + solvent_buffer/2
+                                    xmax = subleaflet["xmax"] - solvent_buffer/2
+                                    ymin = subleaflet["ymin"] + solvent_buffer/2
+                                    ymax = subleaflet["ymax"] - solvent_buffer/2
+                                    xvals = np.arange(xmin, xmax+solvent_buffer/2, solvent_buffer/2)
+                                    yvals = np.arange(ymin, ymax+solvent_buffer/2, solvent_buffer/2)
+
+                                    for lcx in xvals:
+                                        for lcy in yvals:
+                                            point = (lcx, lcy)
+                                            if subleaflet["holed_bbox"].contains(shapely.Point(point)):
+                                                xmin, xmax = coord_to_indices(lcx, xlen, cx, xreal_gridres, xpoints, solvent_buffer, solvent_buffer)
+                                                ymin, ymax = coord_to_indices(lcy, ylen, cy, yreal_gridres, ypoints, solvent_buffer, solvent_buffer)
+                                                grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
+                                
+                                ### Protein inserted into the leaflet
+                                if leaflet["prot_points"]:
+                                    for lcx, lcy in leaflet["prot_points"]:
+                                        xmin, xmax = coord_to_indices(lcx, xlen, cx, xreal_gridres, xpoints, solvent_buffer*2, solvent_buffer*2)
+                                        ymin, ymax = coord_to_indices(lcy, ylen, cy, yreal_gridres, ypoints, solvent_buffer*2, solvent_buffer*2)
+                                        grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
+                            
+                            ### Simple (and fast) solvent-in-membrane prevention method
+                            ### Simply marks all matrix coordinates overlapping with the membrane
+                            ### Prevents holes from being solvated
+                            else:
+                                lcx, lcy, lcz = leaflet["center"] # Center of leaflet on given axis
+                                llx, lly = leaflet["x"], leaflet["y"] # Length of leaflet in given axis
+                                xmin, xmax = coord_to_indices(lcx, xlen, cx, xreal_gridres, xpoints, llx/2, llx/2)
+                                ymin, ymax = coord_to_indices(lcy, ylen, cy, yreal_gridres, ypoints, lly/2, lly/2)
+                                grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
 
                 ### Prior solvent beads
                 for xpos, ypos, zpos in solv_beads_for_cell_checker:
@@ -6206,9 +6661,8 @@ args, unknown = parser.parse_known_args()
 ##############################
 ### HELP FOR THOSE IN NEED ###
 ##############################
-
 if "help" in given_arguments or len(sys.argv) == 1:
-    print_helper()
+    parser.print_helper()
     sys.exit()
 
 parser_kwargs = {}
