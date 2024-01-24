@@ -6,7 +6,7 @@ CGSB is versatile, fast, easy-to-use, but it also allows for high-level of custo
 
 CGSB is continuously under development and we welcome suggestions for new features. 
 
-![](figures/logo_CGSB.png)
+![](figures/CGSB_logo.png)
 
 ## Citation
 
