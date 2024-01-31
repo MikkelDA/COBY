@@ -6207,7 +6207,7 @@ args, unknown = parser.parse_known_args()
 ### HELP FOR THOSE IN NEED ###
 ##############################
 
-if "help" in given_arguments or len(sys.argv) == 1:
+if "help" in given_arguments or len(given_arguments) == 0:
     parser.print_help()
     sys.exit()
 
