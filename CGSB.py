@@ -6207,9 +6207,14 @@ args, unknown = parser.parse_known_args()
 ### HELP FOR THOSE IN NEED ###
 ##############################
 
-if "help" in given_arguments or len(given_arguments) == 0:
-    parser.print_help()
-    sys.exit()
+if __name__ == "__main__":
+    if "help" in given_arguments or len(given_arguments) == 0:
+        parser.print_help()
+        sys.exit()
+else:
+    if "help" in given_arguments:
+        parser.print_help()
+        sys.exit()
 
 parser_kwargs = {}
 
