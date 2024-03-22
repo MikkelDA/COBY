@@ -38,7 +38,7 @@ For a detailed introduction to the software, please consult [CGSB Documentation]
 
 For a quick reminder of available commands, you can use the [Cheat Sheet](CGSB_Cheat_Sheet.pdf).
 
-A [tutorial](Tutorial) is available as a Jupyter Notebook and it systematically presents build procedures, from very simple to very complex systems.
+Two [tutorials](Tutorial) are available as Jupyter Notebooks, one covering the basics and another covering more advanced functionalities.
 
 It includes (amongst other systems):
 
