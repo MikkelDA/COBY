@@ -10,52 +10,52 @@ It includes (amongst other systems):
 
 * **Simple membrane with protein**: A simple POPC membrane with a protein in solvent (water + 0.15 M NaCl) which explains the various arguments in CGSB
 
-![](figures/GeneralCommandExplanation.png)
+<img src="figures/GeneralCommandExplanation.png" width="500">
 
 * **Asymmetric membrane**: An asymmetric complex membrane (POPC, POPE and CHOL) in solvent with different area per lipid values for each membrane
 
-![](figures/Membranes3_ComplexAsymmetricMembrane.png)
+<img src="figures/Membranes3_ComplexAsymmetricMembrane.png" width="500">
 
 * **Phase separated Membrane**: A phase separated membrane
 
-![](figures/Membranes4_PhaseSeparation.png)
+<img src="figures/Membranes4_PhaseSeparation.png" width="500">
 
 * **Monolayers**: Two monolayers with solvent between them and vacuum over the pbc
 
-![](figures/Membranes5_Monolayers.png)
+<img src="figures/Membranes5_Monolayers.png" width="500">
 
 * **Nanodisc**: A nanodisc with DMPC lipid contained within and with solvent surrounding it
 
-![](figures/Nanodisc.png)
+<img src="figures/Nanodisc.png" width="500">
 
 * **Holes**: A membrane with multiple manually defined holes
 
-![](figures/Holes4_Polygons.png)
+<img src="figures/Holes4_Polygons.png" width="500">
 
 * **Patches**: Multiple manually shaped membrane patches
 
-![](figures/Patches3_MultiplePatches.png)
+<img src="figures/Patches3_MultiplePatches.png" width="500">
 
 * **Matryoshka membrane**: A matryoshka membrane with a protein in the center
 
-![](figures/HolesAndPatches3_MatryoshkaMembrane.png)
+<img src="figures/HolesAndPatches3_MatryoshkaMembrane.png" width="500">
 
 * **Stacked membranes**: Three vertically stacked membranes
 
-![](figures/StackedMembranes1_ThreeBilayers.png)
+<img src="figures/StackedMembranes1_ThreeBilayers.png" width="500">
 
 * **Mixed solvent**: A symmetric membrane solvated with regular and small water beads in specified ratios
 
-![](figures/Solvation4_MixedSolvent.png)
+<img src="figures/Solvation4_MixedSolvent.png" width="500">
 
 * **Phase separated solvent**: A symmetric membrane solvated with two solvent volumes containing different salt concentrations
 
-![](figures/Solvation5_PhaseSeparatedSolvent.png)
+<img src="figures/Solvation5_PhaseSeparatedSolvent.png" width="500">
 
 * **Flooding of imported solutes**: A membrane system that has been flooded with imported solute molecules, followed by solvation
 
-![](figures/Flooding3_ImportMultipleSolutes.png)
+<img src="figures/Flooding3_ImportMultipleSolutes.png" width="500">
 
 * **CGSB logo**: Our logo
 
-![](figures/CGSB_Logo.png)
+<img src="figures/CGSB_Logo.png" width="500">
