@@ -4,7 +4,7 @@ For a detailed introduction to the software, please consult [CGSB Documentation]
 
 For a quick reminder of available commands, you can use the [Cheat Sheet](../CGSB_Cheat_Sheet.pdf).
 
-There are two tutorials available as a Jupyter Notebooks: basic and advanced.
+There are two tutorials available as Jupyter Notebooks, one covering the basics and another covering more advanced functionalities.
 
 It includes (amongst other systems):
 
