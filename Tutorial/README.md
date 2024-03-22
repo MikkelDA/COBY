@@ -19,7 +19,6 @@ It includes (amongst other systems):
 * **Phase separated Membrane**: A phase separated membrane
 
 ![](figures/Membranes4_PhaseSeparation.png)
-![](figures/drawings/Membranes4_PhaseSeparation_Drawing.png)
 
 * **Monolayers**: Two monolayers with solvent between them and vacuum over the pbc
 
@@ -44,7 +43,6 @@ It includes (amongst other systems):
 * **Stacked membranes**: Three vertically stacked membranes
 
 ![](figures/StackedMembranes1_ThreeBilayers.png)
-![](figures/drawings/StackedMembranes1_ThreeBilayers_Drawing.png)
 
 * **Mixed solvent**: A symmetric membrane solvated with regular and small water beads in specified ratios
 
