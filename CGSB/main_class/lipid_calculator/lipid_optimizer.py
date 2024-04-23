@@ -13,8 +13,8 @@ class lipid_optimizer:
                 ### Definitely not the same as insane, but too much has to be changed for it to be possible to make systems identical to insane systems
                 nlipidsx = round(nlipidsx * area_ratio)
                 nlipidsy = round(nlipidsy * area_ratio)
-            max_lipids_possible         = int(nlipidsx) * int(nlipidsy)
             max_lipids_possible_decimal = int(nlipidsx) * int(nlipidsy)
+            max_lipids_possible         = int(nlipidsx) * int(nlipidsy)
         else:
             subleaflet_area = settings["holed_bbox"].area
             max_lipids_possible_decimal = subleaflet_area / settings["apl"]

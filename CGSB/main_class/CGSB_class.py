@@ -381,7 +381,7 @@ class CGSB(
             ### Outputs
             elif key in ["out_all", "o_all"]:
                 ### Cuts the extension if present so that all files can be generated with proper extensions
-                if any(cmd.endswith(string) for string in [".pdb", ".gro", ".top", ".log"]):
+                if any(cmd.lower().endswith(string) for string in [".pdb", ".gro", ".top", ".log"]):
                     cmd = cmd[:-4]
                 self.output_system_pdb_file_name = cmd + ".pdb"
                 self.output_system_gro_file_name = cmd + ".gro"
@@ -389,33 +389,33 @@ class CGSB(
                 self.output_log_file_name        = cmd + ".log"
             
             elif key in ["out_sys", "o_sys"]:
-                if not any([cmd.endswith(i) for i in [".pdb", ".gro"]]):
+                if not any([cmd.lower().endswith(i) for i in [".pdb", ".gro"]]):
                     self.output_system_pdb_file_name = cmd + ".pdb"
                     self.output_system_gro_file_name = cmd + ".gro"
-                elif cmd.endswith(".pdb"):
+                elif cmd.lower().endswith(".pdb"):
                     self.output_system_pdb_file_name = cmd
-                elif cmd.endswith(".gro"):
+                elif cmd.lower().endswith(".gro"):
                     self.output_system_gro_file_name = cmd
                 else:
                     assert False, "Unknown file extension used for 'output_system': " + cmd
                     
             elif key in ["out_pdb", "o_pdb"]:
-                if not cmd.endswith("gro"):
+                if not cmd.lower().endswith(".gro"):
                     cmd = cmd + ".pdb"
-                self.output_system_pdb_file_name = cmd + ".pdb"
+                self.output_system_pdb_file_name = cmd
                     
             elif key in ["out_gro", "o_gro"]:
-                if not cmd.endswith("gro"):
+                if not cmd.lower().endswith(".gro"):
                     cmd = cmd + ".gro"
-                self.output_system_gro_file_name = cmd + ".gro"
+                self.output_system_gro_file_name = cmd
             
             elif key in ["out_top", "o_top"]:
-                if not cmd.endswith(".top"):
+                if not cmd.lower().endswith(".top"):
                     cmd = cmd + ".top"
                 self.output_topol_file_name = cmd
                 
             elif key in ["out_log", "o_log"]:
-                if not cmd.endswith(".log"):
+                if not cmd.lower().endswith(".log"):
                     cmd = cmd + ".log"
                 self.output_log_file_name = cmd
             

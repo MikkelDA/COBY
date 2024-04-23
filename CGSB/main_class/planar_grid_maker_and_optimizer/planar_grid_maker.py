@@ -125,7 +125,9 @@ class planar_grid_maker:
 
                                     else:
                                         optimize = False
-
+                                
+                            else:
+                                optimize = leaflet["optimize"]
 
 
                                 # # else:

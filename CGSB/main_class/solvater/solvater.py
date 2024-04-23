@@ -91,10 +91,11 @@ class solvater:
                 ###########################
                 ### CALCULATING SOLVENT ###
                 ###########################
+                solvent_box_solvent_charge = 0
 
                 ### List used to find the maximum solvent/ion size
                 solvent_radii = []
-                                
+                
                 solvent_radii = [
                     vals.get_radius()
                     for dict_pointer in ["solvent", "pos_ions", "neg_ions"]
@@ -167,14 +168,18 @@ class solvater:
                 for (key, vals), count in zip(solvation["solvent"].items(), sol_counts):
                     vals.count_set(count)
                     sol_charges += vals.count * vals.get_mol_charge()
-                    if not vals.molar_mass and solvation["ionsvol"] == "solv" and not solvation["count"]:
-                        self.print_term("WARNING: Chosen solvent [" + key + "] is missing a 'molar_mass' entry in the solvent defines. Please add it if you wish to use solvent volume for ion concentration.", warn = True)
-                    if not vals.density and solvation["ionsvol"] == "solv" and not solvation["count"]:
-                        self.print_term("WARNING: Chosen solvent [" + key + "] is missing a 'density' entry in the solvent defines. Please add it if you wish to use solvent volume for ion concentration.", warn = True)
-                    if vals.molar_mass and vals.density:
-                        solv_volume += (count * vals.mapping_ratio * vals.molar_mass) / (N_A * vals.density) * 10**-3
+                    ### Only throws warnings if you are actually trying to insert ions
+                    if solvation["pos_ions"] and solvation["neg_ions"]:
+                        if not vals.molar_mass and solvation["ionsvol"] == "solv" and not solvation["count"]:
+                            self.print_term("WARNING: Chosen solvent [" + key + "] is missing a 'molar_mass' entry in the solvent defines. Please add it if you wish to use solvent volume for ion concentration.", warn = True)
+                        if not vals.density and solvation["ionsvol"] == "solv" and not solvation["count"]:
+                            self.print_term("WARNING: Chosen solvent [" + key + "] is missing a 'density' entry in the solvent defines. Please add it if you wish to use solvent volume for ion concentration.", warn = True)
+                        if vals.molar_mass and vals.density:
+                            solv_volume += (count * vals.mapping_ratio * vals.molar_mass) / (N_A * vals.density) * 10**-3
                 
                 self.print_term("Solvent volume:    ", round(solv_volume * 10**24, 3), spaces=2, verbose=2)
+
+                solvent_box_solvent_charge += sol_charges
 
                 def ions_neutraliser(pos_ions, neg_ions, target_charge, current_charge, direction):
                     charge_difference = target_charge - current_charge
@@ -216,7 +221,7 @@ class solvater:
                             furthest_dist_keys = [key for key, dist_from_ratio in dists_from_ratio_sorted][::sign]
                         
                         ### Checks from most underrepresented to most overrepresented if adding another ion
-                        ### would cause the total added charge to become greater that then difference that is being corrected
+                        ### would cause the total added charge to become greater than the difference that is being corrected
                         for key in furthest_dist_keys:
                             if abs(target_charge - current_charge) >= abs(ions[key]["charge"]):
                                 furthest_dist_key = key
@@ -243,47 +248,141 @@ class solvater:
                 elif solvation["ionsvol"] == "box":
                     volume_for_ions = box_volume
 
-                ### First ensures that the ion concentration is equal to salt_molarity
-                pos_counts = solvent_count_calculator(
-                    "pos_ions",
-                    pos_ratios,
-                    volume_for_ions
-                )
-                neg_counts = solvent_count_calculator(
-                    "neg_ions",
-                    neg_ratios,
-                    volume_for_ions
-                )
+                ### Only runs ion-specific calculations if both positive and negative ions are designated.
+                if pos_ratios and neg_ratios:
+                    ### First ensures that the ion concentration is equal to salt_molarity
+                    pos_counts = solvent_count_calculator(
+                        "pos_ions",
+                        pos_ratios,
+                        volume_for_ions
+                    )
                 
-                pos_charges = 0
-                neg_charges = 0
-                
-                ions_dict = {}
-                zipped1 = zip(["pos_ions", "neg_ions"], [pos_counts, neg_counts], [pos_ratios, neg_ratios])
-                for ion_type, ion_counts, ion_ratios in zipped1:
-                    ions_dict[ion_type] = {}
-                    zipped2 = zip(solvation[ion_type].items(), ion_counts, ion_ratios)
-                    for (key, vals), count, ratio in zipped2:
-                        vals.count_set(count)
-                        if ion_type == "pos_ions":
-                            pos_charges += vals.count * vals.get_mol_charge()
-                        elif ion_type == "neg_ions":
-                            neg_charges += vals.count * vals.get_mol_charge()
-                        ions_dict[ion_type][key] = {
-                            "charge": vals.get_mol_charge(),
-                            "ratio": ratio,
-                            "count": vals.count,
-                        }
-                
-                current_charge = solvent_box_charge + sol_charges + pos_charges + neg_charges
-                
-                pos_charges = 0
-                neg_charges = 0
-                
-                if solvation["salt_method"] == "add":
-                    '''
-                    Adds extra ions to neutralize the solvent box
-                    '''
+                    neg_counts = solvent_count_calculator(
+                        "neg_ions",
+                        neg_ratios,
+                        volume_for_ions
+                    )
+                    
+                    pos_charges = 0
+                    neg_charges = 0
+                    
+                    ions_dict = {}
+                    zipped1 = zip(["pos_ions", "neg_ions"], [pos_counts, neg_counts], [pos_ratios, neg_ratios])
+                    for ion_type, ion_counts, ion_ratios in zipped1:
+                        ions_dict[ion_type] = {}
+                        zipped2 = zip(solvation[ion_type].items(), ion_counts, ion_ratios)
+                        for (key, vals), count, ratio in zipped2:
+                            vals.count_set(count)
+                            if ion_type == "pos_ions":
+                                pos_charges += vals.count * vals.get_mol_charge()
+                            elif ion_type == "neg_ions":
+                                neg_charges += vals.count * vals.get_mol_charge()
+                            ions_dict[ion_type][key] = {
+                                "charge": vals.get_mol_charge(),
+                                "ratio": ratio,
+                                "count": vals.count,
+                            }
+                    
+                    current_charge = solvent_box_charge + sol_charges + pos_charges + neg_charges
+                    
+                    pos_charges = 0
+                    neg_charges = 0
+                    
+                    if solvation["salt_method"] == "add":
+                        '''
+                        Adds extra ions to neutralize the solvent box
+                        '''
+                        pos_ions, neg_ions = ions_neutraliser(
+                            ions_dict["pos_ions"],
+                            ions_dict["neg_ions"],
+                            solvation["target_charge"],
+                            current_charge,
+                            direction = "add",
+                        )
+                        zipped = zip(["pos_ions", "neg_ions"], [pos_ions, neg_ions])
+                        for ion_type, ions_dicts in zipped:
+                            for (key, vals), (ions_dict_key, ions_dict_vals) in zip(solvation[ion_type].items(), ions_dicts.items()):
+                                vals.count_set(ions_dict_vals["count"])
+
+                    elif solvation["salt_method"] == "remove":
+                        '''
+                        Removes excess ions to neutralize the solvent box
+                        '''
+                        pos_ions, neg_ions = ions_neutraliser(
+                            ions_dict["pos_ions"],
+                            ions_dict["neg_ions"],
+                            solvation["target_charge"],
+                            -current_charge,
+                            direction = "remove",
+                        )
+                        zipped = zip(["pos_ions", "neg_ions"], [pos_ions, neg_ions])
+                        for ion_type, ions_dicts in zipped:
+                            for (key, vals), (ions_dict_key, ions_dict_vals) in zip(solvation[ion_type].items(), ions_dicts.items()):
+                                vals.count_set(ions_dict_vals["count"])
+                        
+                    elif solvation["salt_method"] == "mean":
+                        '''
+                        Adds ions with either a positive or negative charge and removes the other type
+                        Ends up with ion concentrations in between "add" and "remove"
+                        Does an extra ion addition at the end to ensure no errors have been made when
+                            adding/removing ions.
+                        '''
+                        ### Need to deepcopy, otherwise the nested dictionaries will be modified 
+                        ions_dict_add = copy.deepcopy(ions_dict)
+                        pos_ions_add, neg_ions_add = ions_neutraliser(
+                            ions_dict_add["pos_ions"],
+                            ions_dict_add["neg_ions"],
+                            solvation["target_charge"],
+                            +math.ceil(current_charge/2),
+                            direction = "add",
+                        )
+                        ions_dict_remove = copy.deepcopy(ions_dict)
+                        pos_ions_remove, neg_ions_remove = ions_neutraliser(
+                            ions_dict_remove["pos_ions"],
+                            ions_dict_remove["neg_ions"],
+                            solvation["target_charge"],
+                            -math.floor(current_charge/2),
+                            direction = "remove",
+                        )
+                        
+                        zipped1 = zip(["pos_ions", "neg_ions"],
+                                    [pos_counts, neg_counts],
+                                    [pos_ions_add, neg_ions_add],
+                                    [pos_ions_remove, neg_ions_remove])
+                        for ion_type, ion_counts, ions_dicts_add, ions_dicts_remove in zipped1:
+                            zipped2 = zip(solvation[ion_type].items(),
+                                        ion_counts,
+                                        ions_dicts_add.values(),
+                                        ions_dicts_remove.values())
+                            for (key, vals), count, ions_dict_add_vals, ions_dict_remove_vals in zipped2:
+                                add_diff = abs(count - ions_dict_add_vals["count"])
+                                rem_diff = abs(count - ions_dict_remove_vals["count"])
+                                vals.count_set(count + add_diff - rem_diff)
+
+                    ### Extra ion addtion to prevent errors (e.g. non-neutralized systems)
+                    ions_dict = {}
+                    for ion_type, ion_ratios in zip(["pos_ions", "neg_ions"], [pos_ratios, neg_ratios]):
+                        ions_dict[ion_type] = {}
+                        for (key, vals), ratio in zip(solvation[ion_type].items(), ion_ratios):
+                            
+                            ### Checks if negative number of the ion should be inserted and set to zero if it is the case.
+                            ### Incase "remove" or "mean" methods have removed more ions than should even be present.
+                            if vals.count < 0:
+                                vals.count_set(0)
+
+                            ions_dict[ion_type][key] = {
+                                "charge": vals.get_mol_charge(),
+                                "ratio": ratio,
+                                "count": vals.count,
+                            }
+
+                            if ion_type == "pos_ions":
+                                pos_charges += vals.count * vals.get_mol_charge()
+                            elif ion_type == "neg_ions":
+                                neg_charges += vals.count * vals.get_mol_charge()
+                    
+                    current_charge = solvent_box_charge + sol_charges + pos_charges + neg_charges
+
                     pos_ions, neg_ions = ions_neutraliser(
                         ions_dict["pos_ions"],
                         ions_dict["neg_ions"],
@@ -291,111 +390,21 @@ class solvater:
                         current_charge,
                         direction = "add",
                     )
-                    zipped = zip(["pos_ions", "neg_ions"], [pos_ions, neg_ions])
-                    for ion_type, ions_dicts in zipped:
+
+                    pos_charges = 0
+                    neg_charges = 0
+
+                    for ion_type, ions_dicts in zip(["pos_ions", "neg_ions"], [pos_ions, neg_ions]):
                         for (key, vals), (ions_dict_key, ions_dict_vals) in zip(solvation[ion_type].items(), ions_dicts.items()):
                             vals.count_set(ions_dict_vals["count"])
-
-                elif solvation["salt_method"] == "remove":
-                    '''
-                    Removes excess ions to neutralize the solvent box
-                    '''
-                    pos_ions, neg_ions = ions_neutraliser(
-                        ions_dict["pos_ions"],
-                        ions_dict["neg_ions"],
-                        solvation["target_charge"],
-                        -current_charge,
-                        direction = "remove",
-                    )
-                    zipped = zip(["pos_ions", "neg_ions"], [pos_ions, neg_ions])
-                    for ion_type, ions_dicts in zipped:
-                        for (key, vals), (ions_dict_key, ions_dict_vals) in zip(solvation[ion_type].items(), ions_dicts.items()):
-                            vals.count_set(ions_dict_vals["count"])
+                            if ion_type == "pos_ions":
+                                pos_charges += vals.count * vals.get_mol_charge()
+                            elif ion_type == "neg_ions":
+                                neg_charges += vals.count * vals.get_mol_charge()
                     
-                elif solvation["salt_method"] == "mean":
-                    '''
-                    Adds ions with either a positive or negative charge and removes the other type
-                    Ends up with ion concentrations in between "add" and "remove"
-                    Does an extra ion addition at the end to ensure no errors have been made when
-                        adding/removing ions.
-                    '''
-                    ### Need to deepcopy, otherwise the nested dictionaries will be modified 
-                    ions_dict_add = copy.deepcopy(ions_dict)
-                    pos_ions_add, neg_ions_add = ions_neutraliser(
-                        ions_dict_add["pos_ions"],
-                        ions_dict_add["neg_ions"],
-                        solvation["target_charge"],
-                        +math.ceil(current_charge/2),
-                        direction = "add",
-                    )
-                    ions_dict_remove = copy.deepcopy(ions_dict)
-                    pos_ions_remove, neg_ions_remove = ions_neutraliser(
-                        ions_dict_remove["pos_ions"],
-                        ions_dict_remove["neg_ions"],
-                        solvation["target_charge"],
-                        -math.floor(current_charge/2),
-                        direction = "remove",
-                    )
-                    
-                    zipped1 = zip(["pos_ions", "neg_ions"],
-                                  [pos_counts, neg_counts],
-                                  [pos_ions_add, neg_ions_add],
-                                  [pos_ions_remove, neg_ions_remove])
-                    for ion_type, ion_counts, ions_dicts_add, ions_dicts_remove in zipped1:
-                        zipped2 = zip(solvation[ion_type].items(),
-                                      ion_counts,
-                                      ions_dicts_add.values(),
-                                      ions_dicts_remove.values())
-                        for (key, vals), count, ions_dict_add_vals, ions_dict_remove_vals in zipped2:
-                            add_diff = abs(count - ions_dict_add_vals["count"])
-                            rem_diff = abs(count - ions_dict_remove_vals["count"])
-                            vals.count_set(count + add_diff - rem_diff)
-
-                ### Extra ion addtion to prevent errors (e.g. non-neutralized systems)
-                ions_dict = {}
-                for ion_type, ion_ratios in zip(["pos_ions", "neg_ions"], [pos_ratios, neg_ratios]):
-                    ions_dict[ion_type] = {}
-                    for (key, vals), ratio in zip(solvation[ion_type].items(), ion_ratios):
-                        
-                        ### Checks if negative number of the ion should be inserted and set to zero if it is the case.
-                        ### Incase "remove" or "mean" methods have removed more ions than should even be present.
-                        if vals.count < 0:
-                            vals.count_set(0)
-
-                        ions_dict[ion_type][key] = {
-                            "charge": vals.get_mol_charge(),
-                            "ratio": ratio,
-                            "count": vals.count,
-                        }
-
-                        if ion_type == "pos_ions":
-                            pos_charges += vals.count * vals.get_mol_charge()
-                        elif ion_type == "neg_ions":
-                            neg_charges += vals.count * vals.get_mol_charge()
-                
-                current_charge = solvent_box_charge + sol_charges + pos_charges + neg_charges
-
-                pos_ions, neg_ions = ions_neutraliser(
-                    ions_dict["pos_ions"],
-                    ions_dict["neg_ions"],
-                    solvation["target_charge"],
-                    current_charge,
-                    direction = "add",
-                )
-
-                pos_charges = 0
-                neg_charges = 0
-
-                for ion_type, ions_dicts in zip(["pos_ions", "neg_ions"], [pos_ions, neg_ions]):
-                    for (key, vals), (ions_dict_key, ions_dict_vals) in zip(solvation[ion_type].items(), ions_dicts.items()):
-                        vals.count_set(ions_dict_vals["count"])
-                        if ion_type == "pos_ions":
-                            pos_charges += vals.count * vals.get_mol_charge()
-                        elif ion_type == "neg_ions":
-                            neg_charges += vals.count * vals.get_mol_charge()
+                    solvent_box_solvent_charge += pos_charges + neg_charges
 
                 ### Adding charges from ions and solvent to system charge
-                solvent_box_solvent_charge = sol_charges + pos_charges + neg_charges
                 self.system_charge += solvent_box_solvent_charge
                 
                 self.print_term("", verbose=2)
@@ -408,8 +417,10 @@ class solvater:
                 self.print_term("Solvent box charge after solvent insertion: ", round(solvent_box_charge, 1), spaces=2, verbose=2)
                 self.print_term("New solvent beads:", round(solvent_box_solvent_charge, 1),                   spaces=3, verbose=2)
                 self.print_term("Solvent       (solv):", round(sol_charges, 1),                               spaces=4, verbose=2)
-                self.print_term("Positive ions (pos): ", round(pos_charges, 1),                               spaces=4, verbose=2)
-                self.print_term("Negative ions (neg): ", round(neg_charges, 1),                               spaces=4, verbose=2)
+                if solvation["pos_ions"]:
+                    self.print_term("Positive ions (pos): ", round(pos_charges, 1),                               spaces=4, verbose=2)
+                if solvation["neg_ions"]:
+                    self.print_term("Negative ions (neg): ", round(neg_charges, 1),                               spaces=4, verbose=2)
 
                 ### Randomly shuffle solvent particles for random distribution in box
                 ### Finding number of particles here to prevent extra calls to "get_res_beads_info()" later
