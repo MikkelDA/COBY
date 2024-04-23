@@ -13,7 +13,6 @@ import ast
 
 ### Imports the package part
 from CGSB.__init__ import CGSB
-# from CGSB.help import print_help
 
 #####################################################################
 ########################## HERE BE PARSING ##########################
