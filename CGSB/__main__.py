@@ -12,7 +12,6 @@ import sys
 import ast
 
 ### Imports the package part
-# import CGSB.__init__ as CGSB
 from CGSB.__init__ import CGSB
 
 #####################################################################
@@ -20,7 +19,7 @@ from CGSB.__init__ import CGSB
 #####################################################################
 
 if __name__ == "__main__":
-    ### Custom Action classes for to check if arguments have been given.
+    ### Custom Action classes to check if arguments have been given.
     given_arguments = set()
 
     class IsStored_ActionStore(argparse.Action):
@@ -82,7 +81,7 @@ if __name__ == "__main__":
     ###############################
     ### SPECIAL SYSTEM CREATION ###
     ###############################
-    ### Solvent commands
+    ### Stacked membrane commands
     parser.add_argument("--stacked_membranes", "-stack_memb", "-stacked_membranes", dest = "stacked_membranes_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
     ############
@@ -91,19 +90,19 @@ if __name__ == "__main__":
     ### Topology commands
     parser.add_argument("--itp_input", "-itp_input", "-itp_in", dest = "itp_input_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
-    ### Import commands
+    ### Molecule structure import commands
     parser.add_argument("--molecule_import", "-molecule_import", dest = "molecule_import_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
-    ### Import commands
+    ### Molecule definition import commands
     parser.add_argument("--molecule_definition", "-molecule_definition", dest = "molecule_definition_cmds", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
-    ### Plotting command
+    ### Plotting command. Developer feature to test different algorithms.
     parser.add_argument("--plot_grid", "-plot_grid", "-plot", dest = "plot_grid_cmd", action=IsStored_ActionStore)
 
     ### Pickle commands
     parser.add_argument("--pickle", "-pickle", dest = "pickle_cmd", action=IsStored_ActionStore)
 
-    ### Whether to backup files i they would be overwritten
+    ### Whether to backup files if they would be overwritten
     parser.add_argument("--backup", "-backup", dest = "backup_cmd", action=IsStored_ActionStore)
 
     ### Random seed
@@ -161,10 +160,10 @@ if __name__ == "__main__":
     ### PRINTING ###
     ################
     ### Prints
-    parser.add_argument("--print_quiet",    "-quiet",    dest = "quiet",    action=IsStored_ActionStore)
-    parser.add_argument("--print_debug",    "-debug",    dest = "debug",    action=IsStored_ActionStore)
-    parser.add_argument("--print_extra",    "-extra",    dest = "extra",    action=IsStored_ActionStore)
-    parser.add_argument("--print_warnings", "-warn",     dest = "warnings", action=IsStored_ActionStore)
+    parser.add_argument("--print_quiet",    "-quiet",          dest = "quiet",    action=IsStored_ActionStore)
+    parser.add_argument("--print_debug",    "-debug",          dest = "debug",    action=IsStored_ActionStore)
+    parser.add_argument("--print_extra",    "-extra",          dest = "extra",    action=IsStored_ActionStore)
+    parser.add_argument("--print_warnings", "-warn",           dest = "warnings", action=IsStored_ActionStore)
     parser.add_argument("--verbose",        "-verbose", "-v",  dest = "verbose",  action=IsStored_ActionStore)
 
     ### ### Parser for handling '-f' when importing module to Jupyter

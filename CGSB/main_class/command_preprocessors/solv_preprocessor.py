@@ -279,12 +279,23 @@ class solv_preprocessor:
                 types_to_be_processed = []
                 if solv_dict["solvent_preprocessing"]:
                     types_to_be_processed.extend([("solvent", molecules) for molecules in solv_dict["solvent_preprocessing"]])
+                
+                ### Error out if positive OR negative ions have been set but not both. (XNOR gate)
+                assert bool(solv_dict["pos_ions_preprocessing"]) == bool(solv_dict["neg_ions_preprocessing"]), "\n".join([
+                    "You have given either positive or negative ions without specifying the other.",
+                    "If you wish to neutralize using ions then you must provide both positive and negative ions.",
+                    "Ions can be inserted without neutralization at a given concentration by using their automatically generated parameter libraries as shown in the examples below.",
+                    "    " + "Positive ions: 'solvent:CL:params:pos_ions solv_molarity:0.5' (inserts CL ions at a concentration of 0.5 mol/L)",
+                    "    " + "Negative ions: 'solvent:NA:params:neg_ions solv_molarity:0.5' (inserts NA ions at a concentration of 0.5 mol/L)",
+                    "All positive and negative ions in the molecule definitions are added to the 'pos_ions' and 'neg_ions' parameter libraries automatically.",
+                ])
+                    
                 if solv_dict["pos_ions_preprocessing"]:
                     types_to_be_processed.extend([("pos_ions", molecules) for molecules in solv_dict["pos_ions_preprocessing"]])
                 if solv_dict["neg_ions_preprocessing"]:
                     types_to_be_processed.extend([("neg_ions", molecules) for molecules in solv_dict["neg_ions_preprocessing"]])
-                    
-                ### ### Ion processing
+                
+                ### ### Designated solvent, solute and ion preprocessing
                 for solv_type, sub_cmd in types_to_be_processed:
 
                     name = False
