@@ -6,7 +6,7 @@ COBY is versatile, fast, easy-to-use, but it also allows for high-level of custo
 
 COBY is continuously under development and we welcome suggestions for new features. 
 
-![](https://github.com/MikkelDA/CGSB/raw/master/figures/CGSB_logo.png)
+![](https://github.com/MikkelDA/COBY/raw/master/figures/COBY_Logo.png)
 
 ## Citation
 
@@ -40,5 +40,5 @@ It includes (amongst other systems):
 
 COBY is preserved under the [Apache License 2.0](https://github.com/MikkelDA/COBY/blob/main/LICENSE).
 
-![](https://github.com/MikkelDA/CGSB/raw/master/figures/membrane_protein.png)
+![](https://github.com/MikkelDA/COBY/raw/master/figures/membrane_protein.png)
 
