@@ -1,14 +1,14 @@
-# CGSB Tutorial
+# COBY Tutorial
 
-For a detailed introduction to the software, please consult [CGSB Documentation](../CGSB_Documentation.pdf).
+For a detailed introduction to the software, please consult [COBY Documentation](../COBY_Documentation.pdf).
 
-For a quick reminder of available commands, you can use the [Cheat Sheet](../CGSB_Cheat_Sheet.pdf).
+For a quick reminder of available commands, you can use the [Cheat Sheet](../COBY_Cheat_Sheet.pdf).
 
 There are two tutorials available as Jupyter Notebooks, one covering the basics and another covering more advanced functionalities.
 
 It includes (amongst other systems):
 
-* **Simple membrane with protein**: A simple POPC membrane with a protein in solvent (water + 0.15 M NaCl) which explains the various arguments in CGSB
+* **Simple membrane with protein**: A simple POPC membrane with a protein in solvent (water + 0.15 M NaCl) which explains the various arguments in COBY
 
 <img src="figures/GeneralCommandExplanation.png" width="500">
 
@@ -56,6 +56,6 @@ It includes (amongst other systems):
 
 <img src="figures/Flooding3_ImportMultipleSolutes.png" width="500">
 
-* **CGSB logo**: Our logo
+* **COBY logo**: Our logo
 
-<img src="figures/CGSB_Logo.png" width="500">
+<img src="figures/COBY_Logo.png" width="500">
