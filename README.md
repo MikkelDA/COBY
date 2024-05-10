@@ -18,7 +18,7 @@ Andreasen _et al._ (2024) TBD.
 
 **Version 1 - Using pip (requires python>=3.9)**
 
-    conda env create -n COBY python==3.9 ipykernel
+    conda create --name COBY python==3.9 ipykernel
 
     conda activate COBY
 
