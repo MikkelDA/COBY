@@ -16,27 +16,9 @@ Andreasen _et al._ (2024) TBD.
 
 ## Installation 
 
-**Version 1 - Using pip**
+**Version 1 - Using pip (requires python>=3.9)**
 
     pip install COBY
-
-**Version 2 - Using .yml**
-
-    conda env create -f environment.yml 
-
-    conda activate COBY
-
-    python -m ipykernel install --user --name=COBY
-
-**Version 3 - Manual installation**
-
-    conda create --name COBY python==3.9
-
-    conda activate COBY
-
-    pip install numpy==1.21.5 scipy==1.7.3 alphashape matplotlib ipykernel ipywidgets
-
-    python -m ipykernel install --user --name=COBY
 
 ## Basic usage 
 
