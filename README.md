@@ -18,7 +18,15 @@ Andreasen _et al._ (2024) TBD.
 
 **Version 1 - Using pip (requires python>=3.9)**
 
+    conda env create -n COBY python==3.9 ipykernel
+
+    conda activate COBY
+
     pip install COBY
+
+    python -m ipykernel install --user --name=COBY
+
+Ipykernel allows the user to use COBY environment within the Jupyter notebook.
 
 ## Basic usage 
 
