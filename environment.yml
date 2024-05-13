@@ -1,4 +1,4 @@
-name: CGSB
+name: COBY
 channels:
   - conda-forge
   - defaults

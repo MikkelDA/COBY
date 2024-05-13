@@ -16,27 +16,17 @@ Andreasen _et al._ (2024) TBD.
 
 ## Installation 
 
-**Version 1 - Using pip**
+**Version 1 - Using pip (requires python>=3.9)**
+
+    conda create --name COBY python==3.9 ipykernel
+
+    conda activate COBY
 
     pip install COBY
 
-**Version 2 - Using .yml**
+    python -m ipykernel install --user --name=COBY
 
-    conda env create -f environment.yml 
-
-    conda activate CGSB
-
-    python -m ipykernel install --user --name=CGSB
-
-**Version 3 - Manual installation**
-
-    conda create --name CGSB python==3.9
-
-    conda activate CGSB
-
-    pip install numpy==1.21.5 scipy==1.7.3 alphashape matplotlib ipykernel ipywidgets
-
-    python -m ipykernel install --user --name=CGSB
+Ipykernel allows the user to use COBY environment within the Jupyter notebook.
 
 ## Basic usage 
 
