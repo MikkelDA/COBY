@@ -57,9 +57,9 @@ class solv_preprocessor:
                     
                     "params": False, # False or str
                     "bead_radius": 0.264, # [nm] converted to [Å] # Used for volume calculations
-                    "gridres": 0.264, # [nm] converted to [Å] # 1.32
+                    "gridres": 0.264, # [nm] converted to [Å] # 2.64
                     
-                    "WR": 0.264, # [nm] converted to [Å]
+                    "WR": 0.264, # [nm] converted to [Å] # Deprecated value (i think). Should be deleted but need to make sure.
                     "buffer": 0.2, # [nm] converted to [Å]
                     "protein_extra_buffer": 0.2, # [nm] converted to [Å]
                     "lipid_extra_buffer": 0, # [nm] converted to [Å]

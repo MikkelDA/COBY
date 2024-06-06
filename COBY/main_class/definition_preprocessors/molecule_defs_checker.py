@@ -83,6 +83,11 @@ class molecule_defs_checker(molecule_beads_checker, rotation_matrix_from_vectors
             ])
             residues_dict = cur_dict["residues"]
         
+        ### Ensures that "beads" are always a tuple of strings rather than an individual string
+        for res_nr, res_dict in enumerate(residues_dict):
+            if type(res_dict["beads"]) == str:
+                residues_dict[res_nr]["beads"] = (res_dict["beads"],)
+
         ### Molecule-wide charges
         if "charges" in cur_dict.keys():
 
@@ -160,7 +165,7 @@ class molecule_defs_checker(molecule_beads_checker, rotation_matrix_from_vectors
                 if res_nr not in charge_dict.keys():
                     charge_dict[res_nr] = {}
                 charge_dict[res_nr][bead_nr] = charge
-        
+            
         self.print_term("    ", "Residue dictionary", residues_dict, debug=True)
 
         ### Residue-specific charges

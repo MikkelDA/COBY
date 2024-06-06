@@ -27,11 +27,11 @@ class make_rect_grid_lines_based:
         ymax_edge = ymax - edge_buffer
 
         ### In case membranes are very narrow and edges end up outside the opposide membrane edge
-        if xmin_edge < xmax or xmax_edge > xmin:
+        if xmin_edge >= xmax or xmax_edge <= xmin:
             xmin_edge = xmin
             xmax_edge = xmax
 
-        if ymin_edge < ymax or ymax_edge > ymin:
+        if ymin_edge >= ymax or ymax_edge <= ymin:
             ymin_edge = ymin
             ymax_edge = ymax
         

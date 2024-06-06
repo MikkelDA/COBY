@@ -70,7 +70,8 @@ class itp_reader:
                     
                     ### Adds include statement to written topology file
                     if recursion_layer == 0 and write_includes:
-                        self.TOP_include_statements.append(line)
+                        inc_statement = '#include "{inc_path}"'.format(inc_path=inc_path)
+                        self.TOP_include_statements.append(inc_statement)
                     
                     self.itp_reader(inc_path, recursion_layer = recursion_layer+1, write_includes = write_includes)
                 
