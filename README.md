@@ -4,7 +4,7 @@ The program as well as document and a tutorial is avialable on the [GitHub](http
 
 COBY is a Python-based software for building flat membranes in coarse-grained resolution. It handles asymmetric membranes, phase-separated systems, multiple bilayers, protein insertion, solvation and flooding with one or multiple solute molecules of choice.
 
-COBY is versatile, fast, easy-to-use, but it also allows for high-level of customisation. It can be used either as a **Python package** or directly from the **terminal command line**. It neatly handles multiple parameter libraries (even within the same system), making it developer-friendly. 
+COBY is versatile, fast, easy-to-use and it also allows for high-level of customisation. It can be used either as a **Python package** or directly from the **terminal command line**. It neatly handles multiple parameter libraries (even within the same system), making it developer-friendly. 
 
 COBY is continuously under development and we welcome suggestions for new features. 
 

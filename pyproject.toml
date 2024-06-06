@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "COBY"
+version = "0.1.4"
+authors = [
+  { name="Andreasen, M.D.", email="mdahlandreasen@hotmail.com" },
+]
+description = "Build coarse-grained molecular systems"
+readme = "README.md"
+keywords = ["molecular", "dynamics", "system", "building", "martini"]
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+]
+dependencies = [
+    "alphashape",
+    "shapely",
+]
+
+[project.urls]
+Repository = "https://github.com/MikkelDA/COBY"
+
