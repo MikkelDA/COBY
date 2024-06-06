@@ -88,7 +88,7 @@ solvent_defs[params].update({
 #                 "charges": (4, -1), # Bead nr 4 has a charge of -1 (E.g. Bead "R1A4")
 #             },
 #         ],
-#         "mapping_ratio": 1, # Not strictly needed here as the mapping ratio is assumed to be 1
+#         "mapping_ratio": 1, # Not strictly needed here as the mapping ratio is assumed to be 1, but shown for clarity
 #         ### Alternative way to set charges (residue nr, bead nr, charge)
 #         # "charges": ((0, 1, 1), (1, 4, -1)), # Beads "R0A1" and "R1A4"
 #     },
