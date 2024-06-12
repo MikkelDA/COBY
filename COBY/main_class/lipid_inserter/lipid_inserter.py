@@ -18,6 +18,9 @@ class lipid_inserter:
                         sign = -1
                     leaflet["grid_lipids"] = []
                     
+                    ### Faster to have specific variable than using dictionary lookup for each lipid
+                    rotate_lipids = leaflet["rotate_lipids"]
+
                     for (slxi, slyi, sli), subleaflet in leaflet["subleaflets"].items():
                         lipids      = subleaflet["lipids"]
                         grid_points = subleaflet["grid_points"]
@@ -28,7 +31,10 @@ class lipid_inserter:
                                 "grid_point_y": grid_point_y,
                                 "grid_point_z": grid_point_z,
                             })
-                            random_rotaion_angle = random.uniform(0, 360)
+                            if rotate_lipids:
+                                random_rotaion_angle = random.uniform(0, 360)
+                            else:
+                                random_rotaion_angle = 0
                             for x, y, z in leaflet["lipids"][l_name].get_beads("xyz"):
                                 nx, ny, nz = self.rotate_point(x, y, z, 0, 0, random_rotaion_angle)
                                 new_x.append(nx)

@@ -88,6 +88,9 @@ class memb_preprocessor:
                         
                         "hole": [],
                         "patch": [],
+
+                        ### Misc
+                        "rotate_lipids": True, # Sets whether lipids should be randomly rotated or not
                     }
                 }
                 hole_types = ["circle", "ellipse", "square", "rectangle", "polygon"]
@@ -592,6 +595,10 @@ class memb_preprocessor:
                     ### Used for nanodiscs. Sets whether the resulting membrane should be inside or outside of a protein
                     elif sub_cmd[0].lower() == "inside_protein":
                         settings_dict["membrane"]["inside_protein"] = ast.literal_eval(sub_cmd[1])
+                    
+                    ### Sets whether lipids should be rotated or not [True/False]
+                    elif sub_cmd[0].lower() == "rotate_lipids":
+                        settings_dict["membrane"]["rotate_lipids"] = ast.literal_eval(sub_cmd[1])
                     
                     elif sub_cmd[0].lower() == "lipid":
                         if "lipids_preprocessing" not in settings_dict[dict_target].keys():

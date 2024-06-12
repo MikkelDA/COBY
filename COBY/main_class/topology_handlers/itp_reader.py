@@ -58,11 +58,17 @@ class itp_reader:
                 
                 ### Checks for "#ifdef" and "#ifndef" statements
                 elif line_values[0] in ["#ifdef", "#ifndef"]:
-                    itp_if = tuple(line)
-                elif line_values[0] == "#else":
-                    itp_if = (itp_if, line[0])
+                    itp_if = True
+                    # itp_if = tuple(line)
+                # elif line_values[0] == "#else":
+                #     itp_if = (itp_if, line[0])
                 elif line_values[0] == "#endif":
                     itp_if = False
+
+                ### Right now just ignore ifdefs/ifndefs as they are not used for anything anyways
+                ### If reallowed, then need to add fix for "file not found" bug which happens if a file is asked to be included inside an ifdef statement.
+                elif itp_if:
+                    continue
 
                 ### Recursively calls the function for '#include' statements
                 elif line.startswith("#include"):
@@ -101,8 +107,8 @@ class itp_reader:
                 
                 elif topology_type == "atoms":
                     entry_id = line_values[0]
-                    self.itp_moleculetypes[moleculetype].add_entry(topology_type=topology_type, entry=line_values, entry_id=entry_id, itp_if=itp_if, itp_defs=self.itp_defs)
+                    self.itp_moleculetypes[moleculetype].add_entry(topology_type=topology_type, entry=line_values, entry_id=entry_id, itp_defs=self.itp_defs)#, itp_if=itp_if)
                 
                 elif topology_type in interactions_name_list:
                     entry_id = line_values[0]
-                    self.itp_moleculetypes[moleculetype].add_entry(topology_type=topology_type, entry=line_values, itp_if=itp_if, itp_defs=self.itp_defs)
+                    self.itp_moleculetypes[moleculetype].add_entry(topology_type=topology_type, entry=line_values, itp_defs=self.itp_defs)#, itp_if=itp_if)
