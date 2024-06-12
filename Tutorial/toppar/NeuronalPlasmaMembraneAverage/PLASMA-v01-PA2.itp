@@ -4085,83 +4085,83 @@ POP3               1
 
 ; Cholesterol: 
 
-#ifdef FLEXIBLE
-
-;;; TOPOLOGY FOR CHOLESTEROL
-;;; 2010/09/22
-
-; Please cite:
+;#ifdef FLEXIBLE
 ;
-;   S.J. Marrink, A.H. de Vries, T.A. Harroun, J. Katsaras, S.R. Wassall.
-;  Cholesterol shows preference for the interior of polyunsaturated lipid membranes.
-;  JACS, 130:10-11, 2008.
+;;;; TOPOLOGY FOR CHOLESTEROL
+;;;; 2010/09/22
 ;
-; This topology is stable with an integration timestep of 30 fs
-
-[ moleculetype ]
-; molname  nrexcl
-  CHOL     1
-
-[ atoms ]
-; heavier cholesterol is more stable
-; 54.0 matches the 3/4th rule of 72.0
-; i type resnr residue atom cgnr charge mass
-  1 SP1  1     CHOL    ROH   1   0.0    54.0
-  2 SC1  1     CHOL    R1    2   0.0    54.0
-  3 SC3  1     CHOL    R2    3   0.0    54.0
-  4 SC1  1     CHOL    R3    4   0.0    54.0
-  5 SC1  1     CHOL    R4    5   0.0    54.0
-  6 SC1  1     CHOL    R5    6   0.0    54.0
-  7 SC1  1     CHOL    C1    7   0.0    54.0
-  8  C1  1     CHOL    C2    8   0.0    72.0
-
-[ bonds ]
-; i  j  funct  length  force
-  1  2  1      0.242   20000.0
-  2  3  1      0.260   20000.0
-  2  4  1      0.341   20000.0
-  4  6  1      0.213   20000.0
-  4  7  1      0.544   20000.0
-  5  6  1      0.203   20000.0
-  6  7  1      0.368   20000.0
-  7  8  1      0.425    1250.0
-
-[ constraints ]
-; cholesterol frame constraint
-; i  j  funct  length
-  1  3  1      0.493
-  1  4  1      0.604
-  3  4  1      0.272
-  3  5  1      0.346
-  4  5  1      0.294
-  5  7  1      0.406
-
-[ angles ]
-; i  j  k  funct  angle  force
-  4  7  8  2      180.0  25.0
-
-[ dihedrals ]
-; i  j  k  l  funct  angle  force
-  1  3  5  7  2        0.0  100.0
-  1  3  5  4  2        0.0  100.0
-  1  4  5  3  2        0.0  100.0
-  4  7  5  3  2        0.0  100.0
-  3  5  7  4  2        0.0  100.0
-  2  1  3  4  2      -45.0  300.0
-  2  4  3  1  2       45.0  300.0
-  6  4  5  7  2      -45.0  300.0
-  6  7  5  4  2       45.0  300.0
-
-[ exclusions ]
-; i  j  k  ...
-  1  2  3  4  5  6  7
-  2  3  4  5  6  7
-  3  4  5  6  7
-  4  5  6  7
-  5  6  7
-  6  7
-
-#else
+;; Please cite:
+;;
+;;   S.J. Marrink, A.H. de Vries, T.A. Harroun, J. Katsaras, S.R. Wassall.
+;;  Cholesterol shows preference for the interior of polyunsaturated lipid membranes.
+;;  JACS, 130:10-11, 2008.
+;;
+;; This topology is stable with an integration timestep of 30 fs
+;
+;[ moleculetype ]
+;; molname  nrexcl
+;  CHOL     1
+;
+;[ atoms ]
+;; heavier cholesterol is more stable
+;; 54.0 matches the 3/4th rule of 72.0
+;; i type resnr residue atom cgnr charge mass
+;  1 SP1  1     CHOL    ROH   1   0.0    54.0
+;  2 SC1  1     CHOL    R1    2   0.0    54.0
+;  3 SC3  1     CHOL    R2    3   0.0    54.0
+;  4 SC1  1     CHOL    R3    4   0.0    54.0
+;  5 SC1  1     CHOL    R4    5   0.0    54.0
+;  6 SC1  1     CHOL    R5    6   0.0    54.0
+;  7 SC1  1     CHOL    C1    7   0.0    54.0
+;  8  C1  1     CHOL    C2    8   0.0    72.0
+;
+;[ bonds ]
+;; i  j  funct  length  force
+;  1  2  1      0.242   20000.0
+;  2  3  1      0.260   20000.0
+;  2  4  1      0.341   20000.0
+;  4  6  1      0.213   20000.0
+;  4  7  1      0.544   20000.0
+;  5  6  1      0.203   20000.0
+;  6  7  1      0.368   20000.0
+;  7  8  1      0.425    1250.0
+;
+;[ constraints ]
+;; cholesterol frame constraint
+;; i  j  funct  length
+;  1  3  1      0.493
+;  1  4  1      0.604
+;  3  4  1      0.272
+;  3  5  1      0.346
+;  4  5  1      0.294
+;  5  7  1      0.406
+;
+;[ angles ]
+;; i  j  k  funct  angle  force
+;  4  7  8  2      180.0  25.0
+;
+;[ dihedrals ]
+;; i  j  k  l  funct  angle  force
+;  1  3  5  7  2        0.0  100.0
+;  1  3  5  4  2        0.0  100.0
+;  1  4  5  3  2        0.0  100.0
+;  4  7  5  3  2        0.0  100.0
+;  3  5  7  4  2        0.0  100.0
+;  2  1  3  4  2      -45.0  300.0
+;  2  4  3  1  2       45.0  300.0
+;  6  4  5  7  2      -45.0  300.0
+;  6  7  5  4  2       45.0  300.0
+;
+;[ exclusions ]
+;; i  j  k  ...
+;  1  2  3  4  5  6  7
+;  2  3  4  5  6  7
+;  3  4  5  6  7
+;  4  5  6  7
+;  5  6  7
+;  6  7
+;
+;#else
 
 ;;; ALTERNATIVE TOPOLOGY FOR CHOLESTEROL USING VIRTUAL SITES 
 ;;; 2013/08/20
@@ -4224,4 +4224,4 @@ POP3               1
   5  6  7
   6  7
 
-#endif
+;#endif
