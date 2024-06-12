@@ -16,7 +16,7 @@ Andreasen _et al._ (2024) TBD.
 
 ## Installation 
 
-**Version 1 - Using pip (requires python>=3.9)**
+**Using pip (requires python>=3.9)**
 
     conda create --name COBY python==3.9 ipykernel
 
