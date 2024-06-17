@@ -109,6 +109,7 @@ class COBY(
             "dihedraltypes":   {},
             "constrainttypes": {},
         }
+        self.itp_defs_all_defnames  = set()
         self.itp_moleculetypes      = {}
         self.ITP_INPUT_cmds         = []
         self.TOP_include_statements = []

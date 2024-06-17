@@ -45,7 +45,7 @@ class itp_reader:
         with open(itp_file_dest, "r") as input_file:
             moleculetype = False
             topology_type = False
-            itp_if = False
+            itp_if_lineskip = False
 
             for line_nr, line in enumerate(input_file):
                 line = line.split(";")[0] # Removes comments
@@ -57,17 +57,22 @@ class itp_reader:
                     continue
                 
                 ### Checks for "#ifdef" and "#ifndef" statements
-                elif line_values[0] in ["#ifdef", "#ifndef"]:
-                    itp_if = True
-                    # itp_if = tuple(line)
-                # elif line_values[0] == "#else":
-                #     itp_if = (itp_if, line[0])
-                elif line_values[0] == "#endif":
-                    itp_if = False
+                elif line_values[0] in ["#ifdef", "#ifndef", "#else", "#endif"]:
+                    ### If "#ifdef" and not defined then skip lines
+                    if line_values[0] == "#ifdef" and line_values[1] not in self.itp_defs_all_defnames:
+                        itp_if_lineskip = True
 
-                ### Right now just ignore ifdefs/ifndefs as they are not used for anything anyways
-                ### If reallowed, then need to add fix for "file not found" bug which happens if a file is asked to be included inside an ifdef statement.
-                elif itp_if:
+                    ### If "#ifndef" and defined then skip lines
+                    elif line_values[0] == "#ifndef" and line_values[1] in self.itp_defs_all_defnames:
+                        itp_if_lineskip = True
+
+                    ### Else don't skip lines
+                    ### Activates both if any of the above are False or if the line is "#else" or "#endif"
+                    else:
+                        itp_if_lineskip = False
+
+                ### Skips if "#ifdef" or "#ifndef" should not be processed
+                elif itp_if_lineskip:
                     continue
 
                 ### Recursively calls the function for '#include' statements
@@ -99,6 +104,7 @@ class itp_reader:
                 ### '#defines'
                 elif topology_type in types_name_list and line.startswith("#define"):
                     self.itp_defs[topology_type][line_values[1]] = line_values[2:]
+                    self.itp_defs_all_defnames.add(line_values[1])
 
                 elif topology_type == "moleculetype":
                     ### Second value is the number of excluded neighbors. We don't need to think about that.

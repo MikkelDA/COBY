@@ -9,8 +9,6 @@ class gro_reader:
         processed_file = {}
         atom_nr = 0
         with open(gro_file_dest, "r") as input_file:
-            file_length = len(input_file.readlines())
-        with open(gro_file_dest, "r") as input_file:
             for line_nr, line in enumerate(input_file):
                 if line_nr == 0:
                     continue
