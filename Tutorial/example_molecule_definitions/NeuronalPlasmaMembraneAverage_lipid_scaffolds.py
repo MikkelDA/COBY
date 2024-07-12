@@ -20,13 +20,12 @@ lysephospholipid_tails = {
 }
 
 ### Phospholipids with simple head structures
-"""
-                    B15-B16-B17-B18-B19-B20
-                   /
-   H02   H05    L08
-  /  |   |  \    |
-H01-H03-H04-H06-L07-A09-A10-A11-A12-A13-A14
-"""
+#
+#                     B15-B16-B17-B18-B19-B20
+#                    /
+#    H02   H05    L08
+#   /  |   |  \    |
+# H01-H03-H04-H06-L07-A09-A10-A11-A12-A13-A14
 
 phospholipid_heads_simple = {
     "PA": "    -     -     -     -     -   PO4   GL1   GL2",
@@ -56,6 +55,7 @@ lipid_scaffolds[(lipid_type, params)]["lipids"].update(diacyl_glycerols_generate
 
 ############################################### INOSITOLLIPIDS
 # 1,2,3 - is the inositol and 4 is the phosphate that links to the tail part.
+#
 #  5
 #   \
 #  6-2-1-4-8--10-11-12-13-14-15
@@ -96,13 +96,12 @@ sphingomyelin_tails = {
 }
 
 ### Phospholipids with simple head structures
-"""
-                    B15-B16-B17-B18-B19-B20
-                   /
-   H02   H05    L08
-  /  |   |  \    |
-H01-H03-H04-H06-L07-A09-A10-A11-A12-A13-A14
-"""
+#
+#                     B15-B16-B17-B18-B19-B20
+#                    /
+#    H02   H05    L08
+#   /  |   |  \    |
+# H01-H03-H04-H06-L07-A09-A10-A11-A12-A13-A14
 
 sphingomyelin_heads = {
     "SM": "    -     -     -   NC3    -   PO4   AM1   AM2",
@@ -135,6 +134,7 @@ lipid_scaffolds[(lipid_type, params)]["lipids"].update(sphingomyelins_generated)
 # 12-10-9-7-6-4-3-1--18--26-27-28-29-30-31
 #  |/   |/  |/  |/    |
 #  11   8   5   2    19--20-21-22-23-24-25 
+
 lipid_type, params = "glycolipids", "IngolfssonMembranes"
 lipid_scaffolds[(lipid_type, params)] = {}   #  H01   H02   H03   H04   H05   H06   L07   L08   A09   A10   A11   A12   A13   A14   B15   B16   B17   B18   B19   B20
 lipid_scaffolds[(lipid_type, params)]["x"] = (    0,  .5,   0,   0,  .5,  0,  0, .5,  0,    0,   .5,    0,    0,    0,   0,    0,    0,    0,   .5,   0,   0,   0,   0,   0,   0,   1,   1,   1,   1,   1,   1)
