@@ -8,7 +8,7 @@ from COBY.main_class.definition_preprocessors.molecule_defs_checker import *
 from COBY.main_class.definition_preprocessors.molecule_beads_checker import *
 from COBY.main_class.definition_preprocessors.solvent_defs_preprocessor import *
 from COBY.main_class.definition_preprocessors.ion_defs_preprocessor import *
-from COBY.main_class.definition_preprocessors.defs_importer import *
+from COBY.main_class.definition_preprocessors.import_library import *
 
 class definition_preprocessors(
     lipid_scaffolds_preprocessor,
@@ -17,7 +17,7 @@ class definition_preprocessors(
     molecule_beads_checker,
     solvent_defs_preprocessor,
     ion_defs_preprocessor,
-    defs_importer,
+    import_library,
 ):
     def __init__(self):
         pass
