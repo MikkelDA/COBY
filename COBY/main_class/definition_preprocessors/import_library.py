@@ -1,7 +1,7 @@
 import importlib
 
-class defs_importer():
-    def defs_importer(self, subcmd):
+class import_library():
+    def import_library(self, subcmd):
         spec = importlib.util.spec_from_file_location(
             name="defs_module",
             location=subcmd,
