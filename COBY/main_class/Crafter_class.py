@@ -98,42 +98,32 @@ class Crafter(
 
         try:
             self.lipid_scaffolds = copy.deepcopy(lipid_scaffolds)
-            if len(self.lipid_scaffolds) == 0:
-                self.print_term("WARNING: No lipid scaffolds found", warn=True)
         except:
-            self.print_term("WARNING: No lipid scaffolds found in 'lipid_scaffolds'", warn=True)
+            self.print_term("WARNING: No lipid scaffolds found", warn=True)
             self.lipid_scaffolds = {}
         
         try:
             self.lipid_defs = copy.deepcopy(lipid_defs)
-            if len(self.lipid_defs) == 0:
-                self.print_term("WARNING: No lipid definitions found", warn=True)
         except:
-            self.print_term("WARNING: No lipid definitions found in 'lipid_defs'", warn=True)
+            self.print_term("WARNING: No lipid definitions found", warn=True)
             self.lipid_defs = {}
         
         try:
             self.solvent_defs = copy.deepcopy(solvent_defs)
-            if len(self.solvent_defs) == 0:
-                self.print_term("WARNING: No solvent definitions found", warn=True)
         except:
-            self.print_term("WARNING: No solvent definitions found in 'solvent_defs'", warn=True)
+            self.print_term("WARNING: No solvent definitions found", warn=True)
             self.solvent_defs = {}
         
         try:
             self.ion_defs = copy.deepcopy(ion_defs)
-            if len(self.ion_defs) == 0:
-                self.print_term("WARNING: No ion definitions found", warn=True)
         except:
-            self.print_term("WARNING: No ions definitions found in 'ion_defs'", warn=True)
+            self.print_term("WARNING: No ion definitions found", warn=True)
             self.ion_defs = {}
         
         try:
             self.fragment_defs = copy.deepcopy(fragment_defs)
-            if len(self.fragment_defs) == 0:
-                self.print_term("WARNING: No protein charge definitions found", warn=True)
         except:
-            self.print_term("WARNING: No fragment definitions found in 'fragment_defs'", warn=True)
+            self.print_term("WARNING: No fragment definitions found", warn=True)
             self.fragment_defs = {}
 
         self.lipid_dict   = {}
@@ -153,13 +143,13 @@ class Crafter(
     def commands_handler(self, kwargs):
         for key, cmd in kwargs.items():
             ### Molecule definitions and scaffolds
-            if key in ["import_definitions", "import_defs"]:
+            if key in ["import_library"]:
                 if type(cmd) not in [list, tuple]:
                     cmd = [cmd]
                 for subcmd in cmd:
                     assert subcmd.endswith(".py"), "Molecule definitions / lipid scaffolds / fragment definitions file must be a python file: '" + subcmd + "'"
                     
-                    self.defs_importer(subcmd)
+                    self.import_library(subcmd)
 
             ### Importing lipid fragment builder arguments from topology files
             elif key in ["itp_input", "itp_in"]:
