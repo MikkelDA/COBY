@@ -1,6 +1,6 @@
 # Coarse-grained System Builder (COBY)
 
-The program as well as document and a tutorial is avialable on the [GitHub](https://github.com/MikkelDA/COBY).
+The program as well as documentation and a tutorial is avialable on the [GitHub](https://github.com/MikkelDA/COBY).
 
 COBY is a Python-based software for building flat membranes in coarse-grained resolution. It handles asymmetric membranes, phase-separated systems, multiple bilayers, protein insertion, solvation and flooding with one or multiple solute molecules of choice.
 
@@ -34,9 +34,9 @@ For a detailed introduction to the software, please consult [COBY Documentation]
 
 For a quick reminder of available commands, you can use the [Cheat Sheet](https://github.com/MikkelDA/COBY/blob/master/COBY_CHEAT_SHEET.pdf).
 
-Two [tutorials](https://github.com/MikkelDA/COBY/tree/master/Tutorial) are available as Jupyter Notebooks, one covering the basics and another covering more advanced functionalities.
+Three [tutorials](https://github.com/MikkelDA/COBY/tree/master/Tutorial) are available as Jupyter Notebooks, one covering the basics, another covering more advanced functionalities and the final covering the systems shown in our soon-to-be released paper.
 
-It includes (amongst other systems):
+The tutorials includes (amongst other systems):
 
 * **Simple membrane with protein**: A simple POPC membrane with a protein in solvent (water + 0.15 M NaCl) which explains the various arguments in COBY
 * **Asymmetric membrane**: An asymmetric complex membrane (POPC, POPE and CHOL) in solvent with different area per lipid values for each membrane
