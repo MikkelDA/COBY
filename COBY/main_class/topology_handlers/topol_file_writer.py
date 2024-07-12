@@ -1,8 +1,8 @@
 class topol_file_writer:
     def topol_file_writer(self):
         if self.output_topol_file_name:
-            string = " ".join(["", "Writing topology file", ""])
-            self.print_term("{string:-^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+            self.print_term("Writing topology file (TOP)", spaces=0, verbose=1)
+            
             output_topol_file_lines = []
 
             for INCLUDE_statement in self.TOP_include_statements:
@@ -34,5 +34,5 @@ class topol_file_writer:
             for line in output_topol_file_lines:
                 new_file.write(line + "\n")
             new_file.close()
-            self.print_term("Topology file written:", self.output_topol_file_name, "\n", verbose=1)
+            self.print_term("TOP file written:", self.output_topol_file_name, "\n", spaces=1, verbose=1)
     

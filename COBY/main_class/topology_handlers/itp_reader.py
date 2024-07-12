@@ -12,6 +12,15 @@ class itp_reader:
         def line_filter(string):
             return list(filter(None, string.split()))
 
+        def LFB_checker(cmd, moleculetype):
+            if "params:" not in cmd:
+                cmd = " ".join([cmd, "params:TOP"])
+            if "name:" not in cmd:
+                cmd = " ".join([cmd, "name:{name}"].format(name=moleculetype))
+            if "moleculetype:" not in cmd:
+                cmd = " ".join([cmd, "name:{moleculetype}"].format(name=moleculetype))
+            return cmd
+
         interactions_name_list = [
             "bonds",
             "pairs",
@@ -46,8 +55,18 @@ class itp_reader:
             moleculetype = False
             topology_type = False
             itp_if_lineskip = False
+            LFB_cmd = False
 
             for line_nr, line in enumerate(input_file):
+                if line.startswith(";@COBY"):
+                    LFB_cmd = " ".join([line.split(";@COBY")[1].rstrip(), "FromTopology:True"])
+                    ### Is only directly added to lipid builder argument list if defined within the [ moleculetype ] section.
+                    ### Else wait for next moleculetype to be defined.
+                    if topology_type == "moleculetype":
+                        LFB_cmd = LFB_checker(LFB_cmd, moleculetype)
+                        self.LIPID_FRAGMENT_BUILDER_cmds.append(LFB_cmd)
+                        LFB_cmd = False
+                
                 line = line.split(";")[0] # Removes comments
                 line = line.rstrip("\n")  # Removes "\n" from end of string
                 line_values = line_filter(line)
@@ -110,6 +129,12 @@ class itp_reader:
                     ### Second value is the number of excluded neighbors. We don't need to think about that.
                     moleculetype = line_values[0]
                     self.itp_moleculetypes[moleculetype] = MOLECULETYPE(moleculetype)
+
+                    ### LFB argument given outside of [ moleculetype ] section. Add argument with next designated [ moleculetype ].
+                    if LFB_cmd:
+                        LFB_cmd = LFB_checker(LFB_cmd, moleculetype)
+                        self.LIPID_FRAGMENT_BUILDER_cmds.append(LFB_cmd)
+                        LFB_cmd = False
                 
                 elif topology_type == "atoms":
                     entry_id = line_values[0]

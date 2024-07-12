@@ -30,13 +30,13 @@ class molecule_importer:
                     "Exactly one structure file (not zero, not multiple) must be supplied per command/string.",
                     "Below are examples of how to import multiple molecules.",
                     "Within python:",
-                    "    "+"solute_import = [",
+                    "    "+"molecule_import = [",
                     "    "+"    "+"\"file:molecule1.pdb moleculetype:MOL1\",",
                     "    "+"    "+"\"file:molecule2.pdb name:MOL2 charge:2\",",
                     "    "+"    "+"\"file:molecule3.pdb name:MOL3 charge:res:2:bead:3:charge:-1\",",
                     "    "+"]",
                     "Command line:",
-                    "    "+"-solute_import file:mol1.pdb moleculetype:MOL1 -solute_import file:mol2.pdb name:MOL2 charge:2 -solute_import file:mol3.pdb name:MOL2 charge:res:2:bead:3:charge:-1",
+                    "    "+"-molecule_import file:mol1.pdb moleculetype:MOL1 -molecule_import file:mol2.pdb name:MOL2 charge:2 -molecule_import file:mol3.pdb name:MOL2 charge:res:2:bead:3:charge:-1",
                 ])
 
                 nmoleculetypes = [1 for i in imp_struc.split() if (i.startswith("moleculetype:") or i.startswith("moleculetypes:"))]
@@ -259,12 +259,12 @@ class molecule_importer:
                         last_resnr = resnr
                         residues.append({
                             "resname": values["res_name"],
-                            "beads":   [],
+                            "names":   [],
                             "x":       [],
                             "y":       [],
                             "z":       [],
                         })
-                    residues[-1]["beads"].append(values["atom_name"])
+                    residues[-1]["names"].append(values["atom_name"])
                     residues[-1]["x"].append(values["x"]/10) # Divided by 10 because "solute_beads_check" multiplies them by 10 due to library values needing it
                     residues[-1]["y"].append(values["y"]/10) # Divided by 10 because "solute_beads_check" multiplies them by 10 due to library values needing it
                     residues[-1]["z"].append(values["z"]/10) # Divided by 10 because "solute_beads_check" multiplies them by 10 due to library values needing it
@@ -272,7 +272,7 @@ class molecule_importer:
                 for residue in residues:
                     mol_dict["residues"].append({
                             "resname": residue["resname"],
-                            "beads":   tuple(residue["beads"]),
+                            "names":   tuple(residue["names"]),
                             "x":       tuple(residue["x"]),
                             "y":       tuple(residue["y"]),
                             "z":       tuple(residue["z"]),
