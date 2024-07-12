@@ -1,18 +1,7 @@
 class system_file_writer:
     def system_file_writer(self):
-        out_stringlist = []
-        files_string = ""
-        if self.output_system_pdb_file_name:
-            out_stringlist.append("PDB")
-        if self.output_system_gro_file_name:
-            out_stringlist.append("GRO")
-        if len(out_stringlist) > 1:
-            files_string = "files"
-        else:
-            files_string = "file"
 
-        string = " ".join(["", "Writing structure", files_string, "(" + "/".join(out_stringlist) + ")", ""])
-        self.print_term("{string:-^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+        self.print_term("Writing structure files (PDB/GRO)", spaces=0, verbose=1)
             
         output_system_pdb_file_lines = []
         output_system_gro_file_lines = []
@@ -39,7 +28,6 @@ class system_file_writer:
                 "MODEL        1",
             ]
         if self.output_system_gro_file_name:
-            
             output_system_gro_file_lines = [
                 self.system_name,
                 "PLACEHOLDER_ATOM_COUNT",
@@ -110,7 +98,6 @@ class system_file_writer:
                             y += self.pbc_box[1] / 2
                             z += self.pbc_box[2] / 2
                             a_name = bead_name
-                            string = ""
                             if self.output_system_pdb_file_name:
                                 output_system_pdb_file_lines.append(self.pdb_atom_writer("ATOM", atom_nr, a_name, " ", r_name, "A", res_nr, " ", float(x), float(y), float(z), float(1), float(0), " ", " ", " "))
                             if self.output_system_gro_file_name: ### gro coordinates are in [nm] not [Å]
@@ -138,7 +125,6 @@ class system_file_writer:
                         y += self.pbc_box[1] / 2
                         z += self.pbc_box[2] / 2
                         a_name = bead_name
-                        string = ""
                         if self.output_system_pdb_file_name:
                             output_system_pdb_file_lines.append(self.pdb_atom_writer("ATOM", atom_nr, a_name, " ", r_name, "A", res_nr, " ", float(x), float(y), float(z), float(1), float(0), " ", " ", " "))
                         if self.output_system_gro_file_name: ### gro coordinates are in [nm] not [Å]
@@ -177,7 +163,7 @@ class system_file_writer:
             for line in output_system_pdb_file_lines:
                 new_file.write(line + "\n")
             new_file.close()
-            self.print_term("PDB file written:", self.output_system_pdb_file_name, verbose=1)
+            self.print_term("PDB file written:", self.output_system_pdb_file_name, spaces=1, verbose=1)
         
         if self.output_system_gro_file_name:
             if self.backup:
@@ -187,6 +173,6 @@ class system_file_writer:
             for line in output_system_gro_file_lines:
                 new_file.write(line + "\n")
             new_file.close()
-            self.print_term("GRO file written:", self.output_system_gro_file_name, verbose=1)
+            self.print_term("GRO file written:", self.output_system_gro_file_name, spaces=1, verbose=1)
         self.print_term("", verbose=1)
 

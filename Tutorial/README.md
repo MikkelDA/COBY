@@ -4,7 +4,7 @@ For a detailed introduction to the software, please consult [COBY Documentation]
 
 For a quick reminder of available commands, you can use the [Cheat Sheet](../COBY_Cheat_Sheet.pdf).
 
-There are two tutorials available as Jupyter Notebooks, one covering the basics and another covering more advanced functionalities.
+There are three tutorials available as Jupyter Notebooks, one covering the basics and another covering more advanced functionalities. The last contains the commands used to create the systems in our soon-to-be published paper on COBY.
 
 It includes (amongst other systems):
 

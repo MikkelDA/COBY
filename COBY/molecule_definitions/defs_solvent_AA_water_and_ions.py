@@ -19,12 +19,12 @@ ion_defs = {}
 params = "AA_tip3p"
 solvent_defs[params] = {
     "SOL" : {
-        "beads": ("OW", "HW1",   "HW2", ), 
-        "x":     ( 0,    0.074,  -0.074,),
-        "y":     ( 0,    0.064,   0.064,),
-        "z":     ( 0,    0,       0,    ),
-        "charges": ((0, -0.834), (1, 0.417), (2, 0.417)),
         "mapping_ratio": 1, "density": 0.99669, "molar_mass": 18.01528,
+        "beads": [
+            {"name": "OW",  "x":  0,     "y": 0,     "z": 0, "charge": -0.834},
+            {"name": "HW1", "x":  0.074, "y": 0.064, "z": 0, "charge": 0.417},
+            {"name": "HW2", "x": -0.074, "y": 0.064, "z": 0, "charge": 0.417},
+        ],
     },
 }
 
@@ -35,12 +35,13 @@ solvent_defs[params] = {
 params = "AA_tip4p"
 solvent_defs[params] = {
     "SOL" : {
-        "beads": ("OW", "HW1",   "HW2",  "MW",  ), 
-        "x":     ( 0,    0.074,  -0.074,  0,    ),
-        "y":     ( 0,    0.064,   0.064,  0.032,),
-        "z":     ( 0,    0,       0,      0,    ),
-        "charges": ((1, 0.52), (2, 0.52), (3, -1.04)),
         "mapping_ratio": 1, "density": 0.99669, "molar_mass": 18.01528,
+        "beads": [
+            {"name": "OW",  "x":  0,     "y": 0,     "z": 0, "charge":  0},
+            {"name": "HW1", "x":  0.074, "y": 0.064, "z": 0, "charge":  0.52},
+            {"name": "HW2", "x": -0.074, "y": 0.064, "z": 0, "charge":  0.52},
+            {"name": "MW",  "x":  0,     "y": 0.032, "z": 0, "charge": -1.04},
+        ],
     },
 }
 
@@ -51,12 +52,14 @@ solvent_defs[params] = {
 params = "AA_tip5p"
 solvent_defs[params] = {
     "SOL" : {
-        "beads": ("OW", "HW1",   "HW2",  "LP1", "LP2",), 
-        "x":     ( 0,    0.074,  -0.074,  0.02, -0.02,),
-        "y":     ( 0,    0.064,   0.064, -0.02, -0.02,),
-        "z":     ( 0,    0,       0,      0,     0,   ),
-        "charges": ((1, 0.241), (2, 0.241), (3, -0.241), (4, -0.241)),
         "mapping_ratio": 1, "density": 0.99669, "molar_mass": 18.01528,
+        "beads": [
+            {"name": "OW",  "x":  0,     "y":  0,     "z": 0, "charge":  0},
+            {"name": "HW1", "x":  0.074, "y":  0.064, "z": 0, "charge":  0.241},
+            {"name": "HW2", "x": -0.074, "y":  0.064, "z": 0, "charge":  0.241},
+            {"name": "LP1", "x":  0.02,  "y":  0.02,  "z": 0, "charge": -0.241},
+            {"name": "LP1", "x": -0.02,  "y": -0.02,  "z": 0, "charge": -0.241},
+        ],
     },
 }
 
@@ -64,10 +67,10 @@ params = "AA"
 ion_defs[params] = {}
 ion_defs[params]["positive"] = {
     ### Monovalent
-    "SOD":  {"beads": "SOD",  "charge": 1, "x": (0,), "y": (0,), "z": (0,)},
+    "SOD" : {"beads": [{"name": "SOD", "x": 0, "y":  0, "z": 0, "charge": 1}]},
 }
 
 ion_defs[params]["negative"] = {
     ### Monovalent
-    "CLA":   {"beads": "CLA",  "charge": -1, "x": (0,), "y": (0,), "z": (0,)},
+    "CLA" : {"beads": [{"name": "CLA", "x": 0, "y":  0, "z": 0, "charge": -1}]},
 }

@@ -30,7 +30,7 @@ class stacked_membranes_preprocessor:
                 elif isinstance(sm_cmd, list, tuple):
                     split_cmds = " ".join(sm_cmd).split()
                 
-                arg_extensions = ("subargumetn", "subarg", "argument", "arg", "command", "cmd")
+                arg_extensions = ("subargument", "subarg", "argument", "arg", "command", "cmd")
                 
                 ### ### Check protein command
                 for cmd in split_cmds:

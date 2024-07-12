@@ -242,8 +242,14 @@ class memb_preprocessor:
                 for cmd in memb_cmd.split():
                     sub_cmd = cmd.split(":")
                     
+                    ### Designate lipids
+                    if sub_cmd[0].lower() == "lipid":
+                        if "lipids_preprocessing" not in settings_dict[dict_target].keys():
+                            settings_dict[dict_target]["lipids_preprocessing"] = []
+                        settings_dict[dict_target]["lipids_preprocessing"].append(sub_cmd[1:])
+                    
                     ### Bilayer/monolayer defition
-                    if sub_cmd[0].lower() in ["type"]:
+                    elif sub_cmd[0].lower() in ["type"]:
                         if sub_cmd[1].lower() in bilayer_designation:
                             layer_definition = "bilayer"
                             dict_target      = "membrane"
@@ -600,11 +606,6 @@ class memb_preprocessor:
                     elif sub_cmd[0].lower() == "rotate_lipids":
                         settings_dict["membrane"]["rotate_lipids"] = ast.literal_eval(sub_cmd[1])
                     
-                    elif sub_cmd[0].lower() == "lipid":
-                        if "lipids_preprocessing" not in settings_dict[dict_target].keys():
-                            settings_dict[dict_target]["lipids_preprocessing"] = []
-                        settings_dict[dict_target]["lipids_preprocessing"].append(sub_cmd[1:])
-                    
                     else:
                         assert False, "Unknown subcommand given to '-membrane'. The subcommand is: '" + str(sub_cmd) + "'"
                 
@@ -762,7 +763,16 @@ class memb_preprocessor:
                         
                         ### Checks if lipid name has been given and if it exists in the specified parameter library
                         assert name is not False, "A name has not been given for a lipid. Full lipid command: " + str(sub_cmd)
-                        assert name in self.lipid_dict[params].keys(), "Lipid name '{name}' was not found in the parameter library '{params}'".format(name=name, params=params)
+                        assert params in self.lipid_dict.keys(), "\n".join([
+                            "The lipid parameter library '{params}' was not found".format(params=params),
+                            "The available lipid parameter libraries are:"
+                            "    ", " ".join(list(self.lipid_dict.keys()))
+                        ])
+                        assert name in self.lipid_dict[params].keys(), "\n".join([
+                            "The lipid '{name}' was not found in the lipid parameter library '{params}'".format(name=name, params=params),
+                            "The available lipids in the lipid parameter library '{params}' are:".format(params=params),
+                            "    ", " ".join(list(self.lipid_dict[params].keys()))
+                        ])
                         
                         leaflet["lipids"][name] = copy.deepcopy(self.lipid_dict[params][name])
 
@@ -805,7 +815,7 @@ class memb_preprocessor:
                             except:
                                 beads_in_topology_len = "NaN"
                             assert len(bead_charges) == len(leaflet["lipids"][name].get_beads()), "\n".join([
-                                "Mismatch found between number of beads in structure and number of beads in topology for \"{name}\" during preprocessing of membrane command".format(name=name),
+                                "Mismatch found between number of beads in structure and number of beads in topology for '{name}' during preprocessing of membrane command".format(name=name),
                                 "Beads in structure:",
                                 "    " + "Number of beads: " + str(beads_in_structure_len),
                                 "    " + "Beads: " + str(beads_in_structure),

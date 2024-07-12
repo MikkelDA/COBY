@@ -7,6 +7,7 @@ class lipid_scaffolds_preprocessor:
         '''
         self.print_term("Preprocessing lipid scaffolds", verbose=2)
         ### Loop over generel lipid types (e.g. phospholipids, sterols, etc.)
+        tot_lipids = 0
         for (lipid_type, params), lipid_type_dict in self.lipid_scaffolds.items():
             if params not in self.lipid_dict.keys():
                 self.lipid_dict[params] = {}
@@ -98,6 +99,7 @@ class lipid_scaffolds_preprocessor:
                     else:
                         charges = [0 for _ in range(len(beads))]
                     
+                    tot_lipids += 1
                     self.lipid_dict[params][lipid_name].add_res_and_beads(
                         lipid_name,
                         beads   = beads,
@@ -109,7 +111,5 @@ class lipid_scaffolds_preprocessor:
                     )
                     self.lipid_dict[params][lipid_name].set_coords_to_center(centering = "axis", AXs = "xy")
                     
-        tot_lipids = sum([len(vals) for vals in self.lipid_dict.values()])
-        
         self.print_term("Number of lipids preprocessed:", tot_lipids, "\n", spaces=1, verbose=2)
     

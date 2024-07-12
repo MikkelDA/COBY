@@ -16,7 +16,7 @@ class backupper:
             else:
                 output_path = os.path.join("")
             output_name = output_file_split[-1]
-            self.print_term("File " + '"' + output_file_name + '"' + " already exists. Backing it up", spaces=0, verbose=1)
+            self.print_term("File " + '"' + output_file_name + '"' + " already exists. Backing it up", spaces=1, verbose=1)
             number = 1
             while True:
                 if os.path.exists(os.path.join(output_path, "#" + output_name + "." + str(number) + "#")):

@@ -6,7 +6,17 @@ class solvent_defs_preprocessor:
         Preprocesses solvent defintions by rearranging the data into a class
         '''
         self.print_term("Preprocessing solvent definitions", verbose=2)
-        for structure_origin, defs in [("defs", self.solvent_defs), ("import", self.solvent_defs_imported)]:
+        molecules_for_preprocessing = []
+        if hasattr(self, "solvent_defs") and self.solvent_defs:
+            molecules_for_preprocessing.append(("defs", self.solvent_defs))
+
+        if hasattr(self, "solvent_defs_built") and self.solvent_defs_built:
+            molecules_for_preprocessing.append(("defs", self.solvent_defs_built))
+
+        if hasattr(self, "solvent_defs_imported") and self.solvent_defs_imported:
+            molecules_for_preprocessing.append(("import", self.solvent_defs_imported))
+
+        for structure_origin, defs in molecules_for_preprocessing:
             for params, solvent_type_dict in defs.items():
                 if params not in self.solvent_dict.keys():
                     self.solvent_dict[params] = {}
@@ -26,4 +36,4 @@ class solvent_defs_preprocessor:
                     self.molecule_defs_checker(self.solvent_dict[params][cur_name], cur_name, cur_dict, type_of_molecule = "solvent", structure_origin=structure_origin)
                     
         tot_solvents = sum([len(vals) for vals in self.solvent_dict.values()])
-        self.print_term("Number of solvents preprocessed:", tot_solvents, "\n", spaces=1, verbose=2)
+        self.print_term("Number of solvents preprocessed:", tot_solvents, spaces=1, verbose=2)

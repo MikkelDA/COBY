@@ -9,7 +9,17 @@ class ion_defs_preprocessor:
         self.print_term("Preprocessing ion definitions", verbose=2)
         ### Creates parameter libraries in the solvent defs for positive and negative ions
         ### In case people want to flood a system with a specific number of ions
-        for structure_origin, defs in [("defs", self.ion_defs), ("import", self.ion_defs_imported)]:
+        molecules_for_preprocessing = []
+        if hasattr(self, "ion_defs") and self.ion_defs:
+            molecules_for_preprocessing.append(("defs", self.ion_defs))
+
+        if hasattr(self, "ion_defs_built") and self.ion_defs_built:
+            molecules_for_preprocessing.append(("defs", self.ion_defs_built))
+
+        if hasattr(self, "ion_defs_imported") and self.ion_defs_imported:
+            molecules_for_preprocessing.append(("import", self.ion_defs_imported))
+
+        for structure_origin, defs in molecules_for_preprocessing:
             if "pos_ions" not in self.solvent_defs.keys():
                 self.solvent_defs["pos_ions"] = {}
             if "neg_ions" not in self.solvent_defs.keys():
@@ -48,4 +58,4 @@ class ion_defs_preprocessor:
         tot_pos_ions = sum([len(vals["positive"]) for vals in self.ion_dict.values()])
         self.print_term("Number of positive ions preprocessed:", tot_pos_ions, spaces=1, verbose=2)
         tot_neg_ions = sum([len(vals["negative"]) for vals in self.ion_dict.values()])
-        self.print_term("Number of negative ions preprocessed:", tot_neg_ions, spaces=1, verbose=2)
+        self.print_term("Number of negative ions preprocessed:", tot_neg_ions, "\n", spaces=1, verbose=2)

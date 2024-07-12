@@ -2,6 +2,7 @@ from COBY.main_class.definition_preprocessors.molecule_beads_checker import mole
 from COBY.main_class.general_tools.rotation_matrix_from_vectors import rotation_matrix_from_vectors
 import numpy as np
 import math
+import copy
 
 class molecule_defs_checker(molecule_beads_checker, rotation_matrix_from_vectors):
     def molecule_defs_checker(self, mol_class, cur_name, cur_dict, type_of_molecule, structure_origin):
@@ -39,54 +40,120 @@ class molecule_defs_checker(molecule_beads_checker, rotation_matrix_from_vectors
         
         
         ### Ensures molecule has the minimally required information
-        assert ("residues" in cur_dict.keys()) or (all(val in cur_dict.keys() for val in ["beads", "x", "y", "z"])), "\n".join([
-            " ".join([
-                "A solute/solvent molecule must either contain a list of residues dictionaries each containing 'resname', 'beads', 'x', 'y' and 'z'",
-                "or 'beads', 'x', 'y' and 'z' must be present within the molecule dictionary, in which case it will be treated as a single-residue molecule",
-            ]),
-            "    "+"Name of current molecule: " + cur_name,
-            "    "+"'resname' is the name of the residue",
-            "    "+"'beads' is a list or tuple of all bead names in the residue",
-            "    "+"'x' is a list or tuple of the x-coordinates for all beads in the residue",
-            "    "+"'y' is a list or tuple of the y-coordinates for all beads in the residue",
-            "    "+"'z' is a list or tuple of the z-coordinates for all beads in the residue",
-            "The i'th value in 'beads', 'x', 'y' and 'z' is connected to each other",
-            # "Full solute/solvent dictionary: "+str([str(key)+": "+str(vals) for key, vals in cur_dict.items()]),
-            "Full solute/solvent dictionary: "+str(cur_dict),
-        ])
-
-        ### Specifies residue for single-residue solutes that do not have it specified already
-        ### Charges are handled later
-        if "residues" not in cur_dict.keys():
-            residues_dict = [{
-                    "resname": cur_name,
-                    "beads": cur_dict["beads"],
-                    "x": cur_dict["x"],
-                    "y": cur_dict["y"],
-                    "z": cur_dict["z"],
-            }]
-
-        elif type(cur_dict["residues"]) == dict:
-            residues_dict = [cur_dict["residues"]]
-        
-        elif isinstance(cur_dict["residues"], (list, tuple)):
-            assert all(val in residue for val in ["resname", "beads", "x", "y", "z"] for residue in cur_dict["residues"]), "\n".join([
-                "Residues for solute/solvent molecule are specified but do not contain all required values",
+        residues_list = []
+        if "residues" in cur_dict.keys() and isinstance(cur_dict["residues"], (list, tuple)):
+            assert all(val in residue for val in ["resname", "beads"] for residue in cur_dict["residues"]) or all(val in residue for val in ["resname", "names", "x", "y", "z"] for residue in cur_dict["residues"]), "\n".join([
+                "Residues for molecule are specified but do not contain all required values or do not all use the same format.",
                 "    "+"Name of current molecule: " + cur_name,
-                "A residue must contain 'resname', 'beads', 'x', 'y' and 'z'",
-                "    "+"'resname' is the name of the residue",
-                "    "+"'beads' is a list or tuple of all bead names in the residue",
-                "    "+"'x' is a list or tuple of the x-coordinates for all beads in the residue",
-                "    "+"'y' is a list or tuple of the y-coordinates for all beads in the residue",
-                "    "+"'z' is a list or tuple of the z-coordinates for all beads in the residue",
-                "The i'th value in 'beads', 'x', 'y' and 'z' is connected to each other",
+                "Residues can be written in two different ways:",
+                "    "+"Version 1: A residue must contain 'resname' and 'beads'.",
+                "    "+"    "+"'resname' is the name of the residue.",
+                "    "+"    "+"'beads' is a list of dictionaries each containing information for a specific bead. The dictionaries must contain the following keys.",
+                "    "+"    "+"    "+"'name' Bead name.",
+                "    "+"    "+"    "+"'x' is the bead x-coordinate.",
+                "    "+"    "+"    "+"'y' is the bead y-coordinate.",
+                "    "+"    "+"    "+"'z' is the bead z-coordinate.",
+                "    "+"    "+"    "+"'charge' is the charge of the bead (optional, assumed to be zero if not specified).",
+                "    "+"Version 2: A residue must contain 'resname', 'names', 'x', 'y' and 'z' keys.",
+                "    "+"    "+"'resname' is the name of the residue.",
+                "    "+"    "+"'names' is a list or tuple of all bead names in the residue.",
+                "    "+"    "+"'x' is a list or tuple of the x-coordinates for all names in the residue.",
+                "    "+"    "+"'y' is a list or tuple of the y-coordinates for all names in the residue.",
+                "    "+"    "+"'z' is a list or tuple of the z-coordinates for all names in the residue.",
+                "    "+"    "+"The i'th value in 'names', 'x', 'y' and 'z' is connected to each other.",
             ])
-            residues_dict = cur_dict["residues"]
+            for residue_dict in cur_dict["residues"]:
+                ### If separate lists/tuples data type
+                if "names" in residue_dict:
+                    residues_list.append(copy.deepcopy(residue_dict))
+                
+                ### If dictionary data type
+                elif "beads" in residue_dict:
+                    names, x, y, z, charges = zip(*[
+                        (d["name"], d["x"], d["y"], d["z"], (di, d["charge"]))
+                        if "charge" in d
+                        else (d["name"], d["x"], d["y"], d["z"], (di, 0))
+                        for di, d in enumerate(residue_dict["beads"])
+                    ])
+                    residue = {
+                        "resname": residue_dict["resname"],
+                        "names": names,
+                        "x": x,
+                        "y": y,
+                        "z": z,
+                        "charges": charges,
+                        **{key:val for key, val in residue_dict.items() if key not in ["resname", "beads"]}
+                    }
+                    residues_list.append(copy.deepcopy(residue))
         
-        ### Ensures that "beads" are always a tuple of strings rather than an individual string
-        for res_nr, res_dict in enumerate(residues_dict):
-            if type(res_dict["beads"]) == str:
-                residues_dict[res_nr]["beads"] = (res_dict["beads"],)
+        else:
+            assert all(val in cur_dict for val in ["beads"]) or all(val in cur_dict for val in ["names", "x", "y", "z"]), "\n".join([
+                "Residues for molecule are not specified but the molecule does not contain all required values that a normal residue would need.",
+                "    "+"Name of current molecule: " + cur_name,
+                "Residues can be written in two different ways:",
+                "    "+"Version 1: A residue must contain 'beads'.",
+                "    "+"    "+"'beads' is a list of dictionaries each containing information for a specific bead. The dictionaries must contain the following keys.",
+                "    "+"    "+"    "+"'name' Bead name.",
+                "    "+"    "+"    "+"'x' is the bead x-coordinate.",
+                "    "+"    "+"    "+"'y' is the bead y-coordinate.",
+                "    "+"    "+"    "+"'z' is the bead z-coordinate.",
+                "    "+"    "+"    "+"'charge' is the charge of the bead (optional, assumed to be zero if not specified).",
+                "    "+"Version 2: A residue must contain 'names', 'x', 'y' and 'z' keys.",
+                "    "+"    "+"'names' is a list or tuple of all bead names in the residue.",
+                "    "+"    "+"'x' is a list or tuple of the x-coordinates for all names in the residue.",
+                "    "+"    "+"'y' is a list or tuple of the y-coordinates for all names in the residue.",
+                "    "+"    "+"'z' is a list or tuple of the z-coordinates for all names in the residue.",
+                "    "+"    "+"The i'th value in 'names', 'x', 'y' and 'z' is connected to each other.",
+            ])
+
+            residue_dict = cur_dict
+
+            ### If separate lists/tuples data type
+            if "names" in residue_dict:
+                residue = {
+                    "resname": cur_name,
+                    **{key:val for key, val in residue_dict.items()}
+                }
+                residues_list.append(copy.deepcopy(residue))
+            
+            ### If dictionary data type
+            elif "beads" in residue_dict:
+                names, x, y, z, charges = zip(*[
+                    (d["name"], d["x"], d["y"], d["z"], (di, d["charge"]))
+                    if "charge" in d
+                    else (d["name"], d["x"], d["y"], d["z"], (di, 0))
+                    for di, d in enumerate(residue_dict["beads"])
+                ])
+                residue = {
+                    "resname": cur_name,
+                    "names": names,
+                    "x": x,
+                    "y": y,
+                    "z": z,
+                    "charges": charges,
+                    **{key:val for key, val in residue_dict.items() if key not in ["beads"]}
+                }
+                residues_list.append(copy.deepcopy(residue))
+        
+        ### Ensures that "names" are always a tuple of strings rather than an individual string
+        for res_nr, res_dict in enumerate(residues_list):
+            if type(res_dict["names"]) in [str, int, float]:
+                residues_list[res_nr]["names"] = (res_dict["names"],)
+
+        ### Ensures that "x" are always a tuple of strings rather than an individual string
+        for res_nr, res_dict in enumerate(residues_list):
+            if type(res_dict["x"]) in [str, int, float]:
+                residues_list[res_nr]["x"] = (res_dict["x"],)
+
+        ### Ensures that "y" are always a tuple of strings rather than an individual string
+        for res_nr, res_dict in enumerate(residues_list):
+            if type(res_dict["y"]) in [str, int, float]:
+                residues_list[res_nr]["y"] = (res_dict["y"],)
+
+        ### Ensures that "z" are always a tuple of strings rather than an individual string
+        for res_nr, res_dict in enumerate(residues_list):
+            if type(res_dict["z"]) in [str, int, float]:
+                residues_list[res_nr]["z"] = (res_dict["z"],)
 
         ### Molecule-wide charges
         if "charges" in cur_dict.keys():
@@ -99,7 +166,7 @@ class molecule_defs_checker(molecule_beads_checker, rotation_matrix_from_vectors
                 
                 ### ### At this point "residues" has been added to the dictionary even if it wasn't originally
                 ### Multiple residues (Residues specification is required)
-                if len(residues_dict) > 1:
+                if len(residues_list) > 1:
                     assert len(charge_values) == 3, "\n".join([
                         "Bead charges specified outside residues when more than 1 residue is present must contain exactly three numbers",
                         "The numbers must be (residue nr [int], bead nr [int], charge [float] or [int])",
@@ -166,11 +233,11 @@ class molecule_defs_checker(molecule_beads_checker, rotation_matrix_from_vectors
                     charge_dict[res_nr] = {}
                 charge_dict[res_nr][bead_nr] = charge
             
-        self.print_term("    ", "Residue dictionary", residues_dict, debug=True)
+        self.print_term("    ", "Residue dictionary", residues_list, debug=True)
 
         ### Residue-specific charges
         ### No need to check for residues as they are created earlier in this script
-        for res_nr, res_dict in enumerate(residues_dict):
+        for res_nr, res_dict in enumerate(residues_list):
             if "charges" in res_dict:
                 if res_nr not in charge_dict.keys():
                     charge_dict[res_nr] = {}
@@ -200,7 +267,7 @@ class molecule_defs_checker(molecule_beads_checker, rotation_matrix_from_vectors
 
         ### Total charge.
         ### Spreads charge across all beads. Should only be used if no bead-specfic charges are given.
-        ### Ideally only use this for single bead solutes/solvents where the bead is obvious
+        ### Ideally only use this for single bead molecules where the bead is obvious
         if "charge" in cur_dict.keys():
             number = self.get_number_from_string(cur_dict["charge"])
             if number is not False:
@@ -216,9 +283,9 @@ class molecule_defs_checker(molecule_beads_checker, rotation_matrix_from_vectors
             down_coords = []
             for beadname, coords_list in [("upbeads", up_coords), ("downbeads", down_coords)]:
                 for res_nr, bead_nr in cur_dict[beadname]:
-                    x = round(residues_dict[res_nr]["x"][bead_nr], 4)
-                    y = round(residues_dict[res_nr]["y"][bead_nr], 4)
-                    z = round(residues_dict[res_nr]["z"][bead_nr], 4)
+                    x = round(residues_list[res_nr]["x"][bead_nr], 4)
+                    y = round(residues_list[res_nr]["y"][bead_nr], 4)
+                    z = round(residues_list[res_nr]["z"][bead_nr], 4)
                     coords_list.append((x, y, z))
             
             up_coords_array        = np.array(up_coords)
@@ -229,7 +296,7 @@ class molecule_defs_checker(molecule_beads_checker, rotation_matrix_from_vectors
             original_vector_length = math.sqrt(original_vector[0]**2 + original_vector[1]**2+original_vector[2]**2)
             alignment_vector       = [0, 0, original_vector_length]
             rotation_matrix        = self.rotation_matrix_from_vectors(original_vector, alignment_vector)
-            for res_nr, res_dict in enumerate(residues_dict, 0):
+            for res_nr, res_dict in enumerate(residues_list, 0):
                 xs, ys, zs = res_dict["x"], res_dict["y"], res_dict["z"]
                 new_xs, new_ys, new_zs = [], [], []
                 for x, y, z in zip(xs, ys, zs):
@@ -243,8 +310,8 @@ class molecule_defs_checker(molecule_beads_checker, rotation_matrix_from_vectors
         ### Dictionaries without "residues" key have had the beads and positions converted to "residues" key:val pair
         ### Thus "residues" will always be present
         molbeadnrs = []
-        total_number_of_beads = sum([len(res_dict["beads"]) for res_dict in residues_dict])
-        for res_nr, res_dict in enumerate(residues_dict, 0):
+        total_number_of_beads = sum([len(res_dict["names"]) for res_dict in residues_list])
+        for res_nr, res_dict in enumerate(residues_list, 0):
             resname = res_dict["resname"]
             beads, xs, ys, zs = self.molecule_beads_checker(res_dict, cur_name, resname, bd, type_of_molecule)
 

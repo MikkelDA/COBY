@@ -6,24 +6,24 @@ import numpy as np
 import random
 import copy
 
-import importlib
-
-### Placeholders in case none are defined in "COBY.molecule_definitions.__init__"
+### Placeholders in case none are defined in "COBY.molecule_definitions.__init__" and "COBY.fragment_definitions.__init__"
 lipid_scaffolds = {}
 lipid_defs      = {}
 solvent_defs    = {}
 ion_defs        = {}
 prot_defs       = {}
+fragment_defs   = {}
 
 from COBY.molecule_definitions.__init__ import *
+from COBY.fragment_definitions.__init__ import *
 from COBY.structure_classes.__init__ import *
 from COBY.general_functions.__init__ import *
-
 
 from COBY.main_class.structure_file_handlers.__init__ import *
 from COBY.main_class.topology_handlers.__init__ import *
 from COBY.main_class.general_tools.__init__ import *
 from COBY.main_class.definition_preprocessors.__init__ import *
+from COBY.main_class.molecule_fragment_builder.__init__ import *
 from COBY.main_class.command_preprocessors.__init__ import *
 from COBY.main_class.special_preprocessors.__init__ import *
 
@@ -39,6 +39,7 @@ class COBY(
     topology_handlers,
     general_tools,
     definition_preprocessors,
+    molecule_fragment_builder,
     command_preprocessors,
     special_preprocessors,
 
@@ -52,12 +53,12 @@ class COBY(
     
     def __init__(self, run = True, terminal_run_kwargs = False, **kwargs):
         self.COBY_run_tic = time.time()
+        self.PROGRAM = "COBY"
 
         self.RUN = run
         
         self.debug_prints          = False
         self.extra_info            = True
-        self.subleaflet_extra_info = True
         self.warnings              = True
         self.quiet                 = False
         self.verbose               = 1
@@ -81,9 +82,9 @@ class COBY(
         ### Stakced membranes are special combinations of membranes and solvations
         self.STACKED_MEMBRANES_cmds = []
         
-        # self.SOLUTE_IMPORT_cmds = []
-        # self.LIPID_IMPORT_cmds = []
         self.MOLECULE_IMPORT_cmds = []
+
+        self.MOLECULE_FRAGMENT_BUILDER_cmds = []
         
         self.PLOT_cmd        = []
         self.plot_data       = {}
@@ -194,22 +195,30 @@ class COBY(
             self.print_term("WARNING: No protein definitions found in 'prot_defs'", warn=True)
             self.prot_defs = {}
         
-        self.lipid_defs_imported   = {}
-        self.solvent_defs_imported = {}
-        self.ion_defs_imported     = {}
-
-
+        try:
+            self.fragment_defs = copy.deepcopy(fragment_defs)
+            if len(self.fragment_defs) == 0:
+                self.print_term("WARNING: No protein charge definitions found", warn=True)
+        except:
+            self.print_term("WARNING: No fragment definitions found in 'fragment_defs'", warn=True)
+            self.fragment_defs = {}
+        
         self.lipid_dict   = {}
         self.solvent_dict = {}
         self.ion_dict     = {}
         self.prot_dict    = {}
 
+        self.lipid_defs_built   = {}
+        self.solvent_defs_built = {}
+        self.ion_defs_built     = {}
+
+        self.lipid_defs_imported   = {}
+        self.solvent_defs_imported = {}
+        self.ion_defs_imported     = {}
+        
         if self.RUN:
             self.run(kwargs)
     
-    ##############################
-    ### GIVE COMMANDS TO CLASS ###
-    ##############################
     def flooding_to_solvation_converter(self, subcmd):
         if "flooding:" in subcmd:
             subcmd_split = subcmd.split()
@@ -217,6 +226,9 @@ class COBY(
         subcmd = " ".join(["flooding:True", subcmd, "count:True", "solv_molarity:1", "salt_molarity:1"])
         return subcmd
     
+    ##############################
+    ### GIVE COMMANDS TO CLASS ###
+    ##############################
     def commands_handler(self, kwargs):
         momentary_pbc = []
         momentary_x   = 0
@@ -225,29 +237,13 @@ class COBY(
         sm_z_value    = False # stacked membranze z value
         for key, cmd in kwargs.items():
             ### Molecule definitions and scaffolds
-            if key.startswith("molecule_definition"):
+            if key in ["import_definitions", "import_defs"]:
                 if type(cmd) not in [list, tuple]:
                     cmd = [cmd]
                 for subcmd in cmd:
-                    assert subcmd.endswith(".py"), "Molecule definitions / lipid scaffolds file must be python file: '" + subcmd + "'"
+                    assert subcmd.endswith(".py"), "Molecule definitions / lipid scaffolds / fragment definitions file must be a python file: '" + subcmd + "'"
                     
-                    spec = importlib.util.spec_from_file_location(
-                        name="defs_module",  # note that ".test" is not a valid module name
-                        location=subcmd,
-                    )
-                    defs_module = importlib.util.module_from_spec(spec)
-                    spec.loader.exec_module(defs_module)
-                    
-                    if hasattr(defs_module, "lipid_scaffolds"):
-                        self.lipid_scaffolds.update(defs_module.lipid_scaffolds)
-                    if hasattr(defs_module, "lipid_defs"):
-                        self.lipid_defs.update(defs_module.lipid_defs)
-                    if hasattr(defs_module, "solvent_defs"):
-                        self.solvent_defs.update(defs_module.solvent_defs)
-                    if hasattr(defs_module, "ion_defs"):
-                        self.ion_defs.update(defs_module.ion_defs)
-                    if hasattr(defs_module, "prot_defs"):
-                        self.prot_defs.update(defs_module.prot_defs)
+                    self.defs_importer(subcmd)
 
             ### General system inputs
             elif any(key.startswith(i) for i in ["protein", "prot"]):
@@ -362,13 +358,14 @@ class COBY(
                         val = float(val)
                 momentary_z = val
             
-            ### Imports
+            ### Importing charges and lipid fragment builder arguments from topology files
             elif key in ["itp_input", "itp_in"]:
                 if type(cmd) != list:
                     cmd = [cmd]
                 for subcmd in cmd:
                     self.ITP_INPUT_cmds.extend([subcmd])
             
+            ### Importing molecules from pdb/gro files
             elif key in ["molecule_import"]:
                 ### Puts individual string inside list
                 if type(cmd) not in [list, tuple]:
@@ -378,6 +375,17 @@ class COBY(
                     cmd = list(cmd)
                 for subcmd in cmd:
                     self.MOLECULE_IMPORT_cmds.extend([subcmd])
+            
+            ### Molecule fragment builder
+            elif key in ["molecule_builder"]:
+                ### Puts individual string inside list
+                if type(cmd) not in [list, tuple]:
+                    cmd = [cmd]
+                ### Converts tuple to list
+                if type(cmd) == tuple:
+                    cmd = list(cmd)
+                for subcmd in cmd:
+                    self.MOLECULE_FRAGMENT_BUILDER_cmds.extend([subcmd])
             
             ### Outputs
             elif key in ["out_all", "o_all"]:
@@ -401,7 +409,7 @@ class COBY(
                     assert False, "Unknown file extension used for 'output_system': " + cmd
                     
             elif key in ["out_pdb", "o_pdb"]:
-                if not cmd.lower().endswith(".gro"):
+                if not cmd.lower().endswith(".pdb"):
                     cmd = cmd + ".pdb"
                 self.output_system_pdb_file_name = cmd
                     
@@ -419,6 +427,12 @@ class COBY(
                 if not cmd.lower().endswith(".log"):
                     cmd = cmd + ".log"
                 self.output_log_file_name = cmd
+                
+            elif key in ["backup"]:
+                assert cmd in ["False", "True", "0", "1", False, True, 0, 1], "Value given to 'backup' must be False/True/0/1 (strings allowed): " + cmd
+                if type(cmd) == str:
+                    cmd = ast.literal_eval(cmd)
+                self.backup = cmd
             
             elif key in ["system_name", "sn"]:
                 self.system_name = cmd
@@ -435,12 +449,6 @@ class COBY(
                     
             elif key in ["pickle"]:
                 self.PICKLE_cmd = cmd
-                
-            elif key in ["backup"]:
-                assert cmd in ["False", "True", "0", "1", False, True, 0, 1], "Value given to 'backup' must be False/True/0/1 (strings allowed): " + cmd
-                if type(cmd) == str:
-                    cmd = ast.literal_eval(cmd)
-                self.backup = cmd
 
             elif key in ["params", "sys_params"]:
                 self.sys_params = cmd
@@ -496,29 +504,43 @@ class COBY(
                 assert False, "Invalid argument given to COBY: " + str((key, cmd))
         
         ### Setting randseed
-        self.print_term("\n" + "Setting random seed to:", self.randseed, verbose=1)
+        self.print_term("Setting random seed to:", self.randseed, verbose=1)
         random.seed(self.randseed)
         np.random.seed(self.randseed)
         
+        ################################
+        ### DEFINITION PREPROCESSING ###
+        ################################
         string = " ".join(["", "PREPROCESSING DEFINITIONS", ""])
         self.print_term("{string:-^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
-
-        ### Definition preprocessing
         preprocessing_tic = time.time()
+        
         self.itp_read_initiater()
+        
         self.molecule_importer()
+
         self.lipid_scaffolds_preprocessor()
+
+        ### Fragment builder before defs as it adds to "self.lipid_defs_built", "self.solvent_defs_built", "self.ion_defs_built" dicts
+        self.molecule_fragment_builder()
+
         self.lipid_defs_preprocessor()
+
         ### Preprocess ions first as they add the "default" parameter libraries of "neg_ions" and "pos_ions" to solvent defs
         self.ion_defs_preprocessor()
         self.solvent_defs_preprocessor()
+
         preprocessing_toc = time.time()
         preprocessing_time = round(preprocessing_toc - preprocessing_tic, 4)
-        string = " ".join(["", "DEFINITIONS PREPROCESSING COMPLETE", ""])
-        self.print_term("{string:-^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
-        string = " ".join(["", "(Time spent:", str(preprocessing_time), "[s])", ""])
-        self.print_term("{string:^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), "\n", spaces=0, verbose=1)
+        string1 = " ".join(["", "DEFINITIONS PREPROCESSING COMPLETE", ""])
+        string2 = " ".join(["", "(Time spent:", str(preprocessing_time), "[s])", ""])
+        self.print_term("{string:-^{string_length}}".format(string=string1, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+        self.print_term("{string:^{string_length}}".format(string=string2, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+        self.print_term("", spaces=0, verbose=1)
         
+        #########################
+        ### STACKED MEMBRANES ###
+        #########################
         assert len(self.STACKED_MEMBRANES_cmds) in [0, 1], "Only a single 'stacked_membranes' argument is allowed."
 
         if len(self.STACKED_MEMBRANES_cmds) > 0:
@@ -556,19 +578,28 @@ class COBY(
 
             sm_preprocessing_toc = time.time()
             sm_preprocessing_time = round(sm_preprocessing_toc - sm_preprocessing_tic, 4)
-            string = " ".join(["", "STACKED MEMBRANE PRE-PREPROCESSING COMPLETE", ""])
-            self.print_term("{string:-^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
-            string = " ".join(["", "(Time spent:", str(sm_preprocessing_time), "[s])", ""])
-            self.print_term("{string:^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), "\n", spaces=0, verbose=1)
+            string1 = " ".join(["", "STACKED MEMBRANE PRE-PREPROCESSING COMPLETE", ""])
+            string2 = " ".join(["", "(Time spent:", str(sm_preprocessing_time), "[s])", ""])
+            self.print_term("{string:-^{string_length}}".format(string=string1, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+            self.print_term("{string:^{string_length}}".format(string=string2, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+            self.print_term("", spaces=0, verbose=1)
         
+        ###############################
+        ### GIVES FLOODING PRIORITY ###
+        ###############################
         if len(self.FLOODINGS_cmds) > 0:
             self.SOLVATIONS_cmds = self.FLOODINGS_cmds + self.SOLVATIONS_cmds
         
+        #########################
+        ### BOX TYPE AND SIZE ###
+        #########################
         ### Setting box size values to be used in PBC type settings
+        ### Custom unit cell
         if self.pdb_unitcell or self.gro_unitcell:
             assert not (self.pdb_unitcell and self.gro_unitcell), "Only one of the 'pdb_unitcell' and 'gro_unitcell' arguments may be used in a single call to COBY"
             assert len(momentary_pbc) == 0 and sum([bool(val) for val in [momentary_x, momentary_y, momentary_z]]) == 0, "Box dimensions may not be given if custom unit cells are designated."
 
+            ### Custom unit cell based on GRO parameters
             if self.gro_unitcell:
                 if len(self.gro_unitcell) == 3:
                     self.pbcx, self.pbcy, self.pbcz = [i for i in self.gro_unitcell]
@@ -616,6 +647,7 @@ class COBY(
                     round(gamma, 2),
                 ]
             
+            ### Custom unit cell based on PDB parameters
             elif self.pdb_unitcell:
                 if len(self.pdb_unitcell) == 3:
                     # self.pbcx, self.pbcy, self.pbcz = [i*10 for i in self.pdb_unitcell]
@@ -687,7 +719,9 @@ class COBY(
                 self.pbcy = vector2[1]
                 self.pbcz = vector3[2]
 
+        ### Pre-defined unit cell types
         else:
+            ### Extra handling in case stacked membrane argument has been used
             if len(momentary_pbc) > 0:
                 if sm_z_value:
                     pbc = momentary_pbc + [sm_z_value]
@@ -849,6 +883,7 @@ class COBY(
             
         self.pbc_box = [self.pbcx, self.pbcy, self.pbcz]
         
+        ### Default structure file names if none were given
         if not self.output_system_pdb_file_name and not self.output_system_gro_file_name:
             self.output_system_pdb_file_name = "output.pdb"
             self.output_system_gro_file_name = "output.gro"
@@ -860,25 +895,34 @@ class COBY(
         
         self.commands_handler(kwargs)
 
-        assert any([len(cmd) > 0 for cmd in [self.PROTEINS_cmds, self.MEMBRANES_cmds, self.SOLVATIONS_cmds]]), (
-            "Running requires at least one argument of one of the following types: 'protein', 'membrane', 'solvation' or 'flooding'"
+        assert len(self.PROTEINS_cmds) + len(self.MEMBRANES_cmds) + len(self.SOLVATIONS_cmds) > 0, (
+            "Running COBY requires at least one argument of one of the following types: 'protein', 'membrane', 'solvation', 'flooding' or 'stacked_membranes'"
         )
         
+        ###############################################
+        ### SYSTEM COMPONENT ARGUMENT PREPROCESSING ###
+        ###############################################
+        ### Argument preprocessing
         string = " ".join(["", "PREPROCESSING COMMANDS", ""])
         self.print_term("{string:-^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
-        ### Command preprocessing
         preprocessing_tic = time.time()
+
         self.prot_preprocessor()
         self.memb_preprocessor(return_self = "self", cmds_given = False)
         self.solv_preprocessor()
+
         preprocessing_toc = time.time()
         preprocessing_time = round(preprocessing_toc - preprocessing_tic, 4)
-        string = " ".join(["", "COMMAND PREPROCESSING COMPLETE", ""])
-        self.print_term("{string:-^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
-        string = " ".join(["", "(Time spent:", str(preprocessing_time), "[s])", ""])
-        self.print_term("{string:^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), "\n", spaces=0, verbose=1)
 
-        ### Run the program
+        string1 = " ".join(["", "COMMAND PREPROCESSING COMPLETE", ""])
+        string2 = " ".join(["", "(Time spent:", str(preprocessing_time), "[s])", ""])
+        self.print_term("{string:-^{string_length}}".format(string=string1, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+        self.print_term("{string:^{string_length}}".format(string=string2, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+        self.print_term("", spaces=0, verbose=1)
+
+        ###############################
+        ### RUNNING SYSTEM CREATION ###
+        ###############################
         self.prot_placer()
         self.subleaflet_poly_maker()
         self.holed_subleaflet_bbox_maker()
@@ -887,17 +931,44 @@ class COBY(
         self.lipid_inserter()
         self.solvater()
 
-        self.print_term("--------------------", verbose=1)
-        self.print_term("Final system charge:", self.system_charge, verbose=1)
-        self.print_term("--------------------", "\n", verbose=1)
+        #####################
+        ### SYSTEM CHARGE ###
+        #####################
+        system_charge_str = str(round(self.system_charge, 2))
+        sclen = len(system_charge_str)
+
+        string1 = "+---------------------" + "-" + "-"*sclen         + "-" +  "+"
+        string2 = "+ FINAL SYSTEM CHARGE:" + " " + system_charge_str + " " +  "+"
+        string3 = "+---------------------" + "-" + "-"*sclen         + "-" +  "+"
+        self.print_term("{string:^{string_length}}".format(string=string1, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+        self.print_term("{string:-^{string_length}}".format(string=string2, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+        self.print_term("{string:^{string_length}}".format(string=string3, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+        self.print_term("", spaces=0, verbose=1)
+
+        ####################
+        ### FILE WRITING ###
+        ####################
+        string = " ".join(["", "WRITING FILES", ""])
+        self.print_term("{string:-^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+        filewriting_tic = time.time()
 
         self.pickler()
 
-        ### Write the files
         self.system_file_writer()
         self.topol_file_writer()
         self.log_file_writer()
 
+        filewriting_toc = time.time()
+        filewriting_time = round(filewriting_toc - filewriting_tic, 4)
+        string1 = " ".join(["", "FILE WRITING COMPLETE", ""])
+        string2 = " ".join(["", "(Time spent:", str(filewriting_time), "[s])", ""])
+        self.print_term("{string:-^{string_length}}".format(string=string1, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+        self.print_term("{string:^{string_length}}".format(string=string2, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+        self.print_term("", spaces=0, verbose=1)
+
+        ######################
+        ### END OF PROGRAM ###
+        ######################
         self.print_term("My task is complete. Did i do a good job?", verbose=1)
         COBY_run_toc  = time.time()
         COBY_run_time = round(COBY_run_toc - self.COBY_run_tic, 4)
