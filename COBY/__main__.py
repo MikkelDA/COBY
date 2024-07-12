@@ -111,7 +111,7 @@ if __name__ == "__main__":
     parser.add_argument("--itp_input", "-itp_input", "-itp_in", dest = "itp_input_args", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
     ### Molecule definition import arguments
-    parser.add_argument("--import_definitions", "-import_definitions", "-import_defs", dest = "import_definitions_args", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
+    parser.add_argument("--import_library", "-import_library", dest = "import_library_args", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
     ### Lipid fragment builder arguments
     parser.add_argument("--molecule_builder", "-molecule_builder", dest = "molecule_builder_args", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
@@ -230,26 +230,26 @@ if __name__ == "__main__":
 
         parser_kwargs = {}
 
-        parse_membrane_args           = [" ".join(i) for i in args.membrane_args]
-        parse_protein_args            = [" ".join(i) for i in args.protein_args]
-        parse_solvation_args          = [" ".join(i) for i in args.solvation_args]
-        parse_flooding_args           = [" ".join(i) for i in args.flooding_args]
-        parse_stacked_membranes_args  = [" ".join(i) for i in args.stacked_membranes_args]
-        parse_itp_input_args          = [" ".join(i) for i in args.itp_input_args]
-        parse_molecule_import_args    = [" ".join(i) for i in args.molecule_import_args]
-        parse_import_definitions_args = [" ".join(i) for i in args.import_definitions_args]
-        parse_molecule_builder_args   = [" ".join(i) for i in args.molecule_builder_args]
+        parse_membrane_args          = [" ".join(i) for i in args.membrane_args]
+        parse_protein_args           = [" ".join(i) for i in args.protein_args]
+        parse_solvation_args         = [" ".join(i) for i in args.solvation_args]
+        parse_flooding_args          = [" ".join(i) for i in args.flooding_args]
+        parse_stacked_membranes_args = [" ".join(i) for i in args.stacked_membranes_args]
+        parse_itp_input_args         = [" ".join(i) for i in args.itp_input_args]
+        parse_molecule_import_args   = [" ".join(i) for i in args.molecule_import_args]
+        parse_import_library_args    = [" ".join(i) for i in args.import_library_args]
+        parse_molecule_builder_args  = [" ".join(i) for i in args.molecule_builder_args]
 
         for COBY_arg, parse, arg_name in [
-            ("membrane",           parse_membrane_args,           "membrane_args"),
-            ("protein",            parse_protein_args,            "protein_args"),
-            ("solvation",          parse_solvation_args,          "solvation_args"),
-            ("flooding",           parse_flooding_args,           "flooding_args"),
-            ("stacked_membranes",  parse_stacked_membranes_args,  "stacked_membranes_args"),
-            ("itp_input",          parse_itp_input_args,          "itp_input_args"),
-            ("molecule_import",    parse_molecule_import_args,    "molecule_import_args"),
-            ("import_definitions", parse_import_definitions_args, "import_definitions_args"),
-            ("molecule_builder",   parse_molecule_builder_args,   "molecule_builder_args"),
+            ("membrane",          parse_membrane_args,          "membrane_args"),
+            ("protein",           parse_protein_args,           "protein_args"),
+            ("solvation",         parse_solvation_args,         "solvation_args"),
+            ("flooding",          parse_flooding_args,          "flooding_args"),
+            ("stacked_membranes", parse_stacked_membranes_args, "stacked_membranes_args"),
+            ("itp_input",         parse_itp_input_args,         "itp_input_args"),
+            ("molecule_import",   parse_molecule_import_args,   "molecule_import_args"),
+            ("import_library",    parse_import_library_args,    "import_library_args"),
+            ("molecule_builder",  parse_molecule_builder_args,  "molecule_builder_args"),
             
             ("plot_grid", args.plot_grid_arg, "plot_grid_arg"),
             ("pickle",    args.pickle_arg,    "pickle_arg"),
@@ -315,16 +315,16 @@ if __name__ == "__main__":
 
         parser_kwargs = {}
 
-        parse_molecule_args           = [" ".join(i) for i in args.molecule_args]
-        parse_itp_input_args          = [" ".join(i) for i in args.itp_input_args]
-        parse_import_definitions_args = [" ".join(i) for i in args.import_definitions_args]
-        parse_molecule_builder_args   = [" ".join(i) for i in args.molecule_builder_args]
+        parse_molecule_args         = [" ".join(i) for i in args.molecule_args]
+        parse_itp_input_args        = [" ".join(i) for i in args.itp_input_args]
+        parse_import_library_args   = [" ".join(i) for i in args.import_library_args]
+        parse_molecule_builder_args = [" ".join(i) for i in args.molecule_builder_args]
 
         for COBY_arg, parse, arg_name in [
-            ("molecule",           parse_molecule_args,           "molecule_args"),
-            ("itp_input",          parse_itp_input_args,          "itp_input_args"),
-            ("import_definitions", parse_import_definitions_args, "import_definitions_args"),
-            ("molecule_builder",   parse_molecule_builder_args,   "molecule_builder_args"),
+            ("molecule",         parse_molecule_args,         "molecule_args"),
+            ("itp_input",        parse_itp_input_args,        "itp_input_args"),
+            ("import_library",   parse_import_library_args,   "import_library_args"),
+            ("molecule_builder", parse_molecule_builder_args, "molecule_builder_args"),
             
             ("backup",    args.backup_arg,    "backup_arg"),
             ("randseed",  args.randseed_arg,  "randseed_arg"),
