@@ -256,6 +256,8 @@ class MOLECULE:
                 if output_type == "ATOM":
                     res_beads_info.append(bead)
                 elif output_type in ["tuple", "ziptuple"]:
+                    ### Tuple: list of (beadname, beadnr, x, y, z, resname, resnr, charge) tuples
+                    ### Ziptuple: Zipped version of above
                     res_beads_info.append(bead.get_tuple())
         if output_type == "ziptuple":
             res_beads_info = tuple(zip(*res_beads_info))
