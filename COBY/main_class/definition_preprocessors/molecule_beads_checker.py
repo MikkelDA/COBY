@@ -3,7 +3,7 @@ class molecule_beads_checker:
         xs = res_dict["x"]
         ys = res_dict["y"]
         zs = res_dict["z"]
-        beads = res_dict["beads"]
+        beads = res_dict["names"]
         if type(xs) != tuple and type(xs) != list:
             xs = (xs,)
         if type(ys) != tuple and type(ys) != list:

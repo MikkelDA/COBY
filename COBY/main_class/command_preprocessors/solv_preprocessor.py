@@ -335,22 +335,47 @@ class solv_preprocessor:
 
                     ### Adding name:dict combo to solvent dict
                     if solv_type == "solvent":
-                        assert name in self.solvent_dict[params].keys(), "Solvent/solute name '{name}' was not found in the parameter library '{params}'".format(name=name, params=params)
+                        assert params in self.solvent_dict.keys(), "\n".join([
+                            "The solvent/solute parameter library '{params}' was not found".format(params=params),
+                            "The available solvent/solute parameter libraries are:"
+                            "    ", " ".join(list(self.solvent_dict.keys()))
+                        ])
+                        assert name in self.solvent_dict[params].keys(), "\n".join([
+                            "The solvent/solute '{name}' was not found in the solvent/solute parameter library '{params}'".format(name=name, params=params),
+                            "The available solvents/solutes in the solvent/solute parameter library '{params}' are:".format(params=params),
+                            "    ", " ".join(list(self.solvent_dict[params].keys()))
+                        ])
                         solv_dict[solv_type][name] = copy.deepcopy(self.solvent_dict[params][name])
                         solv_ratio_type = "solv_tot_ratio"
                         molarity = solv_dict["solv_molarity"]
                     
-                    elif solv_type == "pos_ions":
-                        assert name in self.ion_dict[params]["positive"].keys(), "Positive ion name '{name}' was not found in the parameter library '{params}'".format(name=name, params=params)
-                        solv_dict[solv_type][name] = copy.deepcopy(self.ion_dict[params]["positive"][name])
-                        solv_ratio_type = "pos_tot_ratio"
-                        molarity = solv_dict["salt_molarity"]
-                    
-                    elif solv_type == "neg_ions":
-                        assert name in self.ion_dict[params]["negative"].keys(), "Negative ion name '{name}' was not found in the parameter library '{params}'".format(name=name, params=params)
-                        solv_dict[solv_type][name] = copy.deepcopy(self.ion_dict[params]["negative"][name])
-                        solv_ratio_type = "neg_tot_ratio"
-                        molarity = solv_dict["salt_molarity"]
+                    elif solv_type in ["pos_ions", "neg_ions"]:
+                        assert params in self.ion_dict.keys(), "\n".join([
+                            "The ion parameter library '{params}' was not found".format(params=params),
+                            "The available ion parameter libraries are:"
+                            "    ", " ".join(list(self.ion_dict.keys()))
+                        ])
+                        if solv_type == "pos_ions":
+                            assert "positive" in self.ion_dict[params].keys(), "No positive ions found in the ion parameter library '{params}'".format(params=params)
+                            assert name in self.ion_dict[params]["positive"].keys(), "\n".join([
+                                "The positive ion '{name}' was not found in the ion parameter library '{params}'".format(name=name, params=params),
+                                "The available positive ions in the ion parameter library '{params}' are:".format(params=params),
+                                "    ", " ".join(list(self.ion_dict[params]["positive"].keys()))
+                            ])
+                            solv_dict[solv_type][name] = copy.deepcopy(self.ion_dict[params]["positive"][name])
+                            solv_ratio_type = "pos_tot_ratio"
+                            molarity = solv_dict["salt_molarity"]
+                        
+                        elif solv_type == "neg_ions":
+                            assert "negative" in self.ion_dict[params].keys(), "No negative ions found in the ion parameter library '{params}'".format(params=params)
+                            assert name in self.ion_dict[params]["negative"].keys(), "\n".join([
+                                "The negative ion '{name}' was not found in the ion parameter library '{params}'".format(name=name, params=params),
+                                "The available negative ions in the ion parameter library '{params}' are:".format(params=params),
+                                "    ", " ".join(list(self.ion_dict[params]["negative"].keys()))
+                            ])
+                            solv_dict[solv_type][name] = copy.deepcopy(self.ion_dict[params]["negative"][name])
+                            solv_ratio_type = "neg_tot_ratio"
+                            molarity = solv_dict["salt_molarity"]
                     
                     if solv_dict[solv_type][name].moleculetype is not False:
                         moleculetype = solv_dict[solv_type][name].moleculetype
