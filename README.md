@@ -1,5 +1,7 @@
 # Coarse-grained System Builder (COBY)
 
+The paper is currently in pre-print at [bioRxiv](https://www.biorxiv.org/content/10.1101/2024.07.23.604601v1i)
+
 The program as well as documentation and a tutorial is avialable on the [GitHub](https://github.com/MikkelDA/COBY).
 
 COBY is a Python-based software for building flat membranes in coarse-grained resolution. It handles asymmetric membranes, phase-separated systems, multiple bilayers, protein insertion, solvation and flooding with one or multiple solute molecules of choice.
@@ -10,9 +12,20 @@ COBY is continuously under development and we welcome suggestions for new featur
 
 ![](https://github.com/MikkelDA/COBY/raw/master/figures/COBY_Logo.png)
 
-## Citation
-
-Andreasen _et al._ (2024) TBD.
+## Citation (bioRxiv)
+```
+@article {Andreasen2024COBY,
+	author = {Andreasen, Mikkel D. and Souza, Paulo C. T. and Schi{\o}tt, Birgit and Zuzic, Lorena},
+	title = {Creating Coarse-Grained Systems with COBY: Towards Higher Accuracy in Membrane Complexity},
+	elocation-id = {2024.07.23.604601},
+	year = {2024},
+	doi = {10.1101/2024.07.23.604601},
+	publisher = {Cold Spring Harbor Laboratory},
+	URL = {https://www.biorxiv.org/content/early/2024/07/23/2024.07.23.604601},
+	eprint = {https://www.biorxiv.org/content/early/2024/07/23/2024.07.23.604601.full.pdf},
+	journal = {bioRxiv}
+}
+```
 
 ## Installation 
 
