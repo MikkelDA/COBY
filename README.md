@@ -1,6 +1,6 @@
 # Coarse-grained System Builder (COBY)
 
-The paper is currently in pre-print at [bioRxiv](https://www.biorxiv.org/content/10.1101/2024.07.23.604601v1i).
+The paper is currently in pre-print at [bioRxiv](https://www.biorxiv.org/content/10.1101/2024.07.23.604601v1).
 
 The program as well as documentation and a tutorial is avialable on the [GitHub](https://github.com/MikkelDA/COBY).
 
