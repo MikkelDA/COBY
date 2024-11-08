@@ -1,0 +1,36 @@
+[moleculetype ]
+; Name     nrexcl
+DIM          1
+
+[ atoms ]
+;id type resnr residu atom cgnr  charge    mass
+1   TN2q   1     DIM     SI1    1   0.500  31.37
+2   TN2q   1     DIM     SI2    2   0.500  32.38
+3   TC6    1     DIM     SI3    3   0.000  32.38
+4   SC3    1     DIM     SI4    4   0.000  43.09
+5    C1    1     DIM     SI5    5   0.000  56.11
+6    C1    1     DIM     SI6    6   0.000  57.11
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     4    1       0.335     7500
+   4     5    1       0.405     4000
+   5     6    1       0.475     3800
+
+
+[constraints]
+;  i     j   funct   length
+   2     3    1       0.318
+   2     1    1       0.318
+   3     1    1       0.318
+
+[angles]
+;   i     j    k     funct   angle  force.c.
+    3     1    4      2    120.000   50.0
+    2     1    4      2    120.000   50.0
+    4     5    6      2    180.000   25.0
+
+[dihedrals]
+;  i     j    k    l   funct   angle  force.c.
+   4     2    3    1       2    0.0   200.0     ;
+

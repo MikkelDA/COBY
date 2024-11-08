@@ -1,0 +1,29 @@
+[moleculetype ]
+; Name     nrexcl
+BIM          1
+
+[ atoms ]
+;id type resnr residu atom cgnr  charge    mass
+1   TN2q    1     BIM     SI1    1   0.500   31.37
+2   TN2q    1     BIM     SI2    2   0.500   32.38
+3   TC6     1     BIM     SI3    3   0.000   32.38
+4   SC3     1     BIM     SI4    4   0.000   43.09
+
+[bonds]
+;  i     j   funct   length  force.c.
+   1     4    1       0.340     7500
+
+[constraints]
+;  i     j   funct   length
+   2     3    1       0.318
+   2     1    1       0.318
+   3     1    1       0.318
+
+[angles]
+;   i     j    k     funct   angle  force.c.
+    3     1    4      2    120.000   50.0
+    2     1    4      2    120.000   50.0
+
+[dihedrals]
+;  i     j    k    l   funct   angle  force.c.
+   4     2    3    1       2    0.0   200.0     ;

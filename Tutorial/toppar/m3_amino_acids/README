@@ -1,0 +1,3 @@
+The itp files found in this folder were created by first generating pdb files each containing a single amino acid using COBY.Crafter after which the structures were martinzed (from martini3001 to martini3001) using martinize2 with a random coiled (C) secondary structure.
+
+The amino acid "HYP" (hydroxyproline) was not martinizable for unclear reasons.
