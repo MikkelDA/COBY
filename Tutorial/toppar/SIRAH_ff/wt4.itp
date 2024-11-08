@@ -1,0 +1,33 @@
+[ moleculetype ] 
+; molname       nrexcl
+  WT4           3
+
+[ atoms ]  
+; id  at type     res nr  res name  at name  cg nr  charge    mass
+  1   WT          1       WT4       WN1      1      -0.41     50.0
+  2   WT          1       WT4       WN2      2      -0.41     50.0
+  3   WT          1       WT4       WP1      3       0.41     50.0
+  4   WT          1       WT4       WP2      4       0.41     50.0
+
+[ bonds ]
+; i j funct length force.c.
+  1 2 1 0.45 4184
+  1 3 1 0.45 4184
+  1 4 1 0.45 4184
+  2 3 1 0.45 4184
+  2 4 1 0.45 4184
+  3 4 1 0.45 4184
+
+[ angles ]
+; i j k funct angle force.c.
+  1 3 2 1 0.0 0.0
+  3 2 4 1 0.0 0.0
+
+[ dihedrals ]
+; ai aj ak al funct phi0 cp mult
+  1 3 2 4 1 0 0 0
+
+[ exclusions ]
+  1 2 3 4  
+  2 3 4
+  3 4

@@ -1,0 +1,90 @@
+
+[ moleculetype ]
+; Name            nrexcl
+DMPC       3
+
+[ atoms ]
+;   nr       type  resnr residue  atom   cgnr     charge       mass  typeB    chargeB      massB
+; residue   1 CMM rtp CMM  q  0.0
+     1       C7Nk      1    CMM    BCO      1        0.6         50
+     2         PL      1    CMM    BFO      1       -0.6         50
+     3        YGL      1    CMM    BGL      2        0.4         50
+     4        P1E      1    CMM    BE1      2       -0.2         50
+     5        P2E      1    CMM    BE2      2       -0.2         50
+     6        Y2C      1    CMM   BC11      3          0         50
+     7        Y2C      1    CMM   BC12      3          0         50
+     8        Y2C      1    CMM   BC13      4          0         50
+     9        Y3C      1    CMM   BCT1      4          0         50
+    10        Y2C      1    CMM   BC21      5          0         50
+    11        Y2C      1    CMM   BC22      5          0         50
+    12        Y2C      1    CMM   BC23      6          0         50
+    13        Y3C      1    CMM   BCT2      6          0         50   ; qtot 0
+
+[ bonds ]
+;  ai    aj funct            c0            c1            c2            c3
+    1     2     1 
+    2     3     1 
+    3     4     1 
+    3     5     1 
+    4     6     1 
+    5    10     1 
+    6     7     1 
+    7     8     1 
+    8     9     1 
+   10    11     1 
+   11    12     1 
+   12    13     1 
+
+[ pairs ]
+;  ai    aj funct            c0            c1            c2            c3
+    1     4     1 
+    1     5     1 
+    2     6     1 
+    2    10     1 
+    3     7     1 
+    3    11     1 
+    4     8     1 
+    4    10     1 
+    5     6     1 
+    5    12     1 
+    6     9     1 
+   10    13     1 
+
+[ angles ]
+;  ai    aj    ak funct            c0            c1            c2            c3
+    1     2     3     1 
+    2     3     4     1 
+    2     3     5     1 
+    4     3     5     1 
+    3     4     6     1 
+    3     5    10     1 
+    4     6     7     1 
+    6     7     8     1 
+    7     8     9     1 
+    5    10    11     1 
+   10    11    12     1 
+   11    12    13     1 
+
+[ dihedrals ]
+;  ai    aj    ak    al funct            c0            c1            c2            c3            c4            c5
+    1     2     3     4     9 
+    1     2     3     5     9 
+    2     3     4     6     9 
+    5     3     4     6     9 
+    2     3     5    10     9 
+    4     3     5    10     9 
+    3     4     6     7     9 
+    3     5    10    11     9 
+    4     6     7     8     9 
+    6     7     8     9     9 
+    5    10    11    12     9 
+   10    11    12    13     9 
+
+; MDA: Added "#define POSRES"
+#define POSRES
+
+; Include Position restraint file
+#ifdef POSRES
+#include "posre_DMPC.itp"
+#endif
+
