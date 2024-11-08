@@ -1,0 +1,122 @@
+;;;;;; Martini lipid topology for cardiolipin (CL) 0-
+;
+; Description:
+;   A Martini model for a cardiolipin 0- (CDL0), i.e. a cardiolipin with zero charge (both the phosphatidyl groups 
+;   neutralized).
+; Keywords: mitochondrial
+; Parameterization:
+;   See Dahlberg 2007 and Dahlberg and Maliniak 2010.
+; Reference(s): 
+;   S.J. Marrink, A.H. de Vries, A.E. Mark. Coarse grained model for semi-quantitative lipid simulations. JPC-B, 108:750-760, 
+;   2004. doi:10.1021/jp036508g 
+;   S.J. Marrink, H.J. Risselada, S. Yefimov, D.P. Tieleman, A.H. de Vries. The MARTINI force field: coarse grained model for 
+;   biomolecular simulations. JPC-B, 111:7812-7824, 2007. doi:10.1021/jp071097f 
+;   M. Dahlberg. Polymorphic phase behavior of cardiolipin derivatives studied by coarse-grained molecular dynamics. JPC-B, 
+;   111:7194–7200, 2007. doi:10.1021/jp071954f
+;   M. Dahlberg, A. Maliniak. Mechanical properties of coarse-grained bilayers formed by cardiolipin and zwitterionic lipids.
+;   JCTC, 6:1638-1649, 2010. doi:10.1021/ct900654e
+;
+
+;;; BONDED PARAMETERS
+; aliases for bonds
+#define  mb_pg1    0.370  5500.0 ; phosphatidyl/linking glycerol
+#define  mb_pg2    0.470  1250.0 ; phosphatidyl/glycerol
+#define  mb_gg     0.370  1250.0 ; glycerol linker
+#define  mb_cc     0.470  1250.0 ; tail
+; aliases for angles
+#define  ma_pgp  105.000    45.0 ; linking glycerol
+#define  ma_gpg  110.000    25.0 ; linking glycerol/phosphatidyl/glycerol
+#define  ma_pgg  120.000    25.0 ; phosphatidyl/glycerol
+#define  ma_pgc  180.000    25.0 ; phosphatidyl/glycerol/tail
+#define  ma_gcc  180.000    25.0 ; glycerol/tail
+#define  ma_ccc  180.000    25.0 ; saturated tail
+#define  ma_cdc  120.000    45.0 ; mono-insaturation
+
+[ moleculetype ]
+; molname  nrexcl
+  CDL0      1
+
+[ atoms ]
+; i type resnr residue atom cgnr charge
+  1 Nda  1     CDL0    GL0   1    0.0 ; linking bead, note Nda
+  2 Qa   1     CDL0    PO41  2    0.0 ; first phosphatidyl group (NEUTRAL)
+  3 Na   1     CDL0    GL11  3    0.0 ; first glycerol group
+  4 Na   1     CDL0    GL21  4    0.0
+  5 C1   1     CDL0    C1A1  5    0.0 ; aliphatic tail A1
+  6 C1   1     CDL0    C2A1  6    0.0
+  7 C3   1     CDL0    D3A1  7    0.0
+  8 C1   1     CDL0    C4A1  8    0.0
+  9 C1   1     CDL0    C5A1  9    0.0
+ 10 C1   1     CDL0    C1B1 10    0.0 ; aliphatic tail B1
+ 11 C1   1     CDL0    C2B1 11    0.0
+ 12 C3   1     CDL0    D3B1 12    0.0
+ 13 C1   1     CDL0    C4B1 13    0.0
+ 14 C1   1     CDL0    C5B1 14    0.0
+ 15 Qa   1     CDL0    PO42 15    0.0 ; second phosphatidyl group (NEUTRAL)
+ 16 Na   1     CDL0    GL12 16    0.0 ; second glycerol group
+ 17 Na   1     CDL0    GL22 17    0.0
+ 18 C1   1     CDL0    C1A2 18    0.0 ; aliphatic tail A2
+ 19 C1   1     CDL0    C2A2 19    0.0
+ 20 C3   1     CDL0    D3A2 20    0.0
+ 21 C1   1     CDL0    C4A2 21    0.0
+ 22 C1   1     CDL0    C5A2 22    0.0
+ 23 C1   1     CDL0    C1B2 23    0.0 ; aliphatic tail B2
+ 24 C1   1     CDL0    C2B2 24    0.0
+ 25 C3   1     CDL0    D3B2 25    0.0
+ 26 C1   1     CDL0    C4B2 26    0.0
+ 27 C1   1     CDL0    C5B2 27    0.0
+
+[ bonds ]
+; i  j  funct  alias
+  1  2  1      mb_pg1 ; UA 0.372 (avg)
+  1 15  1      mb_pg1 ; UA 0.372 (avg)
+  2  3  1      mb_pg2
+  3  4  1      mb_gg
+  3  5  1      mb_cc
+  5  6  1      mb_cc
+  6  7  1      mb_cc
+  7  8  1      mb_cc
+  8  9  1      mb_cc
+  4 10  1      mb_cc
+ 10 11  1      mb_cc
+ 11 12  1      mb_cc
+ 12 13  1      mb_cc
+ 13 14  1      mb_cc
+ 15 16  1      mb_pg2
+ 16 17  1      mb_gg
+ 16 18  1      mb_cc
+ 18 19  1      mb_cc
+ 19 20  1      mb_cc
+ 20 21  1      mb_cc
+ 21 22  1      mb_cc
+ 17 23  1      mb_cc
+ 23 24  1      mb_cc
+ 24 25  1      mb_cc
+ 25 26  1      mb_cc
+ 26 27  1      mb_cc
+
+[ angles ]
+; i  j  k  funct  alias
+  2  1 15  2      ma_pgp ; linking bead: PO41-GL5-PO42
+  1  2  3  2      ma_gpg ; linking bead to first glycerol group:  PO41-GL5-PO42
+  1 15 16  2      ma_gpg ; linking bead to second glycerol group: PO41-GL5-PO42
+  2  3  4  2      ma_pgg
+  2  3  5  2      ma_pgc
+  3  5  6  2      ma_gcc
+  5  6  7  2      ma_ccc
+  6  7  8  2      ma_cdc ; insaturation: C2A-D3A-C4A
+  7  8  9  2      ma_ccc
+  4 10 11  2      ma_gcc
+ 10 11 12  2      ma_ccc
+ 11 12 13  2      ma_cdc ; insaturation: C2B-D3B-C4B
+ 12 13 14  2      ma_ccc
+ 15 16 17  2      ma_pgg
+ 15 16 18  2      ma_pgc
+ 16 18 19  2      ma_gcc
+ 18 19 20  2      ma_ccc
+ 19 20 21  2      ma_cdc ; insaturation: C2A2-D3A2-C4A2
+ 20 21 22  2      ma_ccc
+ 17 23 24  2      ma_gcc
+ 23 24 25  2      ma_ccc
+ 24 25 26  2      ma_cdc ; insaturation: C2B2-D3B2-C4B2
+ 25 26 27  2      ma_ccc

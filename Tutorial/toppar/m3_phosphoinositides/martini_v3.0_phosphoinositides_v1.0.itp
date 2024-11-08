@@ -1,0 +1,2400 @@
+;
+;MARTINI3 Phosphatidylinositides Version 1.0 (May 2021)
+;by L. Borges-Araújo, P.C.T. Souza & M.N. Melo
+;
+; Martini3 topologies of the 8 phosphatidylinositides.
+; Bonded potentials parameterized against CHARMM36m models.
+; Core myo-inositol headgroup bead types derived from CHARMM36m inositol self-aggregation,
+; and computationally predicted myo-inositol partition data.
+; The 8 headgroups were tested (SASA, APL and Membrane insertion) against the same models.
+; Phosphatidylinositde cation induced aggregation was tested in the presence of calcium
+; in a 2.5:1 Ca:PI ratio and the tendencies observed followed the major experimental
+; aggregation tendencies. No aggregation observed in the absence of cations.
+; Stearoyl arachidonoyl (SA) (18:0 20:4) and palmitoyl oleoyl (PO) (16:0 18:1) acyl-chain
+; compositions available with dipalmitoyl (16:0)_2 and dioleoyl (18:1)_2 available soon.
+; Acyl chain parameters were obtained from the martini 3.0 lipid models available at the
+; publication time of the martini 3 paper.
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; When using these parameters please read and cite the parameterization article:
+; 
+; L. Borges-Araujo, P.C.T. Souza, F. Fernandes and M.N. Melo,
+;  Improved Parameterization of Phosphatidylinositide Lipid Headgroups for the
+;  Martini 3 Coarse-Grain Force Field, J. Chem. Theory Comput., 2021,
+;  doi:10.1021/acs.jctc.1c00615
+;
+; Also be sure to check https://github.com/MeloLab/PhosphoinositideParameters
+; for updates to these parameters.
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; #####################
+; ## Inositol Lipids ##
+; #####################
+
+; SAPI -> SA - Phosphatidylinositol (PI)
+;
+;       C2 — — — C3   
+;         \  C4  /   
+;          \    /
+;            C1  
+;            |
+;          PO4
+;         /  |
+;      GL2 - GL1
+;      |     |
+;   ChainA  ChainB   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  SAPI          1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge    mass
+   1 	SP1	     1  SAPI 	C1  	 1 	0 	
+   2 	SP4	     1  SAPI 	C2  	 2 	0 	
+   3 	SP4	     1  SAPI 	C3  	 3 	0 	
+   4 	TC4	     1  SAPI 	C4  	 4 	0 	 0
+   5 	Q5 	     1  SAPI 	PO4 	 5 	-1.0 	
+   6 	SN4a     1  SAPI 	GL1 	 6 	0 	
+   7 	N4a	     1  SAPI 	GL2 	 7 	0 	
+   8 	C4h	     1  SAPI 	D1A 	 8 	0 	
+   9 	C4h	     1  SAPI 	D2A 	 9 	0 	
+  10 	C4h	     1  SAPI 	D3A 	10 	0 	
+  11 	C4h	     1  SAPI 	D4A 	11 	0
+  12    C1       1  SAPI    C5A     12  0
+  13 	C1 	     1  SAPI 	C1B 	13 	0 	
+  14 	C1 	     1  SAPI 	C2B 	14 	0 	
+  15 	C1 	     1  SAPI 	C3B 	15 	0 	
+  16 	C1 	     1  SAPI 	C4B 	16 	0 	
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.3720 	30000 	
+   1  3 	1 	0.3696	30000 	
+   2  3 	1 	0.4044	30000 	
+#endif
+   1  5 	1 	0.330 	5000         ;C1 PO4
+   5  6 	1 	0.368 	2250 	     ;PO4 GL1 
+   5  7    	1   0.518 	 600 	     ;PO4 GL2 
+;lipid tail (Martini v3)
+   6  7 	1 	0.312 	2500 	
+   6  8 	1 	0.47 	5000 	
+   8  9 	1 	0.47 	3800 	
+   9 10 	1 	0.47 	3800 	
+  10 11 	1 	0.47 	3800 	
+  11 12 	1 	0.47 	3800 	
+   7 13 	1 	0.47 	3600 	
+  13 14 	1 	0.47 	3800 	
+  14 15 	1 	0.47 	3800 	
+  15 16 	1 	0.47 	3800 	
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup
+   2  1  5  	10	   100.0 	15.0    ;  C2  C1 PO4   
+   1  5  6      10     100.0     4.0    ;  C1 PO4 GL1
+; Tail part (Martini v3)
+   6  8  9 	2 	100.0 	10.0
+   6  9 10 	2 	100.0 	10.0
+   9 10 11 	2 	100.0 	10.0
+  10 11 12  2   100.0   10.0
+   7 13 14 	2 	180.0 	35.0 	
+  13 14 15 	2 	180.0 	35.0 	
+  14 15 16 	2 	180.0 	35.0 	
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.
+ 3  2  1  5       2      -148.0   95.0       ;C3 C2 C1 PO4
+ 2  1  5  6       1       180.0    2.0   2   ;C2 C1 PO4 GL1
+
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.3720         ;C1 C2  expanded by 20% to account for SASA differences
+   1  3 	1 	0.3696     	   ;C1 C3  
+   2  3 	1 	0.4044     	   ;C2 C3  
+#endif
+
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5
+3 2 1
+2 1
+
+
+
+; SAP1_3 -> SA - Phosphatidylinositol 3-phosphate (PI(3)P)
+;
+;       C2 — — — C3 — P3 
+;         \  C4  /   
+;          \    /    
+;            C1  
+;            |
+;          PO4
+;         /  |
+;      GL2 - GL1
+;      |     |
+;   ChainA  ChainB   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  SAP1_3         1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge    mass
+   1 	SP1 	 1 	    SAP1 	C1  	 1 	    0 	
+   2 	SP4 	 1 	    SAP1    C2  	 2 	    0  	
+   3 	SP1 	 1 	    SAP1 	C3  	 3 	    0 	
+   4 	TC4	     1 	    SAP1 	C4  	 4 	    0 	 0
+   5 	Q5	     1 	    SAP1 	PO4 	 5     -1.0 	
+   6    D        1      SAP1    P3       6     -2.0   
+   7 	SN4a     1 	    SAP1 	GL1 	 7 	    0    
+   8 	N4a      1 	    SAP1 	GL2 	 8 	    0 	
+   9    C4h      1      SAP1    D1A      9      0
+  10    C4h      1      SAP1    D2A     10      0
+  11    C4h      1      SAP1    D3A     11      0
+  12    C4h      1      SAP1    D4A     12      0
+  13    C1       1      SAP1    C5A     13      0
+  14    C1       1      SAP1    C1B     14      0
+  15    C1       1      SAP1    C2B     15      0
+  16    C1       1      SAP1    C3B     16      0
+  17    C1       1      SAP1    C4B     17      0
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2     	1   	0.305 	30000 	
+   1  3     	1   	0.302 	30000 	
+   2  3     	1    	0.324	30000
+#endif
+;headgroup phosphates   
+   6  3         1       0.303   10000       ;P3 C3 
+; Phosphodiester    
+   1  5     	1    	0.330 	6000        ;C1 PO4
+   5  7     	1   	0.360 	1800 	    ;PO4 GL1
+   5  8     	1       0.515 	1000 	    ;PO4 GL2
+;lipid tail (Martini v3)   
+   7  8         1       0.312   2500
+   7  9         1       0.47    5000
+   9 10         1       0.47    3800
+  10 11         1       0.47    3800
+  11 12         1       0.47    3800
+  12 13         1       0.47    3800
+   8 14         1       0.47    3600
+  14 15         1       0.47    3800
+  15 16         1       0.47    3800
+  16 17         1       0.47    3800
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup
+   2  1  5  	10	   106.0 	35.0    ;C2  C1 PO4   
+   1  5  7      10     110.0    10.0    ;C1 PO4 GL1
+   6  3  1      10      99.0    82.5    ;P3 C3 C1
+; Tail part (uses standar Martini v2.0 tail rules)
+   7  9 10      2       100.0   10.0
+   9 10 11      2       100.0   10.0
+  10 11 12      2       100.0   10.0
+  11 12 13      2       100.0   10.0
+   8 14 15      2       180.0   35.0
+  14 15 16      2       180.0   35.0
+  15 16 17      2       180.0   35.0
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.  m
+ 3  2  1  5       2      -142.0  125.0       ;C3 C2 C1 PO4
+ 2  1  5  7       1       180.0    3.0   2   ;C2 C1 PO4 GL1   
+ 6  3  1  2       2      -167.0  110.0       ;P3 C3 C1 C2
+ 
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.305   ;C1 C2      
+   1  3 	1 	0.302   ;C1 C3	
+   2  3 	1 	0.324   ;C2 C3
+#endif
+
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6
+3 2 1
+2 1
+
+
+
+
+; SAP1_4 -> SA - Phosphatidylinositol 4-phosphate
+;
+;            P4
+;               \
+;       C2 — — — C3   
+;         \  C4  /   
+;          \    /    
+;            C1  
+;            |
+;          PO4
+;         /  |
+;      GL2 - GL1
+;      |     |
+;   ChainA  ChainB   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  SAP1_4         1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge   mass
+   1 	SP1 	 1 	    SAP1 	C1  	 1 	    0 	
+   2 	SP4 	 1 	    SAP1    C2  	 2 	    0  	
+   3 	SP1 	 1 	    SAP1 	C3  	 3 	    0 	
+   4 	TC4	     1 	    SAP1 	C4  	 4 	    0 	 0
+   5 	Q5 	     1 	    SAP1 	PO4 	 5     -1.0 	
+   6    D        1      SAP1    P4       6     -2.0   
+   7 	SN4a     1 	    SAP1 	GL1 	 7 	    0    
+   8 	N4a      1 	    SAP1 	GL2 	 8 	    0 	
+   9    C4h      1      SAP1    D1A      9      0
+  10    C4h      1      SAP1    D2A     10      0
+  11    C4h      1      SAP1    D3A     11      0
+  12    C4h      1      SAP1    D4A     12      0
+  13    C1       1      SAP1    C5A     13      0
+  14    C1       1      SAP1    C1B     14      0
+  15    C1       1      SAP1    C2B     15      0
+  16    C1       1      SAP1    C3B     16      0
+  17    C1       1      SAP1    C4B     17      0
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.3037 	30000 	
+   1  3 	1 	0.2945 	30000 	
+   2  3 	1 	0.3370 	30000 	
+#endif
+;headgroup phosphates   
+   6  3         1       0.3250    5250  	   ;P4 C3
+; Phosphodiester    
+   1  5     	1    	0.3350 	  5500         ;C1 PO4 
+   5  7     	1   	0.3600 	  2250 	       ;PO4 GL1 
+   5  8     	1   	0.5200 	   800 	       ;PO4 GL2 
+;lipid tail (Martini v3)   
+   7  8         1       0.312   2500
+   7  9         1       0.47    5000
+   9 10         1       0.47    3800
+  10 11         1       0.47    3800
+  11 12         1       0.47    3800
+  12 13         1       0.47    3800
+   8 14         1       0.47    3600
+  14 15         1       0.47    3800
+  15 16         1       0.47    3800
+  16 17         1       0.47    3800
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup
+   2  1  5  	10	   98.0 	27.5   ;  C2  C1 PO4   
+   1  5  7      10     90.0     3.0    ;  C1 PO4 GL1
+   6  3  2      10     92.0     55.0   ;  P4  C3  C2   
+; Tail part (uses standar Martini v2.0 tail rules)
+   7  9 10      2       100.0   10.0
+   9 10 11      2       100.0   10.0
+  10 11 12      2       100.0   10.0
+  11 12 13      2       100.0   10.0
+   8 14 15      2       180.0   35.0
+  14 15 16      2       180.0   35.0
+  15 16 17      2       180.0   35.0
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.
+ 3  2  1  5       2      -145.0  130.0       ;C3 C2 C1 PO4
+ 2  1  5  7       1       180.0    2.0   2   ;C2 C1 PO4 GL1
+ 6  3  2  1       2      -170.0  110.0       ;P4 C3 C2 C1   
+ 
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.3037   ;C1 C2  
+   1  3 	1 	0.2945   ;C1 C3	
+   2  3 	1 	0.3370   ;C2 C3   
+#endif
+
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 
+3 2 1
+2 1
+
+
+
+; SAP1_5 -> SA - Phosphatidylinositol 5-phosphate
+;
+;        P5   
+;        |    
+;       C2 — — — C3   
+;         \  C4  /   
+;          \    /    
+;            C1  
+;            |
+;          PO4
+;         /  |
+;      GL2 - GL1
+;      |     |
+;   ChainA  ChainB   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  SAP1_5         1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge    mass
+   1 	SP1 	 1 	    SAP1 	C1  	 1 	    0 	
+   2 	SP1 	 1 	    SAP1    C2  	 2 	    0  	
+   3 	SP4 	 1 	    SAP1 	C3  	 3 	    0 	
+   4 	TC4	     1 	    SAP1 	C4  	 4 	    0 	 0
+   5 	Q5 	     1 	    SAP1 	PO4 	 5     -1.0 	
+   6    D        1      SAP1    P5       6     -2.0   
+   7 	SN4a     1 	    SAP1 	GL1 	 7 	    0    
+   8 	N4a      1 	    SAP1 	GL2 	 8 	    0 	
+   9    C4h      1      SAP1    D1A      9      0
+  10    C4h      1      SAP1    D2A     10      0
+  11    C4h      1      SAP1    D3A     11      0
+  12    C4h      1      SAP1    D4A     12      0
+  13    C1       1      SAP1    C5A     13      0
+  14    C1       1      SAP1    C1B     14      0
+  15    C1       1      SAP1    C2B     15      0
+  16    C1       1      SAP1    C3B     16      0
+  17    C1       1      SAP1    C4B     17      0
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.297 	30000 	
+   1  3 	1 	0.311 	30000 	
+   2  3 	1 	0.324 	30000 	
+#endif
+;headgroup phosphates   
+   6  2         1       0.335    10000         ;P5 C2
+; Phosphodiester       
+   1  5     	1    	0.337 	  5000         ;C1 PO4
+   5  7     	1   	0.3540 	  1750 	       ;PO4 GL1
+   5  8     	1   	0.5200 	   600 	       ;PO4 GL2
+;lipid tail (Martini v3)   
+   7  8         1       0.312   2500
+   7  9         1       0.47    5000
+   9 10         1       0.47    3800
+  10 11         1       0.47    3800
+  11 12         1       0.47    3800
+  12 13         1       0.47    3800  
+   8 14         1       0.47    3600
+  14 15         1       0.47    3800
+  15 16         1       0.47    3800
+  16 17         1       0.47    3800
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup
+   2  1  5  	10	    89.0 	19.0    ;  C2  C1 PO4   
+   1  5  7      10      90.0     2.5    ;  C1 PO4 GL1
+   6  2  3      10      82.5   110.0    ;  P5 C2 C3 
+; Tail part (uses standar Martini v2.0 tail rules)
+   7  9 10      2       100.0   10.0
+   9 10 11      2       100.0   10.0
+  10 11 12      2       100.0   10.0
+  11 12 13      2       100.0   10.0
+   8 14 15      2       180.0   35.0
+  14 15 16      2       180.0   35.0
+  15 16 17      2       180.0   35.0
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c. m
+ 3  2  1  5       2      -150.0  115.0         ;C3 C2 C1 PO4
+ 2  1  5  7       1       180.0    2.0   2     ;C2 C1 PO4 GL1
+ 6  2  3  1       2      165.0  100.0          ;P5 C2 C3 C1
+ 
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.297   ;C1 C2      
+   1  3 	1 	0.311   ;C1 C3	
+   2  3 	1 	0.324   ;C2 C3
+#endif
+
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 
+3 2 1
+2 1
+
+
+
+; SAP2_34 -> SA - Phosphatidylinositol 3,4-bisphosphate
+;
+;            P4
+;               \
+;       C2 — — — C3 — P3    ## P3 - C1 suplementary bond not shown
+;         \  C4  /          ## P3 - P4 suplementary bond not shown
+;          \    /  
+;            C1   
+;            |
+;          PO4
+;         /  |
+;      GL2 - GL1
+;      |     |
+;   ChainA  ChainB   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  SAP2_34        1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge   mass
+   1 	SP1 	 1 	    SAP2 	C1  	 1 	    0 	
+   2 	SP4 	 1 	    SAP2 	C2  	 2 	    0  	
+   3 	SN4a 	 1 	    SAP2 	C3  	 3 	    0 	
+   4 	TC4	     1 	    SAP2 	C4  	 4 	    0 	 0
+   5 	Q5 	     1 	    SAP2 	PO4 	 5     -1.0 	
+   6    D        1      SAP2    P3       6     -1.5
+   7    D        1      SAP2    P4       7     -1.5
+   8 	SN4a     1 	    SAP2 	GL1 	 8 	    0 	
+   9 	N4a      1 	    SAP2 	GL2 	 9 	    0 	
+  10    C4h      1      SAP2    D1A     10      0
+  11    C4h      1      SAP2    D2A     11      0
+  12    C4h      1      SAP2    D3A     12      0
+  13    C4h      1      SAP2    D4A     13      0
+  14    C1       1      SAP2    C5A     14      0
+  15    C1       1      SAP2    C1B     15      0
+  16    C1       1      SAP2    C2B     16      0
+  17    C1       1      SAP2    C3B     17      0
+  18    C1       1      SAP2    C4B     18      0
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.3075 	30000 	       
+   1  3 	1 	0.2845	30000 	
+   2  3 	1 	0.3030 	30000 	
+#endif
+;headgroup phosphates   
+   6  3         1       0.340    9000        ;P3 C3	    
+   6  1         1       0.435    1750        ;P3 C1	    
+   7  3         1       0.330    9000 	     ;P4 C3	      
+   6  7         1       0.525     800        ;P3 P4
+; Phosphodiester
+   1  5     	1    	0.340     5000       ;C1 PO4
+   5  8     	1   	0.3630 	  1750 	     ;PO4 GL1 
+   5  9     	1   	0.5200 	  1000 	     ;PO4 GL2
+;lipid tail (Martini v3)   
+   8  9         1       0.312   2500
+   8 10         1       0.47    5000
+  10 11         1       0.47    3800
+  11 12         1       0.47    3800
+  12 13         1       0.47    3800
+  13 14         1       0.47    3800
+   9 15         1       0.47    3600
+  15 16         1       0.47    3800
+  16 17         1       0.47    3800
+  17 18         1       0.47    3800
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup   
+   2  1  5  	10	   112.0 	70.0    ;  C2  C1 PO4 
+   1  5  8      10      90.0     6.0    ;  C1 PO4 GL1  
+   6  3  1      10      88.0    55.0    ;  P3 C3 C1 
+   7  3  2      10      83.0    67.5    ;  P4 C3 C2 
+; Tail part (uses standar Martini v2.0 tail rules)
+   8 10 11      2       100.0   10.0
+  10 11 12      2       100.0   10.0
+  11 12 13      2       100.0   10.0
+  12 13 14      2       100.0   10.0
+   9 15 16      2       180.0   35.0
+  15 16 17      2       180.0   35.0
+  16 17 18      2       180.0   35.0
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c. m
+ 3  2  1  5       2      -140.0  120.0        ;C3 C2 C1 PO4	    
+ 2  1  5  8       1       180.0    3.5   2    ;C2 C1 PO4 GL1	     
+ 6  3  1  2       2      -166.0   95.0        ;P3 C3 C1 C2
+ 7  3  2  1       2      -170.0  120.0        ;P4 C3 C2 C1
+
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.3075   ;C1 C2       
+   1  3 	1 	0.2845   ;C1 C3	     
+   2  3 	1 	0.3030   ;C2 C3      
+#endif
+   
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 7
+3 2 1
+2 1
+
+
+
+; SAP2_35 -> SA - Phosphatidylinositol 3,5-bisphosphate
+;
+;        P5   
+;        |      
+;       C2 — — — C3 — P3    ## P3 - C1 suplementary bond not shown
+;         \  C4  /         
+;          \    /  
+;            C1   
+;            |
+;          PO4
+;         /  |
+;      GL2 - GL1
+;      |     |
+;   ChainA  ChainB   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  SAP2_35        1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge
+   1 	SP1 	 1 	    SAP2 	C1  	 1 	    0 	
+   2 	SP1 	 1 	    SAP2 	C2  	 2 	    0  	
+   3 	SP1 	 1 	    SAP2 	C3  	 3 	    0 	
+   4 	TC4	     1 	    SAP2 	C4  	 4 	    0 	 0
+   5 	Q5 	     1 	    SAP2 	PO4 	 5     -1.0 	   
+   6    D        1      SAP2    P3       6     -1.5
+   7    D        1      SAP2    P5       7     -1.5
+   8 	SN4a     1 	    SAP2 	GL1 	 8 	    0 	
+   9 	N4a      1 	    SAP2 	GL2 	 9 	    0 	
+  10    C4h      1      SAP2    D1A     10      0
+  11    C4h      1      SAP2    D2A     11      0
+  12    C4h      1      SAP2    D3A     12      0
+  13    C4h      1      SAP2    D4A     13      0
+  14    C1       1      SAP2    C5A     14      0
+  15    C1       1      SAP2    C1B     15      0
+  16    C1       1      SAP2    C2B     16      0
+  17    C1       1      SAP2    C3B     17      0
+  18    C1       1      SAP2    C4B     18      0
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.2910 	30000 	       
+   1  3 	1 	0.3050	30000 	
+   2  3 	1 	0.3150 	30000 	
+#endif
+;headgroup phosphates   
+   6  3         1       0.325    5000        ;P3 C3	   
+   6  1         1       0.445    1500        ;P3 C1	    
+   7  2         1       0.345    4750 	     ;P5 C2	      
+; Phosphodiester
+   1  5     	1    	0.330	 5000        ;C1 PO4
+   5  8     	1   	0.3580 	 2000 	     ;PO4 GL1 
+   5  9     	1   	0.5180 	  900 	     ;PO4 GL2 
+;lipid tail (Martini v3)   
+   8  9         1       0.312   2500
+   8 10         1       0.47    5000
+  10 11         1       0.47    3800
+  11 12         1       0.47    3800
+  12 13         1       0.47    3800
+  13 14         1       0.47    3800
+   9 15         1       0.47    3600
+  15 16         1       0.47    3800
+  16 17         1       0.47    3800
+  17 18         1       0.47    3800
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup   
+   2  1  5  	10	   102.0 	45.0    ;  C2  C1 PO4   	
+   1  5  8      10      90.0     3.0    ;  C1 PO4 GL1	    
+   6  3  1      10     100.0    20.0    ;  P3 C3 C1	     
+   7  2  3      10      78.0    65.0    ;  P5 C2 C3 	 
+; Tail part (uses standar Martini v2.0 tail rules)
+   8 10 11      2       100.0   10.0
+  10 11 12      2       100.0   10.0
+  11 12 13      2       100.0   10.0
+  12 13 14      2       100.0   10.0
+   9 15 16      2       180.0   35.0
+  15 16 17      2       180.0   35.0
+  16 17 18      2       180.0   35.0
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.
+ 3  2  1  5       2      -142.0  110.0       ;C3 C2 C1 PO4	    
+ 2  1  5  8       1       180.0    3.0   2   ;C2 C1 PO4 GL1	     
+ 6  3  1  2       2      -162.0   80.0       ;P3 C3 C1 C2
+ 7  2  3  1       2       163.0   80.0       ;P5 C2 C3 C1
+
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.2910   ;C1 C2     	      
+   1  3 	1 	0.3050   ;C1 C3		      
+   2  3 	1 	0.3150   ;C2 C3      	      
+#endif
+   
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 7
+3 2 1
+2 1
+
+
+; SAP2_45 -> SA - Phosphatidylinositol 4,5-bisphosphate
+;
+;        P5     P4
+;        |       \
+;       C2 — — — C3  ## P4 - P5 suplementary bond not shown
+;         \  C4  /         
+;          \    /  
+;            C1   
+;            |
+;          PO4
+;         /  |
+;      GL2 - GL1
+;      |     |
+;   ChainA  ChainB   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  SAP2_45        1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge  mass
+   1 	SP1 	 1 	    SAP2 	C1  	 1 	    0 	
+   2 	SP1 	 1 	    SAP2 	C2  	 2 	    0  	
+   3 	SP1 	 1 	    SAP2 	C3  	 3 	    0 	
+   4 	TC4	     1 	    SAP2 	C4  	 4 	    0 	 0
+   5 	Q5 	     1 	    SAP2 	PO4 	 5     -1.0 	
+   6    D        1      SAP2    P4       6     -1.5
+   7    D        1      SAP2    P5       7     -1.5
+   8 	SN4a     1 	    SAP2 	GL1 	 8 	    0 	
+   9 	N4a      1 	    SAP2 	GL2 	 9 	    0 	
+  10    C4h      1      SAP2    D1A     10      0
+  11    C4h      1      SAP2    D2A     11      0
+  12    C4h      1      SAP2    D3A     12      0
+  13    C4h      1      SAP2    D4A     13      0
+  14    C1       1      SAP2    C5A     14      0
+  15    C1       1      SAP2    C1B     15      0
+  16    C1       1      SAP2    C2B     16      0
+  17    C1       1      SAP2    C3B     17      0
+  18    C1       1      SAP2    C4B     18      0
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.2770 	30000 	       
+   1  3 	1 	0.2865	30000 	
+   2  3 	1 	0.3360 	30000 	
+#endif
+;headgroup phosphates   
+   6  3         1       0.325    4250 	     ;P4 C3
+   7  2         1       0.337    2500        ;P5 C2
+   6  7         1       0.525    1000        ;P4 P5
+; Phosphodiester
+   1  5     	1    	0.340 	 5000        ;C1 PO4
+   5  8     	1   	0.360 	 1700 	     ;PO4 GL1
+   5  9     	1   	0.507 	 1000 	     ;PO4 GL2
+;lipid tail (Martini v3)   
+   8  9         1       0.312   2500
+   8 10         1       0.47    5000
+  10 11         1       0.47    3800
+  11 12         1       0.47    3800
+  12 13         1       0.47    3800
+  13 14         1       0.47    3800
+   9 15         1       0.47    3600
+  15 16         1       0.47    3800
+  16 17         1       0.47    3800
+  17 18         1       0.47    3800
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup   
+   2  1  5  	10	   100.0 	50.0    ;  C2  C1 PO4   	
+   1  5  8      10      90.0     2.0    ;  C1 PO4 GL1	    
+   6  3  2      10      101.0    7.0    ;  P4 C3 C2 	 
+   7  2  3      10       97.5   12.5    ;  P5 C2 C3 
+; Tail part (uses standar Martini v2.0 tail rules)
+   8 10 11      2       100.0   10.0
+  10 11 12      2       100.0   10.0
+  11 12 13      2       100.0   10.0
+  12 13 14      2       100.0   10.0
+   9 15 16      2       180.0   35.0
+  15 16 17      2       180.0   35.0
+  16 17 18      2       180.0   35.0
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.
+ 3  2  1  5       2      -140.0  110.0       ;C3 C2 C1 PO4	    
+ 2  1  5  8       1       180.0    0.5   2   ;C2 C1 PO4 GL1	     
+ 6  3  2  1       2       177.0   50.0       ;P4 C3 C2 C1
+ 7  2  3  1       2       130.0    9.0       ;P5 C2 C3 C1
+ 
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.2770   ;C1 C2     	      
+   1  3 	1 	0.2865   ;C1 C3		      
+   2  3 	1 	0.3360   ;C2 C3      	      
+#endif
+   
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 7
+3 2 1
+2 1
+
+
+; SAP3_345 -> SA - Phosphatidylinositol 3,4,5-trisphosphate
+;
+;        P5     P4
+;        |       \
+;       C2 — — — C3 — P3   ## P3 - C1 suplementary bond not shown
+;         \  C4  /         ## P5 - C1 suplementary bond not shown
+;          \    /          ## P4 - P5 suplementary bond not shown
+;            C1   
+;            |
+;          PO4
+;         /  |
+;      GL2 - GL1
+;      |     |
+;   ChainA  ChainB   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  SAP3_345       1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge  mass
+   1 	SP1 	 1 	    SAP3 	C1  	 1 	    0 	
+   2 	SP1 	 1 	    SAP3 	C2  	 2 	    0  	
+   3 	SN4a 	 1 	    SAP3 	C3  	 3 	    0 	
+   4 	TC4	     1 	    SAP3 	C4  	 4 	    0 	 0   
+   5 	Q5	     1 	    SAP3 	PO4 	 5     -1.0 	
+   6    Q5       1      SAP3    P3       6     -1.30   
+   7    D        1      SAP3    P4       7     -1.40   
+   8    Q5       1      SAP3    P5       8     -1.30
+   9 	SN4a     1 	    SAP3 	GL1 	 9 	    0 	
+  10 	N4a      1 	    SAP3 	GL2 	10 	    0 	
+  11    C4h      1      SAP3    D1A     11      0
+  12    C4h      1      SAP3    D2A     12      0
+  13    C4h      1      SAP3    D3A     13      0
+  14    C4h      1      SAP3    D4A     14      0
+  15    C1       1      SAP3    C5A     15      0
+  16    C1       1      SAP3    C1B     16      0
+  17    C1       1      SAP3    C2B     17      0
+  18    C1       1      SAP3    C3B     18      0
+  19    C1       1      SAP3    C4B     19      0
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.290 	30000 	
+   1  3 	1 	0.284	30000 	
+   2  3 	1 	0.307 	30000 	
+#endif
+;headgroup phosphates   
+   6  3         1       0.306    7500        ;P3 C3 
+   6  1         1       0.505    1250        ;P3 C1 
+   7  3         1       0.325    5500 	     ;P4 C3
+   8  2         1       0.395    3500        ;P5 C2
+   8  1         1       0.500    1250        ;P5 C1
+   7  8         1       0.505     800        ;P4 P5
+; Phosphodiester   
+   1  5     	1    	0.341 	  5000       ;C1 PO4
+   5  9     	1   	0.3600 	  2000 	     ;PO4 GL1 
+   5 10     	1   	0.5100 	   900 	     ;PO4 GL2 
+;lipid tail (Martini v3)   
+   9 10         1       0.312   2500
+   9 11         1       0.47    5000
+  11 12         1       0.47    3800
+  12 13         1       0.47    3800
+  13 14         1       0.47    3800
+  14 15         1       0.47    3800
+  10 16         1       0.47    3600
+  16 17         1       0.47    3800
+  17 18         1       0.47    3800
+  18 19         1       0.47    3800
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup
+   2  1  5  	10	   105.0 	17.5    ;  C2  C1 PO4   	
+   1  5  9      10      90.0     3.5    ;  C1 PO4 GL1	    
+   6  3  1      10     110.0    10.0    ;  P3 C3 C1
+   7  3  2      10      95.0     2.0    ;  P4 C3 C2 	 
+   8  2  3      10     110.0    20.0    ;  P5 C2 C1 
+; Tail part (uses standar Martini v2.0 tail rules)
+   9 11 12      2       100.0   10.0
+  11 12 13      2       100.0   10.0
+  12 13 14      2       100.0   10.0
+  13 14 15      2       100.0   10.0
+  10 16 17      2       180.0   35.0
+  16 17 18      2       180.0   35.0
+  17 18 19      2       180.0   35.0
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.
+; Headgroup rotation
+ 3  2  1  5       2      -180.0   0.5        ;C3 C2 C1 PO4	    
+ 2  1  5  9       1       180.0   1.5   2    ;C2 C1 PO4 GL1	     
+ 6  3  1  2       2       130.0  10.0        ;P3 C3 C1 C2
+ 7  3  2  1       2       130.0  15.0        ;P4 C3 C2 C1
+ 8  2  3  1       2       115.0  17.5        ;P5 C2 C3 C1
+
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.290   ;C1 C2      
+   1  3 	1 	0.284   ;C1 C3	
+   2  3 	1 	0.307   ;C2 C3     
+#endif
+   
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 7 8
+3 2 1
+2 1
+
+
+
+; POPI -> PO - Phosphatidylinositol
+;
+;       C2 — — — C3   
+;         \  C4  /   
+;          \    /
+;            C1  
+;            |
+;          PO4
+;         /  |
+;      GL2 - GL1
+;      |     |
+;   ChainA  ChainB   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  POPI          1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge  mass
+   1 	SP1	  1 	POPI 	C1  	 1 	0 	
+   2 	SP4	  1 	POPI 	C2  	 2 	0 	
+   3 	SP4	  1 	POPI 	C3  	 3 	0 	
+   4 	TC4	  1 	POPI 	C4  	 4 	0 	 0
+   5 	Q5 	  1 	POPI 	PO4 	 5 	-1.0 	
+   6 	SN4a  1 	POPI 	GL1 	 6 	0 	
+   7 	N4a	  1 	POPI 	GL2 	 7 	0
+   8 	C1 	  1 	POPI 	C1A 	 8 	0 	
+   9 	C4h	  1 	POPI 	D2A 	 9 	0 	
+  10 	C1 	  1 	POPI 	C3A 	10 	0 	
+  11 	C1 	  1 	POPI 	C4A 	11 	0 	
+  12 	C1 	  1 	POPI 	C1B 	12 	0 	
+  13 	C1 	  1 	POPI 	C2B 	13 	0 	
+  14 	C1 	  1 	POPI 	C3B 	14 	0 	
+  15 	C1 	  1 	POPI 	C4B 	15 	0 	
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.3720 	30000 	
+   1  3 	1 	0.3696	30000 	
+   2  3 	1 	0.4044	30000 	
+#endif
+; Phosphodiester    
+   1  5 	1 	0.330 	5000         ;C1 PO4
+   5  6 	1 	0.368 	2250 	     ;PO4 GL1 
+   5  7    	1   0.518 	 600 	     ;PO4 GL2 
+;lipid tail (Martini v3)	
+   6  7 	1 	0.312	2500 	
+   6  8 	1 	0.47 	5000 	
+   8  9 	1 	0.47  	3800 	
+   9 10 	1 	0.47  	3800 	
+  10 11 	1 	0.47 	3800 	
+   7 12 	1 	0.47 	3600 	
+  12 13 	1 	0.47 	3800 	
+  13 14 	1 	0.47 	3800 	
+  14 15 	1 	0.47 	3800 	
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup
+   2  1  5  	10	   100.0 	15.0    ;  C2  C1 PO4   
+   1  5  6      10     100.0     4.0    ;  C1 PO4 GL1
+; Tail part (Martini v3)
+   5  6  8 	2 	139.1   31.2 	
+   6  8  9 	2 	180.0 	35.0 	
+   8  9 10 	2 	120.0 	35.0 	
+   9 10 11 	2 	180.0 	35.0 	
+   7 12 13 	2 	180.0 	35.0 	
+  12 13 14 	2 	180.0 	35.0 	
+  13 14 15 	2 	180.0 	35.0 	
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.
+ 3  2  1  5       2      -148.0   95.0       ;C3 C2 C1 PO4
+ 2  1  5  6       1       180.0    2.0   2   ;C2 C1 PO4 GL1
+ 
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.3720         ;C1 C2  expanded by 20% to account for SASA differences
+   1  3 	1 	0.3696     	   ;C1 C3  
+   2  3 	1 	0.4044     	   ;C2 C3  
+#endif
+
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5
+3 2 1
+2 1
+
+
+
+; POP1_3 -> PO - Phosphatidylinositol 3-phosphate
+;
+;       C2 — — — C3 — P3 
+;         \  C4  /   
+;          \    /    
+;            C1  
+;            |
+;          PO4
+;         /  |
+;      GL2 - GL1
+;      |     |
+;   ChainA  ChainB   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  POP1_3         1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge
+   1 	SP1 	 1 	    POP1 	C1  	 1 	    0 	
+   2 	SP4 	 1 	    POP1    C2  	 2 	    0  	
+   3 	SP1 	 1 	    POP1 	C3  	 3 	    0 	
+   4 	TC4	     1 	    POP1 	C4  	 4 	    0 	 0
+   5 	Q5 	     1 	    POP1 	PO4 	 5     -1.0 	
+   6    D        1      POP1    P3       6     -2.0    
+   7 	SN4a     1 	    POP1 	GL1 	 7 	    0    
+   8 	N4a      1 	    POP1 	GL2 	 8 	    0 	
+   9 	C1 	     1  	POP1 	C1A 	 9  	0 	
+  10 	C4h	     1  	POP1 	D2A 	10  	0 	
+  11 	C1 	     1  	POP1 	C3A 	11  	0 	
+  12 	C1 	     1  	POP1 	C4A 	12  	0 	
+  13 	C1 	     1  	POP1 	C1B 	13  	0 	
+  14 	C1 	     1  	POP1 	C2B 	14  	0 	
+  15 	C1 	     1  	POP1 	C3B 	15  	0 	
+  16 	C1 	     1  	POP1 	C4B 	16  	0 	
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2     	1   	0.305 	30000 	
+   1  3     	1   	0.302 	30000 	
+   2  3     	1    	0.324	30000
+#endif
+;headgroup phosphates   
+   6  3         1       0.303   10000       ;P3 C3 
+; Phosphodiester    
+   1  5     	1    	0.330 	6000        ;C1 PO4
+   5  7     	1   	0.360 	1800 	    ;PO4 GL1
+   5  8     	1       0.515 	1000 	    ;PO4 GL2
+;lipid tail (Martini v3)   
+   7  8 	1 	0.312	2500 	
+   7  9 	1 	0.47 	5000 	
+   9 10 	1 	0.47  	3800 	
+  10 11 	1 	0.47  	3800 	
+  11 12 	1 	0.47 	3800 	
+   8 13 	1 	0.47 	3600 	
+  13 14 	1 	0.47 	3800 	
+  14 15 	1 	0.47 	3800 	
+  15 16 	1 	0.47 	3800 	
+  
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup
+   2  1  5  	10	   106.0 	35.0    ;C2  C1 PO4   
+   1  5  7      10     110.0    10.0    ;C1 PO4 GL1
+   6  3  1      10      99.0    82.5    ;P3 C3 C1
+; Tail part (uses standar Martini v2.0 tail rules)
+   5  7  8 	2 	139.1   31.2 	
+   7  9 10 	2 	180.0 	35.0 	
+   9 10 11 	2 	120.0 	35.0 	
+  10 11 12 	2 	180.0 	35.0 	
+   8 13 14 	2 	180.0 	35.0 	
+  13 14 15 	2 	180.0 	35.0 	
+  14 15 16 	2 	180.0 	35.0 	
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.  m
+ 3  2  1  5       2      -142.0  125.0       ;C3 C2 C1 PO4
+ 2  1  5  7       1       180.0    3.0   2   ;C2 C1 PO4 GL1   
+ 6  3  1  2       2      -167.0  110.0       ;P3 C3 C1 C2
+ 
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.305   ;C1 C2      
+   1  3 	1 	0.302   ;C1 C3	
+   2  3 	1 	0.324   ;C2 C3
+#endif
+
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6
+3 2 1
+2 1
+
+
+
+; POP1_4 -> PO - Phosphatidylinositol 4-phosphate
+;
+;            P4
+;               \
+;       C2 — — — C3   
+;         \  C4  /   
+;          \    /    
+;            C1  
+;            |
+;          PO4
+;         /  |
+;      GL2 - GL1
+;      |     |
+;   ChainA  ChainB   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  POP1_4         1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge
+   1 	SP1 	 1 	    POP1 	C1  	 1 	    0 	
+   2 	SP4 	 1 	    POP1    C2  	 2 	    0  	
+   3 	SP1 	 1 	    POP1 	C3  	 3 	    0 	
+   4 	TC4	     1 	    POP1 	C4  	 4 	    0 	 0
+   5 	Q5 	     1 	    POP1 	PO4 	 5     -1.0 	
+   6    D        1      POP1    P4       6     -2.0
+   7 	SN4a     1 	    POP1 	GL1 	 7 	    0    
+   8 	N4a      1 	    POP1 	GL2 	 8 	    0 	
+   9 	C1 	     1  	POP1 	C1A 	 9  	0 	
+  10 	C4h	     1  	POP1 	D2A 	10  	0 	
+  11 	C1 	     1  	POP1 	C3A 	11  	0 	
+  12 	C1 	     1  	POP1 	C4A 	12  	0 	
+  13 	C1 	     1  	POP1 	C1B 	13  	0 	
+  14 	C1 	     1  	POP1 	C2B 	14  	0 	
+  15 	C1 	     1  	POP1 	C3B 	15  	0 	
+  16 	C1 	     1  	POP1 	C4B 	16  	0 	
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.3037 	30000 	
+   1  3 	1 	0.2945 	30000 	
+   2  3 	1 	0.3370 	30000 	
+#endif
+;headgroup phosphates   
+   6  3         1       0.3250    5250  	   ;P4 C3
+; Phosphodiester    
+   1  5     	1    	0.3350 	  5500         ;C1 PO4 
+   5  7     	1   	0.3600 	  2250 	       ;PO4 GL1 
+   5  8     	1   	0.5200 	   800 	       ;PO4 GL2 
+;lipid tail (Martini v3)   
+   7  8 	1 	0.312	2500 	
+   7  9 	1 	0.47 	5000 	
+   9 10 	1 	0.47  	3800 	
+  10 11 	1 	0.47  	3800 	
+  11 12 	1 	0.47 	3800 	
+   8 13 	1 	0.47 	3600 	
+  13 14 	1 	0.47 	3800 	
+  14 15 	1 	0.47 	3800 	
+  15 16 	1 	0.47 	3800 	
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup
+   2  1  5  	10	   98.0 	27.5   ;  C2  C1 PO4   
+   1  5  7      10     90.0     3.0    ;  C1 PO4 GL1
+   6  3  2      10     92.0     55.0   ;  P4  C3  C2   
+; Tail part (uses standar Martini v2.0 tail rules)
+   5  7  9 	2 	139.1   31.2 	
+   7  9 10 	2 	180.0 	35.0 	
+   9 10 11 	2 	120.0 	35.0 	
+  10 11 12 	2 	180.0 	35.0 	
+   8 13 14 	2 	180.0 	35.0 	
+  13 14 15 	2 	180.0 	35.0 	
+  14 15 16 	2 	180.0 	35.0 	
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.
+ 3  2  1  5       2      -145.0  130.0       ;C3 C2 C1 PO4
+ 2  1  5  7       1       180.0    2.0   2   ;C2 C1 PO4 GL1
+ 6  3  2  1       2      -170.0  110.0       ;P4 C3 C2 C1   
+ 
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.3037   ;C1 C2  
+   1  3 	1 	0.2945   ;C1 C3	
+   2  3 	1 	0.3370   ;C2 C3   
+#endif
+
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 
+3 2 1
+2 1
+
+
+
+; POP1_5 -> PO - Phosphatidylinositol 5-phosphate
+;
+;        P5   
+;        |    
+;       C2 — — — C3   
+;         \  C4  /   
+;          \    /    
+;            C1  
+;            |
+;          PO4
+;         /  |
+;      GL2 - GL1
+;      |     |
+;   ChainA  ChainB   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  POP1_5         1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge
+   1 	SP1 	 1 	    POP1 	C1  	 1 	    0 	
+   2 	SP1 	 1 	    POP1    C2  	 2 	    0  	
+   3 	SP4 	 1 	    POP1 	C3  	 3 	    0 	
+   4 	TC4	     1 	    POP1 	C4  	 4 	    0 	 0
+   5 	Q5 	     1 	    POP1 	PO4 	 5     -1.0 	
+   6    D        1      POP1    P5       6     -2.0
+   7 	SN4a     1 	    POP1 	GL1 	 7 	    0    
+   8 	N4a      1 	    POP1 	GL2 	 8 	    0 	
+   9 	C1 	     1  	POP1 	C1A 	 9  	0 	
+  10 	C4h	     1  	POP1 	D2A 	10  	0 	
+  11 	C1 	     1  	POP1 	C3A 	11  	0 	
+  12 	C1 	     1  	POP1 	C4A 	12  	0 	
+  13 	C1 	     1  	POP1 	C1B 	13  	0 	
+  14 	C1 	     1  	POP1 	C2B 	14  	0 	
+  15 	C1 	     1  	POP1 	C3B 	15  	0 	
+  16 	C1 	     1  	POP1 	C4B 	16  	0 	
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.297 	30000 	
+   1  3 	1 	0.311 	30000 	
+   2  3 	1 	0.324 	30000 
+#endif
+;headgroup phosphates   
+   6  2         1       0.335    10000         ;P5 C2
+; Phosphodiester       
+   1  5     	1    	0.337 	  5000         ;C1 PO4
+   5  7     	1   	0.3540 	  1750 	       ;PO4 GL1
+   5  8     	1   	0.5200 	   600 	       ;PO4 GL2
+;lipid tail (Martini v3)  
+   7  8 	1 	0.312	2500 	  
+   7  9 	1 	0.47 	5000 	
+   9 10 	1 	0.47  	3800 	
+  10 11 	1 	0.47  	3800 	
+  11 12 	1 	0.47 	3800 	 
+   8 13 	1 	0.47 	3600 	
+  13 14 	1 	0.47 	3800 	
+  14 15 	1 	0.47 	3800 	
+  15 16 	1 	0.47 	3800 	
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup
+   2  1  5  	10	    89.0 	19.0    ;  C2  C1 PO4   
+   1  5  7      10      90.0     2.5    ;  C1 PO4 GL1
+   6  2  3      10      82.5   110.0    ;  P5 C2 C3 
+; Tail part (uses standar Martini v2.0 tail rules)
+   5  7  9 	2 	139.1   31.2 	
+   7  9 10 	2 	180.0 	35.0 	
+   9 10 11 	2 	120.0 	35.0 	
+  10 11 12 	2 	180.0 	35.0 	
+   8 13 14 	2 	180.0 	35.0 	
+  13 14 15 	2 	180.0 	35.0 	
+  14 15 16 	2 	180.0 	35.0 	
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c. m
+ 3  2  1  5       2      -150.0  115.0         ;C3 C2 C1 PO4
+ 2  1  5  7       1       180.0    2.0   2     ;C2 C1 PO4 GL1
+ 6  2  3  1       2      165.0  100.0          ;P5 C2 C3 C1
+ 
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.297   ;C1 C2      
+   1  3 	1 	0.311   ;C1 C3	
+   2  3 	1 	0.324   ;C2 C3
+#endif
+
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 
+3 2 1
+2 1
+
+
+
+; POP2_34 -> PO - Phosphatidylinositol 3,4-bisphosphate
+;
+;            P4
+;               \
+;       C2 — — — C3 — P3    ## P3 - C1 suplementary bond not shown
+;         \  C4  /          ## P3 - P4 suplementary bond not shown
+;          \    /  
+;            C1   
+;            |
+;          PO4
+;         /  |
+;      GL2 - GL1
+;      |     |
+;   ChainA  ChainB   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  POP2_34        1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge
+   1 	SP1 	 1 	    POP2 	C1  	 1 	    0 	
+   2 	SP4 	 1 	    POP2 	C2  	 2 	    0  	
+   3 	SN4a 	 1 	    POP2 	C3  	 3 	    0 	
+   4 	TC4	     1 	    POP2 	C4  	 4 	    0 	 0
+   5 	Q5 	     1 	    POP2 	PO4 	 5     -1.0 	
+   6    D        1      POP2    P3       6     -1.5
+   7    D        1      POP2    P4       7     -1.5
+   8 	SN4a     1 	    POP2 	GL1 	 8 	    0    
+   9 	N4a      1 	    POP2 	GL2 	 9 	    0 	
+  10 	C1 	     1  	POP2 	C1A 	10  	0 	
+  11 	C4h	     1  	POP2 	D2A 	11  	0 	
+  12 	C1 	     1  	POP2 	C3A 	12  	0 	
+  13 	C1 	     1  	POP2 	C4A 	13  	0 	
+  14 	C1 	     1  	POP2 	C1B 	14  	0 	
+  15 	C1 	     1  	POP2 	C2B 	15  	0 	
+  16 	C1 	     1  	POP2 	C3B 	16  	0 	
+  17 	C1 	     1  	POP2 	C4B 	17  	0 	
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.3075 	30000 	       
+   1  3 	1 	0.2845	30000 	
+   2  3 	1 	0.3030 	30000 	
+#endif
+;headgroup phosphates   
+   6  3         1       0.340    9000        ;P3 C3	    
+   6  1         1       0.435    1750        ;P3 C1	    
+   7  3         1       0.330    9000 	     ;P4 C3	      
+   6  7         1       0.525     800        ;P3 P4
+; Phosphodiester
+   1  5     	1    	0.340     5000       ;C1 PO4
+   5  8     	1   	0.3630 	  1750 	     ;PO4 GL1 
+   5  9     	1   	0.5200 	  1000 	     ;PO4 GL2
+;lipid tail (Martini v3)   
+   8  9 	1 	0.312	2500 	
+   8 10 	1 	0.47 	5000 	
+  10 11 	1 	0.47  	3800 	
+  11 12 	1 	0.47  	3800 	
+  12 13 	1 	0.47 	3800 	
+   9 14 	1 	0.47 	3600 	
+  14 15 	1 	0.47 	3800 	
+  15 16 	1 	0.47 	3800 	
+  16 17 	1 	0.47 	3800 	
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup   
+   2  1  5  	10	   112.0 	70.0    ;  C2  C1 PO4 
+   1  5  8      10      90.0     6.0    ;  C1 PO4 GL1  
+   6  3  1      10      88.0    55.0    ;  P3 C3 C1 
+   7  3  2      10      83.0    67.5    ;  P4 C3 C2 
+; Tail part (uses standar Martini v2.0 tail rules)
+   5  8 10 	2 	139.1   31.2 	
+   8 10 11 	2 	180.0 	35.0 	
+  10 11 12 	2 	120.0 	35.0 	
+  11 12 13 	2 	180.0 	35.0 	
+   9 14 15 	2 	180.0 	35.0 	
+  14 15 16 	2 	180.0 	35.0 	
+  15 16 17 	2 	180.0 	35.0 	
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c. m
+ 3  2  1  5       2      -140.0  120.0        ;C3 C2 C1 PO4	    
+ 2  1  5  8       1       180.0    3.5   2    ;C2 C1 PO4 GL1	     
+ 6  3  1  2       2      -166.0   95.0        ;P3 C3 C1 C2
+ 7  3  2  1       2      -170.0  120.0        ;P4 C3 C2 C1
+ 
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.3075   ;C1 C2       
+   1  3 	1 	0.2845   ;C1 C3	     
+   2  3 	1 	0.3030   ;C2 C3      
+#endif
+   
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 7
+3 2 1
+2 1
+
+
+
+; POP2_35 -> PO - Phosphatidylinositol 3,5-bisphosphate
+;
+;        P5   
+;        |      
+;       C2 — — — C3 — P3    ## P3 - C1 suplementary bond not shown
+;         \  C4  /         
+;          \    /  
+;            C1   
+;            |
+;          PO4
+;         /  |
+;      GL2 - GL1
+;      |     |
+;   ChainA  ChainB   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  POP2_35          1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge
+   1 	SP1 	 1 	    POP2 	C1  	 1 	    0 	
+   2 	SP1 	 1 	    POP2 	C2  	 2 	    0  	
+   3 	SP1 	 1 	    POP2 	C3  	 3 	    0 	
+   4 	TC4	     1 	    POP2 	C4  	 4 	    0 	 0
+   5 	Q5 	     1 	    POP2 	PO4 	 5     -1.0 	
+   6    D        1      POP2    P3       6     -1.5 
+   7    D        1      POP2    P5       7     -1.5
+   8 	SN4a     1 	    POP2 	GL1 	 8 	    0    
+   9 	N4a      1 	    POP2 	GL2 	 9 	    0 	
+  10 	C1 	     1  	POP2 	C1A 	10  	0 	
+  11 	C4h	     1  	POP2 	D2A 	11  	0 	
+  12 	C1 	     1  	POP2 	C3A 	12  	0 	
+  13 	C1 	     1  	POP2 	C4A 	13  	0 	
+  14 	C1 	     1  	POP2 	C1B 	14  	0 	
+  15 	C1 	     1  	POP2 	C2B 	15  	0 	
+  16 	C1 	     1  	POP2 	C3B 	16  	0 	
+  17 	C1 	     1  	POP2 	C4B 	17  	0 	
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.2910 	30000 	       
+   1  3 	1 	0.3050	30000 	
+   2  3 	1 	0.3150 	30000 	
+#endif
+;headgroup phosphates   
+   6  3         1       0.325    5000        ;P3 C3	   
+   6  1         1       0.445    1500        ;P3 C1	    
+   7  2         1       0.345    4750 	     ;P5 C2	      
+; Phosphodiester
+   1  5     	1    	0.330	 5000        ;C1 PO4
+   5  8     	1   	0.3580 	 2000 	     ;PO4 GL1 
+   5  9     	1   	0.5180 	  900 	     ;PO4 GL2 
+;lipid tail (Martini v3)   
+   8  9 	1 	0.312	2500 	
+   8 10 	1 	0.47 	5000 	
+  10 11 	1 	0.47  	3800 	
+  11 12 	1 	0.47  	3800 	
+  12 13 	1 	0.47 	3800 	
+   9 14 	1 	0.47 	3600 	
+  14 15 	1 	0.47 	3800 	
+  15 16 	1 	0.47 	3800 	
+  16 17 	1 	0.47 	3800 	
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup   
+   2  1  5  	10	   102.0 	45.0    ;  C2  C1 PO4   	
+   1  5  8      10      90.0     3.0    ;  C1 PO4 GL1	    
+   6  3  1      10     100.0    20.0    ;  P3 C3 C1	     
+   7  2  3      10      78.0    65.0    ;  P5 C2 C3 	 
+; Tail part (uses standar Martini v2.0 tail rules)
+   5  8 10 	2 	139.1   31.2 	
+   8 10 11 	2 	180.0 	35.0 	
+  10 11 12 	2 	120.0 	35.0 	
+  11 12 13 	2 	180.0 	35.0 	
+   9 14 15 	2 	180.0 	35.0 	
+  14 15 16 	2 	180.0 	35.0 	
+  15 16 17 	2 	180.0 	35.0 	
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.
+ 3  2  1  5       2      -142.0  110.0       ;C3 C2 C1 PO4	    
+ 2  1  5  8       1       180.0    3.0   2   ;C2 C1 PO4 GL1	     
+ 6  3  1  2       2      -162.0   80.0       ;P3 C3 C1 C2
+ 7  2  3  1       2       163.0   80.0       ;P5 C2 C3 C1
+
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.2910   ;C1 C2     	      
+   1  3 	1 	0.3050   ;C1 C3		      
+   2  3 	1 	0.3150   ;C2 C3      	      
+#endif
+   
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 7
+3 2 1
+2 1
+
+
+
+; POP2_45 -> PO - Phosphatidylinositol 4,5-bisphosphate
+;
+;        P5     P4
+;        |       \
+;       C2 — — — C3  ## P4 - P5 suplementary bond not shown
+;         \  C4  /         
+;          \    /  
+;            C1   
+;            |
+;          PO4
+;         /  |
+;      GL2 - GL1
+;      |     |
+;   ChainA  ChainB   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  POP2_45          1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge  mass
+   1 	SP1 	 1 	    POP2 	C1  	 1 	    0 	
+   2 	SP1 	 1 	    POP2 	C2  	 2 	    0  	
+   3 	SP1 	 1 	    POP2 	C3  	 3 	    0 	
+   4 	TC4	     1 	    POP2 	C4  	 4 	    0 	 0
+   5 	Q5	     1 	    POP2 	PO4 	 5     -1.0 
+   6    D        1      POP2    P4       6     -1.5   
+   7    D        1      POP2    P5       7     -1.5
+   8 	SN4a     1 	    POP2 	GL1 	 8 	    0    
+   9 	N4a      1 	    POP2 	GL2 	 9 	    0 	
+  10 	C1 	     1  	POP2 	C1A 	10  	0 	
+  11 	C4h	     1  	POP2 	D2A 	11  	0 	
+  12 	C1 	     1  	POP2 	C3A 	12  	0 	
+  13 	C1 	     1  	POP2 	C4A 	13  	0 	
+  14 	C1 	     1  	POP2 	C1B 	14  	0 	
+  15 	C1 	     1  	POP2 	C2B 	15  	0 	
+  16 	C1 	     1  	POP2 	C3B 	16  	0 	
+  17 	C1 	     1  	POP2 	C4B 	17  	0 	
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.2770 	30000 	       
+   1  3 	1 	0.2865	30000 	
+   2  3 	1 	0.3360 	30000 	
+#endif
+;headgroup phosphates   
+   6  3         1       0.325    4250 	     ;P4 C3
+   7  2         1       0.337    2500        ;P5 C2
+   6  7         1       0.525    1000        ;P4 P5
+; Phosphodiester
+   1  5     	1    	0.340 	 5000        ;C1 PO4
+   5  8     	1   	0.360 	 1700 	     ;PO4 GL1
+   5  9     	1   	0.507 	 1000 	     ;PO4 GL2
+;lipid tail (Martini v3)   
+   8  9 	1 	0.312	2500 	
+   8 10 	1 	0.47 	5000 	
+  10 11 	1 	0.47  	3800 	
+  11 12 	1 	0.47  	3800 	
+  12 13 	1 	0.47 	3800 	
+   9 14 	1 	0.47 	3600 	
+  14 15 	1 	0.47 	3800 	
+  15 16 	1 	0.47 	3800 	
+  16 17 	1 	0.47 	3800 	
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup   
+   2  1  5  	10	   100.0 	50.0    ;  C2  C1 PO4   	
+   1  5  8      10      90.0     2.0    ;  C1 PO4 GL1	    
+   6  3  2      10      101.0    7.0    ;  P4 C3 C2 	 
+   7  2  3      10       97.5   12.5    ;  P5 C2 C3 
+; Tail part (uses standar Martini v2.0 tail rules)
+   5  8 10 	2 	139.1   31.2 	
+   8 10 11 	2 	180.0 	35.0 	
+  10 11 12 	2 	120.0 	35.0 	
+  11 12 13 	2 	180.0 	35.0 	
+   9 14 15 	2 	180.0 	35.0 	
+  14 15 16 	2 	180.0 	35.0 	
+  15 16 17 	2 	180.0 	35.0 	
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.
+ 3  2  1  5       2      -140.0  110.0       ;C3 C2 C1 PO4	    
+ 2  1  5  8       1       180.0    0.5   2   ;C2 C1 PO4 GL1	     
+ 6  3  2  1       2       177.0   50.0       ;P4 C3 C2 C1
+ 7  2  3  1       2       130.0    9.0       ;P5 C2 C3 C1
+ 
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.2770   ;C1 C2     	      
+   1  3 	1 	0.2865   ;C1 C3		      
+   2  3 	1 	0.3360   ;C2 C3      	      
+#endif
+   
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 7
+3 2 1
+2 1
+
+
+
+; POP3_345 -> PO - Phosphatidylinositol 3,4,5-trisphosphate
+;
+;        P5     P4
+;        |       \
+;       C2 — — — C3 — P3   ## P3 - C1 suplementary bond not shown
+;         \  C4  /         ## P5 - C1 suplementary bond not shown
+;          \    /          ## P4 - P5 suplementary bond not shown
+;            C1   
+;            |
+;          PO4
+;         /  |
+;      GL2 - GL1
+;      |     |
+;   ChainA  ChainB   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  POP3_345          1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge
+   1 	SP1 	 1 	    POP3 	C1  	 1 	    0 	
+   2 	SP1 	 1 	    POP3 	C2  	 2 	    0  	
+   3 	SN4a 	 1 	    POP3 	C3  	 3 	    0 	
+   4 	TC4	     1 	    POP3 	C4  	 4 	    0 	 0 
+   5 	Q5 	     1 	    POP3 	PO4 	 5     -1.0 	
+   6    Q5       1      POP3    P3       6     -1.30   
+   7    D        1      POP3    P4       7     -1.40   
+   8    Q5       1      POP3    P5       8     -1.30
+   9 	SN4a     1 	    POP3 	GL1 	 9 	    0    
+  10 	N4a      1 	    POP3 	GL2 	10 	    0 	
+  11 	C1 	     1  	POP3 	C1A 	11  	0 	
+  12 	C4h	     1  	POP3 	D2A 	12  	0 	
+  13 	C1 	     1  	POP3 	C3A 	13  	0 	
+  14 	C1 	     1  	POP3 	C4A 	14  	0 	
+  15 	C1 	     1  	POP3 	C1B 	15  	0 	
+  16 	C1 	     1  	POP3 	C2B 	16  	0 	
+  17 	C1 	     1  	POP3 	C3B 	17  	0 	
+  18 	C1 	     1  	POP3 	C4B 	18  	0 	
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.290 	30000 	
+   1  3 	1 	0.284	30000 	
+   2  3 	1 	0.307 	30000 	
+#endif
+;headgroup phosphates   
+   6  3         1       0.306    7500        ;P3 C3 
+   6  1         1       0.505    1250        ;P3 C1 
+   7  3         1       0.325    5500 	     ;P4 C3
+   8  2         1       0.395    3500        ;P5 C2
+   8  1         1       0.500    1250        ;P5 C1
+   7  8         1       0.505     800        ;P4 P5
+; Phosphodiester   
+   1  5     	1    	0.341 	  5000       ;C1 PO4
+   5  9     	1   	0.3600 	  2000 	     ;PO4 GL1 
+   5 10     	1   	0.5100 	   900 	     ;PO4 GL2 
+;lipid tail (Martini v3)     	
+   9 10 	1 	0.312	2500 	
+   9 11 	1 	0.47 	5000 	
+  11 12 	1 	0.47  	3800 	
+  12 13 	1 	0.47  	3800 	
+  13 14 	1 	0.47 	3800 	
+  10 15 	1 	0.47 	3600 	
+  15 16 	1 	0.47 	3800 	
+  16 17 	1 	0.47 	3800 	
+  17 18 	1 	0.47 	3800 	
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup
+   2  1  5  	10	   105.0 	17.5    ;  C2  C1 PO4   	
+   1  5  9      10      90.0     3.5    ;  C1 PO4 GL1	    
+   6  3  1      10     110.0    10.0    ;  P3 C3 C1
+   7  3  2      10      95.0     2.0    ;  P4 C3 C2 	 
+   8  2  3      10     110.0    20.0    ;  P5 C2 C1 
+; Tail part (uses standar Martini v2.0 tail rules)
+   5  9 11 	2 	139.1   31.2 	
+   9 11 12 	2 	180.0 	35.0 	
+  11 12 13 	2 	120.0 	35.0 	
+  12 13 14 	2 	180.0 	35.0 	
+  10 15 16 	2 	180.0 	35.0 	
+  15 16 17 	2 	180.0 	35.0 	
+  16 17 18 	2 	180.0 	35.0 	
+
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.
+; Headgroup rotation
+ 3  2  1  5       2      -180.0   0.5        ;C3 C2 C1 PO4	    
+ 2  1  5  9       1       180.0   1.5   2    ;C2 C1 PO4 GL1	     
+ 6  3  1  2       2       130.0  10.0        ;P3 C3 C1 C2
+ 7  3  2  1       2       130.0  15.0        ;P4 C3 C2 C1
+ 8  2  3  1       2       115.0  17.5        ;P5 C2 C3 C1
+
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.290   ;C1 C2      
+   1  3 	1 	0.284   ;C1 C3	
+   2  3 	1 	0.307   ;C2 C3     
+#endif
+   
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 7 8
+3 2 1
+2 1
+
+
+
+; #####################
+; ## Inositol sugars ##
+; #####################
+
+
+; myo-Inositol
+;
+;     C2 — — — C3   
+;       \  C4  /         
+;        \    /          
+;          C1   
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  INO            1
+
+[ atoms ]
+; id    type    resnr   residu  atom    cgnr    charge   mass
+1       SP4      1       INO     C1      1       0
+2       SP4      1       INO     C2      2       0
+3       SP4      1       INO     C3      3       0
+4       TC4      1       INO     C4      4       0        0
+
+[ bonds ]
+;  i  j     funct   length  force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2     1       0.3624     30000
+   1  3     1       0.3900     30000
+   2  3     1       0.4044     30000
+#endif
+
+[ angles ]
+;  i  j  k  funct   angle   force.c.
+
+[ dihedrals ]
+;  i  j  k  funct   angle   force.c.
+
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k  funct   length
+; Using constraints not bonds
+   1  2     1   0.3624 ;20% increase
+   1  3     1   0.3900
+   2  3     1   0.4044
+#endif
+
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+   
+[ exclusions ]
+ 1 2 3 4 
+ 2 3 4 
+ 3 4 
+ 
+ 
+ 
+; myo-Inositol 1-phosphate
+;
+;      C2 — — — C3   
+;       \  C4  /         
+;        \    /          
+;          C1   
+;          |
+;          P1
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  INO1_1          1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge    mass
+   1 	SP1	  1 	INO1 	C1  	 1 	0 	
+   2 	SP4	  1 	INO1 	C2  	 2 	0 	
+   3 	SP4	  1 	INO1 	C3  	 3 	0 	
+   4 	TC4	  1 	INO1 	C4  	 4 	0 	 0
+   5 	Q5 	  1 	INO1 	P1  	 5 	-1.0 	
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.3720 	30000 	
+   1  3 	1 	0.3696	30000 	
+   2  3 	1 	0.4044	30000 	
+#endif
+   1  5 	1 	0.330 	5000         ;C1 PO4
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+   2  1  5  	10	   100.0 	15.0    ;  C2  C1 P1   
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.
+ 3  2  1  5       2      -148.0   95.0       ;C3 C2 C1 P1
+
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.3720         ;C1 C2  expanded by 20% to account for SASA differences
+   1  3 	1 	0.3696     	   ;C1 C3  
+   2  3 	1 	0.4044     	   ;C2 C3  
+#endif
+
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5
+3 2 1
+2 1
+
+
+
+; myo-Inositol 1,3-bisphosphate
+;
+;      C2 — — — C3 — P3 
+;       \  C4  /   
+;        \    /    
+;          C1  
+;          |
+;          P1
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  INO2_13       1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge    mass
+   1 	SP1 	 1 	    INO2 	C1  	 1 	    0 	
+   2 	SP4 	 1 	    INO2    C2  	 2 	    0  	
+   3 	SP1 	 1 	    INO2 	C3  	 3 	    0 	
+   4 	TC4	     1 	    INO2 	C4  	 4 	    0 	 0
+   5 	Q5	     1 	    INO2 	P1  	 5     -1.0 	
+   6    D        1      INO2    P3       6     -2.0   
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2     	1   	0.305 	30000 	
+   1  3     	1   	0.302 	30000 	
+   2  3     	1    	0.324	30000
+#endif
+   6  3         1       0.303   10000       ;P3 C3 
+   1  5     	1    	0.330 	6000        ;C1 P1
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+   2  1  5  	10	   106.0 	35.0    ;C2  C1 P1   
+   6  3  1      10      99.0    82.5    ;P3 C3 C1
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.  m
+ 3  2  1  5       2      -142.0  125.0       ;C3 C2 C1 P1
+ 6  3  1  2       2      -167.0  110.0       ;P3 C3 C1 C2
+ 
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.305   ;C1 C2      
+   1  3 	1 	0.302   ;C1 C3	
+   2  3 	1 	0.324   ;C2 C3
+#endif
+
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6
+3 2 1
+2 1
+
+
+
+; myo-Inositol 1,4-bisphosphate
+;
+;            P4
+;               \
+;       C2 — — — C3   
+;         \  C4  /   
+;          \    /    
+;            C1  
+;            |
+;            P1
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  INO2_14          1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge   mass
+   1 	SP1 	 1 	    INO2 	C1  	 1 	    0 	
+   2 	SP4 	 1 	    INO2    C2  	 2 	    0  	
+   3 	SP1 	 1 	    INO2 	C3  	 3 	    0 	
+   4 	TC4	     1 	    INO2 	C4  	 4 	    0 	 0
+   5 	Q5 	     1 	    INO2 	P1  	 5     -1.0 	
+   6    D        1      INO2    P4       6     -2.0   
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.3037 	30000 	
+   1  3 	1 	0.2945 	30000 	
+   2  3 	1 	0.3370 	30000 	
+#endif
+   6  3         1       0.3250    5250  	   ;P4 C3
+   1  5     	1    	0.3350 	  5500         ;C1 P1 
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+   2  1  5  	10	   98.0 	27.5   ;  C2  C1 P1   
+   6  3  2      10     92.0     55.0   ;  P4  C3  C2   
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.
+ 3  2  1  5       2      -145.0  130.0       ;C3 C2 C1 P1
+ 6  3  2  1       2      -170.0  110.0       ;P4 C3 C2 C1   
+ 
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.3037   ;C1 C2  
+   1  3 	1 	0.2945   ;C1 C3	
+   2  3 	1 	0.3370   ;C2 C3   
+#endif
+
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 
+3 2 1
+2 1
+
+
+
+; myo-Inositol 1,5-bisphosphate
+;
+;        P5   
+;        |    
+;       C2 — — — C3   
+;         \  C4  /   
+;          \    /    
+;            C1  
+;            |
+;            P1
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  INO2_15          1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge    mass
+   1 	SP1 	 1 	    INO2 	C1  	 1 	    0 	
+   2 	SP1 	 1 	    INO2    C2  	 2 	    0  	
+   3 	SP4 	 1 	    INO2 	C3  	 3 	    0 	
+   4 	TC4	     1 	    INO2 	C4  	 4 	    0 	 0
+   5 	Q5 	     1 	    INO2 	P1  	 5     -1.0 	
+   6    D        1      INO2    P5       6     -2.0   
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.297 	30000 	
+   1  3 	1 	0.311 	30000 	
+   2  3 	1 	0.324 	30000 	
+#endif
+   6  2         1       0.335    10000         ;P5 C2
+   1  5     	1    	0.337 	  5000         ;C1 P1
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup
+   2  1  5  	10	    89.0 	19.0    ;  C2  C1 P1   
+   6  2  3      10      82.5   110.0    ;  P5 C2 C3 
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c. m
+ 3  2  1  5       2     -150.0  115.0         ;C3 C2 C1 P1
+ 6  2  3  1       2      165.0  100.0         ;P5 C2 C3 C1
+ 
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.297   ;C1 C2      
+   1  3 	1 	0.311   ;C1 C3	
+   2  3 	1 	0.324   ;C2 C3
+#endif
+
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 
+3 2 1
+2 1
+
+
+
+; myo-Inositol 1,3,4-trisphosphate
+;
+;            P4
+;               \
+;       C2 — — — C3 — P3    ## P3 - C1 suplementary bond not shown
+;         \  C4  /          ## P3 - P4 suplementary bond not shown
+;          \    /  
+;            C1   
+;            |
+;            P1
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  INO3_134          1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge   mass
+   1 	SP1 	 1 	    INO3 	C1  	 1 	    0 	
+   2 	SP4 	 1 	    INO3 	C2  	 2 	    0  	
+   3 	SN4a 	 1 	    INO3 	C3  	 3 	    0 	
+   4 	TC4	     1 	    INO3 	C4  	 4 	    0 	 0
+   5 	Q5 	     1 	    INO3 	P1  	 5     -1.0 	
+   6    D        1      INO3    P3       6     -1.5
+   7    D        1      INO3    P4       7     -1.5
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.3075 	30000 	       
+   1  3 	1 	0.2845	30000 	
+   2  3 	1 	0.3030 	30000 	
+#endif
+   6  3         1       0.340    9000        ;P3 C3	    
+   6  1         1       0.435    1750        ;P3 C1	    
+   7  3         1       0.330    9000 	     ;P4 C3	      
+   6  7         1       0.525     800        ;P3 P4
+   1  5     	1    	0.340    5000        ;C1 P1
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup   
+   2  1  5  	10	   112.0 	70.0    ;  C2  C1 P1 
+   6  3  1      10      88.0    55.0    ;  P3 C3 C1 
+   7  3  2      10      83.0    67.5    ;  P4 C3 C2 
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c. m
+ 3  2  1  5       2      -140.0  120.0        ;C3 C2 C1 P1	    
+ 6  3  1  2       2      -166.0   95.0        ;P3 C3 C1 C2
+ 7  3  2  1       2      -170.0  120.0        ;P4 C3 C2 C1
+
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.3075   ;C1 C2       
+   1  3 	1 	0.2845   ;C1 C3	     
+   2  3 	1 	0.3030   ;C2 C3      
+#endif
+   
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 7
+3 2 1
+2 1
+
+
+
+; myo-Inositol 1,3,5-trisphosphate
+;
+;        P5   
+;        |      
+;       C2 — — — C3 — P3    ## P3 - C1 suplementary bond not shown
+;         \  C4  /         
+;          \    /  
+;            C1   
+;            |
+;            P1
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  INO3_135          1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge
+   1 	SP1 	 1 	    INO3 	C1  	 1 	    0 	
+   2 	SP1 	 1 	    INO3 	C2  	 2 	    0  	
+   3 	SP1 	 1 	    INO3 	C3  	 3 	    0 	
+   4 	TC4	     1 	    INO3 	C4  	 4 	    0 	 0
+   5 	Q5 	     1 	    INO3 	P1  	 5     -1.0 	   
+   6    D        1      INO3    P3       6     -1.5
+   7    D        1      INO3    P5       7     -1.5
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.2910 	30000 	       
+   1  3 	1 	0.3050	30000 	
+   2  3 	1 	0.3150 	30000 	
+#endif
+   6  3         1       0.325    5000        ;P3 C3	   
+   6  1         1       0.445    1500        ;P3 C1	    
+   7  2         1       0.345    4750 	     ;P5 C2	      
+   1  5     	1    	0.330	 5000        ;C1  P1
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup   
+   2  1  5  	10	   102.0 	45.0    ;  C2 C1 P1  	
+   6  3  1      10     100.0    20.0    ;  P3 C3 C1	     
+   7  2  3      10      78.0    65.0    ;  P5 C2 C3 	 
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.
+ 3  2  1  5       2      -142.0  110.0       ;C3 C2 C1 P1	    
+ 6  3  1  2       2      -162.0   80.0       ;P3 C3 C1 C2
+ 7  2  3  1       2       163.0   80.0       ;P5 C2 C3 C1
+
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.2910   ;C1 C2     	      
+   1  3 	1 	0.3050   ;C1 C3		      
+   2  3 	1 	0.3150   ;C2 C3      	      
+#endif
+   
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 7
+3 2 1
+2 1
+
+
+
+; myo-Inositol 1,4,5-trisphosphate
+;
+;        P5     P4
+;        |       \
+;       C2 — — — C3  ## P4 - P5 suplementary bond not shown
+;         \  C4  /         
+;          \    /  
+;            C1   
+;            |
+;            P1
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  INO3_145       1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge  mass
+   1 	SP1 	 1 	    INO3 	C1  	 1 	    0 	
+   2 	SP1 	 1 	    INO3 	C2  	 2 	    0  	
+   3 	SP1 	 1 	    INO3 	C3  	 3 	    0 	
+   4 	TC4	     1 	    INO3 	C4  	 4 	    0 	 0
+   5 	Q5 	     1 	    INO3 	P1  	 5     -1.0 	
+   6    D        1      INO3    P4       6     -1.5
+   7    D        1      INO3    P5       7     -1.5
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.2770 	30000 	       
+   1  3 	1 	0.2865	30000 	
+   2  3 	1 	0.3360 	30000 	
+#endif
+   6  3         1       0.325    4250 	     ;P4 C3
+   7  2         1       0.337    2500        ;P5 C2
+   6  7         1       0.525    1000        ;P4 P5
+   1  5     	1    	0.340 	 5000        ;C1 P1
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup   
+   2  1  5  	10	   100.0 	50.0    ;  C2 C1 P1   	
+   6  3  2      10      101.0    7.0    ;  P4 C3 C2 	 
+   7  2  3      10       97.5   12.5    ;  P5 C2 C3 
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.
+ 3  2  1  5       2      -140.0  110.0       ;C3 C2 C1 P1	    
+ 6  3  2  1       2       177.0   50.0       ;P4 C3 C2 C1
+ 7  2  3  1       2       130.0    9.0       ;P5 C2 C3 C1
+ 
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.2770   ;C1 C2     	      
+   1  3 	1 	0.2865   ;C1 C3		      
+   2  3 	1 	0.3360   ;C2 C3      	      
+#endif
+   
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 7
+3 2 1
+2 1
+
+
+
+; myo-Inositol 1,3,4,5-tetrakisphosphate
+;
+;        P5     P4
+;        |       \
+;       C2 — — — C3 — P3   ## P3 - C1 suplementary bond not shown
+;         \  C4  /         ## P5 - C1 suplementary bond not shown
+;          \    /          ## P4 - P5 suplementary bond not shown
+;            C1   
+;            |
+;            P1
+;
+
+[ moleculetype ]
+; molname      nrexcl
+  INO4_1345          1
+
+[ atoms ]
+; id 	type 	resnr 	residu 	atom 	cgnr 	charge  mass
+   1 	SP1 	 1 	    INO4 	C1  	 1 	    0 	
+   2 	SP1 	 1 	    INO4 	C2  	 2 	    0  	
+   3 	SN4a 	 1 	    INO4 	C3  	 3 	    0 	
+   4 	TC4	     1 	    INO4 	C4  	 4 	    0 	 0   
+   5 	Q5	     1 	    INO4 	PO4 	 5     -1.0 	
+   6    Q5       1      INO4    P3       6     -1.30   
+   7    D        1      INO4    P4       7     -1.40   
+   8    Q5       1      INO4    P5       8     -1.30
+
+[ bonds ]
+;  i  j 	funct 	length 	force.c.
+#ifdef FLEXIBLE
+; Using bonds not constraints
+   1  2 	1 	0.290 	30000 	
+   1  3 	1 	0.284	30000 	
+   2  3 	1 	0.307 	30000 	
+#endif
+   6  3         1       0.306    7500        ;P3 C3 
+   6  1         1       0.505    1250        ;P3 C1 
+   7  3         1       0.325    5500 	     ;P4 C3
+   8  2         1       0.395    3500        ;P5 C2
+   8  1         1       0.500    1250        ;P5 C1
+   7  8         1       0.505     800        ;P4 P5
+   1  5     	1    	0.341 	  5000       ;C1 P1
+
+[ angles ]
+;  i  j  k 	funct 	angle 	force.c.
+;Orient the headgroup
+   2  1  5  	10	   105.0 	17.5    ;  C2 C1 P1   	
+   6  3  1      10     110.0    10.0    ;  P3 C3 C1
+   7  3  2      10      95.0     2.0    ;  P4 C3 C2 	 
+   8  2  3      10     110.0    20.0    ;  P5 C2 C1 
+
+[ dihedrals ]
+;  i  j  k  l 	funct 	angle 	force.c.
+ 3  2  1  5       2      -180.0   0.5        ;C3 C2 C1 P1	    
+ 6  3  1  2       2       130.0  10.0        ;P3 C3 C1 C2
+ 7  3  2  1       2       130.0  15.0        ;P4 C3 C2 C1
+ 8  2  3  1       2       115.0  17.5        ;P5 C2 C3 C1
+
+#ifndef FLEXIBLE
+[ constraints ]
+;  i  j  k 	funct 	length
+; Using constraints not bonds
+   1  2 	1 	0.290   ;C1 C2      
+   1  3 	1 	0.284   ;C1 C3	
+   2  3 	1 	0.307   ;C2 C3     
+#endif
+   
+[ virtual_sitesn ]
+; site funct  constructing atom indices
+   4     2     1 2 3
+
+[ exclusions ]
+;  i  j
+4 3 2 1 5 6 7 8
+3 2 1
+2 1

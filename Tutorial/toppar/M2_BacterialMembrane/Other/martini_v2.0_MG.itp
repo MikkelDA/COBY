@@ -1,0 +1,10 @@
+;;; Custom Martini2 Magnesium ion made only for the figure. It is identical to the NA ion in function.
+
+[moleculetype]
+; molname 	nrexcl
+  MG		1
+
+[atoms]
+;id 	type 	resnr 	residu 	atom 	cgnr 	charge
+ 1 	Qd 	1 	MG 	MG+ 	1 	1.0 
+
