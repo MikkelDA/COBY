@@ -1,0 +1,48 @@
+; This file was generated using the following command:
+; /home/au613219/anaconda3/envs/py312/bin/martinize2 -f COBY_molecules/HID.pdb -x martinized_molecules/HID.pdb -o martinized_molecules/HID.top -ff martini3001 -from martini3001 -ss C -maxwarn 1000
+; martinize with vermouth 0.10.0
+; The following sequence of secondary structure 
+; was used for the full system:
+; C
+
+; Please cite the following papers:
+; Souza, P C T; Alessandri, R; Barnoud, J; Thallmair, S; Faustino, I; Grünewald, F; Patmanidis, I; Abdizadeh, H; Bruininks, B M H; Wassenaar, T A; Kroon, P C; Melcr, J; Nieto, V; Corradi, V; Khan, H M; Domański, J; Javanainen, M; Martinez-Seara, H; Reuter, N; Best, R B; Vattulainen, I; Monticelli, L; Periole, X; Tieleman, D P; de Vries, A H; Marrink, S J;  Nature Methods 2021; 10.1038/s41592-021-01098-3
+
+[ moleculetype ]
+HID 1
+
+[ atoms ]
+1 P2   1 HID BB  1 0.0 
+2 TC4  1 HID SC1 2 0.0 
+3 TN5a 1 HID SC2 3 0.0 
+4 TN6d 1 HID SC3 4 0.0 
+
+[ bonds ]
+; Side chain bonds
+1 2 1 0.336 7500
+
+#ifdef FLEXIBLE
+; Side chain bonds
+2 3 1 0.300 1000000
+2 4 1 0.320 1000000
+3 4 1 0.270 1000000
+#endif
+
+[ constraints ]
+#ifndef FLEXIBLE
+; Side chain bonds
+2 3 1 0.300
+2 4 1 0.320
+3 4 1 0.270
+#endif
+
+[ angles ]
+; Side chain angles
+1 2 3 2 120.000 50.0
+1 2 4 2 120.000 50.0
+
+[ exclusions ]
+1 2 3 4 
+2 3 4 
+3 4 
+

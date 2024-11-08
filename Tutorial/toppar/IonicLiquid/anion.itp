@@ -1,0 +1,19 @@
+;;;;;; BF4 ION 
+
+[moleculetype]
+; molname 	nrexcl
+  BF4 		1
+
+[atoms]
+;id 	type 	resnr 	residu 	atom 	cgnr 	charge   mass
+ 1 	Q2	1 	BF4 	BF4 	1 	-1.0     86.80
+
+;;;;;; PF6 ION 
+
+[moleculetype]
+; molname 	nrexcl
+  PF6 		1
+
+[atoms]
+;id 	type 	resnr 	residu 	atom 	cgnr 	charge   mass
+ 1 	Q1	1 	PF6 	PF6 	1 	-1.0     144.96

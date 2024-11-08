@@ -1,0 +1,13 @@
+[ moleculetype ]
+; molname nrexcl
+NaW   1
+[ atoms ]
+; id    at type res nr  residu name     at name  cg nr  charge   mass
+1 NaW  1  NaW  NaW  1   1.0   50.0
+
+[ moleculetype ]
+; molname nrexcl
+ClW   1
+[ atoms ]
+; id    at type res nr  residu name     at name  cg nr  charge   mass
+1 ClW  1  ClW  ClW  1  -1.0   50.0

@@ -1,0 +1,21 @@
+; This file was generated using the following command:
+; /home/au613219/anaconda3/envs/py312/bin/martinize2 -f COBY_molecules/GLUP.pdb -x martinized_molecules/GLUP.pdb -o martinized_molecules/GLUP.top -ff martini3001 -from martini3001 -ss C -maxwarn 1000
+; martinize with vermouth 0.10.0
+; The following sequence of secondary structure 
+; was used for the full system:
+; C
+
+; Please cite the following papers:
+; Souza, P C T; Alessandri, R; Barnoud, J; Thallmair, S; Faustino, I; Grünewald, F; Patmanidis, I; Abdizadeh, H; Bruininks, B M H; Wassenaar, T A; Kroon, P C; Melcr, J; Nieto, V; Corradi, V; Khan, H M; Domański, J; Javanainen, M; Martinez-Seara, H; Reuter, N; Best, R B; Vattulainen, I; Monticelli, L; Periole, X; Tieleman, D P; de Vries, A H; Marrink, S J;  Nature Methods 2021; 10.1038/s41592-021-01098-3
+
+[ moleculetype ]
+GLUP 1
+
+[ atoms ]
+1 P2 1 GLUP BB  1 0.0 
+2 P2 1 GLUP SC1 2 0.0 
+
+[ bonds ]
+; Side chain bonds
+1 2 1 0.400 5000
+

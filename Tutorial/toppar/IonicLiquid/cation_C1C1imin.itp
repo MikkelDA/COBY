@@ -1,0 +1,15 @@
+[moleculetype]
+; Name     nrexcl
+MIM          1
+
+[ atoms ]
+;id type resnr residu atom cgnr  charge    mass
+1   TN2q   1     MIM     SI1    1   0.500  32.38
+2   TN2q   1     MIM     SI2    2   0.500  32.38
+3   TC6    1     MIM     SI3    3   0.000  32.38
+
+[constraints]
+;  i     j   funct   length
+   2     3    1       0.318
+   2     1    1       0.318
+   3     1    1       0.318

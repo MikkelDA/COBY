@@ -1,0 +1,62 @@
+; This file was generated using the following command:
+; /home/au613219/anaconda3/envs/py312/bin/martinize2 -f COBY_molecules/TRP.pdb -x martinized_molecules/TRP.pdb -o martinized_molecules/TRP.top -ff martini3001 -from martini3001 -ss C -maxwarn 1000
+; martinize with vermouth 0.10.0
+; The following sequence of secondary structure 
+; was used for the full system:
+; C
+
+; Please cite the following papers:
+; Souza, P C T; Alessandri, R; Barnoud, J; Thallmair, S; Faustino, I; Grünewald, F; Patmanidis, I; Abdizadeh, H; Bruininks, B M H; Wassenaar, T A; Kroon, P C; Melcr, J; Nieto, V; Corradi, V; Khan, H M; Domański, J; Javanainen, M; Martinez-Seara, H; Reuter, N; Best, R B; Vattulainen, I; Monticelli, L; Periole, X; Tieleman, D P; de Vries, A H; Marrink, S J;  Nature Methods 2021; 10.1038/s41592-021-01098-3
+
+[ moleculetype ]
+TRP 1
+
+[ atoms ]
+1 P2   1 TRP BB  1 0.0     
+2 TC4  1 TRP SC1 2 0.0 36.0
+3 TN6d 1 TRP SC2 3 0.0 36.0
+4 TC5  1 TRP SC3 4 0.0  0.0
+5 TC5  1 TRP SC4 5 0.0 36.0
+6 TC5  1 TRP SC5 6 0.0 36.0
+
+[ bonds ]
+; Side chain bonds
+1 2 1 0.315 5000
+
+#ifdef FLEXIBLE
+; Side chain bonds
+2 3 1 0.335 1000000
+3 6 1 0.412 1000000
+5 6 1 0.293 1000000
+2 5 1 0.404 1000000
+3 5 1 0.470 1000000
+#endif
+
+[ constraints ]
+#ifndef FLEXIBLE
+; Side chain bonds
+2 3 1 0.335
+3 6 1 0.412
+5 6 1 0.293
+2 5 1 0.404
+3 5 1 0.470
+#endif
+
+[ angles ]
+; Side chain angles
+1 2 3 2 120.000 60.0
+1 2 5 2 130.000 60.0
+
+[ dihedrals ]
+6 5 3 2 2 180.0 100.0
+
+[ virtual_sitesn ]
+4 2 6 5 3 2
+
+[ exclusions ]
+1 2 3 4 5 6 
+2 3 4 5 6 
+3 4 5 6 
+4 5 6 
+5 6 
+

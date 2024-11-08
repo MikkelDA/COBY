@@ -1,0 +1,15 @@
+; GENERATED WITH auto_Martini v0.2.1 for PUT
+; Developed by: Kiran Kanekal, Tristan Bereau, and Andrew Abi-Mansour
+
+[moleculetype]
+; molname       nrexcl
+  PUT           2
+
+[atoms]
+; id    type    resnr   residue  atom    cgnr    charge  smiles
+    1     P1      1     PUT       P01     1         0   ; CCN
+    2     P1      1     PUT       P02     2         0   ; CCN
+
+[bonds]
+; i j     funct     length    force.c.
+  1 2       1         0.32     1250

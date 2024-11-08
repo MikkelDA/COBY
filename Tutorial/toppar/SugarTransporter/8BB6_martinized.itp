@@ -2,1577 +2,1577 @@
 8BB6_CG 1
 
 [ atoms ]
-   1 P2     25 ASP  BB     1    0 ; NCAP-ter     
-   2 SQ5n   25 ASP  SC1    2 -1.0     
-   3 P2     26 GLN  BB     3  0.0     
-   4 P5     26 GLN  SC1    4  0.0     
-   5 SP2a   27 PRO  BB     5  0.0     
-   6 SC3    27 PRO  SC1    6  0.0     
-   7 P2     28 SER  BB     7  0.0     
-   8 TP1    28 SER  SC1    8  0.0     
-   9 SP2a   29 PRO  BB     9  0.0     
-  10 SC3    29 PRO  SC1   10  0.0     
-  11 P2     30 LEU  BB    11  0.0     
-  12 SC2    30 LEU  SC1   12  0.0     
-  13 P2     31 ARG  BB    13  0.0     
-  14 SC3    31 ARG  SC1   14  0.0     
-  15 SQ3p   31 ARG  SC2   15  1.0     
-  16 P2     32 LYS  BB    16  0.0     
-  17 SC3    32 LYS  SC1   17  0.0     
-  18 SQ4p   32 LYS  SC2   18  1.0     
-  19 P2     33 ILE  BB    19  0.0     
-  20 SC2    33 ILE  SC1   20  0.0     
-  21 P2     34 ILE  BB    21  0.0     
-  22 SC2    34 ILE  SC1   22  0.0     
-  23 P2     35 SER  BB    23  0.0     
-  24 TP1    35 SER  SC1   24  0.0     
-  25 SP2    36 VAL  BB    25  0.0     
-  26 SC3    36 VAL  SC1   26  0.0     
-  27 SP2    37 ALA  BB    27  0.0     
-  28 TC3    37 ALA  SC1   28  0.0     
-  29 P2     38 SER  BB    29  0.0     
-  30 TP1    38 SER  SC1   30  0.0     
-  31 P2     39 ILE  BB    31  0.0     
-  32 SC2    39 ILE  SC1   32  0.0     
-  33 SP2    40 ALA  BB    33  0.0     
-  34 TC3    40 ALA  SC1   34  0.0     
-  35 SP2    41 ALA  BB    35  0.0     
-  36 TC3    41 ALA  SC1   36  0.0     
-  37 SP1    42 GLY  BB    37  0.0     
-  38 SP2    43 VAL  BB    38  0.0     
-  39 SC3    43 VAL  SC1   39  0.0     
-  40 P2     44 GLN  BB    40  0.0     
-  41 P5     44 GLN  SC1   41  0.0     
-  42 P2     45 PHE  BB    42  0.0     
-  43 SC4    45 PHE  SC1   43  0.0     
-  44 TC5    45 PHE  SC2   44  0.0     
-  45 TC5    45 PHE  SC3   45  0.0     
-  46 SP1    46 GLY  BB    46  0.0     
-  47 P2     47 TRP  BB    47  0.0     
-  48 TC4    47 TRP  SC1   48  0.0 36.0
-  49 TN6d   47 TRP  SC2   49  0.0 36.0
-  50 TC5    47 TRP  SC3   50  0.0  0.0
-  51 TC5    47 TRP  SC4   51  0.0 36.0
-  52 TC5    47 TRP  SC5   52  0.0 36.0
-  53 SP2    48 ALA  BB    53  0.0     
-  54 TC3    48 ALA  SC1   54  0.0     
-  55 P2     49 LEU  BB    55  0.0     
-  56 SC2    49 LEU  SC1   56  0.0     
-  57 P2     50 GLN  BB    57  0.0     
-  58 P5     50 GLN  SC1   58  0.0     
-  59 P2     51 LEU  BB    59  0.0     
-  60 SC2    51 LEU  SC1   60  0.0     
-  61 P2     52 SER  BB    61  0.0     
-  62 TP1    52 SER  SC1   62  0.0     
-  63 P2     53 LEU  BB    63  0.0     
-  64 SC2    53 LEU  SC1   64  0.0     
-  65 P2     54 LEU  BB    65  0.0     
-  66 SC2    54 LEU  SC1   66  0.0     
-  67 P2     55 THR  BB    67  0.0     
-  68 SP1    55 THR  SC1   68  0.0     
-  69 SP2a   56 PRO  BB    69  0.0     
-  70 SC3    56 PRO  SC1   70  0.0     
-  71 P2     57 TYR  BB    71  0.0     
-  72 TC4    57 TYR  SC1   72  0.0     
-  73 TC5    57 TYR  SC2   73  0.0     
-  74 TC5    57 TYR  SC3   74  0.0     
-  75 TN6    57 TYR  SC4   75  0.0     
-  76 SP2    58 VAL  BB    76  0.0     
-  77 SC3    58 VAL  SC1   77  0.0     
-  78 P2     59 GLN  BB    78  0.0     
-  79 P5     59 GLN  SC1   79  0.0     
-  80 P2     60 LEU  BB    80  0.0     
-  81 SC2    60 LEU  SC1   81  0.0     
-  82 P2     61 LEU  BB    82  0.0     
-  83 SC2    61 LEU  SC1   83  0.0     
-  84 SP1    62 GLY  BB    84  0.0     
-  85 P2     63 ILE  BB    85  0.0     
-  86 SC2    63 ILE  SC1   86  0.0     
-  87 SP2a   64 PRO  BB    87  0.0     
-  88 SC3    64 PRO  SC1   88  0.0     
-  89 P2     65 HSP  BB    89  0.0     
-  90 TC4    65 HSP  SC1   90  0.0     
-  91 TP1dq  65 HSP  SC2   91  0.5     
-  92 TP1dq  65 HSP  SC3   92  0.5     
-  93 P2     66 LYS  BB    93  0.0     
-  94 SC3    66 LYS  SC1   94  0.0     
-  95 SQ4p   66 LYS  SC2   95  1.0     
-  96 P2     67 TRP  BB    96  0.0     
-  97 TC4    67 TRP  SC1   97  0.0 36.0
-  98 TN6d   67 TRP  SC2   98  0.0 36.0
-  99 TC5    67 TRP  SC3   99  0.0  0.0
- 100 TC5    67 TRP  SC4  100  0.0 36.0
- 101 TC5    67 TRP  SC5  101  0.0 36.0
- 102 P2     68 SER  BB   102  0.0     
- 103 TP1    68 SER  SC1  103  0.0     
- 104 P2     69 SER  BB   104  0.0     
- 105 TP1    69 SER  SC1  105  0.0     
- 106 P2     70 LEU  BB   106  0.0     
- 107 SC2    70 LEU  SC1  107  0.0     
- 108 P2     71 ILE  BB   108  0.0     
- 109 SC2    71 ILE  SC1  109  0.0     
- 110 P2     72 TRP  BB   110  0.0     
- 111 TC4    72 TRP  SC1  111  0.0 36.0
- 112 TN6d   72 TRP  SC2  112  0.0 36.0
- 113 TC5    72 TRP  SC3  113  0.0  0.0
- 114 TC5    72 TRP  SC4  114  0.0 36.0
- 115 TC5    72 TRP  SC5  115  0.0 36.0
- 116 P2     73 LEU  BB   116  0.0     
- 117 SC2    73 LEU  SC1  117  0.0     
- 118 P2     74 CYS  BB   118  0.0     
- 119 TC6    74 CYS  SC1  119  0.0     
- 120 SP1    75 GLY  BB   120  0.0     
- 121 SP2a   76 PRO  BB   121  0.0     
- 122 SC3    76 PRO  SC1  122  0.0     
- 123 SP2    77 VAL  BB   123  0.0     
- 124 SC3    77 VAL  SC1  124  0.0     
- 125 P2     78 SER  BB   125  0.0     
- 126 TP1    78 SER  SC1  126  0.0     
- 127 SP1    79 GLY  BB   127  0.0     
- 128 P2     80 MET  BB   128  0.0     
- 129 C6     80 MET  SC1  129  0.0     
- 130 P2     81 ILE  BB   130  0.0     
- 131 SC2    81 ILE  SC1  131  0.0     
- 132 SP2    82 VAL  BB   132  0.0     
- 133 SC3    82 VAL  SC1  133  0.0     
- 134 P2     83 GLN  BB   134  0.0     
- 135 P5     83 GLN  SC1  135  0.0     
- 136 SP2a   84 PRO  BB   136  0.0     
- 137 SC3    84 PRO  SC1  137  0.0     
- 138 P2     85 ILE  BB   138  0.0     
- 139 SC2    85 ILE  SC1  139  0.0     
- 140 SP2    86 VAL  BB   140  0.0     
- 141 SC3    86 VAL  SC1  141  0.0     
- 142 SP1    87 GLY  BB   142  0.0     
- 143 P2     88 PHE  BB   143  0.0     
- 144 SC4    88 PHE  SC1  144  0.0     
- 145 TC5    88 PHE  SC2  145  0.0     
- 146 TC5    88 PHE  SC3  146  0.0     
- 147 P2     89 HSD  BB   147  0.0     
- 148 TC4    89 HSD  SC1  148  0.0     
- 149 TN5a   89 HSD  SC2  149  0.0     
- 150 TN6d   89 HSD  SC3  150  0.0     
- 151 P2     90 SER  BB   151  0.0     
- 152 TP1    90 SER  SC1  152  0.0     
- 153 P2     91 ASP  BB   153  0.0     
- 154 SQ5n   91 ASP  SC1  154 -1.0     
- 155 P2     92 ARG  BB   155  0.0     
- 156 SC3    92 ARG  SC1  156  0.0     
- 157 SQ3p   92 ARG  SC2  157  1.0     
- 158 P2     93 CYS  BB   158  0.0     
- 159 TC6    93 CYS  SC1  159  0.0     
- 160 P2     94 ARG  BB   160  0.0     
- 161 SC3    94 ARG  SC1  161  0.0     
- 162 SQ3p   94 ARG  SC2  162  1.0     
- 163 P2     95 SER  BB   163  0.0     
- 164 TP1    95 SER  SC1  164  0.0     
- 165 P2     96 LYS  BB   165  0.0     
- 166 SC3    96 LYS  SC1  166  0.0     
- 167 SQ4p   96 LYS  SC2  167  1.0     
- 168 P2     97 PHE  BB   168  0.0     
- 169 SC4    97 PHE  SC1  169  0.0     
- 170 TC5    97 PHE  SC2  170  0.0     
- 171 TC5    97 PHE  SC3  171  0.0     
- 172 SP1    98 GLY  BB   172  0.0     
- 173 P2     99 ARG  BB   173  0.0     
- 174 SC3    99 ARG  SC1  174  0.0     
- 175 SQ3p   99 ARG  SC2  175  1.0     
- 176 P2    100 ARG  BB   176  0.0     
- 177 SC3   100 ARG  SC1  177  0.0     
- 178 SQ3p  100 ARG  SC2  178  1.0     
- 179 P2    101 ARG  BB   179  0.0     
- 180 SC3   101 ARG  SC1  180  0.0     
- 181 SQ3p  101 ARG  SC2  181  1.0     
- 182 SP2a  102 PRO  BB   182  0.0     
- 183 SC3   102 PRO  SC1  183  0.0     
- 184 P2    103 PHE  BB   184  0.0     
- 185 SC4   103 PHE  SC1  185  0.0     
- 186 TC5   103 PHE  SC2  186  0.0     
- 187 TC5   103 PHE  SC3  187  0.0     
- 188 P2    104 ILE  BB   188  0.0     
- 189 SC2   104 ILE  SC1  189  0.0     
- 190 SP2   105 ALA  BB   190  0.0     
- 191 TC3   105 ALA  SC1  191  0.0     
- 192 P2    106 THR  BB   192  0.0     
- 193 SP1   106 THR  SC1  193  0.0     
- 194 SP1   107 GLY  BB   194  0.0     
- 195 SP2   108 ALA  BB   195  0.0     
- 196 TC3   108 ALA  SC1  196  0.0     
- 197 SP2   109 ALA  BB   197  0.0     
- 198 TC3   109 ALA  SC1  198  0.0     
- 199 P2    110 LEU  BB   199  0.0     
- 200 SC2   110 LEU  SC1  200  0.0     
- 201 SP2   111 VAL  BB   201  0.0     
- 202 SC3   111 VAL  SC1  202  0.0     
- 203 SP2   112 ALA  BB   203  0.0     
- 204 TC3   112 ALA  SC1  204  0.0     
- 205 SP2   113 VAL  BB   205  0.0     
- 206 SC3   113 VAL  SC1  206  0.0     
- 207 SP2   114 ALA  BB   207  0.0     
- 208 TC3   114 ALA  SC1  208  0.0     
- 209 SP2   115 VAL  BB   209  0.0     
- 210 SC3   115 VAL  SC1  210  0.0     
- 211 P2    116 PHE  BB   211  0.0     
- 212 SC4   116 PHE  SC1  212  0.0     
- 213 TC5   116 PHE  SC2  213  0.0     
- 214 TC5   116 PHE  SC3  214  0.0     
- 215 P2    117 LEU  BB   215  0.0     
- 216 SC2   117 LEU  SC1  216  0.0     
- 217 P2    118 ILE  BB   217  0.0     
- 218 SC2   118 ILE  SC1  218  0.0     
- 219 SP1   119 GLY  BB   219  0.0     
- 220 P2    120 TYR  BB   220  0.0     
- 221 TC4   120 TYR  SC1  221  0.0     
- 222 TC5   120 TYR  SC2  222  0.0     
- 223 TC5   120 TYR  SC3  223  0.0     
- 224 TN6   120 TYR  SC4  224  0.0     
- 225 SP2   121 ALA  BB   225  0.0     
- 226 TC3   121 ALA  SC1  226  0.0     
- 227 SP2   122 ALA  BB   227  0.0     
- 228 TC3   122 ALA  SC1  228  0.0     
- 229 P2    123 ASP  BB   229  0.0     
- 230 SQ5n  123 ASP  SC1  230 -1.0     
- 231 P2    124 PHE  BB   231  0.0     
- 232 SC4   124 PHE  SC1  232  0.0     
- 233 TC5   124 PHE  SC2  233  0.0     
- 234 TC5   124 PHE  SC3  234  0.0     
- 235 SP1   125 GLY  BB   235  0.0     
- 236 P2    126 TYR  BB   236  0.0     
- 237 TC4   126 TYR  SC1  237  0.0     
- 238 TC5   126 TYR  SC2  238  0.0     
- 239 TC5   126 TYR  SC3  239  0.0     
- 240 TN6   126 TYR  SC4  240  0.0     
- 241 P2    127 LYS  BB   241  0.0     
- 242 SC3   127 LYS  SC1  242  0.0     
- 243 SQ4p  127 LYS  SC2  243  1.0     
- 244 P2    128 MET  BB   244  0.0     
- 245 C6    128 MET  SC1  245  0.0     
- 246 SP1   129 GLY  BB   246  0.0     
- 247 P2    130 ASP  BB   247  0.0     
- 248 SQ5n  130 ASP  SC1  248 -1.0     
- 249 P2    131 LYS  BB   249  0.0     
- 250 SC3   131 LYS  SC1  250  0.0     
- 251 SQ4p  131 LYS  SC2  251  1.0     
- 252 P2    132 LEU  BB   252  0.0     
- 253 SC2   132 LEU  SC1  253  0.0     
- 254 P2    133 GLU  BB   254  0.0     
- 255 Q5n   133 GLU  SC1  255 -1.0     
- 256 P2    134 GLU  BB   256  0.0     
- 257 Q5n   134 GLU  SC1  257 -1.0     
- 258 P2    135 LYS  BB   258  0.0     
- 259 SC3   135 LYS  SC1  259  0.0     
- 260 SQ4p  135 LYS  SC2  260  1.0     
- 261 SP2   136 VAL  BB   261  0.0     
- 262 SC3   136 VAL  SC1  262  0.0     
- 263 P2    137 LYS  BB   263  0.0     
- 264 SC3   137 LYS  SC1  264  0.0     
- 265 SQ4p  137 LYS  SC2  265  1.0     
- 266 SP2   138 VAL  BB   266  0.0     
- 267 SC3   138 VAL  SC1  267  0.0     
- 268 P2    139 ARG  BB   268  0.0     
- 269 SC3   139 ARG  SC1  269  0.0     
- 270 SQ3p  139 ARG  SC2  270  1.0     
- 271 SP2   140 ALA  BB   271  0.0     
- 272 TC3   140 ALA  SC1  272  0.0     
- 273 P2    141 ILE  BB   273  0.0     
- 274 SC2   141 ILE  SC1  274  0.0     
- 275 SP1   142 GLY  BB   275  0.0     
- 276 P2    143 ILE  BB   276  0.0     
- 277 SC2   143 ILE  SC1  277  0.0     
- 278 P2    144 PHE  BB   278  0.0     
- 279 SC4   144 PHE  SC1  279  0.0     
- 280 TC5   144 PHE  SC2  280  0.0     
- 281 TC5   144 PHE  SC3  281  0.0     
- 282 SP2   145 ALA  BB   282  0.0     
- 283 TC3   145 ALA  SC1  283  0.0     
- 284 P2    146 LEU  BB   284  0.0     
- 285 SC2   146 LEU  SC1  285  0.0     
- 286 SP1   147 GLY  BB   286  0.0     
- 287 P2    148 PHE  BB   287  0.0     
- 288 SC4   148 PHE  SC1  288  0.0     
- 289 TC5   148 PHE  SC2  289  0.0     
- 290 TC5   148 PHE  SC3  290  0.0     
- 291 P2    149 TRP  BB   291  0.0     
- 292 TC4   149 TRP  SC1  292  0.0 36.0
- 293 TN6d  149 TRP  SC2  293  0.0 36.0
- 294 TC5   149 TRP  SC3  294  0.0  0.0
- 295 TC5   149 TRP  SC4  295  0.0 36.0
- 296 TC5   149 TRP  SC5  296  0.0 36.0
- 297 P2    150 ILE  BB   297  0.0     
- 298 SC2   150 ILE  SC1  298  0.0     
- 299 P2    151 LEU  BB   299  0.0     
- 300 SC2   151 LEU  SC1  300  0.0     
- 301 P2    152 ASP  BB   301  0.0     
- 302 SQ5n  152 ASP  SC1  302 -1.0     
- 303 SP2   153 VAL  BB   303  0.0     
- 304 SC3   153 VAL  SC1  304  0.0     
- 305 SP2   154 ALA  BB   305  0.0     
- 306 TC3   154 ALA  SC1  306  0.0     
- 307 P2    155 ASN  BB   307  0.0     
- 308 SP5   155 ASN  SC1  308  0.0     
- 309 P2    156 ASN  BB   309  0.0     
- 310 SP5   156 ASN  SC1  310  0.0     
- 311 P2    157 THR  BB   311  0.0     
- 312 SP1   157 THR  SC1  312  0.0     
- 313 P2    158 LEU  BB   313  0.0     
- 314 SC2   158 LEU  SC1  314  0.0     
- 315 P2    159 GLN  BB   315  0.0     
- 316 P5    159 GLN  SC1  316  0.0     
- 317 SP1   160 GLY  BB   317  0.0     
- 318 SP2a  161 PRO  BB   318  0.0     
- 319 SC3   161 PRO  SC1  319  0.0     
- 320 P2    162 CYS  BB   320  0.0     
- 321 TC6   162 CYS  SC1  321  0.0     
- 322 P2    163 ARG  BB   322  0.0     
- 323 SC3   163 ARG  SC1  323  0.0     
- 324 SQ3p  163 ARG  SC2  324  1.0     
- 325 SP2   164 ALA  BB   325  0.0     
- 326 TC3   164 ALA  SC1  326  0.0     
- 327 P2    165 PHE  BB   327  0.0     
- 328 SC4   165 PHE  SC1  328  0.0     
- 329 TC5   165 PHE  SC2  329  0.0     
- 330 TC5   165 PHE  SC3  330  0.0     
- 331 P2    166 LEU  BB   331  0.0     
- 332 SC2   166 LEU  SC1  332  0.0     
- 333 SP2   167 ALA  BB   333  0.0     
- 334 TC3   167 ALA  SC1  334  0.0     
- 335 P2    168 ASP  BB   335  0.0     
- 336 SQ5n  168 ASP  SC1  336 -1.0     
- 337 P2    169 LEU  BB   337  0.0     
- 338 SC2   169 LEU  SC1  338  0.0     
- 339 SP2   170 ALA  BB   339  0.0     
- 340 TC3   170 ALA  SC1  340  0.0     
- 341 SP2   171 ALA  BB   341  0.0     
- 342 TC3   171 ALA  SC1  342  0.0     
- 343 SP1   172 GLY  BB   343  0.0     
- 344 P2    173 ASP  BB   344  0.0     
- 345 SQ5n  173 ASP  SC1  345 -1.0     
- 346 SP2   174 ALA  BB   346  0.0     
- 347 TC3   174 ALA  SC1  347  0.0     
- 348 P2    175 LYS  BB   348  0.0     
- 349 SC3   175 LYS  SC1  349  0.0     
- 350 SQ4p  175 LYS  SC2  350  1.0     
- 351 P2    176 ARG  BB   351  0.0     
- 352 SC3   176 ARG  SC1  352  0.0     
- 353 SQ3p  176 ARG  SC2  353  1.0     
- 354 P2    177 THR  BB   354  0.0     
- 355 SP1   177 THR  SC1  355  0.0     
- 356 P2    178 ARG  BB   356  0.0     
- 357 SC3   178 ARG  SC1  357  0.0     
- 358 SQ3p  178 ARG  SC2  358  1.0     
- 359 SP2   179 VAL  BB   359  0.0     
- 360 SC3   179 VAL  SC1  360  0.0     
- 361 SP2   180 ALA  BB   361  0.0     
- 362 TC3   180 ALA  SC1  362  0.0     
- 363 P2    181 ASN  BB   363  0.0     
- 364 SP5   181 ASN  SC1  364  0.0     
- 365 SP2   182 ALA  BB   365  0.0     
- 366 TC3   182 ALA  SC1  366  0.0     
- 367 P2    183 PHE  BB   367  0.0     
- 368 SC4   183 PHE  SC1  368  0.0     
- 369 TC5   183 PHE  SC2  369  0.0     
- 370 TC5   183 PHE  SC3  370  0.0     
- 371 P2    184 PHE  BB   371  0.0     
- 372 SC4   184 PHE  SC1  372  0.0     
- 373 TC5   184 PHE  SC2  373  0.0     
- 374 TC5   184 PHE  SC3  374  0.0     
- 375 P2    185 SER  BB   375  0.0     
- 376 TP1   185 SER  SC1  376  0.0     
- 377 P2    186 PHE  BB   377  0.0     
- 378 SC4   186 PHE  SC1  378  0.0     
- 379 TC5   186 PHE  SC2  379  0.0     
- 380 TC5   186 PHE  SC3  380  0.0     
- 381 P2    187 PHE  BB   381  0.0     
- 382 SC4   187 PHE  SC1  382  0.0     
- 383 TC5   187 PHE  SC2  383  0.0     
- 384 TC5   187 PHE  SC3  384  0.0     
- 385 P2    188 MET  BB   385  0.0     
- 386 C6    188 MET  SC1  386  0.0     
- 387 SP2   189 ALA  BB   387  0.0     
- 388 TC3   189 ALA  SC1  388  0.0     
- 389 SP2   190 VAL  BB   389  0.0     
- 390 SC3   190 VAL  SC1  390  0.0     
- 391 SP1   191 GLY  BB   391  0.0     
- 392 P2    192 ASN  BB   392  0.0     
- 393 SP5   192 ASN  SC1  393  0.0     
- 394 SP2   193 VAL  BB   394  0.0     
- 395 SC3   193 VAL  SC1  395  0.0     
- 396 P2    194 LEU  BB   396  0.0     
- 397 SC2   194 LEU  SC1  397  0.0     
- 398 SP1   195 GLY  BB   398  0.0     
- 399 P2    196 TYR  BB   399  0.0     
- 400 TC4   196 TYR  SC1  400  0.0     
- 401 TC5   196 TYR  SC2  401  0.0     
- 402 TC5   196 TYR  SC3  402  0.0     
- 403 TN6   196 TYR  SC4  403  0.0     
- 404 SP2   197 ALA  BB   404  0.0     
- 405 TC3   197 ALA  SC1  405  0.0     
- 406 SP2   198 ALA  BB   406  0.0     
- 407 TC3   198 ALA  SC1  407  0.0     
- 408 SP1   199 GLY  BB   408  0.0     
- 409 P2    200 SER  BB   409  0.0     
- 410 TP1   200 SER  SC1  410  0.0     
- 411 P2    201 TYR  BB   411  0.0     
- 412 TC4   201 TYR  SC1  412  0.0     
- 413 TC5   201 TYR  SC2  413  0.0     
- 414 TC5   201 TYR  SC3  414  0.0     
- 415 TN6   201 TYR  SC4  415  0.0     
- 416 P2    202 THR  BB   416  0.0     
- 417 SP1   202 THR  SC1  417  0.0     
- 418 P2    203 ASN  BB   418  0.0     
- 419 SP5   203 ASN  SC1  419  0.0     
- 420 P2    204 LEU  BB   420  0.0     
- 421 SC2   204 LEU  SC1  421  0.0     
- 422 P2    205 HSP  BB   422  0.0     
- 423 TC4   205 HSP  SC1  423  0.0     
- 424 TP1dq 205 HSP  SC2  424  0.5     
- 425 TP1dq 205 HSP  SC3  425  0.5     
- 426 P2    206 LYS  BB   426  0.0     
- 427 SC3   206 LYS  SC1  427  0.0     
- 428 SQ4p  206 LYS  SC2  428  1.0     
- 429 P2    207 MET  BB   429  0.0     
- 430 C6    207 MET  SC1  430  0.0     
- 431 P2    208 PHE  BB   431  0.0     
- 432 SC4   208 PHE  SC1  432  0.0     
- 433 TC5   208 PHE  SC2  433  0.0     
- 434 TC5   208 PHE  SC3  434  0.0     
- 435 SP2a  209 PRO  BB   435  0.0     
- 436 SC3   209 PRO  SC1  436  0.0     
- 437 P2    210 PHE  BB   437  0.0     
- 438 SC4   210 PHE  SC1  438  0.0     
- 439 TC5   210 PHE  SC2  439  0.0     
- 440 TC5   210 PHE  SC3  440  0.0     
- 441 P2    211 THR  BB   441  0.0     
- 442 SP1   211 THR  SC1  442  0.0     
- 443 P2    212 MET  BB   443  0.0     
- 444 C6    212 MET  SC1  444  0.0     
- 445 P2    213 THR  BB   445  0.0     
- 446 SP1   213 THR  SC1  446  0.0     
- 447 P2    214 LYS  BB   447  0.0     
- 448 SC3   214 LYS  SC1  448  0.0     
- 449 SQ4p  214 LYS  SC2  449  1.0     
- 450 SP2   215 ALA  BB   450  0.0     
- 451 TC3   215 ALA  SC1  451  0.0     
- 452 P2    216 CYS  BB   452  0.0     
- 453 TC6   216 CYS  SC1  453  0.0     
- 454 P2    217 ASP  BB   454  0.0     
- 455 SQ5n  217 ASP  SC1  455 -1.0     
- 456 P2    218 ILE  BB   456  0.0     
- 457 SC2   218 ILE  SC1  457  0.0     
- 458 P2    219 TYR  BB   458  0.0     
- 459 TC4   219 TYR  SC1  459  0.0     
- 460 TC5   219 TYR  SC2  460  0.0     
- 461 TC5   219 TYR  SC3  461  0.0     
- 462 TN6   219 TYR  SC4  462  0.0     
- 463 P2    220 CYS  BB   463  0.0     
- 464 TC6   220 CYS  SC1  464  0.0     
- 465 SP2   221 ALA  BB   465  0.0     
- 466 TC3   221 ALA  SC1  466  0.0     
- 467 P2    222 ASN  BB   467  0.0     
- 468 SP5   222 ASN  SC1  468  0.0     
- 469 P2    223 LEU  BB   469  0.0     
- 470 SC2   223 LEU  SC1  470  0.0     
- 471 P2    224 LYS  BB   471  0.0     
- 472 SC3   224 LYS  SC1  472  0.0     
- 473 SQ4p  224 LYS  SC2  473  1.0     
- 474 P2    225 THR  BB   474  0.0     
- 475 SP1   225 THR  SC1  475  0.0     
- 476 P2    226 CYS  BB   476  0.0     
- 477 TC6   226 CYS  SC1  477  0.0     
- 478 P2    227 PHE  BB   478  0.0     
- 479 SC4   227 PHE  SC1  479  0.0     
- 480 TC5   227 PHE  SC2  480  0.0     
- 481 TC5   227 PHE  SC3  481  0.0     
- 482 P2    228 PHE  BB   482  0.0     
- 483 SC4   228 PHE  SC1  483  0.0     
- 484 TC5   228 PHE  SC2  484  0.0     
- 485 TC5   228 PHE  SC3  485  0.0     
- 486 P2    229 LEU  BB   486  0.0     
- 487 SC2   229 LEU  SC1  487  0.0     
- 488 P2    230 SER  BB   488  0.0     
- 489 TP1   230 SER  SC1  489  0.0     
- 490 P2    231 ILE  BB   490  0.0     
- 491 SC2   231 ILE  SC1  491  0.0     
- 492 P2    232 THR  BB   492  0.0     
- 493 SP1   232 THR  SC1  493  0.0     
- 494 P2    233 LEU  BB   494  0.0     
- 495 SC2   233 LEU  SC1  495  0.0     
- 496 P2    234 LEU  BB   496  0.0     
- 497 SC2   234 LEU  SC1  497  0.0     
- 498 P2    235 LEU  BB   498  0.0     
- 499 SC2   235 LEU  SC1  499  0.0     
- 500 P2    236 ILE  BB   500  0.0     
- 501 SC2   236 ILE  SC1  501  0.0     
- 502 SP2   237 VAL  BB   502  0.0     
- 503 SC3   237 VAL  SC1  503  0.0     
- 504 P2    238 THR  BB   504  0.0     
- 505 SP1   238 THR  SC1  505  0.0     
- 506 SP2   239 VAL  BB   506  0.0     
- 507 SC3   239 VAL  SC1  507  0.0     
- 508 P2    240 THR  BB   508  0.0     
- 509 SP1   240 THR  SC1  509  0.0     
- 510 P2    241 SER  BB   510  0.0     
- 511 TP1   241 SER  SC1  511  0.0     
- 512 P2    242 LEU  BB   512  0.0     
- 513 SC2   242 LEU  SC1  513  0.0     
- 514 P2    243 TRP  BB   514  0.0     
- 515 TC4   243 TRP  SC1  515  0.0 36.0
- 516 TN6d  243 TRP  SC2  516  0.0 36.0
- 517 TC5   243 TRP  SC3  517  0.0  0.0
- 518 TC5   243 TRP  SC4  518  0.0 36.0
- 519 TC5   243 TRP  SC5  519  0.0 36.0
- 520 P2    244 TYR  BB   520  0.0     
- 521 TC4   244 TYR  SC1  521  0.0     
- 522 TC5   244 TYR  SC2  522  0.0     
- 523 TC5   244 TYR  SC3  523  0.0     
- 524 TN6   244 TYR  SC4  524  0.0     
- 525 SP2   245 VAL  BB   525  0.0     
- 526 SC3   245 VAL  SC1  526  0.0     
- 527 P2    246 ASN  BB   527  0.0     
- 528 SP5   246 ASN  SC1  528  0.0     
- 529 P2    247 ASP  BB   529  0.0     
- 530 SQ5n  247 ASP  SC1  530 -1.0     
- 531 P2    248 LYS  BB   531  0.0     
- 532 SC3   248 LYS  SC1  532  0.0     
- 533 SQ4p  248 LYS  SC2  533  1.0     
- 534 P2    249 GLN  BB   534  0.0     
- 535 P5    249 GLN  SC1  535  0.0     
- 536 P2    250 TRP  BB   536  0.0     
- 537 TC4   250 TRP  SC1  537  0.0 36.0
- 538 TN6d  250 TRP  SC2  538  0.0 36.0
- 539 TC5   250 TRP  SC3  539  0.0  0.0
- 540 TC5   250 TRP  SC4  540  0.0 36.0
- 541 TC5   250 TRP  SC5  541  0.0 36.0
- 542 P2    251 SER  BB   542  0.0     
- 543 TP1   251 SER  SC1  543  0.0     
- 544 SP2a  252 PRO  BB   544  0.0     
- 545 SC3   252 PRO  SC1  545  0.0     
- 546 SP2a  253 PRO  BB   546  0.0     
- 547 SC3   253 PRO  SC1  547  0.0     
- 548 SP2a  254 PRO  BB   548  0.0     
- 549 SC3   254 PRO  SC1  549  0.0     
- 550 P2    255 ARG  BB   550  0.0     
- 551 SC3   255 ARG  SC1  551  0.0     
- 552 SQ3p  255 ARG  SC2  552  1.0     
- 553 P2    256 ASN  BB   553  0.0     
- 554 SP5   256 ASN  SC1  554  0.0     
- 555 SP2   257 ALA  BB   555  0.0     
- 556 TC3   257 ALA  SC1  556  0.0     
- 557 P2    258 ASP  BB   557  0.0     
- 558 SQ5n  258 ASP  SC1  558 -1.0     
- 559 P2    259 ASP  BB   559  0.0     
- 560 SQ5n  259 ASP  SC1  560 -1.0     
- 561 P2    260 ASP  BB   561  0.0     
- 562 SQ5n  260 ASP  SC1  562 -1.0     
- 563 P2    261 GLU  BB   563  0.0     
- 564 Q5n   261 GLU  SC1  564 -1.0     
- 565 P2    262 LYS  BB   565  0.0     
- 566 SC3   262 LYS  SC1  566  0.0     
- 567 SQ4p  262 LYS  SC2  567  1.0     
- 568 P2    263 THR  BB   568  0.0     
- 569 SP1   263 THR  SC1  569  0.0     
- 570 P2    264 SER  BB   570  0.0     
- 571 TP1   264 SER  SC1  571  0.0     
- 572 P2    265 SER  BB   572  0.0     
- 573 TP1   265 SER  SC1  573  0.0     
- 574 SP2   266 VAL  BB   574  0.0     
- 575 SC3   266 VAL  SC1  575  0.0     
- 576 SP2a  267 PRO  BB   576  0.0     
- 577 SC3   267 PRO  SC1  577  0.0     
- 578 P2    268 LEU  BB   578  0.0     
- 579 SC2   268 LEU  SC1  579  0.0     
- 580 P2    269 PHE  BB   580  0.0     
- 581 SC4   269 PHE  SC1  581  0.0     
- 582 TC5   269 PHE  SC2  582  0.0     
- 583 TC5   269 PHE  SC3  583  0.0     
- 584 SP1   270 GLY  BB   584  0.0     
- 585 P2    271 GLU  BB   585  0.0     
- 586 Q5n   271 GLU  SC1  586 -1.0     
- 587 P2    272 ILE  BB   587  0.0     
- 588 SC2   272 ILE  SC1  588  0.0     
- 589 P2    273 PHE  BB   589  0.0     
- 590 SC4   273 PHE  SC1  590  0.0     
- 591 TC5   273 PHE  SC2  591  0.0     
- 592 TC5   273 PHE  SC3  592  0.0     
- 593 SP1   274 GLY  BB   593  0.0     
- 594 SP2   275 ALA  BB   594  0.0     
- 595 TC3   275 ALA  SC1  595  0.0     
- 596 P2    276 PHE  BB   596  0.0     
- 597 SC4   276 PHE  SC1  597  0.0     
- 598 TC5   276 PHE  SC2  598  0.0     
- 599 TC5   276 PHE  SC3  599  0.0     
- 600 P2    277 LYS  BB   600  0.0     
- 601 SC3   277 LYS  SC1  601  0.0     
- 602 SQ4p  277 LYS  SC2  602  1.0     
- 603 SP2   278 VAL  BB   603  0.0     
- 604 SC3   278 VAL  SC1  604  0.0     
- 605 P2    279 MET  BB   605  0.0     
- 606 C6    279 MET  SC1  606  0.0     
- 607 P2    280 LYS  BB   607  0.0     
- 608 SC3   280 LYS  SC1  608  0.0     
- 609 SQ4p  280 LYS  SC2  609  1.0     
- 610 P2    281 ARG  BB   610  0.0     
- 611 SC3   281 ARG  SC1  611  0.0     
- 612 SQ3p  281 ARG  SC2  612  1.0     
- 613 SP2a  282 PRO  BB   613  0.0     
- 614 SC3   282 PRO  SC1  614  0.0     
- 615 P2    283 MET  BB   615  0.0     
- 616 C6    283 MET  SC1  616  0.0     
- 617 P2    284 TRP  BB   617  0.0     
- 618 TC4   284 TRP  SC1  618  0.0 36.0
- 619 TN6d  284 TRP  SC2  619  0.0 36.0
- 620 TC5   284 TRP  SC3  620  0.0  0.0
- 621 TC5   284 TRP  SC4  621  0.0 36.0
- 622 TC5   284 TRP  SC5  622  0.0 36.0
- 623 P2    285 MET  BB   623  0.0     
- 624 C6    285 MET  SC1  624  0.0     
- 625 P2    286 LEU  BB   625  0.0     
- 626 SC2   286 LEU  SC1  626  0.0     
- 627 P2    287 LEU  BB   627  0.0     
- 628 SC2   287 LEU  SC1  628  0.0     
- 629 P2    288 ILE  BB   629  0.0     
- 630 SC2   288 ILE  SC1  630  0.0     
- 631 SP2   289 VAL  BB   631  0.0     
- 632 SC3   289 VAL  SC1  632  0.0     
- 633 P2    290 THR  BB   633  0.0     
- 634 SP1   290 THR  SC1  634  0.0     
- 635 SP2   291 ALA  BB   635  0.0     
- 636 TC3   291 ALA  SC1  636  0.0     
- 637 P2    292 LEU  BB   637  0.0     
- 638 SC2   292 LEU  SC1  638  0.0     
- 639 P2    293 ASN  BB   639  0.0     
- 640 SP5   293 ASN  SC1  640  0.0     
- 641 P2    294 TRP  BB   641  0.0     
- 642 TC4   294 TRP  SC1  642  0.0 36.0
- 643 TN6d  294 TRP  SC2  643  0.0 36.0
- 644 TC5   294 TRP  SC3  644  0.0  0.0
- 645 TC5   294 TRP  SC4  645  0.0 36.0
- 646 TC5   294 TRP  SC5  646  0.0 36.0
- 647 P2    295 ILE  BB   647  0.0     
- 648 SC2   295 ILE  SC1  648  0.0     
- 649 SP2   296 ALA  BB   649  0.0     
- 650 TC3   296 ALA  SC1  650  0.0     
- 651 P2    297 TRP  BB   651  0.0     
- 652 TC4   297 TRP  SC1  652  0.0 36.0
- 653 TN6d  297 TRP  SC2  653  0.0 36.0
- 654 TC5   297 TRP  SC3  654  0.0  0.0
- 655 TC5   297 TRP  SC4  655  0.0 36.0
- 656 TC5   297 TRP  SC5  656  0.0 36.0
- 657 P2    298 PHE  BB   657  0.0     
- 658 SC4   298 PHE  SC1  658  0.0     
- 659 TC5   298 PHE  SC2  659  0.0     
- 660 TC5   298 PHE  SC3  660  0.0     
- 661 SP2a  299 PRO  BB   661  0.0     
- 662 SC3   299 PRO  SC1  662  0.0     
- 663 P2    300 PHE  BB   663  0.0     
- 664 SC4   300 PHE  SC1  664  0.0     
- 665 TC5   300 PHE  SC2  665  0.0     
- 666 TC5   300 PHE  SC3  666  0.0     
- 667 P2    301 LEU  BB   667  0.0     
- 668 SC2   301 LEU  SC1  668  0.0     
- 669 P2    302 LEU  BB   669  0.0     
- 670 SC2   302 LEU  SC1  670  0.0     
- 671 P2    303 PHE  BB   671  0.0     
- 672 SC4   303 PHE  SC1  672  0.0     
- 673 TC5   303 PHE  SC2  673  0.0     
- 674 TC5   303 PHE  SC3  674  0.0     
- 675 P2    304 ASH  BB   675  0.0     
- 676 SP2   304 ASH  SC1  676  0.0     
- 677 P2    305 THR  BB   677  0.0     
- 678 SP1   305 THR  SC1  678  0.0     
- 679 P2    306 ASP  BB   679  0.0     
- 680 SQ5n  306 ASP  SC1  680 -1.0     
- 681 P2    307 TRP  BB   681  0.0     
- 682 TC4   307 TRP  SC1  682  0.0 36.0
- 683 TN6d  307 TRP  SC2  683  0.0 36.0
- 684 TC5   307 TRP  SC3  684  0.0  0.0
- 685 TC5   307 TRP  SC4  685  0.0 36.0
- 686 TC5   307 TRP  SC5  686  0.0 36.0
- 687 P2    308 MET  BB   687  0.0     
- 688 C6    308 MET  SC1  688  0.0     
- 689 SP1   309 GLY  BB   689  0.0     
- 690 P2    310 ARG  BB   690  0.0     
- 691 SC3   310 ARG  SC1  691  0.0     
- 692 SQ3p  310 ARG  SC2  692  1.0     
- 693 P2    311 GLU  BB   693  0.0     
- 694 Q5n   311 GLU  SC1  694 -1.0     
- 695 SP2   312 VAL  BB   695  0.0     
- 696 SC3   312 VAL  SC1  696  0.0     
- 697 P2    313 PHE  BB   697  0.0     
- 698 SC4   313 PHE  SC1  698  0.0     
- 699 TC5   313 PHE  SC2  699  0.0     
- 700 TC5   313 PHE  SC3  700  0.0     
- 701 SP1   314 GLY  BB   701  0.0     
- 702 SP1   315 GLY  BB   702  0.0     
- 703 P2    316 ASP  BB   703  0.0     
- 704 SQ5n  316 ASP  SC1  704 -1.0     
- 705 P2    317 SER  BB   705  0.0     
- 706 TP1   317 SER  SC1  706  0.0     
- 707 P2    318 ASP  BB   707  0.0     
- 708 SQ5n  318 ASP  SC1  708 -1.0     
- 709 SP1   319 GLY  BB   709  0.0     
- 710 P2    320 ASN  BB   710  0.0     
- 711 SP5   320 ASN  SC1  711  0.0     
- 712 P2    321 GLU  BB   712  0.0     
- 713 Q5n   321 GLU  SC1  713 -1.0     
- 714 P2    322 ARG  BB   714  0.0     
- 715 SC3   322 ARG  SC1  715  0.0     
- 716 SQ3p  322 ARG  SC2  716  1.0     
- 717 P2    323 SER  BB   717  0.0     
- 718 TP1   323 SER  SC1  718  0.0     
- 719 P2    324 LYS  BB   719  0.0     
- 720 SC3   324 LYS  SC1  720  0.0     
- 721 SQ4p  324 LYS  SC2  721  1.0     
- 722 P2    325 LYS  BB   722  0.0     
- 723 SC3   325 LYS  SC1  723  0.0     
- 724 SQ4p  325 LYS  SC2  724  1.0     
- 725 P2    326 LEU  BB   725  0.0     
- 726 SC2   326 LEU  SC1  726  0.0     
- 727 P2    327 TYR  BB   727  0.0     
- 728 TC4   327 TYR  SC1  728  0.0     
- 729 TC5   327 TYR  SC2  729  0.0     
- 730 TC5   327 TYR  SC3  730  0.0     
- 731 TN6   327 TYR  SC4  731  0.0     
- 732 P2    328 SER  BB   732  0.0     
- 733 TP1   328 SER  SC1  733  0.0     
- 734 P2    329 LEU  BB   734  0.0     
- 735 SC2   329 LEU  SC1  735  0.0     
- 736 SP1   330 GLY  BB   736  0.0     
- 737 SP2   331 VAL  BB   737  0.0     
- 738 SC3   331 VAL  SC1  738  0.0     
- 739 P2    332 GLN  BB   739  0.0     
- 740 P5    332 GLN  SC1  740  0.0     
- 741 P2    333 SER  BB   741  0.0     
- 742 TP1   333 SER  SC1  742  0.0     
- 743 SP1   334 GLY  BB   743  0.0     
- 744 SP2   335 ALA  BB   744  0.0     
- 745 TC3   335 ALA  SC1  745  0.0     
- 746 P2    336 MET  BB   746  0.0     
- 747 C6    336 MET  SC1  747  0.0     
- 748 SP1   337 GLY  BB   748  0.0     
- 749 P2    338 LEU  BB   749  0.0     
- 750 SC2   338 LEU  SC1  750  0.0     
- 751 P2    339 MET  BB   751  0.0     
- 752 C6    339 MET  SC1  752  0.0     
- 753 P2    340 PHE  BB   753  0.0     
- 754 SC4   340 PHE  SC1  754  0.0     
- 755 TC5   340 PHE  SC2  755  0.0     
- 756 TC5   340 PHE  SC3  756  0.0     
- 757 P2    341 ASN  BB   757  0.0     
- 758 SP5   341 ASN  SC1  758  0.0     
- 759 P2    342 SER  BB   759  0.0     
- 760 TP1   342 SER  SC1  760  0.0     
- 761 P2    343 ILE  BB   761  0.0     
- 762 SC2   343 ILE  SC1  762  0.0     
- 763 SP2   344 VAL  BB   763  0.0     
- 764 SC3   344 VAL  SC1  764  0.0     
- 765 P2    345 LEU  BB   765  0.0     
- 766 SC2   345 LEU  SC1  766  0.0     
- 767 SP1   346 GLY  BB   767  0.0     
- 768 P2    347 PHE  BB   768  0.0     
- 769 SC4   347 PHE  SC1  769  0.0     
- 770 TC5   347 PHE  SC2  770  0.0     
- 771 TC5   347 PHE  SC3  771  0.0     
- 772 P2    348 MET  BB   772  0.0     
- 773 C6    348 MET  SC1  773  0.0     
- 774 P2    349 SER  BB   774  0.0     
- 775 TP1   349 SER  SC1  775  0.0     
- 776 P2    350 LEU  BB   776  0.0     
- 777 SC2   350 LEU  SC1  777  0.0     
- 778 SP1   351 GLY  BB   778  0.0     
- 779 SP2   352 VAL  BB   779  0.0     
- 780 SC3   352 VAL  SC1  780  0.0     
- 781 P2    353 GLU  BB   781  0.0     
- 782 Q5n   353 GLU  SC1  782 -1.0     
- 783 P2    354 TRP  BB   783  0.0     
- 784 TC4   354 TRP  SC1  784  0.0 36.0
- 785 TN6d  354 TRP  SC2  785  0.0 36.0
- 786 TC5   354 TRP  SC3  786  0.0  0.0
- 787 TC5   354 TRP  SC4  787  0.0 36.0
- 788 TC5   354 TRP  SC5  788  0.0 36.0
- 789 P2    355 ILE  BB   789  0.0     
- 790 SC2   355 ILE  SC1  790  0.0     
- 791 SP1   356 GLY  BB   791  0.0     
- 792 P2    357 ARG  BB   792  0.0     
- 793 SC3   357 ARG  SC1  793  0.0     
- 794 SQ3p  357 ARG  SC2  794  1.0     
- 795 P2    358 LYS  BB   795  0.0     
- 796 SC3   358 LYS  SC1  796  0.0     
- 797 SQ4p  358 LYS  SC2  797  1.0     
- 798 P2    359 LEU  BB   798  0.0     
- 799 SC2   359 LEU  SC1  799  0.0     
- 800 SP1   360 GLY  BB   800  0.0     
- 801 SP1   361 GLY  BB   801  0.0     
- 802 SP2   362 ALA  BB   802  0.0     
- 803 TC3   362 ALA  SC1  803  0.0     
- 804 P2    363 LYS  BB   804  0.0     
- 805 SC3   363 LYS  SC1  805  0.0     
- 806 SQ4p  363 LYS  SC2  806  1.0     
- 807 P2    364 ARG  BB   807  0.0     
- 808 SC3   364 ARG  SC1  808  0.0     
- 809 SQ3p  364 ARG  SC2  809  1.0     
- 810 P2    365 LEU  BB   810  0.0     
- 811 SC2   365 LEU  SC1  811  0.0     
- 812 P2    366 TRP  BB   812  0.0     
- 813 TC4   366 TRP  SC1  813  0.0 36.0
- 814 TN6d  366 TRP  SC2  814  0.0 36.0
- 815 TC5   366 TRP  SC3  815  0.0  0.0
- 816 TC5   366 TRP  SC4  816  0.0 36.0
- 817 TC5   366 TRP  SC5  817  0.0 36.0
- 818 SP1   367 GLY  BB   818  0.0     
- 819 P2    368 ILE  BB   819  0.0     
- 820 SC2   368 ILE  SC1  820  0.0     
- 821 SP2   369 VAL  BB   821  0.0     
- 822 SC3   369 VAL  SC1  822  0.0     
- 823 P2    370 ASN  BB   823  0.0     
- 824 SP5   370 ASN  SC1  824  0.0     
- 825 P2    371 PHE  BB   825  0.0     
- 826 SC4   371 PHE  SC1  826  0.0     
- 827 TC5   371 PHE  SC2  827  0.0     
- 828 TC5   371 PHE  SC3  828  0.0     
- 829 P2    372 ILE  BB   829  0.0     
- 830 SC2   372 ILE  SC1  830  0.0     
- 831 P2    373 LEU  BB   831  0.0     
- 832 SC2   373 LEU  SC1  832  0.0     
- 833 SP2   374 ALA  BB   833  0.0     
- 834 TC3   374 ALA  SC1  834  0.0     
- 835 SP2   375 ALA  BB   835  0.0     
- 836 TC3   375 ALA  SC1  836  0.0     
- 837 SP1   376 GLY  BB   837  0.0     
- 838 P2    377 LEU  BB   838  0.0     
- 839 SC2   377 LEU  SC1  839  0.0     
- 840 SP2   378 ALA  BB   840  0.0     
- 841 TC3   378 ALA  SC1  841  0.0     
- 842 P2    379 MET  BB   842  0.0     
- 843 C6    379 MET  SC1  843  0.0     
- 844 P2    380 THR  BB   844  0.0     
- 845 SP1   380 THR  SC1  845  0.0     
- 846 SP2   381 VAL  BB   846  0.0     
- 847 SC3   381 VAL  SC1  847  0.0     
- 848 P2    382 LEU  BB   848  0.0     
- 849 SC2   382 LEU  SC1  849  0.0     
- 850 SP2   383 VAL  BB   850  0.0     
- 851 SC3   383 VAL  SC1  851  0.0     
- 852 P2    384 THR  BB   852  0.0     
- 853 SP1   384 THR  SC1  853  0.0     
- 854 P2    385 LYS  BB   854  0.0     
- 855 SC3   385 LYS  SC1  855  0.0     
- 856 SQ4p  385 LYS  SC2  856  1.0     
- 857 P2    386 PHE  BB   857  0.0     
- 858 SC4   386 PHE  SC1  858  0.0     
- 859 TC5   386 PHE  SC2  859  0.0     
- 860 TC5   386 PHE  SC3  860  0.0     
- 861 SP2   387 ALA  BB   861  0.0     
- 862 TC3   387 ALA  SC1  862  0.0     
- 863 P2    388 GLU  BB   863  0.0     
- 864 Q5n   388 GLU  SC1  864 -1.0     
- 865 P2    389 ASP  BB   865  0.0     
- 866 SQ5n  389 ASP  SC1  866 -1.0     
- 867 P2    390 HSP  BB   867  0.0     
- 868 TC4   390 HSP  SC1  868  0.0     
- 869 TP1dq 390 HSP  SC2  869  0.5     
- 870 TP1dq 390 HSP  SC3  870  0.5     
- 871 P2    391 ARG  BB   871  0.0     
- 872 SC3   391 ARG  SC1  872  0.0     
- 873 SQ3p  391 ARG  SC2  873  1.0     
- 874 P2    392 LYS  BB   874  0.0     
- 875 SC3   392 LYS  SC1  875  0.0     
- 876 SQ4p  392 LYS  SC2  876  1.0     
- 877 P2    393 THR  BB   877  0.0     
- 878 SP1   393 THR  SC1  878  0.0     
- 879 SP2   394 ALA  BB   879  0.0     
- 880 TC3   394 ALA  SC1  880  0.0     
- 881 SP1   395 GLY  BB   881  0.0     
- 882 P2    396 ASP  BB   882  0.0     
- 883 SQ5n  396 ASP  SC1  883 -1.0     
- 884 P2    397 LEU  BB   884  0.0     
- 885 SC2   397 LEU  SC1  885  0.0     
- 886 SP2   398 ALA  BB   886  0.0     
- 887 TC3   398 ALA  SC1  887  0.0     
- 888 SP1   399 GLY  BB   888  0.0     
- 889 SP2a  400 PRO  BB   889  0.0     
- 890 SC3   400 PRO  SC1  890  0.0     
- 891 P2    401 SER  BB   891  0.0     
- 892 TP1   401 SER  SC1  892  0.0     
- 893 SP2   402 ALA  BB   893  0.0     
- 894 TC3   402 ALA  SC1  894  0.0     
- 895 P2    403 SER  BB   895  0.0     
- 896 TP1   403 SER  SC1  896  0.0     
- 897 SP2   404 VAL  BB   897  0.0     
- 898 SC3   404 VAL  SC1  898  0.0     
- 899 P2    405 LYS  BB   899  0.0     
- 900 SC3   405 LYS  SC1  900  0.0     
- 901 SQ4p  405 LYS  SC2  901  1.0     
- 902 SP2   406 ALA  BB   902  0.0     
- 903 TC3   406 ALA  SC1  903  0.0     
- 904 SP1   407 GLY  BB   904  0.0     
- 905 SP2   408 ALA  BB   905  0.0     
- 906 TC3   408 ALA  SC1  906  0.0     
- 907 P2    409 LEU  BB   907  0.0     
- 908 SC2   409 LEU  SC1  908  0.0     
- 909 P2    410 SER  BB   909  0.0     
- 910 TP1   410 SER  SC1  910  0.0     
- 911 P2    411 LEU  BB   911  0.0     
- 912 SC2   411 LEU  SC1  912  0.0     
- 913 P2    412 PHE  BB   913  0.0     
- 914 SC4   412 PHE  SC1  914  0.0     
- 915 TC5   412 PHE  SC2  915  0.0     
- 916 TC5   412 PHE  SC3  916  0.0     
- 917 SP2   413 ALA  BB   917  0.0     
- 918 TC3   413 ALA  SC1  918  0.0     
- 919 SP2   414 VAL  BB   919  0.0     
- 920 SC3   414 VAL  SC1  920  0.0     
- 921 P2    415 LEU  BB   921  0.0     
- 922 SC2   415 LEU  SC1  922  0.0     
- 923 SP1   416 GLY  BB   923  0.0     
- 924 P2    417 ILE  BB   924  0.0     
- 925 SC2   417 ILE  SC1  925  0.0     
- 926 SP2a  418 PRO  BB   926  0.0     
- 927 SC3   418 PRO  SC1  927  0.0     
- 928 P2    419 LEU  BB   928  0.0     
- 929 SC2   419 LEU  SC1  929  0.0     
- 930 SP2   420 ALA  BB   930  0.0     
- 931 TC3   420 ALA  SC1  931  0.0     
- 932 P2    421 ILE  BB   932  0.0     
- 933 SC2   421 ILE  SC1  933  0.0     
- 934 P2    422 THR  BB   934  0.0     
- 935 SP1   422 THR  SC1  935  0.0     
- 936 P2    423 PHE  BB   936  0.0     
- 937 SC4   423 PHE  SC1  937  0.0     
- 938 TC5   423 PHE  SC2  938  0.0     
- 939 TC5   423 PHE  SC3  939  0.0     
- 940 P2    424 SER  BB   940  0.0     
- 941 TP1   424 SER  SC1  941  0.0     
- 942 P2    425 THR  BB   942  0.0     
- 943 SP1   425 THR  SC1  943  0.0     
- 944 SP2a  426 PRO  BB   944  0.0     
- 945 SC3   426 PRO  SC1  945  0.0     
- 946 P2    427 PHE  BB   946  0.0     
- 947 SC4   427 PHE  SC1  947  0.0     
- 948 TC5   427 PHE  SC2  948  0.0     
- 949 TC5   427 PHE  SC3  949  0.0     
- 950 SP2   428 ALA  BB   950  0.0     
- 951 TC3   428 ALA  SC1  951  0.0     
- 952 P2    429 LEU  BB   952  0.0     
- 953 SC2   429 LEU  SC1  953  0.0     
- 954 SP2   430 ALA  BB   954  0.0     
- 955 TC3   430 ALA  SC1  955  0.0     
- 956 P2    431 SER  BB   956  0.0     
- 957 TP1   431 SER  SC1  957  0.0     
- 958 P2    432 ILE  BB   958  0.0     
- 959 SC2   432 ILE  SC1  959  0.0     
- 960 P2    433 PHE  BB   960  0.0     
- 961 SC4   433 PHE  SC1  961  0.0     
- 962 TC5   433 PHE  SC2  962  0.0     
- 963 TC5   433 PHE  SC3  963  0.0     
- 964 P2    434 SER  BB   964  0.0     
- 965 TP1   434 SER  SC1  965  0.0     
- 966 P2    435 SER  BB   966  0.0     
- 967 TP1   435 SER  SC1  967  0.0     
- 968 P2    436 CYS  BB   968  0.0     
- 969 TC6   436 CYS  SC1  969  0.0     
- 970 P2    437 SER  BB   970  0.0     
- 971 TP1   437 SER  SC1  971  0.0     
- 972 SP1   438 GLY  BB   972  0.0     
- 973 SP2   439 ALA  BB   973  0.0     
- 974 TC3   439 ALA  SC1  974  0.0     
- 975 SP1   440 GLY  BB   975  0.0     
- 976 P2    441 GLN  BB   976  0.0     
- 977 P5    441 GLN  SC1  977  0.0     
- 978 SP1   442 GLY  BB   978  0.0     
- 979 P2    443 LEU  BB   979  0.0     
- 980 SC2   443 LEU  SC1  980  0.0     
- 981 P2    444 SER  BB   981  0.0     
- 982 TP1   444 SER  SC1  982  0.0     
- 983 P2    445 LEU  BB   983  0.0     
- 984 SC2   445 LEU  SC1  984  0.0     
- 985 SP1   446 GLY  BB   985  0.0     
- 986 SP2   447 VAL  BB   986  0.0     
- 987 SC3   447 VAL  SC1  987  0.0     
- 988 P2    448 LEU  BB   988  0.0     
- 989 SC2   448 LEU  SC1  989  0.0     
- 990 P2    449 ASN  BB   990  0.0     
- 991 SP5   449 ASN  SC1  991  0.0     
- 992 P2    450 LEU  BB   992  0.0     
- 993 SC2   450 LEU  SC1  993  0.0     
- 994 SP2   451 ALA  BB   994  0.0     
- 995 TC3   451 ALA  SC1  995  0.0     
- 996 P2    452 ILE  BB   996  0.0     
- 997 SC2   452 ILE  SC1  997  0.0     
- 998 SP2   453 VAL  BB   998  0.0     
- 999 SC3   453 VAL  SC1  999  0.0     
-1000 P2    454 ILE  BB  1000  0.0     
-1001 SC2   454 ILE  SC1 1001  0.0     
-1002 SP2a  455 PRO  BB  1002  0.0     
-1003 SC3   455 PRO  SC1 1003  0.0     
-1004 P2    456 GLN  BB  1004  0.0     
-1005 P5    456 GLN  SC1 1005  0.0     
-1006 P2    457 MET  BB  1006  0.0     
-1007 C6    457 MET  SC1 1007  0.0     
-1008 P2    458 ILE  BB  1008  0.0     
-1009 SC2   458 ILE  SC1 1009  0.0     
-1010 SP2   459 VAL  BB  1010  0.0     
-1011 SC3   459 VAL  SC1 1011  0.0     
-1012 P2    460 SER  BB  1012  0.0     
-1013 TP1   460 SER  SC1 1013  0.0     
-1014 P2    461 LEU  BB  1014  0.0     
-1015 SC2   461 LEU  SC1 1015  0.0     
-1016 SP1   462 GLY  BB  1016  0.0     
-1017 SP1   463 GLY  BB  1017  0.0     
-1018 SP1   464 GLY  BB  1018  0.0     
-1019 SP2a  465 PRO  BB  1019  0.0     
-1020 SC3   465 PRO  SC1 1020  0.0     
-1021 P2    466 PHE  BB  1021  0.0     
-1022 SC4   466 PHE  SC1 1022  0.0     
-1023 TC5   466 PHE  SC2 1023  0.0     
-1024 TC5   466 PHE  SC3 1024  0.0     
-1025 P2    467 ASP  BB  1025  0.0     
-1026 SQ5n  467 ASP  SC1 1026 -1.0     
-1027 SP2   468 ALA  BB  1027  0.0     
-1028 TC3   468 ALA  SC1 1028  0.0     
-1029 P2    469 LEU  BB  1029  0.0     
-1030 SC2   469 LEU  SC1 1030  0.0     
-1031 P2    470 PHE  BB  1031  0.0     
-1032 SC4   470 PHE  SC1 1032  0.0     
-1033 TC5   470 PHE  SC2 1033  0.0     
-1034 TC5   470 PHE  SC3 1034  0.0     
-1035 SP1   471 GLY  BB  1035  0.0     
-1036 SP1   472 GLY  BB  1036  0.0     
-1037 SP1   473 GLY  BB  1037  0.0     
-1038 P2    474 ASN  BB  1038  0.0     
-1039 SP5   474 ASN  SC1 1039  0.0     
-1040 P2    475 LEU  BB  1040  0.0     
-1041 SC2   475 LEU  SC1 1041  0.0     
-1042 SP2a  476 PRO  BB  1042  0.0     
-1043 SC3   476 PRO  SC1 1043  0.0     
-1044 SP2   477 ALA  BB  1044  0.0     
-1045 TC3   477 ALA  SC1 1045  0.0     
-1046 P2    478 PHE  BB  1046  0.0     
-1047 SC4   478 PHE  SC1 1047  0.0     
-1048 TC5   478 PHE  SC2 1048  0.0     
-1049 TC5   478 PHE  SC3 1049  0.0     
-1050 P2    479 ILE  BB  1050  0.0     
-1051 SC2   479 ILE  SC1 1051  0.0     
-1052 SP2   480 VAL  BB  1052  0.0     
-1053 SC3   480 VAL  SC1 1053  0.0     
-1054 SP2   481 ALA  BB  1054  0.0     
-1055 TC3   481 ALA  SC1 1055  0.0     
-1056 SP2   482 ALA  BB  1056  0.0     
-1057 TC3   482 ALA  SC1 1057  0.0     
-1058 P2    483 ILE  BB  1058  0.0     
-1059 SC2   483 ILE  SC1 1059  0.0     
-1060 SP2   484 ALA  BB  1060  0.0     
-1061 TC3   484 ALA  SC1 1061  0.0     
-1062 SP2   485 ALA  BB  1062  0.0     
-1063 TC3   485 ALA  SC1 1063  0.0     
-1064 SP2   486 ALA  BB  1064  0.0     
-1065 TC3   486 ALA  SC1 1065  0.0     
-1066 P2    487 ILE  BB  1066  0.0     
-1067 SC2   487 ILE  SC1 1067  0.0     
-1068 P2    488 SER  BB  1068  0.0     
-1069 TP1   488 SER  SC1 1069  0.0     
-1070 SP1   489 GLY  BB  1070  0.0     
-1071 SP2   490 VAL  BB  1071  0.0     
-1072 SC3   490 VAL  SC1 1072  0.0     
-1073 P2    491 LEU  BB  1073  0.0     
-1074 SC2   491 LEU  SC1 1074  0.0     
-1075 SP2   492 ALA  BB  1075  0.0     
-1076 TC3   492 ALA  SC1 1076  0.0     
-1077 P2    493 LEU  BB  1077  0.0     
-1078 SC2   493 LEU  SC1 1078  0.0     
-1079 P2    494 THR  BB  1079  0.0     
-1080 SP1   494 THR  SC1 1080  0.0     
-1081 SP2   495 VAL  BB  1081  0.0     
-1082 SC3   495 VAL  SC1 1082  0.0     
-1083 P2    496 LEU  BB  1083  0.0     
-1084 SC2   496 LEU  SC1 1084  0.0     
-1085 SP2a  497 PRO  BB  1085  0.0     
-1086 SC3   497 PRO  SC1 1086  0.0     
-1087 P2    498 SER  BB  1087  0.0     
-1088 TP1   498 SER  SC1 1088  0.0     
-1089 SP2a  499 PRO  BB  1089  0.0     
-1090 SC3   499 PRO  SC1 1090  0.0     
-1091 P1    500 PRO  BB  1091    0 ; CCAP-ter     
-1092 SC3   500 PRO  SC1 1092  0.0     
+   1 Q5      1 ASP  BB     1    1     
+   2 SQ5n    1 ASP  SC1    2 -1.0     
+   3 P2      2 GLN  BB     3  0.0     
+   4 P5      2 GLN  SC1    4  0.0     
+   5 SP2a    3 PRO  BB     5  0.0     
+   6 SC3     3 PRO  SC1    6  0.0     
+   7 P2      4 SER  BB     7  0.0     
+   8 TP1     4 SER  SC1    8  0.0     
+   9 SP2a    5 PRO  BB     9  0.0     
+  10 SC3     5 PRO  SC1   10  0.0     
+  11 P2      6 LEU  BB    11  0.0     
+  12 SC2     6 LEU  SC1   12  0.0     
+  13 P2      7 ARG  BB    13  0.0     
+  14 SC3     7 ARG  SC1   14  0.0     
+  15 SQ3p    7 ARG  SC2   15  1.0     
+  16 P2      8 LYS  BB    16  0.0     
+  17 SC3     8 LYS  SC1   17  0.0     
+  18 SQ4p    8 LYS  SC2   18  1.0     
+  19 P2      9 ILE  BB    19  0.0     
+  20 SC2     9 ILE  SC1   20  0.0     
+  21 P2     10 ILE  BB    21  0.0     
+  22 SC2    10 ILE  SC1   22  0.0     
+  23 P2     11 SER  BB    23  0.0     
+  24 TP1    11 SER  SC1   24  0.0     
+  25 SP2    12 VAL  BB    25  0.0     
+  26 SC3    12 VAL  SC1   26  0.0     
+  27 SP2    13 ALA  BB    27  0.0     
+  28 TC3    13 ALA  SC1   28  0.0     
+  29 P2     14 SER  BB    29  0.0     
+  30 TP1    14 SER  SC1   30  0.0     
+  31 P2     15 ILE  BB    31  0.0     
+  32 SC2    15 ILE  SC1   32  0.0     
+  33 SP2    16 ALA  BB    33  0.0     
+  34 TC3    16 ALA  SC1   34  0.0     
+  35 SP2    17 ALA  BB    35  0.0     
+  36 TC3    17 ALA  SC1   36  0.0     
+  37 SP1    18 GLY  BB    37  0.0     
+  38 SP2    19 VAL  BB    38  0.0     
+  39 SC3    19 VAL  SC1   39  0.0     
+  40 P2     20 GLN  BB    40  0.0     
+  41 P5     20 GLN  SC1   41  0.0     
+  42 P2     21 PHE  BB    42  0.0     
+  43 SC4    21 PHE  SC1   43  0.0     
+  44 TC5    21 PHE  SC2   44  0.0     
+  45 TC5    21 PHE  SC3   45  0.0     
+  46 SP1    22 GLY  BB    46  0.0     
+  47 P2     23 TRP  BB    47  0.0     
+  48 TC4    23 TRP  SC1   48  0.0 36.0
+  49 TN6d   23 TRP  SC2   49  0.0 36.0
+  50 TC5    23 TRP  SC3   50  0.0  0.0
+  51 TC5    23 TRP  SC4   51  0.0 36.0
+  52 TC5    23 TRP  SC5   52  0.0 36.0
+  53 SP2    24 ALA  BB    53  0.0     
+  54 TC3    24 ALA  SC1   54  0.0     
+  55 P2     25 LEU  BB    55  0.0     
+  56 SC2    25 LEU  SC1   56  0.0     
+  57 P2     26 GLN  BB    57  0.0     
+  58 P5     26 GLN  SC1   58  0.0     
+  59 P2     27 LEU  BB    59  0.0     
+  60 SC2    27 LEU  SC1   60  0.0     
+  61 P2     28 SER  BB    61  0.0     
+  62 TP1    28 SER  SC1   62  0.0     
+  63 P2     29 LEU  BB    63  0.0     
+  64 SC2    29 LEU  SC1   64  0.0     
+  65 P2     30 LEU  BB    65  0.0     
+  66 SC2    30 LEU  SC1   66  0.0     
+  67 P2     31 THR  BB    67  0.0     
+  68 SP1    31 THR  SC1   68  0.0     
+  69 SP2a   32 PRO  BB    69  0.0     
+  70 SC3    32 PRO  SC1   70  0.0     
+  71 P2     33 TYR  BB    71  0.0     
+  72 TC4    33 TYR  SC1   72  0.0     
+  73 TC5    33 TYR  SC2   73  0.0     
+  74 TC5    33 TYR  SC3   74  0.0     
+  75 TN6    33 TYR  SC4   75  0.0     
+  76 SP2    34 VAL  BB    76  0.0     
+  77 SC3    34 VAL  SC1   77  0.0     
+  78 P2     35 GLN  BB    78  0.0     
+  79 P5     35 GLN  SC1   79  0.0     
+  80 P2     36 LEU  BB    80  0.0     
+  81 SC2    36 LEU  SC1   81  0.0     
+  82 P2     37 LEU  BB    82  0.0     
+  83 SC2    37 LEU  SC1   83  0.0     
+  84 SP1    38 GLY  BB    84  0.0     
+  85 P2     39 ILE  BB    85  0.0     
+  86 SC2    39 ILE  SC1   86  0.0     
+  87 SP2a   40 PRO  BB    87  0.0     
+  88 SC3    40 PRO  SC1   88  0.0     
+  89 P2     41 HSP  BB    89  0.0     
+  90 TC4    41 HSP  SC1   90  0.0     
+  91 TP1dq  41 HSP  SC2   91  0.5     
+  92 TP1dq  41 HSP  SC3   92  0.5     
+  93 P2     42 LYS  BB    93  0.0     
+  94 SC3    42 LYS  SC1   94  0.0     
+  95 SQ4p   42 LYS  SC2   95  1.0     
+  96 P2     43 TRP  BB    96  0.0     
+  97 TC4    43 TRP  SC1   97  0.0 36.0
+  98 TN6d   43 TRP  SC2   98  0.0 36.0
+  99 TC5    43 TRP  SC3   99  0.0  0.0
+ 100 TC5    43 TRP  SC4  100  0.0 36.0
+ 101 TC5    43 TRP  SC5  101  0.0 36.0
+ 102 P2     44 SER  BB   102  0.0     
+ 103 TP1    44 SER  SC1  103  0.0     
+ 104 P2     45 SER  BB   104  0.0     
+ 105 TP1    45 SER  SC1  105  0.0     
+ 106 P2     46 LEU  BB   106  0.0     
+ 107 SC2    46 LEU  SC1  107  0.0     
+ 108 P2     47 ILE  BB   108  0.0     
+ 109 SC2    47 ILE  SC1  109  0.0     
+ 110 P2     48 TRP  BB   110  0.0     
+ 111 TC4    48 TRP  SC1  111  0.0 36.0
+ 112 TN6d   48 TRP  SC2  112  0.0 36.0
+ 113 TC5    48 TRP  SC3  113  0.0  0.0
+ 114 TC5    48 TRP  SC4  114  0.0 36.0
+ 115 TC5    48 TRP  SC5  115  0.0 36.0
+ 116 P2     49 LEU  BB   116  0.0     
+ 117 SC2    49 LEU  SC1  117  0.0     
+ 118 P2     50 CYS  BB   118  0.0     
+ 119 TC6    50 CYS  SC1  119  0.0     
+ 120 SP1    51 GLY  BB   120  0.0     
+ 121 SP2a   52 PRO  BB   121  0.0     
+ 122 SC3    52 PRO  SC1  122  0.0     
+ 123 SP2    53 VAL  BB   123  0.0     
+ 124 SC3    53 VAL  SC1  124  0.0     
+ 125 P2     54 SER  BB   125  0.0     
+ 126 TP1    54 SER  SC1  126  0.0     
+ 127 SP1    55 GLY  BB   127  0.0     
+ 128 P2     56 MET  BB   128  0.0     
+ 129 C6     56 MET  SC1  129  0.0     
+ 130 P2     57 ILE  BB   130  0.0     
+ 131 SC2    57 ILE  SC1  131  0.0     
+ 132 SP2    58 VAL  BB   132  0.0     
+ 133 SC3    58 VAL  SC1  133  0.0     
+ 134 P2     59 GLN  BB   134  0.0     
+ 135 P5     59 GLN  SC1  135  0.0     
+ 136 SP2a   60 PRO  BB   136  0.0     
+ 137 SC3    60 PRO  SC1  137  0.0     
+ 138 P2     61 ILE  BB   138  0.0     
+ 139 SC2    61 ILE  SC1  139  0.0     
+ 140 SP2    62 VAL  BB   140  0.0     
+ 141 SC3    62 VAL  SC1  141  0.0     
+ 142 SP1    63 GLY  BB   142  0.0     
+ 143 P2     64 PHE  BB   143  0.0     
+ 144 SC4    64 PHE  SC1  144  0.0     
+ 145 TC5    64 PHE  SC2  145  0.0     
+ 146 TC5    64 PHE  SC3  146  0.0     
+ 147 P2     65 HSE  BB   147  0.0     
+ 148 TC4    65 HSE  SC1  148  0.0     
+ 149 TN6d   65 HSE  SC2  149  0.0     
+ 150 TN5a   65 HSE  SC3  150  0.0     
+ 151 P2     66 SER  BB   151  0.0     
+ 152 TP1    66 SER  SC1  152  0.0     
+ 153 P2     67 ASP  BB   153  0.0     
+ 154 SQ5n   67 ASP  SC1  154 -1.0     
+ 155 P2     68 ARG  BB   155  0.0     
+ 156 SC3    68 ARG  SC1  156  0.0     
+ 157 SQ3p   68 ARG  SC2  157  1.0     
+ 158 P2     69 CYS  BB   158  0.0     
+ 159 TC6    69 CYS  SC1  159  0.0     
+ 160 P2     70 ARG  BB   160  0.0     
+ 161 SC3    70 ARG  SC1  161  0.0     
+ 162 SQ3p   70 ARG  SC2  162  1.0     
+ 163 P2     71 SER  BB   163  0.0     
+ 164 TP1    71 SER  SC1  164  0.0     
+ 165 P2     72 LYS  BB   165  0.0     
+ 166 SC3    72 LYS  SC1  166  0.0     
+ 167 SQ4p   72 LYS  SC2  167  1.0     
+ 168 P2     73 PHE  BB   168  0.0     
+ 169 SC4    73 PHE  SC1  169  0.0     
+ 170 TC5    73 PHE  SC2  170  0.0     
+ 171 TC5    73 PHE  SC3  171  0.0     
+ 172 SP1    74 GLY  BB   172  0.0     
+ 173 P2     75 ARG  BB   173  0.0     
+ 174 SC3    75 ARG  SC1  174  0.0     
+ 175 SQ3p   75 ARG  SC2  175  1.0     
+ 176 P2     76 ARG  BB   176  0.0     
+ 177 SC3    76 ARG  SC1  177  0.0     
+ 178 SQ3p   76 ARG  SC2  178  1.0     
+ 179 P2     77 ARG  BB   179  0.0     
+ 180 SC3    77 ARG  SC1  180  0.0     
+ 181 SQ3p   77 ARG  SC2  181  1.0     
+ 182 SP2a   78 PRO  BB   182  0.0     
+ 183 SC3    78 PRO  SC1  183  0.0     
+ 184 P2     79 PHE  BB   184  0.0     
+ 185 SC4    79 PHE  SC1  185  0.0     
+ 186 TC5    79 PHE  SC2  186  0.0     
+ 187 TC5    79 PHE  SC3  187  0.0     
+ 188 P2     80 ILE  BB   188  0.0     
+ 189 SC2    80 ILE  SC1  189  0.0     
+ 190 SP2    81 ALA  BB   190  0.0     
+ 191 TC3    81 ALA  SC1  191  0.0     
+ 192 P2     82 THR  BB   192  0.0     
+ 193 SP1    82 THR  SC1  193  0.0     
+ 194 SP1    83 GLY  BB   194  0.0     
+ 195 SP2    84 ALA  BB   195  0.0     
+ 196 TC3    84 ALA  SC1  196  0.0     
+ 197 SP2    85 ALA  BB   197  0.0     
+ 198 TC3    85 ALA  SC1  198  0.0     
+ 199 P2     86 LEU  BB   199  0.0     
+ 200 SC2    86 LEU  SC1  200  0.0     
+ 201 SP2    87 VAL  BB   201  0.0     
+ 202 SC3    87 VAL  SC1  202  0.0     
+ 203 SP2    88 ALA  BB   203  0.0     
+ 204 TC3    88 ALA  SC1  204  0.0     
+ 205 SP2    89 VAL  BB   205  0.0     
+ 206 SC3    89 VAL  SC1  206  0.0     
+ 207 SP2    90 ALA  BB   207  0.0     
+ 208 TC3    90 ALA  SC1  208  0.0     
+ 209 SP2    91 VAL  BB   209  0.0     
+ 210 SC3    91 VAL  SC1  210  0.0     
+ 211 P2     92 PHE  BB   211  0.0     
+ 212 SC4    92 PHE  SC1  212  0.0     
+ 213 TC5    92 PHE  SC2  213  0.0     
+ 214 TC5    92 PHE  SC3  214  0.0     
+ 215 P2     93 LEU  BB   215  0.0     
+ 216 SC2    93 LEU  SC1  216  0.0     
+ 217 P2     94 ILE  BB   217  0.0     
+ 218 SC2    94 ILE  SC1  218  0.0     
+ 219 SP1    95 GLY  BB   219  0.0     
+ 220 P2     96 TYR  BB   220  0.0     
+ 221 TC4    96 TYR  SC1  221  0.0     
+ 222 TC5    96 TYR  SC2  222  0.0     
+ 223 TC5    96 TYR  SC3  223  0.0     
+ 224 TN6    96 TYR  SC4  224  0.0     
+ 225 SP2    97 ALA  BB   225  0.0     
+ 226 TC3    97 ALA  SC1  226  0.0     
+ 227 SP2    98 ALA  BB   227  0.0     
+ 228 TC3    98 ALA  SC1  228  0.0     
+ 229 P2     99 ASP  BB   229  0.0     
+ 230 SQ5n   99 ASP  SC1  230 -1.0     
+ 231 P2    100 PHE  BB   231  0.0     
+ 232 SC4   100 PHE  SC1  232  0.0     
+ 233 TC5   100 PHE  SC2  233  0.0     
+ 234 TC5   100 PHE  SC3  234  0.0     
+ 235 SP1   101 GLY  BB   235  0.0     
+ 236 P2    102 TYR  BB   236  0.0     
+ 237 TC4   102 TYR  SC1  237  0.0     
+ 238 TC5   102 TYR  SC2  238  0.0     
+ 239 TC5   102 TYR  SC3  239  0.0     
+ 240 TN6   102 TYR  SC4  240  0.0     
+ 241 P2    103 LYS  BB   241  0.0     
+ 242 SC3   103 LYS  SC1  242  0.0     
+ 243 SQ4p  103 LYS  SC2  243  1.0     
+ 244 P2    104 MET  BB   244  0.0     
+ 245 C6    104 MET  SC1  245  0.0     
+ 246 SP1   105 GLY  BB   246  0.0     
+ 247 P2    106 ASP  BB   247  0.0     
+ 248 SQ5n  106 ASP  SC1  248 -1.0     
+ 249 P2    107 LYS  BB   249  0.0     
+ 250 SC3   107 LYS  SC1  250  0.0     
+ 251 SQ4p  107 LYS  SC2  251  1.0     
+ 252 P2    108 LEU  BB   252  0.0     
+ 253 SC2   108 LEU  SC1  253  0.0     
+ 254 P2    109 GLU  BB   254  0.0     
+ 255 Q5n   109 GLU  SC1  255 -1.0     
+ 256 P2    110 GLU  BB   256  0.0     
+ 257 Q5n   110 GLU  SC1  257 -1.0     
+ 258 P2    111 LYS  BB   258  0.0     
+ 259 SC3   111 LYS  SC1  259  0.0     
+ 260 SQ4p  111 LYS  SC2  260  1.0     
+ 261 SP2   112 VAL  BB   261  0.0     
+ 262 SC3   112 VAL  SC1  262  0.0     
+ 263 P2    113 LYS  BB   263  0.0     
+ 264 SC3   113 LYS  SC1  264  0.0     
+ 265 SQ4p  113 LYS  SC2  265  1.0     
+ 266 SP2   114 VAL  BB   266  0.0     
+ 267 SC3   114 VAL  SC1  267  0.0     
+ 268 P2    115 ARG  BB   268  0.0     
+ 269 SC3   115 ARG  SC1  269  0.0     
+ 270 SQ3p  115 ARG  SC2  270  1.0     
+ 271 SP2   116 ALA  BB   271  0.0     
+ 272 TC3   116 ALA  SC1  272  0.0     
+ 273 P2    117 ILE  BB   273  0.0     
+ 274 SC2   117 ILE  SC1  274  0.0     
+ 275 SP1   118 GLY  BB   275  0.0     
+ 276 P2    119 ILE  BB   276  0.0     
+ 277 SC2   119 ILE  SC1  277  0.0     
+ 278 P2    120 PHE  BB   278  0.0     
+ 279 SC4   120 PHE  SC1  279  0.0     
+ 280 TC5   120 PHE  SC2  280  0.0     
+ 281 TC5   120 PHE  SC3  281  0.0     
+ 282 SP2   121 ALA  BB   282  0.0     
+ 283 TC3   121 ALA  SC1  283  0.0     
+ 284 P2    122 LEU  BB   284  0.0     
+ 285 SC2   122 LEU  SC1  285  0.0     
+ 286 SP1   123 GLY  BB   286  0.0     
+ 287 P2    124 PHE  BB   287  0.0     
+ 288 SC4   124 PHE  SC1  288  0.0     
+ 289 TC5   124 PHE  SC2  289  0.0     
+ 290 TC5   124 PHE  SC3  290  0.0     
+ 291 P2    125 TRP  BB   291  0.0     
+ 292 TC4   125 TRP  SC1  292  0.0 36.0
+ 293 TN6d  125 TRP  SC2  293  0.0 36.0
+ 294 TC5   125 TRP  SC3  294  0.0  0.0
+ 295 TC5   125 TRP  SC4  295  0.0 36.0
+ 296 TC5   125 TRP  SC5  296  0.0 36.0
+ 297 P2    126 ILE  BB   297  0.0     
+ 298 SC2   126 ILE  SC1  298  0.0     
+ 299 P2    127 LEU  BB   299  0.0     
+ 300 SC2   127 LEU  SC1  300  0.0     
+ 301 P2    128 ASP  BB   301  0.0     
+ 302 SQ5n  128 ASP  SC1  302 -1.0     
+ 303 SP2   129 VAL  BB   303  0.0     
+ 304 SC3   129 VAL  SC1  304  0.0     
+ 305 SP2   130 ALA  BB   305  0.0     
+ 306 TC3   130 ALA  SC1  306  0.0     
+ 307 P2    131 ASN  BB   307  0.0     
+ 308 SP5   131 ASN  SC1  308  0.0     
+ 309 P2    132 ASN  BB   309  0.0     
+ 310 SP5   132 ASN  SC1  310  0.0     
+ 311 P2    133 THR  BB   311  0.0     
+ 312 SP1   133 THR  SC1  312  0.0     
+ 313 P2    134 LEU  BB   313  0.0     
+ 314 SC2   134 LEU  SC1  314  0.0     
+ 315 P2    135 GLN  BB   315  0.0     
+ 316 P5    135 GLN  SC1  316  0.0     
+ 317 SP1   136 GLY  BB   317  0.0     
+ 318 SP2a  137 PRO  BB   318  0.0     
+ 319 SC3   137 PRO  SC1  319  0.0     
+ 320 P2    138 CYS  BB   320  0.0     
+ 321 TC6   138 CYS  SC1  321  0.0     
+ 322 P2    139 ARG  BB   322  0.0     
+ 323 SC3   139 ARG  SC1  323  0.0     
+ 324 SQ3p  139 ARG  SC2  324  1.0     
+ 325 SP2   140 ALA  BB   325  0.0     
+ 326 TC3   140 ALA  SC1  326  0.0     
+ 327 P2    141 PHE  BB   327  0.0     
+ 328 SC4   141 PHE  SC1  328  0.0     
+ 329 TC5   141 PHE  SC2  329  0.0     
+ 330 TC5   141 PHE  SC3  330  0.0     
+ 331 P2    142 LEU  BB   331  0.0     
+ 332 SC2   142 LEU  SC1  332  0.0     
+ 333 SP2   143 ALA  BB   333  0.0     
+ 334 TC3   143 ALA  SC1  334  0.0     
+ 335 P2    144 ASP  BB   335  0.0     
+ 336 SQ5n  144 ASP  SC1  336 -1.0     
+ 337 P2    145 LEU  BB   337  0.0     
+ 338 SC2   145 LEU  SC1  338  0.0     
+ 339 SP2   146 ALA  BB   339  0.0     
+ 340 TC3   146 ALA  SC1  340  0.0     
+ 341 SP2   147 ALA  BB   341  0.0     
+ 342 TC3   147 ALA  SC1  342  0.0     
+ 343 SP1   148 GLY  BB   343  0.0     
+ 344 P2    149 ASP  BB   344  0.0     
+ 345 SQ5n  149 ASP  SC1  345 -1.0     
+ 346 SP2   150 ALA  BB   346  0.0     
+ 347 TC3   150 ALA  SC1  347  0.0     
+ 348 P2    151 LYS  BB   348  0.0     
+ 349 SC3   151 LYS  SC1  349  0.0     
+ 350 SQ4p  151 LYS  SC2  350  1.0     
+ 351 P2    152 ARG  BB   351  0.0     
+ 352 SC3   152 ARG  SC1  352  0.0     
+ 353 SQ3p  152 ARG  SC2  353  1.0     
+ 354 P2    153 THR  BB   354  0.0     
+ 355 SP1   153 THR  SC1  355  0.0     
+ 356 P2    154 ARG  BB   356  0.0     
+ 357 SC3   154 ARG  SC1  357  0.0     
+ 358 SQ3p  154 ARG  SC2  358  1.0     
+ 359 SP2   155 VAL  BB   359  0.0     
+ 360 SC3   155 VAL  SC1  360  0.0     
+ 361 SP2   156 ALA  BB   361  0.0     
+ 362 TC3   156 ALA  SC1  362  0.0     
+ 363 P2    157 ASN  BB   363  0.0     
+ 364 SP5   157 ASN  SC1  364  0.0     
+ 365 SP2   158 ALA  BB   365  0.0     
+ 366 TC3   158 ALA  SC1  366  0.0     
+ 367 P2    159 PHE  BB   367  0.0     
+ 368 SC4   159 PHE  SC1  368  0.0     
+ 369 TC5   159 PHE  SC2  369  0.0     
+ 370 TC5   159 PHE  SC3  370  0.0     
+ 371 P2    160 PHE  BB   371  0.0     
+ 372 SC4   160 PHE  SC1  372  0.0     
+ 373 TC5   160 PHE  SC2  373  0.0     
+ 374 TC5   160 PHE  SC3  374  0.0     
+ 375 P2    161 SER  BB   375  0.0     
+ 376 TP1   161 SER  SC1  376  0.0     
+ 377 P2    162 PHE  BB   377  0.0     
+ 378 SC4   162 PHE  SC1  378  0.0     
+ 379 TC5   162 PHE  SC2  379  0.0     
+ 380 TC5   162 PHE  SC3  380  0.0     
+ 381 P2    163 PHE  BB   381  0.0     
+ 382 SC4   163 PHE  SC1  382  0.0     
+ 383 TC5   163 PHE  SC2  383  0.0     
+ 384 TC5   163 PHE  SC3  384  0.0     
+ 385 P2    164 MET  BB   385  0.0     
+ 386 C6    164 MET  SC1  386  0.0     
+ 387 SP2   165 ALA  BB   387  0.0     
+ 388 TC3   165 ALA  SC1  388  0.0     
+ 389 SP2   166 VAL  BB   389  0.0     
+ 390 SC3   166 VAL  SC1  390  0.0     
+ 391 SP1   167 GLY  BB   391  0.0     
+ 392 P2    168 ASN  BB   392  0.0     
+ 393 SP5   168 ASN  SC1  393  0.0     
+ 394 SP2   169 VAL  BB   394  0.0     
+ 395 SC3   169 VAL  SC1  395  0.0     
+ 396 P2    170 LEU  BB   396  0.0     
+ 397 SC2   170 LEU  SC1  397  0.0     
+ 398 SP1   171 GLY  BB   398  0.0     
+ 399 P2    172 TYR  BB   399  0.0     
+ 400 TC4   172 TYR  SC1  400  0.0     
+ 401 TC5   172 TYR  SC2  401  0.0     
+ 402 TC5   172 TYR  SC3  402  0.0     
+ 403 TN6   172 TYR  SC4  403  0.0     
+ 404 SP2   173 ALA  BB   404  0.0     
+ 405 TC3   173 ALA  SC1  405  0.0     
+ 406 SP2   174 ALA  BB   406  0.0     
+ 407 TC3   174 ALA  SC1  407  0.0     
+ 408 SP1   175 GLY  BB   408  0.0     
+ 409 P2    176 SER  BB   409  0.0     
+ 410 TP1   176 SER  SC1  410  0.0     
+ 411 P2    177 TYR  BB   411  0.0     
+ 412 TC4   177 TYR  SC1  412  0.0     
+ 413 TC5   177 TYR  SC2  413  0.0     
+ 414 TC5   177 TYR  SC3  414  0.0     
+ 415 TN6   177 TYR  SC4  415  0.0     
+ 416 P2    178 THR  BB   416  0.0     
+ 417 SP1   178 THR  SC1  417  0.0     
+ 418 P2    179 ASN  BB   418  0.0     
+ 419 SP5   179 ASN  SC1  419  0.0     
+ 420 P2    180 LEU  BB   420  0.0     
+ 421 SC2   180 LEU  SC1  421  0.0     
+ 422 P2    181 HSP  BB   422  0.0     
+ 423 TC4   181 HSP  SC1  423  0.0     
+ 424 TP1dq 181 HSP  SC2  424  0.5     
+ 425 TP1dq 181 HSP  SC3  425  0.5     
+ 426 P2    182 LYS  BB   426  0.0     
+ 427 SC3   182 LYS  SC1  427  0.0     
+ 428 SQ4p  182 LYS  SC2  428  1.0     
+ 429 P2    183 MET  BB   429  0.0     
+ 430 C6    183 MET  SC1  430  0.0     
+ 431 P2    184 PHE  BB   431  0.0     
+ 432 SC4   184 PHE  SC1  432  0.0     
+ 433 TC5   184 PHE  SC2  433  0.0     
+ 434 TC5   184 PHE  SC3  434  0.0     
+ 435 SP2a  185 PRO  BB   435  0.0     
+ 436 SC3   185 PRO  SC1  436  0.0     
+ 437 P2    186 PHE  BB   437  0.0     
+ 438 SC4   186 PHE  SC1  438  0.0     
+ 439 TC5   186 PHE  SC2  439  0.0     
+ 440 TC5   186 PHE  SC3  440  0.0     
+ 441 P2    187 THR  BB   441  0.0     
+ 442 SP1   187 THR  SC1  442  0.0     
+ 443 P2    188 MET  BB   443  0.0     
+ 444 C6    188 MET  SC1  444  0.0     
+ 445 P2    189 THR  BB   445  0.0     
+ 446 SP1   189 THR  SC1  446  0.0     
+ 447 P2    190 LYS  BB   447  0.0     
+ 448 SC3   190 LYS  SC1  448  0.0     
+ 449 SQ4p  190 LYS  SC2  449  1.0     
+ 450 SP2   191 ALA  BB   450  0.0     
+ 451 TC3   191 ALA  SC1  451  0.0     
+ 452 P2    192 CYS  BB   452  0.0     
+ 453 TC6   192 CYS  SC1  453  0.0     
+ 454 P2    193 ASP  BB   454  0.0     
+ 455 SQ5n  193 ASP  SC1  455 -1.0     
+ 456 P2    194 ILE  BB   456  0.0     
+ 457 SC2   194 ILE  SC1  457  0.0     
+ 458 P2    195 TYR  BB   458  0.0     
+ 459 TC4   195 TYR  SC1  459  0.0     
+ 460 TC5   195 TYR  SC2  460  0.0     
+ 461 TC5   195 TYR  SC3  461  0.0     
+ 462 TN6   195 TYR  SC4  462  0.0     
+ 463 P2    196 CYS  BB   463  0.0     
+ 464 TC6   196 CYS  SC1  464  0.0     
+ 465 SP2   197 ALA  BB   465  0.0     
+ 466 TC3   197 ALA  SC1  466  0.0     
+ 467 P2    198 ASN  BB   467  0.0     
+ 468 SP5   198 ASN  SC1  468  0.0     
+ 469 P2    199 LEU  BB   469  0.0     
+ 470 SC2   199 LEU  SC1  470  0.0     
+ 471 P2    200 LYS  BB   471  0.0     
+ 472 SC3   200 LYS  SC1  472  0.0     
+ 473 SQ4p  200 LYS  SC2  473  1.0     
+ 474 P2    201 THR  BB   474  0.0     
+ 475 SP1   201 THR  SC1  475  0.0     
+ 476 P2    202 CYS  BB   476  0.0     
+ 477 TC6   202 CYS  SC1  477  0.0     
+ 478 P2    203 PHE  BB   478  0.0     
+ 479 SC4   203 PHE  SC1  479  0.0     
+ 480 TC5   203 PHE  SC2  480  0.0     
+ 481 TC5   203 PHE  SC3  481  0.0     
+ 482 P2    204 PHE  BB   482  0.0     
+ 483 SC4   204 PHE  SC1  483  0.0     
+ 484 TC5   204 PHE  SC2  484  0.0     
+ 485 TC5   204 PHE  SC3  485  0.0     
+ 486 P2    205 LEU  BB   486  0.0     
+ 487 SC2   205 LEU  SC1  487  0.0     
+ 488 P2    206 SER  BB   488  0.0     
+ 489 TP1   206 SER  SC1  489  0.0     
+ 490 P2    207 ILE  BB   490  0.0     
+ 491 SC2   207 ILE  SC1  491  0.0     
+ 492 P2    208 THR  BB   492  0.0     
+ 493 SP1   208 THR  SC1  493  0.0     
+ 494 P2    209 LEU  BB   494  0.0     
+ 495 SC2   209 LEU  SC1  495  0.0     
+ 496 P2    210 LEU  BB   496  0.0     
+ 497 SC2   210 LEU  SC1  497  0.0     
+ 498 P2    211 LEU  BB   498  0.0     
+ 499 SC2   211 LEU  SC1  499  0.0     
+ 500 P2    212 ILE  BB   500  0.0     
+ 501 SC2   212 ILE  SC1  501  0.0     
+ 502 SP2   213 VAL  BB   502  0.0     
+ 503 SC3   213 VAL  SC1  503  0.0     
+ 504 P2    214 THR  BB   504  0.0     
+ 505 SP1   214 THR  SC1  505  0.0     
+ 506 SP2   215 VAL  BB   506  0.0     
+ 507 SC3   215 VAL  SC1  507  0.0     
+ 508 P2    216 THR  BB   508  0.0     
+ 509 SP1   216 THR  SC1  509  0.0     
+ 510 P2    217 SER  BB   510  0.0     
+ 511 TP1   217 SER  SC1  511  0.0     
+ 512 P2    218 LEU  BB   512  0.0     
+ 513 SC2   218 LEU  SC1  513  0.0     
+ 514 P2    219 TRP  BB   514  0.0     
+ 515 TC4   219 TRP  SC1  515  0.0 36.0
+ 516 TN6d  219 TRP  SC2  516  0.0 36.0
+ 517 TC5   219 TRP  SC3  517  0.0  0.0
+ 518 TC5   219 TRP  SC4  518  0.0 36.0
+ 519 TC5   219 TRP  SC5  519  0.0 36.0
+ 520 P2    220 TYR  BB   520  0.0     
+ 521 TC4   220 TYR  SC1  521  0.0     
+ 522 TC5   220 TYR  SC2  522  0.0     
+ 523 TC5   220 TYR  SC3  523  0.0     
+ 524 TN6   220 TYR  SC4  524  0.0     
+ 525 SP2   221 VAL  BB   525  0.0     
+ 526 SC3   221 VAL  SC1  526  0.0     
+ 527 P2    222 ASN  BB   527  0.0     
+ 528 SP5   222 ASN  SC1  528  0.0     
+ 529 P2    223 ASP  BB   529  0.0     
+ 530 SQ5n  223 ASP  SC1  530 -1.0     
+ 531 P2    224 LYS  BB   531  0.0     
+ 532 SC3   224 LYS  SC1  532  0.0     
+ 533 SQ4p  224 LYS  SC2  533  1.0     
+ 534 P2    225 GLN  BB   534  0.0     
+ 535 P5    225 GLN  SC1  535  0.0     
+ 536 P2    226 TRP  BB   536  0.0     
+ 537 TC4   226 TRP  SC1  537  0.0 36.0
+ 538 TN6d  226 TRP  SC2  538  0.0 36.0
+ 539 TC5   226 TRP  SC3  539  0.0  0.0
+ 540 TC5   226 TRP  SC4  540  0.0 36.0
+ 541 TC5   226 TRP  SC5  541  0.0 36.0
+ 542 P2    227 SER  BB   542  0.0     
+ 543 TP1   227 SER  SC1  543  0.0     
+ 544 SP2a  228 PRO  BB   544  0.0     
+ 545 SC3   228 PRO  SC1  545  0.0     
+ 546 SP2a  229 PRO  BB   546  0.0     
+ 547 SC3   229 PRO  SC1  547  0.0     
+ 548 SP2a  230 PRO  BB   548  0.0     
+ 549 SC3   230 PRO  SC1  549  0.0     
+ 550 P2    231 ARG  BB   550  0.0     
+ 551 SC3   231 ARG  SC1  551  0.0     
+ 552 SQ3p  231 ARG  SC2  552  1.0     
+ 553 P2    232 ASN  BB   553  0.0     
+ 554 SP5   232 ASN  SC1  554  0.0     
+ 555 SP2   233 ALA  BB   555  0.0     
+ 556 TC3   233 ALA  SC1  556  0.0     
+ 557 P2    234 ASP  BB   557  0.0     
+ 558 SQ5n  234 ASP  SC1  558 -1.0     
+ 559 P2    235 ASP  BB   559  0.0     
+ 560 SQ5n  235 ASP  SC1  560 -1.0     
+ 561 P2    236 ASP  BB   561  0.0     
+ 562 SQ5n  236 ASP  SC1  562 -1.0     
+ 563 P2    237 GLU  BB   563  0.0     
+ 564 Q5n   237 GLU  SC1  564 -1.0     
+ 565 P2    238 LYS  BB   565  0.0     
+ 566 SC3   238 LYS  SC1  566  0.0     
+ 567 SQ4p  238 LYS  SC2  567  1.0     
+ 568 P2    239 THR  BB   568  0.0     
+ 569 SP1   239 THR  SC1  569  0.0     
+ 570 P2    240 SER  BB   570  0.0     
+ 571 TP1   240 SER  SC1  571  0.0     
+ 572 P2    241 SER  BB   572  0.0     
+ 573 TP1   241 SER  SC1  573  0.0     
+ 574 SP2   242 VAL  BB   574  0.0     
+ 575 SC3   242 VAL  SC1  575  0.0     
+ 576 SP2a  243 PRO  BB   576  0.0     
+ 577 SC3   243 PRO  SC1  577  0.0     
+ 578 P2    244 LEU  BB   578  0.0     
+ 579 SC2   244 LEU  SC1  579  0.0     
+ 580 P2    245 PHE  BB   580  0.0     
+ 581 SC4   245 PHE  SC1  581  0.0     
+ 582 TC5   245 PHE  SC2  582  0.0     
+ 583 TC5   245 PHE  SC3  583  0.0     
+ 584 SP1   246 GLY  BB   584  0.0     
+ 585 P2    247 GLU  BB   585  0.0     
+ 586 Q5n   247 GLU  SC1  586 -1.0     
+ 587 P2    248 ILE  BB   587  0.0     
+ 588 SC2   248 ILE  SC1  588  0.0     
+ 589 P2    249 PHE  BB   589  0.0     
+ 590 SC4   249 PHE  SC1  590  0.0     
+ 591 TC5   249 PHE  SC2  591  0.0     
+ 592 TC5   249 PHE  SC3  592  0.0     
+ 593 SP1   250 GLY  BB   593  0.0     
+ 594 SP2   251 ALA  BB   594  0.0     
+ 595 TC3   251 ALA  SC1  595  0.0     
+ 596 P2    252 PHE  BB   596  0.0     
+ 597 SC4   252 PHE  SC1  597  0.0     
+ 598 TC5   252 PHE  SC2  598  0.0     
+ 599 TC5   252 PHE  SC3  599  0.0     
+ 600 P2    253 LYS  BB   600  0.0     
+ 601 SC3   253 LYS  SC1  601  0.0     
+ 602 SQ4p  253 LYS  SC2  602  1.0     
+ 603 SP2   254 VAL  BB   603  0.0     
+ 604 SC3   254 VAL  SC1  604  0.0     
+ 605 P2    255 MET  BB   605  0.0     
+ 606 C6    255 MET  SC1  606  0.0     
+ 607 P2    256 LYS  BB   607  0.0     
+ 608 SC3   256 LYS  SC1  608  0.0     
+ 609 SQ4p  256 LYS  SC2  609  1.0     
+ 610 P2    257 ARG  BB   610  0.0     
+ 611 SC3   257 ARG  SC1  611  0.0     
+ 612 SQ3p  257 ARG  SC2  612  1.0     
+ 613 SP2a  258 PRO  BB   613  0.0     
+ 614 SC3   258 PRO  SC1  614  0.0     
+ 615 P2    259 MET  BB   615  0.0     
+ 616 C6    259 MET  SC1  616  0.0     
+ 617 P2    260 TRP  BB   617  0.0     
+ 618 TC4   260 TRP  SC1  618  0.0 36.0
+ 619 TN6d  260 TRP  SC2  619  0.0 36.0
+ 620 TC5   260 TRP  SC3  620  0.0  0.0
+ 621 TC5   260 TRP  SC4  621  0.0 36.0
+ 622 TC5   260 TRP  SC5  622  0.0 36.0
+ 623 P2    261 MET  BB   623  0.0     
+ 624 C6    261 MET  SC1  624  0.0     
+ 625 P2    262 LEU  BB   625  0.0     
+ 626 SC2   262 LEU  SC1  626  0.0     
+ 627 P2    263 LEU  BB   627  0.0     
+ 628 SC2   263 LEU  SC1  628  0.0     
+ 629 P2    264 ILE  BB   629  0.0     
+ 630 SC2   264 ILE  SC1  630  0.0     
+ 631 SP2   265 VAL  BB   631  0.0     
+ 632 SC3   265 VAL  SC1  632  0.0     
+ 633 P2    266 THR  BB   633  0.0     
+ 634 SP1   266 THR  SC1  634  0.0     
+ 635 SP2   267 ALA  BB   635  0.0     
+ 636 TC3   267 ALA  SC1  636  0.0     
+ 637 P2    268 LEU  BB   637  0.0     
+ 638 SC2   268 LEU  SC1  638  0.0     
+ 639 P2    269 ASN  BB   639  0.0     
+ 640 SP5   269 ASN  SC1  640  0.0     
+ 641 P2    270 TRP  BB   641  0.0     
+ 642 TC4   270 TRP  SC1  642  0.0 36.0
+ 643 TN6d  270 TRP  SC2  643  0.0 36.0
+ 644 TC5   270 TRP  SC3  644  0.0  0.0
+ 645 TC5   270 TRP  SC4  645  0.0 36.0
+ 646 TC5   270 TRP  SC5  646  0.0 36.0
+ 647 P2    271 ILE  BB   647  0.0     
+ 648 SC2   271 ILE  SC1  648  0.0     
+ 649 SP2   272 ALA  BB   649  0.0     
+ 650 TC3   272 ALA  SC1  650  0.0     
+ 651 P2    273 TRP  BB   651  0.0     
+ 652 TC4   273 TRP  SC1  652  0.0 36.0
+ 653 TN6d  273 TRP  SC2  653  0.0 36.0
+ 654 TC5   273 TRP  SC3  654  0.0  0.0
+ 655 TC5   273 TRP  SC4  655  0.0 36.0
+ 656 TC5   273 TRP  SC5  656  0.0 36.0
+ 657 P2    274 PHE  BB   657  0.0     
+ 658 SC4   274 PHE  SC1  658  0.0     
+ 659 TC5   274 PHE  SC2  659  0.0     
+ 660 TC5   274 PHE  SC3  660  0.0     
+ 661 SP2a  275 PRO  BB   661  0.0     
+ 662 SC3   275 PRO  SC1  662  0.0     
+ 663 P2    276 PHE  BB   663  0.0     
+ 664 SC4   276 PHE  SC1  664  0.0     
+ 665 TC5   276 PHE  SC2  665  0.0     
+ 666 TC5   276 PHE  SC3  666  0.0     
+ 667 P2    277 LEU  BB   667  0.0     
+ 668 SC2   277 LEU  SC1  668  0.0     
+ 669 P2    278 LEU  BB   669  0.0     
+ 670 SC2   278 LEU  SC1  670  0.0     
+ 671 P2    279 PHE  BB   671  0.0     
+ 672 SC4   279 PHE  SC1  672  0.0     
+ 673 TC5   279 PHE  SC2  673  0.0     
+ 674 TC5   279 PHE  SC3  674  0.0     
+ 675 P2    280 ASPP BB   675  0.0     
+ 676 SP2   280 ASPP SC1  676  0.0     
+ 677 P2    281 THR  BB   677  0.0     
+ 678 SP1   281 THR  SC1  678  0.0     
+ 679 P2    282 ASP  BB   679  0.0     
+ 680 SQ5n  282 ASP  SC1  680 -1.0     
+ 681 P2    283 TRP  BB   681  0.0     
+ 682 TC4   283 TRP  SC1  682  0.0 36.0
+ 683 TN6d  283 TRP  SC2  683  0.0 36.0
+ 684 TC5   283 TRP  SC3  684  0.0  0.0
+ 685 TC5   283 TRP  SC4  685  0.0 36.0
+ 686 TC5   283 TRP  SC5  686  0.0 36.0
+ 687 P2    284 MET  BB   687  0.0     
+ 688 C6    284 MET  SC1  688  0.0     
+ 689 SP1   285 GLY  BB   689  0.0     
+ 690 P2    286 ARG  BB   690  0.0     
+ 691 SC3   286 ARG  SC1  691  0.0     
+ 692 SQ3p  286 ARG  SC2  692  1.0     
+ 693 P2    287 GLU  BB   693  0.0     
+ 694 Q5n   287 GLU  SC1  694 -1.0     
+ 695 SP2   288 VAL  BB   695  0.0     
+ 696 SC3   288 VAL  SC1  696  0.0     
+ 697 P2    289 PHE  BB   697  0.0     
+ 698 SC4   289 PHE  SC1  698  0.0     
+ 699 TC5   289 PHE  SC2  699  0.0     
+ 700 TC5   289 PHE  SC3  700  0.0     
+ 701 SP1   290 GLY  BB   701  0.0     
+ 702 SP1   291 GLY  BB   702  0.0     
+ 703 P2    292 ASP  BB   703  0.0     
+ 704 SQ5n  292 ASP  SC1  704 -1.0     
+ 705 P2    293 SER  BB   705  0.0     
+ 706 TP1   293 SER  SC1  706  0.0     
+ 707 P2    294 ASP  BB   707  0.0     
+ 708 SQ5n  294 ASP  SC1  708 -1.0     
+ 709 SP1   295 GLY  BB   709  0.0     
+ 710 P2    296 ASN  BB   710  0.0     
+ 711 SP5   296 ASN  SC1  711  0.0     
+ 712 P2    297 GLU  BB   712  0.0     
+ 713 Q5n   297 GLU  SC1  713 -1.0     
+ 714 P2    298 ARG  BB   714  0.0     
+ 715 SC3   298 ARG  SC1  715  0.0     
+ 716 SQ3p  298 ARG  SC2  716  1.0     
+ 717 P2    299 SER  BB   717  0.0     
+ 718 TP1   299 SER  SC1  718  0.0     
+ 719 P2    300 LYS  BB   719  0.0     
+ 720 SC3   300 LYS  SC1  720  0.0     
+ 721 SQ4p  300 LYS  SC2  721  1.0     
+ 722 P2    301 LYS  BB   722  0.0     
+ 723 SC3   301 LYS  SC1  723  0.0     
+ 724 SQ4p  301 LYS  SC2  724  1.0     
+ 725 P2    302 LEU  BB   725  0.0     
+ 726 SC2   302 LEU  SC1  726  0.0     
+ 727 P2    303 TYR  BB   727  0.0     
+ 728 TC4   303 TYR  SC1  728  0.0     
+ 729 TC5   303 TYR  SC2  729  0.0     
+ 730 TC5   303 TYR  SC3  730  0.0     
+ 731 TN6   303 TYR  SC4  731  0.0     
+ 732 P2    304 SER  BB   732  0.0     
+ 733 TP1   304 SER  SC1  733  0.0     
+ 734 P2    305 LEU  BB   734  0.0     
+ 735 SC2   305 LEU  SC1  735  0.0     
+ 736 SP1   306 GLY  BB   736  0.0     
+ 737 SP2   307 VAL  BB   737  0.0     
+ 738 SC3   307 VAL  SC1  738  0.0     
+ 739 P2    308 GLN  BB   739  0.0     
+ 740 P5    308 GLN  SC1  740  0.0     
+ 741 P2    309 SER  BB   741  0.0     
+ 742 TP1   309 SER  SC1  742  0.0     
+ 743 SP1   310 GLY  BB   743  0.0     
+ 744 SP2   311 ALA  BB   744  0.0     
+ 745 TC3   311 ALA  SC1  745  0.0     
+ 746 P2    312 MET  BB   746  0.0     
+ 747 C6    312 MET  SC1  747  0.0     
+ 748 SP1   313 GLY  BB   748  0.0     
+ 749 P2    314 LEU  BB   749  0.0     
+ 750 SC2   314 LEU  SC1  750  0.0     
+ 751 P2    315 MET  BB   751  0.0     
+ 752 C6    315 MET  SC1  752  0.0     
+ 753 P2    316 PHE  BB   753  0.0     
+ 754 SC4   316 PHE  SC1  754  0.0     
+ 755 TC5   316 PHE  SC2  755  0.0     
+ 756 TC5   316 PHE  SC3  756  0.0     
+ 757 P2    317 ASN  BB   757  0.0     
+ 758 SP5   317 ASN  SC1  758  0.0     
+ 759 P2    318 SER  BB   759  0.0     
+ 760 TP1   318 SER  SC1  760  0.0     
+ 761 P2    319 ILE  BB   761  0.0     
+ 762 SC2   319 ILE  SC1  762  0.0     
+ 763 SP2   320 VAL  BB   763  0.0     
+ 764 SC3   320 VAL  SC1  764  0.0     
+ 765 P2    321 LEU  BB   765  0.0     
+ 766 SC2   321 LEU  SC1  766  0.0     
+ 767 SP1   322 GLY  BB   767  0.0     
+ 768 P2    323 PHE  BB   768  0.0     
+ 769 SC4   323 PHE  SC1  769  0.0     
+ 770 TC5   323 PHE  SC2  770  0.0     
+ 771 TC5   323 PHE  SC3  771  0.0     
+ 772 P2    324 MET  BB   772  0.0     
+ 773 C6    324 MET  SC1  773  0.0     
+ 774 P2    325 SER  BB   774  0.0     
+ 775 TP1   325 SER  SC1  775  0.0     
+ 776 P2    326 LEU  BB   776  0.0     
+ 777 SC2   326 LEU  SC1  777  0.0     
+ 778 SP1   327 GLY  BB   778  0.0     
+ 779 SP2   328 VAL  BB   779  0.0     
+ 780 SC3   328 VAL  SC1  780  0.0     
+ 781 P2    329 GLU  BB   781  0.0     
+ 782 Q5n   329 GLU  SC1  782 -1.0     
+ 783 P2    330 TRP  BB   783  0.0     
+ 784 TC4   330 TRP  SC1  784  0.0 36.0
+ 785 TN6d  330 TRP  SC2  785  0.0 36.0
+ 786 TC5   330 TRP  SC3  786  0.0  0.0
+ 787 TC5   330 TRP  SC4  787  0.0 36.0
+ 788 TC5   330 TRP  SC5  788  0.0 36.0
+ 789 P2    331 ILE  BB   789  0.0     
+ 790 SC2   331 ILE  SC1  790  0.0     
+ 791 SP1   332 GLY  BB   791  0.0     
+ 792 P2    333 ARG  BB   792  0.0     
+ 793 SC3   333 ARG  SC1  793  0.0     
+ 794 SQ3p  333 ARG  SC2  794  1.0     
+ 795 P2    334 LYS  BB   795  0.0     
+ 796 SC3   334 LYS  SC1  796  0.0     
+ 797 SQ4p  334 LYS  SC2  797  1.0     
+ 798 P2    335 LEU  BB   798  0.0     
+ 799 SC2   335 LEU  SC1  799  0.0     
+ 800 SP1   336 GLY  BB   800  0.0     
+ 801 SP1   337 GLY  BB   801  0.0     
+ 802 SP2   338 ALA  BB   802  0.0     
+ 803 TC3   338 ALA  SC1  803  0.0     
+ 804 P2    339 LYS  BB   804  0.0     
+ 805 SC3   339 LYS  SC1  805  0.0     
+ 806 SQ4p  339 LYS  SC2  806  1.0     
+ 807 P2    340 ARG  BB   807  0.0     
+ 808 SC3   340 ARG  SC1  808  0.0     
+ 809 SQ3p  340 ARG  SC2  809  1.0     
+ 810 P2    341 LEU  BB   810  0.0     
+ 811 SC2   341 LEU  SC1  811  0.0     
+ 812 P2    342 TRP  BB   812  0.0     
+ 813 TC4   342 TRP  SC1  813  0.0 36.0
+ 814 TN6d  342 TRP  SC2  814  0.0 36.0
+ 815 TC5   342 TRP  SC3  815  0.0  0.0
+ 816 TC5   342 TRP  SC4  816  0.0 36.0
+ 817 TC5   342 TRP  SC5  817  0.0 36.0
+ 818 SP1   343 GLY  BB   818  0.0     
+ 819 P2    344 ILE  BB   819  0.0     
+ 820 SC2   344 ILE  SC1  820  0.0     
+ 821 SP2   345 VAL  BB   821  0.0     
+ 822 SC3   345 VAL  SC1  822  0.0     
+ 823 P2    346 ASN  BB   823  0.0     
+ 824 SP5   346 ASN  SC1  824  0.0     
+ 825 P2    347 PHE  BB   825  0.0     
+ 826 SC4   347 PHE  SC1  826  0.0     
+ 827 TC5   347 PHE  SC2  827  0.0     
+ 828 TC5   347 PHE  SC3  828  0.0     
+ 829 P2    348 ILE  BB   829  0.0     
+ 830 SC2   348 ILE  SC1  830  0.0     
+ 831 P2    349 LEU  BB   831  0.0     
+ 832 SC2   349 LEU  SC1  832  0.0     
+ 833 SP2   350 ALA  BB   833  0.0     
+ 834 TC3   350 ALA  SC1  834  0.0     
+ 835 SP2   351 ALA  BB   835  0.0     
+ 836 TC3   351 ALA  SC1  836  0.0     
+ 837 SP1   352 GLY  BB   837  0.0     
+ 838 P2    353 LEU  BB   838  0.0     
+ 839 SC2   353 LEU  SC1  839  0.0     
+ 840 SP2   354 ALA  BB   840  0.0     
+ 841 TC3   354 ALA  SC1  841  0.0     
+ 842 P2    355 MET  BB   842  0.0     
+ 843 C6    355 MET  SC1  843  0.0     
+ 844 P2    356 THR  BB   844  0.0     
+ 845 SP1   356 THR  SC1  845  0.0     
+ 846 SP2   357 VAL  BB   846  0.0     
+ 847 SC3   357 VAL  SC1  847  0.0     
+ 848 P2    358 LEU  BB   848  0.0     
+ 849 SC2   358 LEU  SC1  849  0.0     
+ 850 SP2   359 VAL  BB   850  0.0     
+ 851 SC3   359 VAL  SC1  851  0.0     
+ 852 P2    360 THR  BB   852  0.0     
+ 853 SP1   360 THR  SC1  853  0.0     
+ 854 P2    361 LYS  BB   854  0.0     
+ 855 SC3   361 LYS  SC1  855  0.0     
+ 856 SQ4p  361 LYS  SC2  856  1.0     
+ 857 P2    362 PHE  BB   857  0.0     
+ 858 SC4   362 PHE  SC1  858  0.0     
+ 859 TC5   362 PHE  SC2  859  0.0     
+ 860 TC5   362 PHE  SC3  860  0.0     
+ 861 SP2   363 ALA  BB   861  0.0     
+ 862 TC3   363 ALA  SC1  862  0.0     
+ 863 P2    364 GLU  BB   863  0.0     
+ 864 Q5n   364 GLU  SC1  864 -1.0     
+ 865 P2    365 ASP  BB   865  0.0     
+ 866 SQ5n  365 ASP  SC1  866 -1.0     
+ 867 P2    366 HSP  BB   867  0.0     
+ 868 TC4   366 HSP  SC1  868  0.0     
+ 869 TP1dq 366 HSP  SC2  869  0.5     
+ 870 TP1dq 366 HSP  SC3  870  0.5     
+ 871 P2    367 ARG  BB   871  0.0     
+ 872 SC3   367 ARG  SC1  872  0.0     
+ 873 SQ3p  367 ARG  SC2  873  1.0     
+ 874 P2    368 LYS  BB   874  0.0     
+ 875 SC3   368 LYS  SC1  875  0.0     
+ 876 SQ4p  368 LYS  SC2  876  1.0     
+ 877 P2    369 THR  BB   877  0.0     
+ 878 SP1   369 THR  SC1  878  0.0     
+ 879 SP2   370 ALA  BB   879  0.0     
+ 880 TC3   370 ALA  SC1  880  0.0     
+ 881 SP1   371 GLY  BB   881  0.0     
+ 882 P2    372 ASP  BB   882  0.0     
+ 883 SQ5n  372 ASP  SC1  883 -1.0     
+ 884 P2    373 LEU  BB   884  0.0     
+ 885 SC2   373 LEU  SC1  885  0.0     
+ 886 SP2   374 ALA  BB   886  0.0     
+ 887 TC3   374 ALA  SC1  887  0.0     
+ 888 SP1   375 GLY  BB   888  0.0     
+ 889 SP2a  376 PRO  BB   889  0.0     
+ 890 SC3   376 PRO  SC1  890  0.0     
+ 891 P2    377 SER  BB   891  0.0     
+ 892 TP1   377 SER  SC1  892  0.0     
+ 893 SP2   378 ALA  BB   893  0.0     
+ 894 TC3   378 ALA  SC1  894  0.0     
+ 895 P2    379 SER  BB   895  0.0     
+ 896 TP1   379 SER  SC1  896  0.0     
+ 897 SP2   380 VAL  BB   897  0.0     
+ 898 SC3   380 VAL  SC1  898  0.0     
+ 899 P2    381 LYS  BB   899  0.0     
+ 900 SC3   381 LYS  SC1  900  0.0     
+ 901 SQ4p  381 LYS  SC2  901  1.0     
+ 902 SP2   382 ALA  BB   902  0.0     
+ 903 TC3   382 ALA  SC1  903  0.0     
+ 904 SP1   383 GLY  BB   904  0.0     
+ 905 SP2   384 ALA  BB   905  0.0     
+ 906 TC3   384 ALA  SC1  906  0.0     
+ 907 P2    385 LEU  BB   907  0.0     
+ 908 SC2   385 LEU  SC1  908  0.0     
+ 909 P2    386 SER  BB   909  0.0     
+ 910 TP1   386 SER  SC1  910  0.0     
+ 911 P2    387 LEU  BB   911  0.0     
+ 912 SC2   387 LEU  SC1  912  0.0     
+ 913 P2    388 PHE  BB   913  0.0     
+ 914 SC4   388 PHE  SC1  914  0.0     
+ 915 TC5   388 PHE  SC2  915  0.0     
+ 916 TC5   388 PHE  SC3  916  0.0     
+ 917 SP2   389 ALA  BB   917  0.0     
+ 918 TC3   389 ALA  SC1  918  0.0     
+ 919 SP2   390 VAL  BB   919  0.0     
+ 920 SC3   390 VAL  SC1  920  0.0     
+ 921 P2    391 LEU  BB   921  0.0     
+ 922 SC2   391 LEU  SC1  922  0.0     
+ 923 SP1   392 GLY  BB   923  0.0     
+ 924 P2    393 ILE  BB   924  0.0     
+ 925 SC2   393 ILE  SC1  925  0.0     
+ 926 SP2a  394 PRO  BB   926  0.0     
+ 927 SC3   394 PRO  SC1  927  0.0     
+ 928 P2    395 LEU  BB   928  0.0     
+ 929 SC2   395 LEU  SC1  929  0.0     
+ 930 SP2   396 ALA  BB   930  0.0     
+ 931 TC3   396 ALA  SC1  931  0.0     
+ 932 P2    397 ILE  BB   932  0.0     
+ 933 SC2   397 ILE  SC1  933  0.0     
+ 934 P2    398 THR  BB   934  0.0     
+ 935 SP1   398 THR  SC1  935  0.0     
+ 936 P2    399 PHE  BB   936  0.0     
+ 937 SC4   399 PHE  SC1  937  0.0     
+ 938 TC5   399 PHE  SC2  938  0.0     
+ 939 TC5   399 PHE  SC3  939  0.0     
+ 940 P2    400 SER  BB   940  0.0     
+ 941 TP1   400 SER  SC1  941  0.0     
+ 942 P2    401 THR  BB   942  0.0     
+ 943 SP1   401 THR  SC1  943  0.0     
+ 944 SP2a  402 PRO  BB   944  0.0     
+ 945 SC3   402 PRO  SC1  945  0.0     
+ 946 P2    403 PHE  BB   946  0.0     
+ 947 SC4   403 PHE  SC1  947  0.0     
+ 948 TC5   403 PHE  SC2  948  0.0     
+ 949 TC5   403 PHE  SC3  949  0.0     
+ 950 SP2   404 ALA  BB   950  0.0     
+ 951 TC3   404 ALA  SC1  951  0.0     
+ 952 P2    405 LEU  BB   952  0.0     
+ 953 SC2   405 LEU  SC1  953  0.0     
+ 954 SP2   406 ALA  BB   954  0.0     
+ 955 TC3   406 ALA  SC1  955  0.0     
+ 956 P2    407 SER  BB   956  0.0     
+ 957 TP1   407 SER  SC1  957  0.0     
+ 958 P2    408 ILE  BB   958  0.0     
+ 959 SC2   408 ILE  SC1  959  0.0     
+ 960 P2    409 PHE  BB   960  0.0     
+ 961 SC4   409 PHE  SC1  961  0.0     
+ 962 TC5   409 PHE  SC2  962  0.0     
+ 963 TC5   409 PHE  SC3  963  0.0     
+ 964 P2    410 SER  BB   964  0.0     
+ 965 TP1   410 SER  SC1  965  0.0     
+ 966 P2    411 SER  BB   966  0.0     
+ 967 TP1   411 SER  SC1  967  0.0     
+ 968 P2    412 CYS  BB   968  0.0     
+ 969 TC6   412 CYS  SC1  969  0.0     
+ 970 P2    413 SER  BB   970  0.0     
+ 971 TP1   413 SER  SC1  971  0.0     
+ 972 SP1   414 GLY  BB   972  0.0     
+ 973 SP2   415 ALA  BB   973  0.0     
+ 974 TC3   415 ALA  SC1  974  0.0     
+ 975 SP1   416 GLY  BB   975  0.0     
+ 976 P2    417 GLN  BB   976  0.0     
+ 977 P5    417 GLN  SC1  977  0.0     
+ 978 SP1   418 GLY  BB   978  0.0     
+ 979 P2    419 LEU  BB   979  0.0     
+ 980 SC2   419 LEU  SC1  980  0.0     
+ 981 P2    420 SER  BB   981  0.0     
+ 982 TP1   420 SER  SC1  982  0.0     
+ 983 P2    421 LEU  BB   983  0.0     
+ 984 SC2   421 LEU  SC1  984  0.0     
+ 985 SP1   422 GLY  BB   985  0.0     
+ 986 SP2   423 VAL  BB   986  0.0     
+ 987 SC3   423 VAL  SC1  987  0.0     
+ 988 P2    424 LEU  BB   988  0.0     
+ 989 SC2   424 LEU  SC1  989  0.0     
+ 990 P2    425 ASN  BB   990  0.0     
+ 991 SP5   425 ASN  SC1  991  0.0     
+ 992 P2    426 LEU  BB   992  0.0     
+ 993 SC2   426 LEU  SC1  993  0.0     
+ 994 SP2   427 ALA  BB   994  0.0     
+ 995 TC3   427 ALA  SC1  995  0.0     
+ 996 P2    428 ILE  BB   996  0.0     
+ 997 SC2   428 ILE  SC1  997  0.0     
+ 998 SP2   429 VAL  BB   998  0.0     
+ 999 SC3   429 VAL  SC1  999  0.0     
+1000 P2    430 ILE  BB  1000  0.0     
+1001 SC2   430 ILE  SC1 1001  0.0     
+1002 SP2a  431 PRO  BB  1002  0.0     
+1003 SC3   431 PRO  SC1 1003  0.0     
+1004 P2    432 GLN  BB  1004  0.0     
+1005 P5    432 GLN  SC1 1005  0.0     
+1006 P2    433 MET  BB  1006  0.0     
+1007 C6    433 MET  SC1 1007  0.0     
+1008 P2    434 ILE  BB  1008  0.0     
+1009 SC2   434 ILE  SC1 1009  0.0     
+1010 SP2   435 VAL  BB  1010  0.0     
+1011 SC3   435 VAL  SC1 1011  0.0     
+1012 P2    436 SER  BB  1012  0.0     
+1013 TP1   436 SER  SC1 1013  0.0     
+1014 P2    437 LEU  BB  1014  0.0     
+1015 SC2   437 LEU  SC1 1015  0.0     
+1016 SP1   438 GLY  BB  1016  0.0     
+1017 SP1   439 GLY  BB  1017  0.0     
+1018 SP1   440 GLY  BB  1018  0.0     
+1019 SP2a  441 PRO  BB  1019  0.0     
+1020 SC3   441 PRO  SC1 1020  0.0     
+1021 P2    442 PHE  BB  1021  0.0     
+1022 SC4   442 PHE  SC1 1022  0.0     
+1023 TC5   442 PHE  SC2 1023  0.0     
+1024 TC5   442 PHE  SC3 1024  0.0     
+1025 P2    443 ASP  BB  1025  0.0     
+1026 SQ5n  443 ASP  SC1 1026 -1.0     
+1027 SP2   444 ALA  BB  1027  0.0     
+1028 TC3   444 ALA  SC1 1028  0.0     
+1029 P2    445 LEU  BB  1029  0.0     
+1030 SC2   445 LEU  SC1 1030  0.0     
+1031 P2    446 PHE  BB  1031  0.0     
+1032 SC4   446 PHE  SC1 1032  0.0     
+1033 TC5   446 PHE  SC2 1033  0.0     
+1034 TC5   446 PHE  SC3 1034  0.0     
+1035 SP1   447 GLY  BB  1035  0.0     
+1036 SP1   448 GLY  BB  1036  0.0     
+1037 SP1   449 GLY  BB  1037  0.0     
+1038 P2    450 ASN  BB  1038  0.0     
+1039 SP5   450 ASN  SC1 1039  0.0     
+1040 P2    451 LEU  BB  1040  0.0     
+1041 SC2   451 LEU  SC1 1041  0.0     
+1042 SP2a  452 PRO  BB  1042  0.0     
+1043 SC3   452 PRO  SC1 1043  0.0     
+1044 SP2   453 ALA  BB  1044  0.0     
+1045 TC3   453 ALA  SC1 1045  0.0     
+1046 P2    454 PHE  BB  1046  0.0     
+1047 SC4   454 PHE  SC1 1047  0.0     
+1048 TC5   454 PHE  SC2 1048  0.0     
+1049 TC5   454 PHE  SC3 1049  0.0     
+1050 P2    455 ILE  BB  1050  0.0     
+1051 SC2   455 ILE  SC1 1051  0.0     
+1052 SP2   456 VAL  BB  1052  0.0     
+1053 SC3   456 VAL  SC1 1053  0.0     
+1054 SP2   457 ALA  BB  1054  0.0     
+1055 TC3   457 ALA  SC1 1055  0.0     
+1056 SP2   458 ALA  BB  1056  0.0     
+1057 TC3   458 ALA  SC1 1057  0.0     
+1058 P2    459 ILE  BB  1058  0.0     
+1059 SC2   459 ILE  SC1 1059  0.0     
+1060 SP2   460 ALA  BB  1060  0.0     
+1061 TC3   460 ALA  SC1 1061  0.0     
+1062 SP2   461 ALA  BB  1062  0.0     
+1063 TC3   461 ALA  SC1 1063  0.0     
+1064 SP2   462 ALA  BB  1064  0.0     
+1065 TC3   462 ALA  SC1 1065  0.0     
+1066 P2    463 ILE  BB  1066  0.0     
+1067 SC2   463 ILE  SC1 1067  0.0     
+1068 P2    464 SER  BB  1068  0.0     
+1069 TP1   464 SER  SC1 1069  0.0     
+1070 SP1   465 GLY  BB  1070  0.0     
+1071 SP2   466 VAL  BB  1071  0.0     
+1072 SC3   466 VAL  SC1 1072  0.0     
+1073 P2    467 LEU  BB  1073  0.0     
+1074 SC2   467 LEU  SC1 1074  0.0     
+1075 SP2   468 ALA  BB  1075  0.0     
+1076 TC3   468 ALA  SC1 1076  0.0     
+1077 P2    469 LEU  BB  1077  0.0     
+1078 SC2   469 LEU  SC1 1078  0.0     
+1079 P2    470 THR  BB  1079  0.0     
+1080 SP1   470 THR  SC1 1080  0.0     
+1081 SP2   471 VAL  BB  1081  0.0     
+1082 SC3   471 VAL  SC1 1082  0.0     
+1083 P2    472 LEU  BB  1083  0.0     
+1084 SC2   472 LEU  SC1 1084  0.0     
+1085 SP2a  473 PRO  BB  1085  0.0     
+1086 SC3   473 PRO  SC1 1086  0.0     
+1087 P2    474 SER  BB  1087  0.0     
+1088 TP1   474 SER  SC1 1088  0.0     
+1089 SP2a  475 PRO  BB  1089  0.0     
+1090 SC3   475 PRO  SC1 1090  0.0     
+1091 Q5    476 PRO  BB  1091   -1     
+1092 SC3   476 PRO  SC1 1092  0.0     
 
 [ position_restraints ]
 #ifdef POSRES
-   1 1 1000 1000 1000
-   3 1 1000 1000 1000
-   5 1 1000 1000 1000
-   7 1 1000 1000 1000
-   9 1 1000 1000 1000
-  11 1 1000 1000 1000
-  13 1 1000 1000 1000
-  16 1 1000 1000 1000
-  19 1 1000 1000 1000
-  21 1 1000 1000 1000
-  23 1 1000 1000 1000
-  25 1 1000 1000 1000
-  27 1 1000 1000 1000
-  29 1 1000 1000 1000
-  31 1 1000 1000 1000
-  33 1 1000 1000 1000
-  35 1 1000 1000 1000
-  37 1 1000 1000 1000
-  38 1 1000 1000 1000
-  40 1 1000 1000 1000
-  42 1 1000 1000 1000
-  46 1 1000 1000 1000
-  47 1 1000 1000 1000
-  53 1 1000 1000 1000
-  55 1 1000 1000 1000
-  57 1 1000 1000 1000
-  59 1 1000 1000 1000
-  61 1 1000 1000 1000
-  63 1 1000 1000 1000
-  65 1 1000 1000 1000
-  67 1 1000 1000 1000
-  69 1 1000 1000 1000
-  71 1 1000 1000 1000
-  76 1 1000 1000 1000
-  78 1 1000 1000 1000
-  80 1 1000 1000 1000
-  82 1 1000 1000 1000
-  84 1 1000 1000 1000
-  85 1 1000 1000 1000
-  87 1 1000 1000 1000
-  89 1 1000 1000 1000
-  93 1 1000 1000 1000
-  96 1 1000 1000 1000
- 102 1 1000 1000 1000
- 104 1 1000 1000 1000
- 106 1 1000 1000 1000
- 108 1 1000 1000 1000
- 110 1 1000 1000 1000
- 116 1 1000 1000 1000
- 118 1 1000 1000 1000
- 120 1 1000 1000 1000
- 121 1 1000 1000 1000
- 123 1 1000 1000 1000
- 125 1 1000 1000 1000
- 127 1 1000 1000 1000
- 128 1 1000 1000 1000
- 130 1 1000 1000 1000
- 132 1 1000 1000 1000
- 134 1 1000 1000 1000
- 136 1 1000 1000 1000
- 138 1 1000 1000 1000
- 140 1 1000 1000 1000
- 142 1 1000 1000 1000
- 143 1 1000 1000 1000
- 147 1 1000 1000 1000
- 151 1 1000 1000 1000
- 153 1 1000 1000 1000
- 155 1 1000 1000 1000
- 158 1 1000 1000 1000
- 160 1 1000 1000 1000
- 163 1 1000 1000 1000
- 165 1 1000 1000 1000
- 168 1 1000 1000 1000
- 172 1 1000 1000 1000
- 173 1 1000 1000 1000
- 176 1 1000 1000 1000
- 179 1 1000 1000 1000
- 182 1 1000 1000 1000
- 184 1 1000 1000 1000
- 188 1 1000 1000 1000
- 190 1 1000 1000 1000
- 192 1 1000 1000 1000
- 194 1 1000 1000 1000
- 195 1 1000 1000 1000
- 197 1 1000 1000 1000
- 199 1 1000 1000 1000
- 201 1 1000 1000 1000
- 203 1 1000 1000 1000
- 205 1 1000 1000 1000
- 207 1 1000 1000 1000
- 209 1 1000 1000 1000
- 211 1 1000 1000 1000
- 215 1 1000 1000 1000
- 217 1 1000 1000 1000
- 219 1 1000 1000 1000
- 220 1 1000 1000 1000
- 225 1 1000 1000 1000
- 227 1 1000 1000 1000
- 229 1 1000 1000 1000
- 231 1 1000 1000 1000
- 235 1 1000 1000 1000
- 236 1 1000 1000 1000
- 241 1 1000 1000 1000
- 244 1 1000 1000 1000
- 246 1 1000 1000 1000
- 247 1 1000 1000 1000
- 249 1 1000 1000 1000
- 252 1 1000 1000 1000
- 254 1 1000 1000 1000
- 256 1 1000 1000 1000
- 258 1 1000 1000 1000
- 261 1 1000 1000 1000
- 263 1 1000 1000 1000
- 266 1 1000 1000 1000
- 268 1 1000 1000 1000
- 271 1 1000 1000 1000
- 273 1 1000 1000 1000
- 275 1 1000 1000 1000
- 276 1 1000 1000 1000
- 278 1 1000 1000 1000
- 282 1 1000 1000 1000
- 284 1 1000 1000 1000
- 286 1 1000 1000 1000
- 287 1 1000 1000 1000
- 291 1 1000 1000 1000
- 297 1 1000 1000 1000
- 299 1 1000 1000 1000
- 301 1 1000 1000 1000
- 303 1 1000 1000 1000
- 305 1 1000 1000 1000
- 307 1 1000 1000 1000
- 309 1 1000 1000 1000
- 311 1 1000 1000 1000
- 313 1 1000 1000 1000
- 315 1 1000 1000 1000
- 317 1 1000 1000 1000
- 318 1 1000 1000 1000
- 320 1 1000 1000 1000
- 322 1 1000 1000 1000
- 325 1 1000 1000 1000
- 327 1 1000 1000 1000
- 331 1 1000 1000 1000
- 333 1 1000 1000 1000
- 335 1 1000 1000 1000
- 337 1 1000 1000 1000
- 339 1 1000 1000 1000
- 341 1 1000 1000 1000
- 343 1 1000 1000 1000
- 344 1 1000 1000 1000
- 346 1 1000 1000 1000
- 348 1 1000 1000 1000
- 351 1 1000 1000 1000
- 354 1 1000 1000 1000
- 356 1 1000 1000 1000
- 359 1 1000 1000 1000
- 361 1 1000 1000 1000
- 363 1 1000 1000 1000
- 365 1 1000 1000 1000
- 367 1 1000 1000 1000
- 371 1 1000 1000 1000
- 375 1 1000 1000 1000
- 377 1 1000 1000 1000
- 381 1 1000 1000 1000
- 385 1 1000 1000 1000
- 387 1 1000 1000 1000
- 389 1 1000 1000 1000
- 391 1 1000 1000 1000
- 392 1 1000 1000 1000
- 394 1 1000 1000 1000
- 396 1 1000 1000 1000
- 398 1 1000 1000 1000
- 399 1 1000 1000 1000
- 404 1 1000 1000 1000
- 406 1 1000 1000 1000
- 408 1 1000 1000 1000
- 409 1 1000 1000 1000
- 411 1 1000 1000 1000
- 416 1 1000 1000 1000
- 418 1 1000 1000 1000
- 420 1 1000 1000 1000
- 422 1 1000 1000 1000
- 426 1 1000 1000 1000
- 429 1 1000 1000 1000
- 431 1 1000 1000 1000
- 435 1 1000 1000 1000
- 437 1 1000 1000 1000
- 441 1 1000 1000 1000
- 443 1 1000 1000 1000
- 445 1 1000 1000 1000
- 447 1 1000 1000 1000
- 450 1 1000 1000 1000
- 452 1 1000 1000 1000
- 454 1 1000 1000 1000
- 456 1 1000 1000 1000
- 458 1 1000 1000 1000
- 463 1 1000 1000 1000
- 465 1 1000 1000 1000
- 467 1 1000 1000 1000
- 469 1 1000 1000 1000
- 471 1 1000 1000 1000
- 474 1 1000 1000 1000
- 476 1 1000 1000 1000
- 478 1 1000 1000 1000
- 482 1 1000 1000 1000
- 486 1 1000 1000 1000
- 488 1 1000 1000 1000
- 490 1 1000 1000 1000
- 492 1 1000 1000 1000
- 494 1 1000 1000 1000
- 496 1 1000 1000 1000
- 498 1 1000 1000 1000
- 500 1 1000 1000 1000
- 502 1 1000 1000 1000
- 504 1 1000 1000 1000
- 506 1 1000 1000 1000
- 508 1 1000 1000 1000
- 510 1 1000 1000 1000
- 512 1 1000 1000 1000
- 514 1 1000 1000 1000
- 520 1 1000 1000 1000
- 525 1 1000 1000 1000
- 527 1 1000 1000 1000
- 529 1 1000 1000 1000
- 531 1 1000 1000 1000
- 534 1 1000 1000 1000
- 536 1 1000 1000 1000
- 542 1 1000 1000 1000
- 544 1 1000 1000 1000
- 546 1 1000 1000 1000
- 548 1 1000 1000 1000
- 550 1 1000 1000 1000
- 553 1 1000 1000 1000
- 555 1 1000 1000 1000
- 557 1 1000 1000 1000
- 559 1 1000 1000 1000
- 561 1 1000 1000 1000
- 563 1 1000 1000 1000
- 565 1 1000 1000 1000
- 568 1 1000 1000 1000
- 570 1 1000 1000 1000
- 572 1 1000 1000 1000
- 574 1 1000 1000 1000
- 576 1 1000 1000 1000
- 578 1 1000 1000 1000
- 580 1 1000 1000 1000
- 584 1 1000 1000 1000
- 585 1 1000 1000 1000
- 587 1 1000 1000 1000
- 589 1 1000 1000 1000
- 593 1 1000 1000 1000
- 594 1 1000 1000 1000
- 596 1 1000 1000 1000
- 600 1 1000 1000 1000
- 603 1 1000 1000 1000
- 605 1 1000 1000 1000
- 607 1 1000 1000 1000
- 610 1 1000 1000 1000
- 613 1 1000 1000 1000
- 615 1 1000 1000 1000
- 617 1 1000 1000 1000
- 623 1 1000 1000 1000
- 625 1 1000 1000 1000
- 627 1 1000 1000 1000
- 629 1 1000 1000 1000
- 631 1 1000 1000 1000
- 633 1 1000 1000 1000
- 635 1 1000 1000 1000
- 637 1 1000 1000 1000
- 639 1 1000 1000 1000
- 641 1 1000 1000 1000
- 647 1 1000 1000 1000
- 649 1 1000 1000 1000
- 651 1 1000 1000 1000
- 657 1 1000 1000 1000
- 661 1 1000 1000 1000
- 663 1 1000 1000 1000
- 667 1 1000 1000 1000
- 669 1 1000 1000 1000
- 671 1 1000 1000 1000
- 675 1 1000 1000 1000
- 677 1 1000 1000 1000
- 679 1 1000 1000 1000
- 681 1 1000 1000 1000
- 687 1 1000 1000 1000
- 689 1 1000 1000 1000
- 690 1 1000 1000 1000
- 693 1 1000 1000 1000
- 695 1 1000 1000 1000
- 697 1 1000 1000 1000
- 701 1 1000 1000 1000
- 702 1 1000 1000 1000
- 703 1 1000 1000 1000
- 705 1 1000 1000 1000
- 707 1 1000 1000 1000
- 709 1 1000 1000 1000
- 710 1 1000 1000 1000
- 712 1 1000 1000 1000
- 714 1 1000 1000 1000
- 717 1 1000 1000 1000
- 719 1 1000 1000 1000
- 722 1 1000 1000 1000
- 725 1 1000 1000 1000
- 727 1 1000 1000 1000
- 732 1 1000 1000 1000
- 734 1 1000 1000 1000
- 736 1 1000 1000 1000
- 737 1 1000 1000 1000
- 739 1 1000 1000 1000
- 741 1 1000 1000 1000
- 743 1 1000 1000 1000
- 744 1 1000 1000 1000
- 746 1 1000 1000 1000
- 748 1 1000 1000 1000
- 749 1 1000 1000 1000
- 751 1 1000 1000 1000
- 753 1 1000 1000 1000
- 757 1 1000 1000 1000
- 759 1 1000 1000 1000
- 761 1 1000 1000 1000
- 763 1 1000 1000 1000
- 765 1 1000 1000 1000
- 767 1 1000 1000 1000
- 768 1 1000 1000 1000
- 772 1 1000 1000 1000
- 774 1 1000 1000 1000
- 776 1 1000 1000 1000
- 778 1 1000 1000 1000
- 779 1 1000 1000 1000
- 781 1 1000 1000 1000
- 783 1 1000 1000 1000
- 789 1 1000 1000 1000
- 791 1 1000 1000 1000
- 792 1 1000 1000 1000
- 795 1 1000 1000 1000
- 798 1 1000 1000 1000
- 800 1 1000 1000 1000
- 801 1 1000 1000 1000
- 802 1 1000 1000 1000
- 804 1 1000 1000 1000
- 807 1 1000 1000 1000
- 810 1 1000 1000 1000
- 812 1 1000 1000 1000
- 818 1 1000 1000 1000
- 819 1 1000 1000 1000
- 821 1 1000 1000 1000
- 823 1 1000 1000 1000
- 825 1 1000 1000 1000
- 829 1 1000 1000 1000
- 831 1 1000 1000 1000
- 833 1 1000 1000 1000
- 835 1 1000 1000 1000
- 837 1 1000 1000 1000
- 838 1 1000 1000 1000
- 840 1 1000 1000 1000
- 842 1 1000 1000 1000
- 844 1 1000 1000 1000
- 846 1 1000 1000 1000
- 848 1 1000 1000 1000
- 850 1 1000 1000 1000
- 852 1 1000 1000 1000
- 854 1 1000 1000 1000
- 857 1 1000 1000 1000
- 861 1 1000 1000 1000
- 863 1 1000 1000 1000
- 865 1 1000 1000 1000
- 867 1 1000 1000 1000
- 871 1 1000 1000 1000
- 874 1 1000 1000 1000
- 877 1 1000 1000 1000
- 879 1 1000 1000 1000
- 881 1 1000 1000 1000
- 882 1 1000 1000 1000
- 884 1 1000 1000 1000
- 886 1 1000 1000 1000
- 888 1 1000 1000 1000
- 889 1 1000 1000 1000
- 891 1 1000 1000 1000
- 893 1 1000 1000 1000
- 895 1 1000 1000 1000
- 897 1 1000 1000 1000
- 899 1 1000 1000 1000
- 902 1 1000 1000 1000
- 904 1 1000 1000 1000
- 905 1 1000 1000 1000
- 907 1 1000 1000 1000
- 909 1 1000 1000 1000
- 911 1 1000 1000 1000
- 913 1 1000 1000 1000
- 917 1 1000 1000 1000
- 919 1 1000 1000 1000
- 921 1 1000 1000 1000
- 923 1 1000 1000 1000
- 924 1 1000 1000 1000
- 926 1 1000 1000 1000
- 928 1 1000 1000 1000
- 930 1 1000 1000 1000
- 932 1 1000 1000 1000
- 934 1 1000 1000 1000
- 936 1 1000 1000 1000
- 940 1 1000 1000 1000
- 942 1 1000 1000 1000
- 944 1 1000 1000 1000
- 946 1 1000 1000 1000
- 950 1 1000 1000 1000
- 952 1 1000 1000 1000
- 954 1 1000 1000 1000
- 956 1 1000 1000 1000
- 958 1 1000 1000 1000
- 960 1 1000 1000 1000
- 964 1 1000 1000 1000
- 966 1 1000 1000 1000
- 968 1 1000 1000 1000
- 970 1 1000 1000 1000
- 972 1 1000 1000 1000
- 973 1 1000 1000 1000
- 975 1 1000 1000 1000
- 976 1 1000 1000 1000
- 978 1 1000 1000 1000
- 979 1 1000 1000 1000
- 981 1 1000 1000 1000
- 983 1 1000 1000 1000
- 985 1 1000 1000 1000
- 986 1 1000 1000 1000
- 988 1 1000 1000 1000
- 990 1 1000 1000 1000
- 992 1 1000 1000 1000
- 994 1 1000 1000 1000
- 996 1 1000 1000 1000
- 998 1 1000 1000 1000
-1000 1 1000 1000 1000
-1002 1 1000 1000 1000
-1004 1 1000 1000 1000
-1006 1 1000 1000 1000
-1008 1 1000 1000 1000
-1010 1 1000 1000 1000
-1012 1 1000 1000 1000
-1014 1 1000 1000 1000
-1016 1 1000 1000 1000
-1017 1 1000 1000 1000
-1018 1 1000 1000 1000
-1019 1 1000 1000 1000
-1021 1 1000 1000 1000
-1025 1 1000 1000 1000
-1027 1 1000 1000 1000
-1029 1 1000 1000 1000
-1031 1 1000 1000 1000
-1035 1 1000 1000 1000
-1036 1 1000 1000 1000
-1037 1 1000 1000 1000
-1038 1 1000 1000 1000
-1040 1 1000 1000 1000
-1042 1 1000 1000 1000
-1044 1 1000 1000 1000
-1046 1 1000 1000 1000
-1050 1 1000 1000 1000
-1052 1 1000 1000 1000
-1054 1 1000 1000 1000
-1056 1 1000 1000 1000
-1058 1 1000 1000 1000
-1060 1 1000 1000 1000
-1062 1 1000 1000 1000
-1064 1 1000 1000 1000
-1066 1 1000 1000 1000
-1068 1 1000 1000 1000
-1070 1 1000 1000 1000
-1071 1 1000 1000 1000
-1073 1 1000 1000 1000
-1075 1 1000 1000 1000
-1077 1 1000 1000 1000
-1079 1 1000 1000 1000
-1081 1 1000 1000 1000
-1083 1 1000 1000 1000
-1085 1 1000 1000 1000
-1087 1 1000 1000 1000
-1089 1 1000 1000 1000
-1091 1 1000 1000 1000
+   1 1 20 20 20 ; posres
+   3 1 20 20 20 ; posres
+   5 1 20 20 20 ; posres
+   7 1 20 20 20 ; posres
+   9 1 20 20 20 ; posres
+  11 1 20 20 20 ; posres
+  13 1 20 20 20 ; posres
+  16 1 20 20 20 ; posres
+  19 1 20 20 20 ; posres
+  21 1 20 20 20 ; posres
+  23 1 20 20 20 ; posres
+  25 1 20 20 20 ; posres
+  27 1 20 20 20 ; posres
+  29 1 20 20 20 ; posres
+  31 1 20 20 20 ; posres
+  33 1 20 20 20 ; posres
+  35 1 20 20 20 ; posres
+  37 1 20 20 20 ; posres
+  38 1 20 20 20 ; posres
+  40 1 20 20 20 ; posres
+  42 1 20 20 20 ; posres
+  46 1 20 20 20 ; posres
+  47 1 20 20 20 ; posres
+  53 1 20 20 20 ; posres
+  55 1 20 20 20 ; posres
+  57 1 20 20 20 ; posres
+  59 1 20 20 20 ; posres
+  61 1 20 20 20 ; posres
+  63 1 20 20 20 ; posres
+  65 1 20 20 20 ; posres
+  67 1 20 20 20 ; posres
+  69 1 20 20 20 ; posres
+  71 1 20 20 20 ; posres
+  76 1 20 20 20 ; posres
+  78 1 20 20 20 ; posres
+  80 1 20 20 20 ; posres
+  82 1 20 20 20 ; posres
+  84 1 20 20 20 ; posres
+  85 1 20 20 20 ; posres
+  87 1 20 20 20 ; posres
+  89 1 20 20 20 ; posres
+  93 1 20 20 20 ; posres
+  96 1 20 20 20 ; posres
+ 102 1 20 20 20 ; posres
+ 104 1 20 20 20 ; posres
+ 106 1 20 20 20 ; posres
+ 108 1 20 20 20 ; posres
+ 110 1 20 20 20 ; posres
+ 116 1 20 20 20 ; posres
+ 118 1 20 20 20 ; posres
+ 120 1 20 20 20 ; posres
+ 121 1 20 20 20 ; posres
+ 123 1 20 20 20 ; posres
+ 125 1 20 20 20 ; posres
+ 127 1 20 20 20 ; posres
+ 128 1 20 20 20 ; posres
+ 130 1 20 20 20 ; posres
+ 132 1 20 20 20 ; posres
+ 134 1 20 20 20 ; posres
+ 136 1 20 20 20 ; posres
+ 138 1 20 20 20 ; posres
+ 140 1 20 20 20 ; posres
+ 142 1 20 20 20 ; posres
+ 143 1 20 20 20 ; posres
+ 147 1 20 20 20 ; posres
+ 151 1 20 20 20 ; posres
+ 153 1 20 20 20 ; posres
+ 155 1 20 20 20 ; posres
+ 158 1 20 20 20 ; posres
+ 160 1 20 20 20 ; posres
+ 163 1 20 20 20 ; posres
+ 165 1 20 20 20 ; posres
+ 168 1 20 20 20 ; posres
+ 172 1 20 20 20 ; posres
+ 173 1 20 20 20 ; posres
+ 176 1 20 20 20 ; posres
+ 179 1 20 20 20 ; posres
+ 182 1 20 20 20 ; posres
+ 184 1 20 20 20 ; posres
+ 188 1 20 20 20 ; posres
+ 190 1 20 20 20 ; posres
+ 192 1 20 20 20 ; posres
+ 194 1 20 20 20 ; posres
+ 195 1 20 20 20 ; posres
+ 197 1 20 20 20 ; posres
+ 199 1 20 20 20 ; posres
+ 201 1 20 20 20 ; posres
+ 203 1 20 20 20 ; posres
+ 205 1 20 20 20 ; posres
+ 207 1 20 20 20 ; posres
+ 209 1 20 20 20 ; posres
+ 211 1 20 20 20 ; posres
+ 215 1 20 20 20 ; posres
+ 217 1 20 20 20 ; posres
+ 219 1 20 20 20 ; posres
+ 220 1 20 20 20 ; posres
+ 225 1 20 20 20 ; posres
+ 227 1 20 20 20 ; posres
+ 229 1 20 20 20 ; posres
+ 231 1 20 20 20 ; posres
+ 235 1 20 20 20 ; posres
+ 236 1 20 20 20 ; posres
+ 241 1 20 20 20 ; posres
+ 244 1 20 20 20 ; posres
+ 246 1 20 20 20 ; posres
+ 247 1 20 20 20 ; posres
+ 249 1 20 20 20 ; posres
+ 252 1 20 20 20 ; posres
+ 254 1 20 20 20 ; posres
+ 256 1 20 20 20 ; posres
+ 258 1 20 20 20 ; posres
+ 261 1 20 20 20 ; posres
+ 263 1 20 20 20 ; posres
+ 266 1 20 20 20 ; posres
+ 268 1 20 20 20 ; posres
+ 271 1 20 20 20 ; posres
+ 273 1 20 20 20 ; posres
+ 275 1 20 20 20 ; posres
+ 276 1 20 20 20 ; posres
+ 278 1 20 20 20 ; posres
+ 282 1 20 20 20 ; posres
+ 284 1 20 20 20 ; posres
+ 286 1 20 20 20 ; posres
+ 287 1 20 20 20 ; posres
+ 291 1 20 20 20 ; posres
+ 297 1 20 20 20 ; posres
+ 299 1 20 20 20 ; posres
+ 301 1 20 20 20 ; posres
+ 303 1 20 20 20 ; posres
+ 305 1 20 20 20 ; posres
+ 307 1 20 20 20 ; posres
+ 309 1 20 20 20 ; posres
+ 311 1 20 20 20 ; posres
+ 313 1 20 20 20 ; posres
+ 315 1 20 20 20 ; posres
+ 317 1 20 20 20 ; posres
+ 318 1 20 20 20 ; posres
+ 320 1 20 20 20 ; posres
+ 322 1 20 20 20 ; posres
+ 325 1 20 20 20 ; posres
+ 327 1 20 20 20 ; posres
+ 331 1 20 20 20 ; posres
+ 333 1 20 20 20 ; posres
+ 335 1 20 20 20 ; posres
+ 337 1 20 20 20 ; posres
+ 339 1 20 20 20 ; posres
+ 341 1 20 20 20 ; posres
+ 343 1 20 20 20 ; posres
+ 344 1 20 20 20 ; posres
+ 346 1 20 20 20 ; posres
+ 348 1 20 20 20 ; posres
+ 351 1 20 20 20 ; posres
+ 354 1 20 20 20 ; posres
+ 356 1 20 20 20 ; posres
+ 359 1 20 20 20 ; posres
+ 361 1 20 20 20 ; posres
+ 363 1 20 20 20 ; posres
+ 365 1 20 20 20 ; posres
+ 367 1 20 20 20 ; posres
+ 371 1 20 20 20 ; posres
+ 375 1 20 20 20 ; posres
+ 377 1 20 20 20 ; posres
+ 381 1 20 20 20 ; posres
+ 385 1 20 20 20 ; posres
+ 387 1 20 20 20 ; posres
+ 389 1 20 20 20 ; posres
+ 391 1 20 20 20 ; posres
+ 392 1 20 20 20 ; posres
+ 394 1 20 20 20 ; posres
+ 396 1 20 20 20 ; posres
+ 398 1 20 20 20 ; posres
+ 399 1 20 20 20 ; posres
+ 404 1 20 20 20 ; posres
+ 406 1 20 20 20 ; posres
+ 408 1 20 20 20 ; posres
+ 409 1 20 20 20 ; posres
+ 411 1 20 20 20 ; posres
+ 416 1 20 20 20 ; posres
+ 418 1 20 20 20 ; posres
+ 420 1 20 20 20 ; posres
+ 422 1 20 20 20 ; posres
+ 426 1 20 20 20 ; posres
+ 429 1 20 20 20 ; posres
+ 431 1 20 20 20 ; posres
+ 435 1 20 20 20 ; posres
+ 437 1 20 20 20 ; posres
+ 441 1 20 20 20 ; posres
+ 443 1 20 20 20 ; posres
+ 445 1 20 20 20 ; posres
+ 447 1 20 20 20 ; posres
+ 450 1 20 20 20 ; posres
+ 452 1 20 20 20 ; posres
+ 454 1 20 20 20 ; posres
+ 456 1 20 20 20 ; posres
+ 458 1 20 20 20 ; posres
+ 463 1 20 20 20 ; posres
+ 465 1 20 20 20 ; posres
+ 467 1 20 20 20 ; posres
+ 469 1 20 20 20 ; posres
+ 471 1 20 20 20 ; posres
+ 474 1 20 20 20 ; posres
+ 476 1 20 20 20 ; posres
+ 478 1 20 20 20 ; posres
+ 482 1 20 20 20 ; posres
+ 486 1 20 20 20 ; posres
+ 488 1 20 20 20 ; posres
+ 490 1 20 20 20 ; posres
+ 492 1 20 20 20 ; posres
+ 494 1 20 20 20 ; posres
+ 496 1 20 20 20 ; posres
+ 498 1 20 20 20 ; posres
+ 500 1 20 20 20 ; posres
+ 502 1 20 20 20 ; posres
+ 504 1 20 20 20 ; posres
+ 506 1 20 20 20 ; posres
+ 508 1 20 20 20 ; posres
+ 510 1 20 20 20 ; posres
+ 512 1 20 20 20 ; posres
+ 514 1 20 20 20 ; posres
+ 520 1 20 20 20 ; posres
+ 525 1 20 20 20 ; posres
+ 527 1 20 20 20 ; posres
+ 529 1 20 20 20 ; posres
+ 531 1 20 20 20 ; posres
+ 534 1 20 20 20 ; posres
+ 536 1 20 20 20 ; posres
+ 542 1 20 20 20 ; posres
+ 544 1 20 20 20 ; posres
+ 546 1 20 20 20 ; posres
+ 548 1 20 20 20 ; posres
+ 550 1 20 20 20 ; posres
+ 553 1 20 20 20 ; posres
+ 555 1 20 20 20 ; posres
+ 557 1 20 20 20 ; posres
+ 559 1 20 20 20 ; posres
+ 561 1 20 20 20 ; posres
+ 563 1 20 20 20 ; posres
+ 565 1 20 20 20 ; posres
+ 568 1 20 20 20 ; posres
+ 570 1 20 20 20 ; posres
+ 572 1 20 20 20 ; posres
+ 574 1 20 20 20 ; posres
+ 576 1 20 20 20 ; posres
+ 578 1 20 20 20 ; posres
+ 580 1 20 20 20 ; posres
+ 584 1 20 20 20 ; posres
+ 585 1 20 20 20 ; posres
+ 587 1 20 20 20 ; posres
+ 589 1 20 20 20 ; posres
+ 593 1 20 20 20 ; posres
+ 594 1 20 20 20 ; posres
+ 596 1 20 20 20 ; posres
+ 600 1 20 20 20 ; posres
+ 603 1 20 20 20 ; posres
+ 605 1 20 20 20 ; posres
+ 607 1 20 20 20 ; posres
+ 610 1 20 20 20 ; posres
+ 613 1 20 20 20 ; posres
+ 615 1 20 20 20 ; posres
+ 617 1 20 20 20 ; posres
+ 623 1 20 20 20 ; posres
+ 625 1 20 20 20 ; posres
+ 627 1 20 20 20 ; posres
+ 629 1 20 20 20 ; posres
+ 631 1 20 20 20 ; posres
+ 633 1 20 20 20 ; posres
+ 635 1 20 20 20 ; posres
+ 637 1 20 20 20 ; posres
+ 639 1 20 20 20 ; posres
+ 641 1 20 20 20 ; posres
+ 647 1 20 20 20 ; posres
+ 649 1 20 20 20 ; posres
+ 651 1 20 20 20 ; posres
+ 657 1 20 20 20 ; posres
+ 661 1 20 20 20 ; posres
+ 663 1 20 20 20 ; posres
+ 667 1 20 20 20 ; posres
+ 669 1 20 20 20 ; posres
+ 671 1 20 20 20 ; posres
+ 675 1 20 20 20 ; posres
+ 677 1 20 20 20 ; posres
+ 679 1 20 20 20 ; posres
+ 681 1 20 20 20 ; posres
+ 687 1 20 20 20 ; posres
+ 689 1 20 20 20 ; posres
+ 690 1 20 20 20 ; posres
+ 693 1 20 20 20 ; posres
+ 695 1 20 20 20 ; posres
+ 697 1 20 20 20 ; posres
+ 701 1 20 20 20 ; posres
+ 702 1 20 20 20 ; posres
+ 703 1 20 20 20 ; posres
+ 705 1 20 20 20 ; posres
+ 707 1 20 20 20 ; posres
+ 709 1 20 20 20 ; posres
+ 710 1 20 20 20 ; posres
+ 712 1 20 20 20 ; posres
+ 714 1 20 20 20 ; posres
+ 717 1 20 20 20 ; posres
+ 719 1 20 20 20 ; posres
+ 722 1 20 20 20 ; posres
+ 725 1 20 20 20 ; posres
+ 727 1 20 20 20 ; posres
+ 732 1 20 20 20 ; posres
+ 734 1 20 20 20 ; posres
+ 736 1 20 20 20 ; posres
+ 737 1 20 20 20 ; posres
+ 739 1 20 20 20 ; posres
+ 741 1 20 20 20 ; posres
+ 743 1 20 20 20 ; posres
+ 744 1 20 20 20 ; posres
+ 746 1 20 20 20 ; posres
+ 748 1 20 20 20 ; posres
+ 749 1 20 20 20 ; posres
+ 751 1 20 20 20 ; posres
+ 753 1 20 20 20 ; posres
+ 757 1 20 20 20 ; posres
+ 759 1 20 20 20 ; posres
+ 761 1 20 20 20 ; posres
+ 763 1 20 20 20 ; posres
+ 765 1 20 20 20 ; posres
+ 767 1 20 20 20 ; posres
+ 768 1 20 20 20 ; posres
+ 772 1 20 20 20 ; posres
+ 774 1 20 20 20 ; posres
+ 776 1 20 20 20 ; posres
+ 778 1 20 20 20 ; posres
+ 779 1 20 20 20 ; posres
+ 781 1 20 20 20 ; posres
+ 783 1 20 20 20 ; posres
+ 789 1 20 20 20 ; posres
+ 791 1 20 20 20 ; posres
+ 792 1 20 20 20 ; posres
+ 795 1 20 20 20 ; posres
+ 798 1 20 20 20 ; posres
+ 800 1 20 20 20 ; posres
+ 801 1 20 20 20 ; posres
+ 802 1 20 20 20 ; posres
+ 804 1 20 20 20 ; posres
+ 807 1 20 20 20 ; posres
+ 810 1 20 20 20 ; posres
+ 812 1 20 20 20 ; posres
+ 818 1 20 20 20 ; posres
+ 819 1 20 20 20 ; posres
+ 821 1 20 20 20 ; posres
+ 823 1 20 20 20 ; posres
+ 825 1 20 20 20 ; posres
+ 829 1 20 20 20 ; posres
+ 831 1 20 20 20 ; posres
+ 833 1 20 20 20 ; posres
+ 835 1 20 20 20 ; posres
+ 837 1 20 20 20 ; posres
+ 838 1 20 20 20 ; posres
+ 840 1 20 20 20 ; posres
+ 842 1 20 20 20 ; posres
+ 844 1 20 20 20 ; posres
+ 846 1 20 20 20 ; posres
+ 848 1 20 20 20 ; posres
+ 850 1 20 20 20 ; posres
+ 852 1 20 20 20 ; posres
+ 854 1 20 20 20 ; posres
+ 857 1 20 20 20 ; posres
+ 861 1 20 20 20 ; posres
+ 863 1 20 20 20 ; posres
+ 865 1 20 20 20 ; posres
+ 867 1 20 20 20 ; posres
+ 871 1 20 20 20 ; posres
+ 874 1 20 20 20 ; posres
+ 877 1 20 20 20 ; posres
+ 879 1 20 20 20 ; posres
+ 881 1 20 20 20 ; posres
+ 882 1 20 20 20 ; posres
+ 884 1 20 20 20 ; posres
+ 886 1 20 20 20 ; posres
+ 888 1 20 20 20 ; posres
+ 889 1 20 20 20 ; posres
+ 891 1 20 20 20 ; posres
+ 893 1 20 20 20 ; posres
+ 895 1 20 20 20 ; posres
+ 897 1 20 20 20 ; posres
+ 899 1 20 20 20 ; posres
+ 902 1 20 20 20 ; posres
+ 904 1 20 20 20 ; posres
+ 905 1 20 20 20 ; posres
+ 907 1 20 20 20 ; posres
+ 909 1 20 20 20 ; posres
+ 911 1 20 20 20 ; posres
+ 913 1 20 20 20 ; posres
+ 917 1 20 20 20 ; posres
+ 919 1 20 20 20 ; posres
+ 921 1 20 20 20 ; posres
+ 923 1 20 20 20 ; posres
+ 924 1 20 20 20 ; posres
+ 926 1 20 20 20 ; posres
+ 928 1 20 20 20 ; posres
+ 930 1 20 20 20 ; posres
+ 932 1 20 20 20 ; posres
+ 934 1 20 20 20 ; posres
+ 936 1 20 20 20 ; posres
+ 940 1 20 20 20 ; posres
+ 942 1 20 20 20 ; posres
+ 944 1 20 20 20 ; posres
+ 946 1 20 20 20 ; posres
+ 950 1 20 20 20 ; posres
+ 952 1 20 20 20 ; posres
+ 954 1 20 20 20 ; posres
+ 956 1 20 20 20 ; posres
+ 958 1 20 20 20 ; posres
+ 960 1 20 20 20 ; posres
+ 964 1 20 20 20 ; posres
+ 966 1 20 20 20 ; posres
+ 968 1 20 20 20 ; posres
+ 970 1 20 20 20 ; posres
+ 972 1 20 20 20 ; posres
+ 973 1 20 20 20 ; posres
+ 975 1 20 20 20 ; posres
+ 976 1 20 20 20 ; posres
+ 978 1 20 20 20 ; posres
+ 979 1 20 20 20 ; posres
+ 981 1 20 20 20 ; posres
+ 983 1 20 20 20 ; posres
+ 985 1 20 20 20 ; posres
+ 986 1 20 20 20 ; posres
+ 988 1 20 20 20 ; posres
+ 990 1 20 20 20 ; posres
+ 992 1 20 20 20 ; posres
+ 994 1 20 20 20 ; posres
+ 996 1 20 20 20 ; posres
+ 998 1 20 20 20 ; posres
+1000 1 20 20 20 ; posres
+1002 1 20 20 20 ; posres
+1004 1 20 20 20 ; posres
+1006 1 20 20 20 ; posres
+1008 1 20 20 20 ; posres
+1010 1 20 20 20 ; posres
+1012 1 20 20 20 ; posres
+1014 1 20 20 20 ; posres
+1016 1 20 20 20 ; posres
+1017 1 20 20 20 ; posres
+1018 1 20 20 20 ; posres
+1019 1 20 20 20 ; posres
+1021 1 20 20 20 ; posres
+1025 1 20 20 20 ; posres
+1027 1 20 20 20 ; posres
+1029 1 20 20 20 ; posres
+1031 1 20 20 20 ; posres
+1035 1 20 20 20 ; posres
+1036 1 20 20 20 ; posres
+1037 1 20 20 20 ; posres
+1038 1 20 20 20 ; posres
+1040 1 20 20 20 ; posres
+1042 1 20 20 20 ; posres
+1044 1 20 20 20 ; posres
+1046 1 20 20 20 ; posres
+1050 1 20 20 20 ; posres
+1052 1 20 20 20 ; posres
+1054 1 20 20 20 ; posres
+1056 1 20 20 20 ; posres
+1058 1 20 20 20 ; posres
+1060 1 20 20 20 ; posres
+1062 1 20 20 20 ; posres
+1064 1 20 20 20 ; posres
+1066 1 20 20 20 ; posres
+1068 1 20 20 20 ; posres
+1070 1 20 20 20 ; posres
+1071 1 20 20 20 ; posres
+1073 1 20 20 20 ; posres
+1075 1 20 20 20 ; posres
+1077 1 20 20 20 ; posres
+1079 1 20 20 20 ; posres
+1081 1 20 20 20 ; posres
+1083 1 20 20 20 ; posres
+1085 1 20 20 20 ; posres
+1087 1 20 20 20 ; posres
+1089 1 20 20 20 ; posres
+1091 1 20 20 20 ; posres
 #endif
 
 [ bonds ]
@@ -1663,6 +1663,2436 @@
 1085 1087 1 0.350 4000
 1087 1089 1 0.350 4000
 1089 1091 1 0.350 4000
+
+; Rubber band
+   1  337 1 0.88717 500.0
+   1  339 1 0.76656 500.0
+   1  341 1 0.52935 500.0
+   1  343 1 0.72571 500.0
+   3  335 1 0.86692 500.0
+   3  337 1 0.72485 500.0
+   3  339 1 0.67239 500.0
+   3  341 1 0.57547 500.0
+   3  343 1 0.83564 500.0
+   5   11 1 0.88358 500.0
+   5  335 1 0.83504 500.0
+   5  337 1 0.59099 500.0
+   5  339 1 0.57321 500.0
+   5  341 1 0.64188 500.0
+   5  343 1 0.88782 500.0
+   5  344 1 0.8679 500.0
+   7   13 1 0.78443 500.0
+   7   16 1 0.69626 500.0
+   7   19 1 0.76699 500.0
+   7  335 1 0.79254 500.0
+   7  337 1 0.49519 500.0
+   7  339 1 0.60141 500.0
+   7  341 1 0.79323 500.0
+   9   16 1 0.51537 500.0
+   9   19 1 0.63693 500.0
+   9   21 1 0.84805 500.0
+   9  337 1 0.72473 500.0
+   9  339 1 0.83784 500.0
+  11   19 1 0.48867 500.0
+  11   21 1 0.60606 500.0
+  11   23 1 0.80524 500.0
+  11  337 1 0.88509 500.0
+  11  351 1 0.88227 500.0
+  13   21 1 0.50561 500.0
+  13   23 1 0.61095 500.0
+  13   25 1 0.84095 500.0
+  16   23 1 0.46989 500.0
+  16   25 1 0.62023 500.0
+  16   27 1 0.8233 500.0
+  16  331 1 0.87846 500.0
+  16  337 1 0.82443 500.0
+  16  510 1 0.81465 500.0
+  16  520 1 0.75786 500.0
+  16  525 1 0.72105 500.0
+  16  527 1 0.86602 500.0
+  19   25 1 0.49027 500.0
+  19   27 1 0.61771 500.0
+  19   29 1 0.84517 500.0
+  19  327 1 0.8275 500.0
+  19  331 1 0.67832 500.0
+  19  337 1 0.75486 500.0
+  19  359 1 0.86764 500.0
+  19  361 1 0.68631 500.0
+  19  367 1 0.87262 500.0
+  21   27 1 0.46819 500.0
+  21   29 1 0.6161 500.0
+  21   31 1 0.88926 500.0
+  21  361 1 0.74323 500.0
+  21  367 1 0.7359 500.0
+  21  371 1 0.85576 500.0
+  21  510 1 0.88615 500.0
+  23   29 1 0.52149 500.0
+  23   31 1 0.74772 500.0
+  23  502 1 0.79108 500.0
+  23  504 1 0.86076 500.0
+  23  508 1 0.78358 500.0
+  23  510 1 0.5855 500.0
+  23  512 1 0.86977 500.0
+  23  520 1 0.81662 500.0
+  23  525 1 0.83097 500.0
+  25   31 1 0.60649 500.0
+  25   33 1 0.82265 500.0
+  25  320 1 0.72988 500.0
+  25  322 1 0.86474 500.0
+  25  327 1 0.80076 500.0
+  25  331 1 0.78639 500.0
+  25  361 1 0.87329 500.0
+  25  367 1 0.88752 500.0
+  25  371 1 0.84916 500.0
+  25  502 1 0.83838 500.0
+  25  504 1 0.85165 500.0
+  25  510 1 0.65229 500.0
+  25  512 1 0.87523 500.0
+  25  525 1 0.87304 500.0
+  27   33 1 0.60503 500.0
+  27   35 1 0.81084 500.0
+  27  320 1 0.81388 500.0
+  27  322 1 0.8944 500.0
+  27  361 1 0.74227 500.0
+  27  363 1 0.81873 500.0
+  27  365 1 0.88394 500.0
+  27  367 1 0.61534 500.0
+  27  371 1 0.55126 500.0
+  27  375 1 0.83465 500.0
+  27  377 1 0.84197 500.0
+  27  381 1 0.70296 500.0
+  27  502 1 0.89529 500.0
+  29   35 1 0.5856 500.0
+  29   37 1 0.74383 500.0
+  29  367 1 0.79679 500.0
+  29  371 1 0.72152 500.0
+  29  377 1 0.85955 500.0
+  29  381 1 0.62972 500.0
+  29  385 1 0.85509 500.0
+  29  502 1 0.63292 500.0
+  29  504 1 0.81739 500.0
+  29  510 1 0.84144 500.0
+  31   37 1 0.50987 500.0
+  31   38 1 0.63745 500.0
+  31   40 1 0.83912 500.0
+  31  371 1 0.81886 500.0
+  31  381 1 0.71927 500.0
+  31  385 1 0.84099 500.0
+  31  494 1 0.87714 500.0
+  31  496 1 0.75308 500.0
+  31  500 1 0.88782 500.0
+  31  502 1 0.59569 500.0
+  31  504 1 0.71746 500.0
+  31  510 1 0.88253 500.0
+  33   38 1 0.48572 500.0
+  33   40 1 0.5945 500.0
+  33   42 1 0.80864 500.0
+  33  371 1 0.67433 500.0
+  33  375 1 0.78698 500.0
+  33  377 1 0.79555 500.0
+  33  381 1 0.51303 500.0
+  33  385 1 0.5511 500.0
+  33  387 1 0.82605 500.0
+  33  389 1 0.7949 500.0
+  33  391 1 0.7074 500.0
+  33  502 1 0.86451 500.0
+  35   40 1 0.49749 500.0
+  35   42 1 0.61217 500.0
+  35   46 1 0.85936 500.0
+  35  371 1 0.877 500.0
+  35  377 1 0.84407 500.0
+  35  381 1 0.5297 500.0
+  35  385 1 0.55452 500.0
+  35  387 1 0.73936 500.0
+  35  389 1 0.61072 500.0
+  35  391 1 0.48096 500.0
+  35  392 1 0.77148 500.0
+  35  396 1 0.89385 500.0
+  35  494 1 0.77867 500.0
+  35  496 1 0.8 500.0
+  35  502 1 0.82177 500.0
+  37   42 1 0.53277 500.0
+  37   46 1 0.68725 500.0
+  37   47 1 0.89912 500.0
+  37  381 1 0.8421 500.0
+  37  385 1 0.83014 500.0
+  37  389 1 0.88089 500.0
+  37  391 1 0.6727 500.0
+  37  488 1 0.68556 500.0
+  37  490 1 0.80634 500.0
+  37  492 1 0.8463 500.0
+  37  494 1 0.59641 500.0
+  37  496 1 0.557 500.0
+  37  498 1 0.84181 500.0
+  37  500 1 0.88244 500.0
+  37  502 1 0.74409 500.0
+  38   46 1 0.5428 500.0
+  38   47 1 0.69561 500.0
+  38   53 1 0.87554 500.0
+  38  307 1 0.88067 500.0
+  38  381 1 0.89484 500.0
+  38  385 1 0.79113 500.0
+  38  391 1 0.71824 500.0
+  38  488 1 0.82731 500.0
+  38  494 1 0.87766 500.0
+  38  496 1 0.79815 500.0
+  40   47 1 0.50593 500.0
+  40   53 1 0.60603 500.0
+  40   55 1 0.81773 500.0
+  40  381 1 0.82049 500.0
+  40  385 1 0.63325 500.0
+  40  387 1 0.79617 500.0
+  40  389 1 0.77153 500.0
+  40  391 1 0.49827 500.0
+  40  392 1 0.61904 500.0
+  40  394 1 0.88654 500.0
+  40  396 1 0.8512 500.0
+  40  398 1 0.76642 500.0
+  42   53 1 0.49561 500.0
+  42   55 1 0.60749 500.0
+  42   57 1 0.88248 500.0
+  42  385 1 0.84697 500.0
+  42  389 1 0.82353 500.0
+  42  391 1 0.51435 500.0
+  42  392 1 0.6122 500.0
+  42  394 1 0.80598 500.0
+  42  396 1 0.67803 500.0
+  42  398 1 0.55121 500.0
+  42  399 1 0.84099 500.0
+  42  476 1 0.8619 500.0
+  42  486 1 0.85742 500.0
+  42  488 1 0.69448 500.0
+  42  494 1 0.89314 500.0
+  46   55 1 0.55483 500.0
+  46   57 1 0.74766 500.0
+  46  391 1 0.83189 500.0
+  46  392 1 0.88695 500.0
+  46  398 1 0.74844 500.0
+  46  476 1 0.8013 500.0
+  46  478 1 0.77202 500.0
+  46  486 1 0.89253 500.0
+  46  488 1 0.69197 500.0
+  47   57 1 0.55593 500.0
+  47   59 1 0.76988 500.0
+  47  391 1 0.84774 500.0
+  47  392 1 0.80134 500.0
+  47  398 1 0.72751 500.0
+  53   59 1 0.60471 500.0
+  53   61 1 0.83579 500.0
+  53  391 1 0.74572 500.0
+  53  392 1 0.60537 500.0
+  53  394 1 0.79005 500.0
+  53  396 1 0.76271 500.0
+  53  398 1 0.48644 500.0
+  53  399 1 0.61158 500.0
+  53  404 1 0.87707 500.0
+  53  406 1 0.85191 500.0
+  53  408 1 0.7534 500.0
+  55   61 1 0.66249 500.0
+  55   63 1 0.68692 500.0
+  55   65 1 0.8562 500.0
+  55  392 1 0.82502 500.0
+  55  396 1 0.81658 500.0
+  55  398 1 0.50047 500.0
+  55  399 1 0.61552 500.0
+  55  404 1 0.80725 500.0
+  55  406 1 0.68341 500.0
+  55  408 1 0.53605 500.0
+  55  409 1 0.85981 500.0
+  55  469 1 0.80359 500.0
+  55  476 1 0.73268 500.0
+  55  478 1 0.8944 500.0
+  57   63 1 0.47104 500.0
+  57   65 1 0.55573 500.0
+  57   67 1 0.81245 500.0
+  57  398 1 0.81072 500.0
+  57  399 1 0.83891 500.0
+  57  408 1 0.68959 500.0
+  57  469 1 0.87154 500.0
+  59   65 1 0.61819 500.0
+  59   67 1 0.76754 500.0
+  59  398 1 0.89126 500.0
+  59  399 1 0.80787 500.0
+  59  408 1 0.71355 500.0
+  59  409 1 0.89191 500.0
+  59  744 1 0.80964 500.0
+  61   67 1 0.67139 500.0
+  61   69 1 0.77136 500.0
+  61  399 1 0.85065 500.0
+  61  406 1 0.89724 500.0
+  61  408 1 0.57224 500.0
+  61  409 1 0.6893 500.0
+  61  411 1 0.89739 500.0
+  61  458 1 0.85748 500.0
+  61  739 1 0.88508 500.0
+  61  744 1 0.89901 500.0
+  63   69 1 0.55608 500.0
+  63   71 1 0.64491 500.0
+  63   76 1 0.8612 500.0
+  63  408 1 0.71101 500.0
+  63  458 1 0.65916 500.0
+  63  463 1 0.77615 500.0
+  63  467 1 0.79157 500.0
+  63  469 1 0.73214 500.0
+  65   71 1 0.48689 500.0
+  65   76 1 0.61629 500.0
+  65   78 1 0.819 500.0
+  65  458 1 0.86507 500.0
+  67   76 1 0.48591 500.0
+  67   78 1 0.61202 500.0
+  67   80 1 0.81684 500.0
+  69   78 1 0.47006 500.0
+  69   80 1 0.5968 500.0
+  69   82 1 0.8194 500.0
+  69  458 1 0.72264 500.0
+  69  463 1 0.84345 500.0
+  71   80 1 0.46579 500.0
+  71   82 1 0.60378 500.0
+  71   84 1 0.78581 500.0
+  71   85 1 0.85374 500.0
+  71  454 1 0.89029 500.0
+  71  458 1 0.77988 500.0
+  71  463 1 0.78193 500.0
+  76   82 1 0.4878 500.0
+  76   84 1 0.54759 500.0
+  76   85 1 0.55919 500.0
+  76   87 1 0.83782 500.0
+  78   84 1 0.51058 500.0
+  78   85 1 0.6386 500.0
+  78  258 1 0.84461 500.0
+  80   85 1 0.76414 500.0
+  80  227 1 0.88761 500.0
+  80  256 1 0.89499 500.0
+  80  258 1 0.74378 500.0
+  80  261 1 0.86972 500.0
+  80  263 1 0.8165 500.0
+  80  450 1 0.86296 500.0
+  80  454 1 0.88456 500.0
+  82   87 1 0.87421 500.0
+  82  227 1 0.82084 500.0
+  82  256 1 0.80976 500.0
+  82  258 1 0.60451 500.0
+  82  261 1 0.62154 500.0
+  82  263 1 0.52684 500.0
+  82  266 1 0.79769 500.0
+  82  271 1 0.72785 500.0
+  82  273 1 0.77084 500.0
+  84   89 1 0.88503 500.0
+  84  256 1 0.82092 500.0
+  84  258 1 0.51908 500.0
+  84  261 1 0.52787 500.0
+  84  263 1 0.58778 500.0
+  84  266 1 0.83831 500.0
+  84  273 1 0.8537 500.0
+  85   93 1 0.77426 500.0
+  85   96 1 0.68466 500.0
+  85  102 1 0.7186 500.0
+  85  258 1 0.7884 500.0
+  85  261 1 0.73341 500.0
+  85  263 1 0.76981 500.0
+  85  273 1 0.84225 500.0
+  87   96 1 0.47646 500.0
+  87  102 1 0.5899 500.0
+  87  104 1 0.82129 500.0
+  89  102 1 0.47455 500.0
+  89  104 1 0.61139 500.0
+  89  106 1 0.82776 500.0
+  93  104 1 0.48991 500.0
+  93  106 1 0.63027 500.0
+  93  108 1 0.83096 500.0
+  96  106 1 0.49278 500.0
+  96  108 1 0.61323 500.0
+  96  110 1 0.8163 500.0
+ 102  108 1 0.48999 500.0
+ 102  110 1 0.60523 500.0
+ 102  116 1 0.81652 500.0
+ 104  110 1 0.48735 500.0
+ 104  116 1 0.60622 500.0
+ 104  118 1 0.84222 500.0
+ 106  116 1 0.47955 500.0
+ 106  118 1 0.63726 500.0
+ 106  120 1 0.88671 500.0
+ 108  118 1 0.52125 500.0
+ 108  120 1 0.74012 500.0
+ 108  282 1 0.74097 500.0
+ 108  287 1 0.78396 500.0
+ 108  291 1 0.87395 500.0
+ 110  120 1 0.57665 500.0
+ 110  121 1 0.78633 500.0
+ 110  287 1 0.88482 500.0
+ 116  121 1 0.575 500.0
+ 116  123 1 0.65093 500.0
+ 116  125 1 0.83784 500.0
+ 116 1006 1 0.84418 500.0
+ 118  123 1 0.5055 500.0
+ 118  125 1 0.59751 500.0
+ 118  127 1 0.81655 500.0
+ 118  287 1 0.82228 500.0
+ 118  291 1 0.75904 500.0
+ 118  301 1 0.78127 500.0
+ 120  125 1 0.48995 500.0
+ 120  127 1 0.61412 500.0
+ 120  128 1 0.83196 500.0
+ 120  287 1 0.87436 500.0
+ 120  291 1 0.82405 500.0
+ 120  299 1 0.88913 500.0
+ 120  301 1 0.65364 500.0
+ 120  303 1 0.87146 500.0
+ 120  998 1 0.85191 500.0
+ 121  127 1 0.46057 500.0
+ 121  128 1 0.61246 500.0
+ 121  130 1 0.83018 500.0
+ 121  301 1 0.88316 500.0
+ 121  992 1 0.89839 500.0
+ 121  996 1 0.8465 500.0
+ 121  998 1 0.56838 500.0
+ 121 1000 1 0.77822 500.0
+ 121 1004 1 0.77826 500.0
+ 121 1006 1 0.80933 500.0
+ 123  128 1 0.48012 500.0
+ 123  130 1 0.62824 500.0
+ 123  132 1 0.82789 500.0
+ 123  998 1 0.77221 500.0
+ 125  130 1 0.48524 500.0
+ 125  132 1 0.58362 500.0
+ 125  134 1 0.77977 500.0
+ 125  291 1 0.89328 500.0
+ 125  301 1 0.67352 500.0
+ 125  303 1 0.70629 500.0
+ 125  309 1 0.75253 500.0
+ 127  132 1 0.53167 500.0
+ 127  134 1 0.59907 500.0
+ 127  136 1 0.84207 500.0
+ 127  301 1 0.80912 500.0
+ 127  303 1 0.82974 500.0
+ 127  307 1 0.87301 500.0
+ 127  309 1 0.67664 500.0
+ 127  985 1 0.81902 500.0
+ 127  990 1 0.73548 500.0
+ 127  992 1 0.7925 500.0
+ 127  998 1 0.72635 500.0
+ 128  134 1 0.60463 500.0
+ 128  136 1 0.73148 500.0
+ 128  578 1 0.88982 500.0
+ 128  985 1 0.79017 500.0
+ 128  986 1 0.85969 500.0
+ 128  990 1 0.76987 500.0
+ 128  992 1 0.74158 500.0
+ 128  998 1 0.77712 500.0
+ 130  136 1 0.61169 500.0
+ 130  138 1 0.67871 500.0
+ 130  140 1 0.85872 500.0
+ 130  309 1 0.85263 500.0
+ 130  578 1 0.7255 500.0
+ 130  985 1 0.87663 500.0
+ 132  138 1 0.5051 500.0
+ 132  140 1 0.59031 500.0
+ 132  142 1 0.80321 500.0
+ 132  303 1 0.75947 500.0
+ 132  309 1 0.6014 500.0
+ 132  311 1 0.7197 500.0
+ 132  578 1 0.89701 500.0
+ 132  985 1 0.79057 500.0
+ 134  140 1 0.49517 500.0
+ 134  142 1 0.59972 500.0
+ 134  143 1 0.82171 500.0
+ 134  309 1 0.60497 500.0
+ 134  311 1 0.70347 500.0
+ 134  313 1 0.88312 500.0
+ 134  315 1 0.83784 500.0
+ 134  317 1 0.75261 500.0
+ 134  978 1 0.76447 500.0
+ 134  979 1 0.72594 500.0
+ 134  981 1 0.89405 500.0
+ 134  983 1 0.74364 500.0
+ 134  985 1 0.50069 500.0
+ 134  986 1 0.76467 500.0
+ 134  990 1 0.81553 500.0
+ 136  142 1 0.47729 500.0
+ 136  143 1 0.59776 500.0
+ 136  147 1 0.80467 500.0
+ 136  578 1 0.78294 500.0
+ 136  584 1 0.88392 500.0
+ 136  585 1 0.64006 500.0
+ 136  587 1 0.75018 500.0
+ 136  978 1 0.70521 500.0
+ 136  979 1 0.57751 500.0
+ 136  981 1 0.80906 500.0
+ 136  983 1 0.7783 500.0
+ 136  985 1 0.53454 500.0
+ 136  986 1 0.73715 500.0
+ 138  143 1 0.49276 500.0
+ 138  147 1 0.60206 500.0
+ 138  151 1 0.80897 500.0
+ 138  576 1 0.88365 500.0
+ 138  578 1 0.78398 500.0
+ 138  585 1 0.74117 500.0
+ 138  978 1 0.83474 500.0
+ 138  979 1 0.78284 500.0
+ 138  985 1 0.82174 500.0
+ 140  147 1 0.48533 500.0
+ 140  151 1 0.59385 500.0
+ 140  153 1 0.82157 500.0
+ 140  184 1 0.8891 500.0
+ 140  309 1 0.80516 500.0
+ 140  311 1 0.68761 500.0
+ 140  313 1 0.88734 500.0
+ 140  317 1 0.77611 500.0
+ 140  318 1 0.84974 500.0
+ 140  978 1 0.69379 500.0
+ 140  979 1 0.76457 500.0
+ 140  985 1 0.83178 500.0
+ 142  151 1 0.48701 500.0
+ 142  153 1 0.61685 500.0
+ 142  155 1 0.81383 500.0
+ 142  311 1 0.88256 500.0
+ 142  317 1 0.72435 500.0
+ 142  318 1 0.77981 500.0
+ 142  975 1 0.81241 500.0
+ 142  976 1 0.70047 500.0
+ 142  978 1 0.42972 500.0
+ 142  979 1 0.51123 500.0
+ 142  981 1 0.79187 500.0
+ 142  983 1 0.79665 500.0
+ 142  985 1 0.72904 500.0
+ 143  153 1 0.51693 500.0
+ 143  155 1 0.63183 500.0
+ 143  158 1 0.86597 500.0
+ 143  585 1 0.79173 500.0
+ 143  975 1 0.83867 500.0
+ 143  976 1 0.84736 500.0
+ 143  978 1 0.65077 500.0
+ 143  979 1 0.65071 500.0
+ 147  155 1 0.45056 500.0
+ 147  158 1 0.60245 500.0
+ 147  173 1 0.80797 500.0
+ 147  978 1 0.82811 500.0
+ 151  158 1 0.5244 500.0
+ 151  160 1 0.83834 500.0
+ 151  172 1 0.82641 500.0
+ 151  173 1 0.5219 500.0
+ 151  176 1 0.70418 500.0
+ 151  184 1 0.89612 500.0
+ 151  318 1 0.78774 500.0
+ 151  976 1 0.8571 500.0
+ 151  978 1 0.71394 500.0
+ 153  160 1 0.84377 500.0
+ 153  173 1 0.65405 500.0
+ 153  536 1 0.86864 500.0
+ 153  975 1 0.749 500.0
+ 153  976 1 0.77197 500.0
+ 153  978 1 0.73109 500.0
+ 153  979 1 0.87966 500.0
+ 155  163 1 0.81576 500.0
+ 155  172 1 0.89323 500.0
+ 155  173 1 0.7156 500.0
+ 155  536 1 0.76715 500.0
+ 155  542 1 0.83242 500.0
+ 155  544 1 0.87366 500.0
+ 158  165 1 0.86921 500.0
+ 158  168 1 0.89636 500.0
+ 158  172 1 0.65998 500.0
+ 158  173 1 0.5884 500.0
+ 158  176 1 0.88289 500.0
+ 158  534 1 0.87231 500.0
+ 158  536 1 0.65854 500.0
+ 158  542 1 0.84057 500.0
+ 160  168 1 0.76456 500.0
+ 160  172 1 0.60551 500.0
+ 160  173 1 0.71011 500.0
+ 160  531 1 0.85459 500.0
+ 160  534 1 0.64888 500.0
+ 160  536 1 0.45982 500.0
+ 160  542 1 0.69655 500.0
+ 160  544 1 0.84925 500.0
+ 163  172 1 0.42261 500.0
+ 163  173 1 0.65574 500.0
+ 163  529 1 0.84447 500.0
+ 163  531 1 0.75223 500.0
+ 163  534 1 0.59758 500.0
+ 163  536 1 0.56836 500.0
+ 163  542 1 0.8906 500.0
+ 165  173 1 0.82844 500.0
+ 165  529 1 0.70572 500.0
+ 165  531 1 0.70845 500.0
+ 165  534 1 0.6004 500.0
+ 165  536 1 0.74444 500.0
+ 168  176 1 0.71492 500.0
+ 168  179 1 0.61382 500.0
+ 168  182 1 0.72678 500.0
+ 168  527 1 0.81142 500.0
+ 168  529 1 0.5191 500.0
+ 168  531 1 0.64569 500.0
+ 168  534 1 0.69676 500.0
+ 168  536 1 0.86758 500.0
+ 172  179 1 0.57385 500.0
+ 172  182 1 0.69268 500.0
+ 172  527 1 0.86639 500.0
+ 172  529 1 0.5266 500.0
+ 172  531 1 0.53903 500.0
+ 172  534 1 0.60134 500.0
+ 172  536 1 0.68907 500.0
+ 173  182 1 0.68351 500.0
+ 173  184 1 0.78159 500.0
+ 173  318 1 0.73985 500.0
+ 173  325 1 0.87376 500.0
+ 173  327 1 0.85002 500.0
+ 173  529 1 0.71783 500.0
+ 173  531 1 0.68507 500.0
+ 173  534 1 0.79112 500.0
+ 173  536 1 0.77796 500.0
+ 176  184 1 0.54434 500.0
+ 176  188 1 0.64345 500.0
+ 176  190 1 0.84863 500.0
+ 176  313 1 0.85874 500.0
+ 176  317 1 0.84295 500.0
+ 176  318 1 0.54043 500.0
+ 176  320 1 0.70487 500.0
+ 176  325 1 0.79137 500.0
+ 176  327 1 0.73651 500.0
+ 176  529 1 0.76538 500.0
+ 176  531 1 0.8681 500.0
+ 179  188 1 0.5007 500.0
+ 179  190 1 0.61099 500.0
+ 179  192 1 0.81944 500.0
+ 179  318 1 0.77594 500.0
+ 179  320 1 0.88124 500.0
+ 179  512 1 0.75946 500.0
+ 179  529 1 0.78203 500.0
+ 182  190 1 0.49538 500.0
+ 182  192 1 0.60418 500.0
+ 182  194 1 0.81492 500.0
+ 184  192 1 0.48914 500.0
+ 184  194 1 0.60373 500.0
+ 184  195 1 0.82537 500.0
+ 184  305 1 0.86056 500.0
+ 184  311 1 0.59009 500.0
+ 184  313 1 0.60967 500.0
+ 184  315 1 0.87553 500.0
+ 184  317 1 0.87757 500.0
+ 184  318 1 0.72902 500.0
+ 188  194 1 0.48806 500.0
+ 188  195 1 0.62217 500.0
+ 188  197 1 0.82683 500.0
+ 188  305 1 0.83365 500.0
+ 188  307 1 0.89934 500.0
+ 188  311 1 0.67047 500.0
+ 188  313 1 0.56331 500.0
+ 188  315 1 0.83149 500.0
+ 188  318 1 0.76744 500.0
+ 188  320 1 0.84113 500.0
+ 188  504 1 0.88262 500.0
+ 190  195 1 0.49627 500.0
+ 190  197 1 0.61953 500.0
+ 190  199 1 0.82168 500.0
+ 190  311 1 0.8754 500.0
+ 190  313 1 0.82765 500.0
+ 190  504 1 0.85132 500.0
+ 192  197 1 0.49123 500.0
+ 192  199 1 0.61044 500.0
+ 192  201 1 0.81857 500.0
+ 192  305 1 0.71986 500.0
+ 192  311 1 0.7558 500.0
+ 192  313 1 0.8149 500.0
+ 194  199 1 0.48244 500.0
+ 194  201 1 0.61327 500.0
+ 194  203 1 0.83458 500.0
+ 194  297 1 0.89022 500.0
+ 194  299 1 0.82419 500.0
+ 194  303 1 0.74688 500.0
+ 194  305 1 0.47903 500.0
+ 194  307 1 0.67001 500.0
+ 194  309 1 0.81173 500.0
+ 194  311 1 0.63086 500.0
+ 194  313 1 0.64956 500.0
+ 195  201 1 0.47859 500.0
+ 195  203 1 0.63169 500.0
+ 195  205 1 0.83737 500.0
+ 195  305 1 0.71024 500.0
+ 195  307 1 0.87093 500.0
+ 195  313 1 0.87346 500.0
+ 195  496 1 0.79414 500.0
+ 195  498 1 0.88086 500.0
+ 197  203 1 0.49533 500.0
+ 197  205 1 0.63697 500.0
+ 197  207 1 0.83342 500.0
+ 197  305 1 0.82014 500.0
+ 199  205 1 0.48533 500.0
+ 199  207 1 0.60485 500.0
+ 199  209 1 0.81185 500.0
+ 199  297 1 0.63616 500.0
+ 199  299 1 0.66534 500.0
+ 199  301 1 0.88569 500.0
+ 199  303 1 0.7943 500.0
+ 199  305 1 0.63321 500.0
+ 199  307 1 0.89254 500.0
+ 201  207 1 0.48505 500.0
+ 201  209 1 0.60741 500.0
+ 201  211 1 0.8163 500.0
+ 201  286 1 0.87075 500.0
+ 201  297 1 0.71355 500.0
+ 201  299 1 0.63581 500.0
+ 201  305 1 0.71274 500.0
+ 201  307 1 0.89371 500.0
+ 201  490 1 0.84037 500.0
+ 203  209 1 0.49769 500.0
+ 203  211 1 0.6186 500.0
+ 203  215 1 0.83288 500.0
+ 203  299 1 0.88725 500.0
+ 203  478 1 0.87234 500.0
+ 203  488 1 0.8753 500.0
+ 203  490 1 0.74565 500.0
+ 205  211 1 0.48931 500.0
+ 205  215 1 0.62035 500.0
+ 205  217 1 0.83076 500.0
+ 205  286 1 0.73179 500.0
+ 205  297 1 0.76362 500.0
+ 205  299 1 0.8441 500.0
+ 207  215 1 0.48363 500.0
+ 207  217 1 0.60322 500.0
+ 207  219 1 0.81635 500.0
+ 207  278 1 0.85985 500.0
+ 207  284 1 0.75542 500.0
+ 207  286 1 0.49176 500.0
+ 207  287 1 0.68774 500.0
+ 207  291 1 0.80984 500.0
+ 207  297 1 0.63703 500.0
+ 207  299 1 0.66551 500.0
+ 209  217 1 0.49327 500.0
+ 209  219 1 0.60142 500.0
+ 209  220 1 0.80164 500.0
+ 209  286 1 0.70474 500.0
+ 209  287 1 0.88831 500.0
+ 209  299 1 0.89171 500.0
+ 209  471 1 0.85563 500.0
+ 209  478 1 0.68092 500.0
+ 209  482 1 0.87692 500.0
+ 211  219 1 0.53356 500.0
+ 211  220 1 0.60695 500.0
+ 211  225 1 0.84651 500.0
+ 211  286 1 0.79817 500.0
+ 211  471 1 0.88785 500.0
+ 211  478 1 0.83291 500.0
+ 215  220 1 0.49469 500.0
+ 215  225 1 0.62454 500.0
+ 215  276 1 0.6237 500.0
+ 215  278 1 0.64855 500.0
+ 215  282 1 0.84872 500.0
+ 215  284 1 0.74003 500.0
+ 215  286 1 0.58915 500.0
+ 215  287 1 0.87101 500.0
+ 217  225 1 0.56695 500.0
+ 217  227 1 0.82816 500.0
+ 217  271 1 0.87518 500.0
+ 217  276 1 0.67402 500.0
+ 217  278 1 0.57721 500.0
+ 217  282 1 0.83224 500.0
+ 217  284 1 0.82905 500.0
+ 217  286 1 0.64068 500.0
+ 217  287 1 0.84254 500.0
+ 217  469 1 0.87131 500.0
+ 217  471 1 0.88188 500.0
+ 219  227 1 0.73375 500.0
+ 219  229 1 0.84059 500.0
+ 219  278 1 0.85373 500.0
+ 219  463 1 0.72094 500.0
+ 219  465 1 0.83937 500.0
+ 219  469 1 0.67068 500.0
+ 219  471 1 0.63463 500.0
+ 219  478 1 0.84217 500.0
+ 220  229 1 0.53996 500.0
+ 220  231 1 0.6324 500.0
+ 220  235 1 0.83198 500.0
+ 220  271 1 0.80828 500.0
+ 220  276 1 0.78816 500.0
+ 220  278 1 0.84791 500.0
+ 225  231 1 0.50289 500.0
+ 225  235 1 0.59718 500.0
+ 225  236 1 0.80895 500.0
+ 225  268 1 0.72245 500.0
+ 225  271 1 0.50091 500.0
+ 225  273 1 0.73646 500.0
+ 225  275 1 0.8079 500.0
+ 225  276 1 0.61518 500.0
+ 225  278 1 0.7001 500.0
+ 225  450 1 0.86663 500.0
+ 227  235 1 0.48584 500.0
+ 227  236 1 0.6048 500.0
+ 227  241 1 0.82092 500.0
+ 227  247 1 0.85603 500.0
+ 227  263 1 0.83406 500.0
+ 227  268 1 0.76835 500.0
+ 227  271 1 0.58234 500.0
+ 227  273 1 0.86304 500.0
+ 227  276 1 0.87572 500.0
+ 227  447 1 0.88776 500.0
+ 227  450 1 0.57738 500.0
+ 227  452 1 0.75701 500.0
+ 229  236 1 0.48896 500.0
+ 229  241 1 0.60276 500.0
+ 229  244 1 0.80841 500.0
+ 229  247 1 0.86055 500.0
+ 229  268 1 0.89949 500.0
+ 229  271 1 0.79627 500.0
+ 229  445 1 0.8769 500.0
+ 229  447 1 0.83871 500.0
+ 229  450 1 0.62179 500.0
+ 229  452 1 0.82094 500.0
+ 231  241 1 0.46901 500.0
+ 231  244 1 0.58353 500.0
+ 231  246 1 0.79567 500.0
+ 231  247 1 0.79934 500.0
+ 231  268 1 0.71718 500.0
+ 231  271 1 0.70119 500.0
+ 231  276 1 0.8943 500.0
+ 231  450 1 0.88807 500.0
+ 235  244 1 0.46821 500.0
+ 235  246 1 0.55841 500.0
+ 235  247 1 0.52858 500.0
+ 235  249 1 0.80078 500.0
+ 235  263 1 0.74323 500.0
+ 235  266 1 0.71645 500.0
+ 235  268 1 0.5234 500.0
+ 235  271 1 0.56887 500.0
+ 235  273 1 0.86802 500.0
+ 235  450 1 0.87105 500.0
+ 236  246 1 0.47293 500.0
+ 236  247 1 0.41631 500.0
+ 236  249 1 0.67649 500.0
+ 236  252 1 0.87167 500.0
+ 236  268 1 0.80189 500.0
+ 236  271 1 0.84863 500.0
+ 236  450 1 0.76716 500.0
+ 241  247 1 0.64495 500.0
+ 244  268 1 0.76593 500.0
+ 246  263 1 0.88622 500.0
+ 246  266 1 0.85412 500.0
+ 246  268 1 0.80131 500.0
+ 247  254 1 0.85386 500.0
+ 247  256 1 0.77865 500.0
+ 247  261 1 0.86055 500.0
+ 247  263 1 0.72122 500.0
+ 247  266 1 0.7939 500.0
+ 247  268 1 0.79513 500.0
+ 249  256 1 0.47663 500.0
+ 249  258 1 0.72733 500.0
+ 249  261 1 0.74277 500.0
+ 249  263 1 0.73338 500.0
+ 252  258 1 0.73001 500.0
+ 252  261 1 0.87551 500.0
+ 252  447 1 0.85232 500.0
+ 252  450 1 0.81067 500.0
+ 254  261 1 0.83773 500.0
+ 256  263 1 0.70876 500.0
+ 258  266 1 0.87556 500.0
+ 261  268 1 0.86812 500.0
+ 261  271 1 0.88268 500.0
+ 263  271 1 0.53098 500.0
+ 263  273 1 0.61024 500.0
+ 263  275 1 0.85065 500.0
+ 266  273 1 0.48809 500.0
+ 266  275 1 0.63167 500.0
+ 266  276 1 0.83887 500.0
+ 268  275 1 0.49412 500.0
+ 268  276 1 0.62904 500.0
+ 268  278 1 0.82246 500.0
+ 271  276 1 0.49488 500.0
+ 271  278 1 0.60471 500.0
+ 271  282 1 0.82427 500.0
+ 273  278 1 0.47977 500.0
+ 273  282 1 0.61146 500.0
+ 273  284 1 0.81991 500.0
+ 275  282 1 0.49881 500.0
+ 275  284 1 0.62152 500.0
+ 275  286 1 0.826 500.0
+ 276  284 1 0.49247 500.0
+ 276  286 1 0.61348 500.0
+ 276  287 1 0.83128 500.0
+ 278  286 1 0.49261 500.0
+ 278  287 1 0.62663 500.0
+ 278  291 1 0.83454 500.0
+ 282  287 1 0.4898 500.0
+ 282  291 1 0.61439 500.0
+ 282  297 1 0.82112 500.0
+ 284  291 1 0.49484 500.0
+ 284  297 1 0.6218 500.0
+ 284  299 1 0.82345 500.0
+ 286  297 1 0.49753 500.0
+ 286  299 1 0.61556 500.0
+ 286  301 1 0.82794 500.0
+ 287  299 1 0.47383 500.0
+ 287  301 1 0.60576 500.0
+ 287  303 1 0.81727 500.0
+ 291  301 1 0.48934 500.0
+ 291  303 1 0.61509 500.0
+ 291  305 1 0.8127 500.0
+ 297  303 1 0.49242 500.0
+ 297  305 1 0.60496 500.0
+ 297  307 1 0.82274 500.0
+ 299  305 1 0.48127 500.0
+ 299  307 1 0.60743 500.0
+ 299  309 1 0.81652 500.0
+ 301  307 1 0.49811 500.0
+ 301  309 1 0.61294 500.0
+ 301  311 1 0.81419 500.0
+ 303  309 1 0.48603 500.0
+ 303  311 1 0.60043 500.0
+ 303  313 1 0.82192 500.0
+ 305  311 1 0.47727 500.0
+ 305  313 1 0.60838 500.0
+ 305  315 1 0.83808 500.0
+ 307  313 1 0.49077 500.0
+ 307  315 1 0.61824 500.0
+ 307  317 1 0.86776 500.0
+ 309  315 1 0.56016 500.0
+ 309  317 1 0.70936 500.0
+ 311  317 1 0.6365 500.0
+ 311  318 1 0.74222 500.0
+ 313  318 1 0.57485 500.0
+ 313  320 1 0.65771 500.0
+ 313  322 1 0.88409 500.0
+ 315  320 1 0.53737 500.0
+ 315  322 1 0.66993 500.0
+ 315  325 1 0.84589 500.0
+ 315  978 1 0.88082 500.0
+ 315  983 1 0.85511 500.0
+ 317  322 1 0.52711 500.0
+ 317  325 1 0.61345 500.0
+ 317  327 1 0.82483 500.0
+ 317  976 1 0.7726 500.0
+ 317  978 1 0.58239 500.0
+ 317  979 1 0.82118 500.0
+ 317  981 1 0.88267 500.0
+ 317  983 1 0.66552 500.0
+ 317  985 1 0.75953 500.0
+ 318  325 1 0.45917 500.0
+ 318  327 1 0.58518 500.0
+ 318  331 1 0.80893 500.0
+ 318  976 1 0.78839 500.0
+ 318  978 1 0.66534 500.0
+ 320  327 1 0.47689 500.0
+ 320  331 1 0.62433 500.0
+ 320  333 1 0.82266 500.0
+ 320  978 1 0.87417 500.0
+ 322  331 1 0.4841 500.0
+ 322  333 1 0.62004 500.0
+ 322  335 1 0.82812 500.0
+ 322  361 1 0.8678 500.0
+ 322  363 1 0.87428 500.0
+ 322  946 1 0.82649 500.0
+ 322  976 1 0.75515 500.0
+ 322  978 1 0.78018 500.0
+ 322  983 1 0.8488 500.0
+ 325  333 1 0.47148 500.0
+ 325  335 1 0.61764 500.0
+ 325  337 1 0.82781 500.0
+ 325  956 1 0.85862 500.0
+ 325  975 1 0.87313 500.0
+ 325  976 1 0.57869 500.0
+ 325  978 1 0.66009 500.0
+ 325  983 1 0.89351 500.0
+ 327  335 1 0.47787 500.0
+ 327  337 1 0.61373 500.0
+ 327  339 1 0.82584 500.0
+ 327  976 1 0.86734 500.0
+ 331  337 1 0.48477 500.0
+ 331  339 1 0.62841 500.0
+ 331  341 1 0.8593 500.0
+ 331  351 1 0.82944 500.0
+ 331  354 1 0.71921 500.0
+ 331  361 1 0.72747 500.0
+ 333  339 1 0.49567 500.0
+ 333  341 1 0.63103 500.0
+ 333  343 1 0.76307 500.0
+ 333  344 1 0.79267 500.0
+ 333  351 1 0.82621 500.0
+ 333  354 1 0.712 500.0
+ 333  956 1 0.72844 500.0
+ 333  958 1 0.89268 500.0
+ 333  976 1 0.79934 500.0
+ 335  341 1 0.54668 500.0
+ 335  343 1 0.80288 500.0
+ 335  344 1 0.88519 500.0
+ 337  343 1 0.80419 500.0
+ 337  344 1 0.79905 500.0
+ 337  351 1 0.8024 500.0
+ 337  354 1 0.8589 500.0
+ 339  344 1 0.48328 500.0
+ 339  346 1 0.75065 500.0
+ 339  348 1 0.82368 500.0
+ 339  351 1 0.60915 500.0
+ 339  354 1 0.69775 500.0
+ 341  346 1 0.8265 500.0
+ 341  351 1 0.84862 500.0
+ 341  966 1 0.85445 500.0
+ 343  348 1 0.81585 500.0
+ 343  351 1 0.78565 500.0
+ 343  354 1 0.83423 500.0
+ 343  956 1 0.86678 500.0
+ 343  958 1 0.7397 500.0
+ 343  966 1 0.70392 500.0
+ 343  968 1 0.88255 500.0
+ 344  351 1 0.50341 500.0
+ 344  354 1 0.60833 500.0
+ 344  356 1 0.83761 500.0
+ 344  958 1 0.80742 500.0
+ 346  354 1 0.49514 500.0
+ 346  356 1 0.62386 500.0
+ 346  359 1 0.82888 500.0
+ 346  950 1 0.79544 500.0
+ 346  952 1 0.88978 500.0
+ 346  956 1 0.86693 500.0
+ 346  958 1 0.74372 500.0
+ 346 1091 1 0.8754 500.0
+ 348  356 1 0.48801 500.0
+ 348  359 1 0.6092 500.0
+ 348  361 1 0.81137 500.0
+ 348  781 1 0.85488 500.0
+ 351  359 1 0.48729 500.0
+ 351  361 1 0.60037 500.0
+ 351  363 1 0.82552 500.0
+ 354  361 1 0.48242 500.0
+ 354  363 1 0.61899 500.0
+ 354  365 1 0.82136 500.0
+ 354  940 1 0.89843 500.0
+ 354  942 1 0.89476 500.0
+ 354  946 1 0.83685 500.0
+ 354  950 1 0.6156 500.0
+ 354  952 1 0.86366 500.0
+ 354  956 1 0.81734 500.0
+ 354  958 1 0.87647 500.0
+ 356  363 1 0.49611 500.0
+ 356  365 1 0.61407 500.0
+ 356  367 1 0.82232 500.0
+ 356  779 1 0.84053 500.0
+ 356  781 1 0.72964 500.0
+ 356  940 1 0.73031 500.0
+ 356  942 1 0.74143 500.0
+ 356  946 1 0.84689 500.0
+ 356  950 1 0.64863 500.0
+ 359  365 1 0.49153 500.0
+ 359  367 1 0.61376 500.0
+ 359  371 1 0.82302 500.0
+ 359  774 1 0.89079 500.0
+ 359  776 1 0.88338 500.0
+ 359  779 1 0.84944 500.0
+ 359  781 1 0.76518 500.0
+ 359  940 1 0.87107 500.0
+ 361  367 1 0.49083 500.0
+ 361  371 1 0.62228 500.0
+ 361  375 1 0.84305 500.0
+ 361  940 1 0.81848 500.0
+ 361  950 1 0.87455 500.0
+ 363  371 1 0.47741 500.0
+ 363  375 1 0.6254 500.0
+ 363  377 1 0.81804 500.0
+ 363  774 1 0.83072 500.0
+ 363  932 1 0.89122 500.0
+ 363  936 1 0.68277 500.0
+ 363  940 1 0.52151 500.0
+ 363  942 1 0.73629 500.0
+ 363  946 1 0.77598 500.0
+ 363  950 1 0.7635 500.0
+ 365  375 1 0.49778 500.0
+ 365  377 1 0.62011 500.0
+ 365  381 1 0.83883 500.0
+ 365  767 1 0.89292 500.0
+ 365  772 1 0.83605 500.0
+ 365  774 1 0.53827 500.0
+ 365  776 1 0.69387 500.0
+ 365  778 1 0.83356 500.0
+ 365  779 1 0.75517 500.0
+ 365  781 1 0.86049 500.0
+ 365  930 1 0.77557 500.0
+ 365  932 1 0.83484 500.0
+ 365  936 1 0.71156 500.0
+ 365  940 1 0.62594 500.0
+ 365  942 1 0.86049 500.0
+ 367  377 1 0.47718 500.0
+ 367  381 1 0.61572 500.0
+ 367  385 1 0.81632 500.0
+ 367  767 1 0.88896 500.0
+ 367  774 1 0.68425 500.0
+ 367  776 1 0.79656 500.0
+ 367  936 1 0.88686 500.0
+ 367  940 1 0.86887 500.0
+ 371  381 1 0.4957 500.0
+ 371  385 1 0.62117 500.0
+ 371  387 1 0.83977 500.0
+ 371  774 1 0.83406 500.0
+ 371  936 1 0.72908 500.0
+ 371  940 1 0.7905 500.0
+ 375  385 1 0.48342 500.0
+ 375  387 1 0.63235 500.0
+ 375  389 1 0.8376 500.0
+ 375  765 1 0.74345 500.0
+ 375  767 1 0.69653 500.0
+ 375  772 1 0.86957 500.0
+ 375  774 1 0.66264 500.0
+ 375  928 1 0.88227 500.0
+ 375  930 1 0.69355 500.0
+ 375  932 1 0.87042 500.0
+ 375  934 1 0.89974 500.0
+ 375  936 1 0.60176 500.0
+ 375  940 1 0.75963 500.0
+ 377  387 1 0.49105 500.0
+ 377  389 1 0.63304 500.0
+ 377  391 1 0.83691 500.0
+ 377  759 1 0.87519 500.0
+ 377  765 1 0.69067 500.0
+ 377  767 1 0.53203 500.0
+ 377  768 1 0.79062 500.0
+ 377  772 1 0.82778 500.0
+ 377  774 1 0.63845 500.0
+ 377  776 1 0.83429 500.0
+ 377  930 1 0.87454 500.0
+ 377  936 1 0.89101 500.0
+ 381  389 1 0.48445 500.0
+ 381  391 1 0.61438 500.0
+ 381  392 1 0.81255 500.0
+ 381  767 1 0.78736 500.0
+ 385  391 1 0.49307 500.0
+ 385  392 1 0.61317 500.0
+ 385  394 1 0.83638 500.0
+ 385  759 1 0.81011 500.0
+ 385  765 1 0.84832 500.0
+ 385  767 1 0.80488 500.0
+ 387  392 1 0.4789 500.0
+ 387  394 1 0.62062 500.0
+ 387  396 1 0.8234 500.0
+ 387  757 1 0.85165 500.0
+ 387  759 1 0.54765 500.0
+ 387  761 1 0.67774 500.0
+ 387  763 1 0.84208 500.0
+ 387  765 1 0.67094 500.0
+ 387  767 1 0.61849 500.0
+ 389  394 1 0.50035 500.0
+ 389  396 1 0.61794 500.0
+ 389  398 1 0.81757 500.0
+ 389  759 1 0.75539 500.0
+ 389  761 1 0.82821 500.0
+ 389  767 1 0.80051 500.0
+ 391  396 1 0.49497 500.0
+ 391  398 1 0.59893 500.0
+ 391  399 1 0.80792 500.0
+ 391  759 1 0.89102 500.0
+ 392  398 1 0.48573 500.0
+ 392  399 1 0.59231 500.0
+ 392  404 1 0.80535 500.0
+ 392  749 1 0.87167 500.0
+ 392  751 1 0.76647 500.0
+ 392  759 1 0.70093 500.0
+ 392  761 1 0.89246 500.0
+ 394  399 1 0.48882 500.0
+ 394  404 1 0.60579 500.0
+ 394  406 1 0.81543 500.0
+ 394  749 1 0.89282 500.0
+ 394  751 1 0.69917 500.0
+ 394  759 1 0.73204 500.0
+ 394  761 1 0.83907 500.0
+ 396  404 1 0.4964 500.0
+ 396  406 1 0.61641 500.0
+ 396  408 1 0.82417 500.0
+ 398  406 1 0.48837 500.0
+ 398  408 1 0.58413 500.0
+ 398  409 1 0.80351 500.0
+ 398  476 1 0.83624 500.0
+ 399  408 1 0.49548 500.0
+ 399  409 1 0.59509 500.0
+ 399  411 1 0.81767 500.0
+ 399  744 1 0.82521 500.0
+ 399  746 1 0.89429 500.0
+ 399  749 1 0.88894 500.0
+ 399  751 1 0.78405 500.0
+ 404  409 1 0.49894 500.0
+ 404  411 1 0.62668 500.0
+ 406  411 1 0.48033 500.0
+ 406  416 1 0.77147 500.0
+ 406  420 1 0.81995 500.0
+ 406  467 1 0.80806 500.0
+ 406  474 1 0.86179 500.0
+ 406  476 1 0.72825 500.0
+ 408  416 1 0.75887 500.0
+ 408  467 1 0.71324 500.0
+ 408  469 1 0.79662 500.0
+ 408  476 1 0.78498 500.0
+ 409  418 1 0.89031 500.0
+ 409  467 1 0.89868 500.0
+ 411  420 1 0.61297 500.0
+ 411  422 1 0.88301 500.0
+ 411  467 1 0.73597 500.0
+ 416  422 1 0.77232 500.0
+ 416  456 1 0.87861 500.0
+ 416  458 1 0.88999 500.0
+ 416  467 1 0.79702 500.0
+ 418  426 1 0.57995 500.0
+ 418  429 1 0.81108 500.0
+ 418  456 1 0.84879 500.0
+ 418  465 1 0.85574 500.0
+ 418  467 1 0.77879 500.0
+ 420  429 1 0.59467 500.0
+ 420  431 1 0.70825 500.0
+ 420  456 1 0.88927 500.0
+ 420  465 1 0.71905 500.0
+ 420  467 1 0.61652 500.0
+ 420  469 1 0.88485 500.0
+ 420  471 1 0.88102 500.0
+ 420  474 1 0.69396 500.0
+ 420  476 1 0.88034 500.0
+ 422  431 1 0.44318 500.0
+ 422  435 1 0.61139 500.0
+ 422  437 1 0.80576 500.0
+ 422  441 1 0.70956 500.0
+ 422  443 1 0.85969 500.0
+ 422  456 1 0.77892 500.0
+ 422  458 1 0.88565 500.0
+ 422  463 1 0.8821 500.0
+ 422  465 1 0.58234 500.0
+ 422  467 1 0.62822 500.0
+ 422  469 1 0.87734 500.0
+ 422  471 1 0.81027 500.0
+ 422  474 1 0.70275 500.0
+ 426  435 1 0.57083 500.0
+ 426  437 1 0.86054 500.0
+ 426  441 1 0.88195 500.0
+ 426  465 1 0.89085 500.0
+ 429  437 1 0.84064 500.0
+ 429  474 1 0.8135 500.0
+ 431  441 1 0.58529 500.0
+ 431  443 1 0.78964 500.0
+ 431  465 1 0.77732 500.0
+ 431  471 1 0.85996 500.0
+ 431  474 1 0.7871 500.0
+ 435  443 1 0.59147 500.0
+ 435  465 1 0.88182 500.0
+ 437  445 1 0.74571 500.0
+ 437  465 1 0.84926 500.0
+ 441  452 1 0.68643 500.0
+ 441  454 1 0.73779 500.0
+ 441  456 1 0.79189 500.0
+ 441  463 1 0.7241 500.0
+ 441  465 1 0.55734 500.0
+ 441  467 1 0.84137 500.0
+ 441  471 1 0.77071 500.0
+ 443  450 1 0.76927 500.0
+ 443  452 1 0.55298 500.0
+ 443  454 1 0.65408 500.0
+ 443  456 1 0.76726 500.0
+ 443  463 1 0.82569 500.0
+ 443  465 1 0.7253 500.0
+ 445  452 1 0.38086 500.0
+ 445  454 1 0.61788 500.0
+ 445  456 1 0.85992 500.0
+ 447  454 1 0.75148 500.0
+ 454  465 1 0.58666 500.0
+ 454  467 1 0.81227 500.0
+ 456  465 1 0.47345 500.0
+ 456  467 1 0.61636 500.0
+ 456  469 1 0.813 500.0
+ 458  467 1 0.46978 500.0
+ 458  469 1 0.60131 500.0
+ 458  471 1 0.81452 500.0
+ 463  469 1 0.4725 500.0
+ 463  471 1 0.61658 500.0
+ 463  474 1 0.82657 500.0
+ 465  471 1 0.48358 500.0
+ 465  474 1 0.61478 500.0
+ 465  476 1 0.80982 500.0
+ 467  474 1 0.4884 500.0
+ 467  476 1 0.59788 500.0
+ 467  478 1 0.81207 500.0
+ 469  476 1 0.48384 500.0
+ 469  478 1 0.60804 500.0
+ 469  482 1 0.82142 500.0
+ 471  478 1 0.48311 500.0
+ 471  482 1 0.61919 500.0
+ 471  486 1 0.8264 500.0
+ 474  482 1 0.49005 500.0
+ 474  486 1 0.61911 500.0
+ 474  488 1 0.81777 500.0
+ 476  486 1 0.48302 500.0
+ 476  488 1 0.60742 500.0
+ 476  490 1 0.83409 500.0
+ 478  488 1 0.47198 500.0
+ 478  490 1 0.62048 500.0
+ 478  492 1 0.8108 500.0
+ 482  490 1 0.50249 500.0
+ 482  492 1 0.61625 500.0
+ 482  494 1 0.83012 500.0
+ 486  492 1 0.48272 500.0
+ 486  494 1 0.60903 500.0
+ 486  496 1 0.81045 500.0
+ 488  494 1 0.49503 500.0
+ 488  496 1 0.59762 500.0
+ 488  498 1 0.80944 500.0
+ 490  496 1 0.48388 500.0
+ 490  498 1 0.60706 500.0
+ 490  500 1 0.81161 500.0
+ 492  498 1 0.50722 500.0
+ 492  500 1 0.61854 500.0
+ 492  502 1 0.83268 500.0
+ 494  500 1 0.48653 500.0
+ 494  502 1 0.60536 500.0
+ 494  504 1 0.8075 500.0
+ 496  502 1 0.49183 500.0
+ 496  504 1 0.58112 500.0
+ 496  506 1 0.79284 500.0
+ 498  504 1 0.48184 500.0
+ 498  506 1 0.58336 500.0
+ 498  508 1 0.77913 500.0
+ 500  506 1 0.56748 500.0
+ 500  508 1 0.63996 500.0
+ 500  510 1 0.82369 500.0
+ 502  508 1 0.5571 500.0
+ 502  510 1 0.61759 500.0
+ 502  512 1 0.85796 500.0
+ 504  510 1 0.47381 500.0
+ 504  512 1 0.60527 500.0
+ 504  514 1 0.80818 500.0
+ 506  512 1 0.49583 500.0
+ 506  514 1 0.6044 500.0
+ 506  520 1 0.80082 500.0
+ 508  514 1 0.49995 500.0
+ 508  520 1 0.58141 500.0
+ 508  525 1 0.76293 500.0
+ 510  520 1 0.49798 500.0
+ 510  525 1 0.55526 500.0
+ 510  527 1 0.86888 500.0
+ 512  525 1 0.45659 500.0
+ 512  527 1 0.71767 500.0
+ 512  529 1 0.872 500.0
+ 514  527 1 0.71117 500.0
+ 529  536 1 0.88271 500.0
+ 531  542 1 0.89824 500.0
+ 550  557 1 0.80196 500.0
+ 550  559 1 0.77619 500.0
+ 553  559 1 0.54554 500.0
+ 553  561 1 0.84304 500.0
+ 553  563 1 0.84219 500.0
+ 553  565 1 0.78328 500.0
+ 555  561 1 0.8189 500.0
+ 555  563 1 0.882 500.0
+ 555  565 1 0.70781 500.0
+ 557  563 1 0.82929 500.0
+ 557  565 1 0.74563 500.0
+ 559  565 1 0.50947 500.0
+ 559  568 1 0.66188 500.0
+ 561  568 1 0.46499 500.0
+ 561  570 1 0.73234 500.0
+ 563  570 1 0.75111 500.0
+ 570  576 1 0.88943 500.0
+ 572  578 1 0.79633 500.0
+ 572  580 1 0.79541 500.0
+ 572  584 1 0.64175 500.0
+ 572  585 1 0.89593 500.0
+ 574  580 1 0.51707 500.0
+ 574  584 1 0.46479 500.0
+ 574  585 1 0.74464 500.0
+ 576  584 1 0.56726 500.0
+ 576  585 1 0.74722 500.0
+ 578  585 1 0.5758 500.0
+ 578  587 1 0.68146 500.0
+ 578  589 1 0.85303 500.0
+ 580  587 1 0.48985 500.0
+ 580  589 1 0.57267 500.0
+ 580  593 1 0.76168 500.0
+ 584  589 1 0.4997 500.0
+ 584  593 1 0.56082 500.0
+ 584  594 1 0.77208 500.0
+ 585  593 1 0.4761 500.0
+ 585  594 1 0.58828 500.0
+ 585  596 1 0.80875 500.0
+ 585  979 1 0.80959 500.0
+ 587  594 1 0.48151 500.0
+ 587  596 1 0.59955 500.0
+ 587  600 1 0.85465 500.0
+ 587  979 1 0.84885 500.0
+ 587  985 1 0.88173 500.0
+ 587  986 1 0.77864 500.0
+ 589  596 1 0.44089 500.0
+ 589  600 1 0.62526 500.0
+ 589  603 1 0.83683 500.0
+ 593  600 1 0.5319 500.0
+ 593  603 1 0.65165 500.0
+ 593  605 1 0.84461 500.0
+ 594  603 1 0.51994 500.0
+ 594  605 1 0.64762 500.0
+ 594  973 1 0.83981 500.0
+ 594  979 1 0.80394 500.0
+ 594  981 1 0.83984 500.0
+ 594  986 1 0.87403 500.0
+ 596  605 1 0.53688 500.0
+ 596  607 1 0.78947 500.0
+ 600  607 1 0.76353 500.0
+ 603  970 1 0.89042 500.0
+ 603  973 1 0.79975 500.0
+ 605  613 1 0.84067 500.0
+ 605  615 1 0.74087 500.0
+ 605  617 1 0.83243 500.0
+ 607  615 1 0.50231 500.0
+ 607  617 1 0.6103 500.0
+ 607  623 1 0.83767 500.0
+ 610  617 1 0.50493 500.0
+ 610  623 1 0.62878 500.0
+ 610  625 1 0.82719 500.0
+ 610 1085 1 0.82072 500.0
+ 613  623 1 0.48774 500.0
+ 613  625 1 0.59779 500.0
+ 613  627 1 0.81722 500.0
+ 613  952 1 0.88248 500.0
+ 613  954 1 0.86145 500.0
+ 613  960 1 0.7838 500.0
+ 613 1081 1 0.84558 500.0
+ 613 1083 1 0.72092 500.0
+ 613 1085 1 0.60961 500.0
+ 613 1087 1 0.81642 500.0
+ 615  625 1 0.48085 500.0
+ 615  627 1 0.60617 500.0
+ 615  629 1 0.81951 500.0
+ 615  952 1 0.87627 500.0
+ 615  954 1 0.77365 500.0
+ 615  960 1 0.82215 500.0
+ 615 1085 1 0.87589 500.0
+ 617  627 1 0.49548 500.0
+ 617  629 1 0.62461 500.0
+ 617  631 1 0.83312 500.0
+ 623  629 1 0.49559 500.0
+ 623  631 1 0.61944 500.0
+ 623  633 1 0.82016 500.0
+ 623 1073 1 0.82899 500.0
+ 623 1075 1 0.85637 500.0
+ 623 1081 1 0.69223 500.0
+ 623 1083 1 0.66252 500.0
+ 623 1085 1 0.7741 500.0
+ 625  631 1 0.49226 500.0
+ 625  633 1 0.60502 500.0
+ 625  635 1 0.81403 500.0
+ 625  944 1 0.76584 500.0
+ 625  952 1 0.85136 500.0
+ 625  954 1 0.85999 500.0
+ 625  988 1 0.85017 500.0
+ 625 1075 1 0.8657 500.0
+ 625 1081 1 0.88815 500.0
+ 625 1083 1 0.77865 500.0
+ 625 1085 1 0.85081 500.0
+ 627  633 1 0.48081 500.0
+ 627  635 1 0.59823 500.0
+ 627  637 1 0.81189 500.0
+ 627  986 1 0.87032 500.0
+ 627  988 1 0.69945 500.0
+ 627  992 1 0.83434 500.0
+ 627  994 1 0.65031 500.0
+ 629  635 1 0.49423 500.0
+ 629  637 1 0.61632 500.0
+ 629  639 1 0.81486 500.0
+ 629  994 1 0.75717 500.0
+ 629 1068 1 0.83351 500.0
+ 629 1073 1 0.85588 500.0
+ 631  637 1 0.49521 500.0
+ 631  639 1 0.60787 500.0
+ 631  641 1 0.83812 500.0
+ 631  994 1 0.81188 500.0
+ 631 1066 1 0.82484 500.0
+ 631 1068 1 0.60638 500.0
+ 631 1070 1 0.83621 500.0
+ 631 1073 1 0.722 500.0
+ 631 1075 1 0.75925 500.0
+ 633  639 1 0.47376 500.0
+ 633  641 1 0.61864 500.0
+ 633  647 1 0.81393 500.0
+ 633  934 1 0.88951 500.0
+ 633  944 1 0.83627 500.0
+ 633  988 1 0.81433 500.0
+ 633  992 1 0.8556 500.0
+ 633  994 1 0.55061 500.0
+ 633  996 1 0.74737 500.0
+ 633 1068 1 0.81531 500.0
+ 635  641 1 0.49706 500.0
+ 635  647 1 0.61172 500.0
+ 635  649 1 0.82319 500.0
+ 635  992 1 0.79355 500.0
+ 635  994 1 0.48112 500.0
+ 635  996 1 0.65401 500.0
+ 635  998 1 0.89875 500.0
+ 635 1000 1 0.81043 500.0
+ 635 1002 1 0.72984 500.0
+ 635 1068 1 0.88868 500.0
+ 637  647 1 0.48145 500.0
+ 637  649 1 0.62334 500.0
+ 637  651 1 0.83788 500.0
+ 637  994 1 0.77875 500.0
+ 637  996 1 0.88839 500.0
+ 637 1002 1 0.85279 500.0
+ 637 1054 1 0.86803 500.0
+ 637 1060 1 0.60913 500.0
+ 637 1062 1 0.68956 500.0
+ 637 1064 1 0.89672 500.0
+ 637 1066 1 0.76238 500.0
+ 637 1068 1 0.66167 500.0
+ 639  649 1 0.49189 500.0
+ 639  651 1 0.62757 500.0
+ 639  657 1 0.85787 500.0
+ 639  934 1 0.86513 500.0
+ 639  994 1 0.81572 500.0
+ 639  996 1 0.84615 500.0
+ 639 1002 1 0.89307 500.0
+ 639 1054 1 0.84639 500.0
+ 639 1060 1 0.68922 500.0
+ 639 1062 1 0.66014 500.0
+ 639 1066 1 0.87709 500.0
+ 639 1068 1 0.71872 500.0
+ 641  651 1 0.47522 500.0
+ 641  657 1 0.60395 500.0
+ 641  661 1 0.85988 500.0
+ 641  994 1 0.71136 500.0
+ 641  996 1 0.63281 500.0
+ 641  998 1 0.86682 500.0
+ 641 1000 1 0.83788 500.0
+ 641 1002 1 0.61647 500.0
+ 641 1004 1 0.78285 500.0
+ 641 1054 1 0.87479 500.0
+ 641 1060 1 0.86224 500.0
+ 641 1062 1 0.89991 500.0
+ 647  657 1 0.56852 500.0
+ 647  661 1 0.738 500.0
+ 647  996 1 0.84028 500.0
+ 647 1000 1 0.88423 500.0
+ 647 1002 1 0.60895 500.0
+ 647 1004 1 0.7922 500.0
+ 647 1008 1 0.87435 500.0
+ 647 1010 1 0.81344 500.0
+ 647 1052 1 0.82414 500.0
+ 647 1054 1 0.64457 500.0
+ 647 1056 1 0.88997 500.0
+ 647 1060 1 0.69713 500.0
+ 647 1062 1 0.82481 500.0
+ 649  661 1 0.63675 500.0
+ 649  663 1 0.76155 500.0
+ 649  831 1 0.86254 500.0
+ 649 1002 1 0.8811 500.0
+ 649 1044 1 0.84625 500.0
+ 649 1046 1 0.78356 500.0
+ 649 1050 1 0.89138 500.0
+ 649 1052 1 0.73385 500.0
+ 649 1054 1 0.46949 500.0
+ 649 1056 1 0.68551 500.0
+ 649 1058 1 0.81061 500.0
+ 649 1060 1 0.62941 500.0
+ 649 1062 1 0.67574 500.0
+ 651  663 1 0.54606 500.0
+ 651  667 1 0.61819 500.0
+ 651  669 1 0.83447 500.0
+ 651 1002 1 0.89283 500.0
+ 651 1046 1 0.89494 500.0
+ 651 1054 1 0.72037 500.0
+ 657  667 1 0.46858 500.0
+ 657  669 1 0.57901 500.0
+ 657  671 1 0.78002 500.0
+ 657 1002 1 0.75863 500.0
+ 657 1004 1 0.70664 500.0
+ 657 1010 1 0.70053 500.0
+ 657 1012 1 0.86923 500.0
+ 657 1044 1 0.89749 500.0
+ 657 1054 1 0.86932 500.0
+ 661  669 1 0.48704 500.0
+ 661  671 1 0.5503 500.0
+ 661  675 1 0.76193 500.0
+ 661 1010 1 0.73087 500.0
+ 661 1012 1 0.87367 500.0
+ 661 1017 1 0.84811 500.0
+ 661 1038 1 0.87797 500.0
+ 661 1044 1 0.66899 500.0
+ 661 1046 1 0.72139 500.0
+ 661 1054 1 0.80961 500.0
+ 663  671 1 0.46135 500.0
+ 663  675 1 0.54997 500.0
+ 663  677 1 0.84658 500.0
+ 663 1044 1 0.85245 500.0
+ 663 1046 1 0.81185 500.0
+ 667  675 1 0.62132 500.0
+ 667  677 1 0.8461 500.0
+ 669  677 1 0.72777 500.0
+ 669  679 1 0.81513 500.0
+ 669 1010 1 0.88401 500.0
+ 669 1012 1 0.85651 500.0
+ 671  679 1 0.52184 500.0
+ 671  681 1 0.61471 500.0
+ 671  687 1 0.8395 500.0
+ 671 1038 1 0.7644 500.0
+ 675  681 1 0.47941 500.0
+ 675  687 1 0.6133 500.0
+ 675  689 1 0.82394 500.0
+ 675  736 1 0.89912 500.0
+ 675  737 1 0.82374 500.0
+ 675  743 1 0.73041 500.0
+ 675 1038 1 0.89517 500.0
+ 677  687 1 0.482 500.0
+ 677  689 1 0.60319 500.0
+ 677  690 1 0.80208 500.0
+ 677  727 1 0.84925 500.0
+ 677  736 1 0.64628 500.0
+ 677  737 1 0.55084 500.0
+ 677  739 1 0.8117 500.0
+ 677  741 1 0.80704 500.0
+ 677  743 1 0.62841 500.0
+ 677  744 1 0.85477 500.0
+ 679  689 1 0.47197 500.0
+ 679  690 1 0.57768 500.0
+ 679  693 1 0.74753 500.0
+ 679  695 1 0.87006 500.0
+ 679  727 1 0.79619 500.0
+ 679  736 1 0.74388 500.0
+ 679  737 1 0.7436 500.0
+ 679 1038 1 0.85411 500.0
+ 681  690 1 0.47557 500.0
+ 681  693 1 0.51815 500.0
+ 681  695 1 0.64354 500.0
+ 681  697 1 0.80906 500.0
+ 681  701 1 0.83694 500.0
+ 681  736 1 0.77009 500.0
+ 681  737 1 0.8556 500.0
+ 681 1037 1 0.87668 500.0
+ 681 1038 1 0.7365 500.0
+ 687  693 1 0.5391 500.0
+ 687  695 1 0.49289 500.0
+ 687  697 1 0.59814 500.0
+ 687  701 1 0.69548 500.0
+ 687  702 1 0.84524 500.0
+ 687  725 1 0.85232 500.0
+ 687  727 1 0.71794 500.0
+ 687  732 1 0.86189 500.0
+ 687  734 1 0.77869 500.0
+ 687  736 1 0.4902 500.0
+ 687  737 1 0.64774 500.0
+ 687  739 1 0.86848 500.0
+ 687  741 1 0.77075 500.0
+ 687  743 1 0.75054 500.0
+ 689  695 1 0.58032 500.0
+ 689  697 1 0.51525 500.0
+ 689  701 1 0.48406 500.0
+ 689  702 1 0.55538 500.0
+ 689  703 1 0.72334 500.0
+ 689  717 1 0.86239 500.0
+ 689  719 1 0.86285 500.0
+ 689  722 1 0.87142 500.0
+ 689  725 1 0.60218 500.0
+ 689  727 1 0.44941 500.0
+ 689  732 1 0.67626 500.0
+ 689  734 1 0.67823 500.0
+ 689  736 1 0.48182 500.0
+ 689  737 1 0.66249 500.0
+ 690  697 1 0.49181 500.0
+ 690  701 1 0.39842 500.0
+ 690  702 1 0.47167 500.0
+ 690  703 1 0.73295 500.0
+ 690  725 1 0.78295 500.0
+ 690  727 1 0.70476 500.0
+ 690  736 1 0.7788 500.0
+ 693  701 1 0.55522 500.0
+ 693  702 1 0.72073 500.0
+ 693  850 1 0.81975 500.0
+ 693  852 1 0.62701 500.0
+ 693  854 1 0.87305 500.0
+ 693  861 1 0.72255 500.0
+ 693  863 1 0.83152 500.0
+ 693 1038 1 0.88811 500.0
+ 695  702 1 0.80784 500.0
+ 695  736 1 0.78274 500.0
+ 695  850 1 0.75089 500.0
+ 695  852 1 0.65144 500.0
+ 695  854 1 0.8701 500.0
+ 695  857 1 0.81282 500.0
+ 695  861 1 0.59296 500.0
+ 695  863 1 0.80189 500.0
+ 695  888 1 0.76338 500.0
+ 695  889 1 0.74464 500.0
+ 695  891 1 0.89535 500.0
+ 695  897 1 0.77564 500.0
+ 695  899 1 0.86833 500.0
+ 697  717 1 0.86512 500.0
+ 697  725 1 0.60543 500.0
+ 697  727 1 0.70841 500.0
+ 697  734 1 0.7848 500.0
+ 697  736 1 0.68924 500.0
+ 697  861 1 0.75451 500.0
+ 697  882 1 0.82936 500.0
+ 697  884 1 0.80507 500.0
+ 697  886 1 0.76151 500.0
+ 697  888 1 0.54695 500.0
+ 697  889 1 0.6378 500.0
+ 697  891 1 0.89036 500.0
+ 701  714 1 0.8652 500.0
+ 701  717 1 0.64688 500.0
+ 701  719 1 0.81361 500.0
+ 701  722 1 0.81979 500.0
+ 701  725 1 0.54016 500.0
+ 701  727 1 0.62659 500.0
+ 701  732 1 0.89975 500.0
+ 701  734 1 0.86331 500.0
+ 701  736 1 0.79688 500.0
+ 701  882 1 0.75233 500.0
+ 701  884 1 0.74882 500.0
+ 701  886 1 0.83129 500.0
+ 701  888 1 0.69969 500.0
+ 701  889 1 0.88218 500.0
+ 702  707 1 0.71438 500.0
+ 702  709 1 0.84969 500.0
+ 702  710 1 0.85204 500.0
+ 702  714 1 0.77887 500.0
+ 702  717 1 0.48959 500.0
+ 702  719 1 0.65687 500.0
+ 702  722 1 0.78289 500.0
+ 702  725 1 0.59103 500.0
+ 702  727 1 0.60457 500.0
+ 702  882 1 0.87688 500.0
+ 702  884 1 0.87737 500.0
+ 703  709 1 0.58576 500.0
+ 703  710 1 0.67845 500.0
+ 703  712 1 0.81026 500.0
+ 703  714 1 0.76216 500.0
+ 703  717 1 0.45304 500.0
+ 703  719 1 0.49971 500.0
+ 703  722 1 0.74739 500.0
+ 703  725 1 0.68977 500.0
+ 703  727 1 0.61457 500.0
+ 703  732 1 0.88279 500.0
+ 705  710 1 0.7369 500.0
+ 705  712 1 0.84965 500.0
+ 705  717 1 0.65314 500.0
+ 705  719 1 0.54548 500.0
+ 705  722 1 0.83254 500.0
+ 705  725 1 0.87443 500.0
+ 705  727 1 0.7307 500.0
+ 707  712 1 0.79992 500.0
+ 707  714 1 0.88531 500.0
+ 707  717 1 0.65189 500.0
+ 707  719 1 0.65961 500.0
+ 709  714 1 0.75753 500.0
+ 709  717 1 0.63228 500.0
+ 709  719 1 0.69907 500.0
+ 710  717 1 0.49318 500.0
+ 710  719 1 0.61153 500.0
+ 710  722 1 0.82787 500.0
+ 712  719 1 0.49989 500.0
+ 712  722 1 0.61496 500.0
+ 712  725 1 0.82937 500.0
+ 714  722 1 0.47488 500.0
+ 714  725 1 0.60921 500.0
+ 714  727 1 0.81949 500.0
+ 714  884 1 0.73919 500.0
+ 717  725 1 0.47583 500.0
+ 717  727 1 0.60678 500.0
+ 717  732 1 0.81828 500.0
+ 717  884 1 0.80241 500.0
+ 719  727 1 0.48804 500.0
+ 719  732 1 0.62145 500.0
+ 719  734 1 0.81965 500.0
+ 722  732 1 0.49395 500.0
+ 722  734 1 0.6137 500.0
+ 722  736 1 0.83041 500.0
+ 725  734 1 0.47825 500.0
+ 725  736 1 0.60965 500.0
+ 725  737 1 0.82531 500.0
+ 725  884 1 0.86885 500.0
+ 725  888 1 0.82636 500.0
+ 727  736 1 0.49094 500.0
+ 727  737 1 0.62404 500.0
+ 727  739 1 0.82841 500.0
+ 732  737 1 0.49769 500.0
+ 732  739 1 0.62409 500.0
+ 732  741 1 0.82934 500.0
+ 734  739 1 0.49719 500.0
+ 734  741 1 0.62036 500.0
+ 734  743 1 0.82414 500.0
+ 736  741 1 0.48259 500.0
+ 736  743 1 0.61062 500.0
+ 736  744 1 0.83606 500.0
+ 737  743 1 0.47204 500.0
+ 737  744 1 0.62673 500.0
+ 737  746 1 0.83133 500.0
+ 739  744 1 0.49415 500.0
+ 739  746 1 0.64109 500.0
+ 739  748 1 0.83233 500.0
+ 741  746 1 0.49119 500.0
+ 741  748 1 0.62438 500.0
+ 741  749 1 0.84188 500.0
+ 741  899 1 0.86028 500.0
+ 741  905 1 0.89047 500.0
+ 741  907 1 0.86058 500.0
+ 743  748 1 0.47116 500.0
+ 743  749 1 0.62495 500.0
+ 743  751 1 0.82335 500.0
+ 743  905 1 0.87746 500.0
+ 743  907 1 0.84255 500.0
+ 743  913 1 0.89573 500.0
+ 744  749 1 0.48662 500.0
+ 744  751 1 0.62457 500.0
+ 744  753 1 0.84006 500.0
+ 746  751 1 0.48196 500.0
+ 746  753 1 0.6304 500.0
+ 746  757 1 0.8167 500.0
+ 746  907 1 0.78318 500.0
+ 746  913 1 0.85293 500.0
+ 748  753 1 0.49856 500.0
+ 748  757 1 0.61399 500.0
+ 748  759 1 0.83973 500.0
+ 748  905 1 0.78592 500.0
+ 748  907 1 0.59846 500.0
+ 748  909 1 0.80945 500.0
+ 748  911 1 0.79752 500.0
+ 748  913 1 0.55756 500.0
+ 748  917 1 0.71479 500.0
+ 749  757 1 0.4678 500.0
+ 749  759 1 0.61782 500.0
+ 749  761 1 0.82524 500.0
+ 749  907 1 0.87156 500.0
+ 749  913 1 0.6706 500.0
+ 749  917 1 0.78219 500.0
+ 751  759 1 0.49706 500.0
+ 751  761 1 0.63286 500.0
+ 751  763 1 0.82935 500.0
+ 751  913 1 0.81048 500.0
+ 751  917 1 0.81969 500.0
+ 753  761 1 0.49668 500.0
+ 753  763 1 0.62061 500.0
+ 753  765 1 0.81743 500.0
+ 753  907 1 0.79652 500.0
+ 753  909 1 0.86547 500.0
+ 753  913 1 0.64228 500.0
+ 753  917 1 0.56227 500.0
+ 753  919 1 0.84879 500.0
+ 753  921 1 0.88724 500.0
+ 753  923 1 0.81795 500.0
+ 757  763 1 0.48733 500.0
+ 757  765 1 0.60378 500.0
+ 757  767 1 0.82676 500.0
+ 757  911 1 0.87737 500.0
+ 757  913 1 0.59114 500.0
+ 757  917 1 0.51329 500.0
+ 757  919 1 0.72434 500.0
+ 757  921 1 0.6694 500.0
+ 757  923 1 0.56034 500.0
+ 757  924 1 0.86196 500.0
+ 759  765 1 0.46899 500.0
+ 759  767 1 0.60796 500.0
+ 759  768 1 0.82083 500.0
+ 759  917 1 0.80315 500.0
+ 759  923 1 0.69753 500.0
+ 761  767 1 0.496 500.0
+ 761  768 1 0.62799 500.0
+ 761  772 1 0.8335 500.0
+ 761  917 1 0.80937 500.0
+ 761  923 1 0.7585 500.0
+ 763  768 1 0.49272 500.0
+ 763  772 1 0.61373 500.0
+ 763  774 1 0.82822 500.0
+ 763  917 1 0.67964 500.0
+ 763  919 1 0.7605 500.0
+ 763  921 1 0.78272 500.0
+ 763  923 1 0.51733 500.0
+ 763  924 1 0.69015 500.0
+ 763  928 1 0.88644 500.0
+ 763  930 1 0.88194 500.0
+ 765  772 1 0.49176 500.0
+ 765  774 1 0.6153 500.0
+ 765  776 1 0.86517 500.0
+ 765  917 1 0.89045 500.0
+ 765  921 1 0.84405 500.0
+ 765  923 1 0.52648 500.0
+ 765  924 1 0.64224 500.0
+ 765  926 1 0.84125 500.0
+ 765  928 1 0.6968 500.0
+ 765  930 1 0.63648 500.0
+ 767  774 1 0.51265 500.0
+ 767  776 1 0.68734 500.0
+ 767  923 1 0.82774 500.0
+ 767  930 1 0.81516 500.0
+ 768  776 1 0.54963 500.0
+ 768  778 1 0.71124 500.0
+ 768  923 1 0.86058 500.0
+ 768  924 1 0.86914 500.0
+ 768  930 1 0.89886 500.0
+ 772  778 1 0.50316 500.0
+ 772  779 1 0.63748 500.0
+ 772  923 1 0.77125 500.0
+ 772  924 1 0.67582 500.0
+ 772  926 1 0.89011 500.0
+ 772  928 1 0.86185 500.0
+ 772  930 1 0.66111 500.0
+ 772  932 1 0.87201 500.0
+ 774  779 1 0.55893 500.0
+ 774  781 1 0.80635 500.0
+ 774  924 1 0.88078 500.0
+ 774  930 1 0.64913 500.0
+ 774  932 1 0.82696 500.0
+ 776  781 1 0.72651 500.0
+ 776  783 1 0.82824 500.0
+ 778  783 1 0.54153 500.0
+ 778  789 1 0.61181 500.0
+ 778  791 1 0.81407 500.0
+ 779  789 1 0.50644 500.0
+ 779  791 1 0.60367 500.0
+ 779  792 1 0.81751 500.0
+ 779  802 1 0.83848 500.0
+ 779  810 1 0.88056 500.0
+ 779  930 1 0.82932 500.0
+ 779  932 1 0.82156 500.0
+ 781  791 1 0.49236 500.0
+ 781  792 1 0.60857 500.0
+ 781  795 1 0.83009 500.0
+ 781  801 1 0.83234 500.0
+ 781  802 1 0.79565 500.0
+ 783  792 1 0.48536 500.0
+ 783  795 1 0.60792 500.0
+ 783  798 1 0.8069 500.0
+ 783  801 1 0.85728 500.0
+ 789  795 1 0.49882 500.0
+ 789  798 1 0.60265 500.0
+ 789  800 1 0.80493 500.0
+ 789  801 1 0.71864 500.0
+ 789  802 1 0.78792 500.0
+ 789  810 1 0.78834 500.0
+ 791  798 1 0.47368 500.0
+ 791  800 1 0.56263 500.0
+ 791  801 1 0.42183 500.0
+ 791  802 1 0.52243 500.0
+ 791  804 1 0.77513 500.0
+ 791  807 1 0.70709 500.0
+ 791  810 1 0.67217 500.0
+ 792  800 1 0.47414 500.0
+ 792  801 1 0.49728 500.0
+ 792  802 1 0.72336 500.0
+ 795  801 1 0.66833 500.0
+ 798  802 1 0.7511 500.0
+ 798  804 1 0.86189 500.0
+ 798  807 1 0.67967 500.0
+ 798  810 1 0.78401 500.0
+ 800  804 1 0.77575 500.0
+ 800  807 1 0.69849 500.0
+ 800  810 1 0.88366 500.0
+ 801  807 1 0.51037 500.0
+ 801  810 1 0.65512 500.0
+ 801  812 1 0.85751 500.0
+ 802  810 1 0.50356 500.0
+ 802  812 1 0.62507 500.0
+ 802  818 1 0.836 500.0
+ 802  942 1 0.75572 500.0
+ 802 1075 1 0.89627 500.0
+ 804  812 1 0.46752 500.0
+ 804  818 1 0.60419 500.0
+ 804  819 1 0.81285 500.0
+ 804  942 1 0.85783 500.0
+ 804 1070 1 0.84492 500.0
+ 804 1073 1 0.89931 500.0
+ 804 1075 1 0.58845 500.0
+ 804 1077 1 0.6583 500.0
+ 804 1083 1 0.81003 500.0
+ 804 1085 1 0.86943 500.0
+ 807  818 1 0.49007 500.0
+ 807  819 1 0.61364 500.0
+ 807  821 1 0.82622 500.0
+ 807 1070 1 0.83449 500.0
+ 807 1075 1 0.71879 500.0
+ 807 1077 1 0.68939 500.0
+ 810  819 1 0.48219 500.0
+ 810  821 1 0.60324 500.0
+ 810  823 1 0.81817 500.0
+ 810  926 1 0.88298 500.0
+ 810  932 1 0.82629 500.0
+ 810 1070 1 0.88299 500.0
+ 810 1075 1 0.87812 500.0
+ 812  821 1 0.50043 500.0
+ 812  823 1 0.62141 500.0
+ 812  825 1 0.86023 500.0
+ 812  926 1 0.77045 500.0
+ 812  932 1 0.73314 500.0
+ 812  934 1 0.88075 500.0
+ 812  942 1 0.89671 500.0
+ 812 1068 1 0.8086 500.0
+ 812 1070 1 0.65731 500.0
+ 812 1075 1 0.70245 500.0
+ 812 1077 1 0.84012 500.0
+ 818  823 1 0.51279 500.0
+ 818  825 1 0.68349 500.0
+ 818  829 1 0.87814 500.0
+ 818 1062 1 0.85865 500.0
+ 818 1064 1 0.79169 500.0
+ 818 1066 1 0.87612 500.0
+ 818 1068 1 0.6844 500.0
+ 818 1070 1 0.44948 500.0
+ 818 1071 1 0.68234 500.0
+ 818 1073 1 0.80855 500.0
+ 818 1075 1 0.64165 500.0
+ 818 1077 1 0.70589 500.0
+ 819  825 1 0.53791 500.0
+ 819  829 1 0.67967 500.0
+ 819  831 1 0.87045 500.0
+ 819  926 1 0.86302 500.0
+ 819 1070 1 0.69815 500.0
+ 821  829 1 0.48649 500.0
+ 821  831 1 0.62845 500.0
+ 821  833 1 0.83291 500.0
+ 821  924 1 0.70489 500.0
+ 821  926 1 0.57008 500.0
+ 821  928 1 0.87808 500.0
+ 821  932 1 0.86984 500.0
+ 821 1062 1 0.85042 500.0
+ 821 1064 1 0.89911 500.0
+ 821 1070 1 0.79512 500.0
+ 823  831 1 0.48057 500.0
+ 823  833 1 0.61759 500.0
+ 823  835 1 0.83079 500.0
+ 823  926 1 0.71356 500.0
+ 823 1056 1 0.85028 500.0
+ 823 1060 1 0.85007 500.0
+ 823 1062 1 0.54094 500.0
+ 823 1064 1 0.60532 500.0
+ 823 1066 1 0.8174 500.0
+ 823 1068 1 0.70073 500.0
+ 823 1070 1 0.62276 500.0
+ 825  833 1 0.47329 500.0
+ 825  835 1 0.61074 500.0
+ 825  837 1 0.80583 500.0
+ 825 1056 1 0.82181 500.0
+ 825 1062 1 0.66691 500.0
+ 825 1064 1 0.64888 500.0
+ 825 1070 1 0.78528 500.0
+ 829  835 1 0.49296 500.0
+ 829  837 1 0.60206 500.0
+ 829  838 1 0.81469 500.0
+ 829  919 1 0.8235 500.0
+ 829  921 1 0.77257 500.0
+ 829  924 1 0.83717 500.0
+ 829  926 1 0.78233 500.0
+ 829 1062 1 0.83659 500.0
+ 831  837 1 0.48017 500.0
+ 831  838 1 0.60688 500.0
+ 831  840 1 0.81724 500.0
+ 831  919 1 0.86503 500.0
+ 831  921 1 0.72256 500.0
+ 831  924 1 0.89235 500.0
+ 831  926 1 0.76783 500.0
+ 831 1054 1 0.82736 500.0
+ 831 1056 1 0.68134 500.0
+ 831 1062 1 0.67831 500.0
+ 831 1064 1 0.83473 500.0
+ 833  838 1 0.48836 500.0
+ 833  840 1 0.61805 500.0
+ 833  842 1 0.84965 500.0
+ 833 1046 1 0.86448 500.0
+ 833 1050 1 0.82729 500.0
+ 833 1054 1 0.71243 500.0
+ 833 1056 1 0.48368 500.0
+ 833 1058 1 0.71082 500.0
+ 833 1060 1 0.8153 500.0
+ 833 1062 1 0.63965 500.0
+ 833 1064 1 0.73376 500.0
+ 835  840 1 0.47087 500.0
+ 835  842 1 0.62464 500.0
+ 835  844 1 0.87544 500.0
+ 835 1056 1 0.73792 500.0
+ 837  842 1 0.50455 500.0
+ 837  844 1 0.69774 500.0
+ 837  911 1 0.70056 500.0
+ 837  913 1 0.89476 500.0
+ 837  919 1 0.82698 500.0
+ 837  921 1 0.79328 500.0
+ 837 1046 1 0.88404 500.0
+ 837 1056 1 0.81932 500.0
+ 838  844 1 0.58495 500.0
+ 838  846 1 0.80147 500.0
+ 838 1040 1 0.87654 500.0
+ 838 1044 1 0.88536 500.0
+ 838 1046 1 0.57653 500.0
+ 838 1050 1 0.67181 500.0
+ 838 1052 1 0.86952 500.0
+ 838 1054 1 0.72185 500.0
+ 838 1056 1 0.63886 500.0
+ 840  846 1 0.59991 500.0
+ 840  848 1 0.75725 500.0
+ 840 1040 1 0.89505 500.0
+ 840 1046 1 0.72041 500.0
+ 840 1050 1 0.72618 500.0
+ 840 1056 1 0.77868 500.0
+ 842  848 1 0.52108 500.0
+ 842  850 1 0.64392 500.0
+ 842  852 1 0.84701 500.0
+ 842  911 1 0.84087 500.0
+ 844  850 1 0.49273 500.0
+ 844  852 1 0.61986 500.0
+ 844  854 1 0.83205 500.0
+ 844  905 1 0.8589 500.0
+ 844 1040 1 0.79678 500.0
+ 844 1046 1 0.84638 500.0
+ 846  852 1 0.48831 500.0
+ 846  854 1 0.62018 500.0
+ 846  857 1 0.83304 500.0
+ 846 1040 1 0.8033 500.0
+ 848  854 1 0.4855 500.0
+ 848  857 1 0.62054 500.0
+ 848  861 1 0.82973 500.0
+ 850  857 1 0.49367 500.0
+ 850  861 1 0.62836 500.0
+ 850  863 1 0.83882 500.0
+ 850  897 1 0.70521 500.0
+ 850  904 1 0.75665 500.0
+ 850  905 1 0.79564 500.0
+ 852  861 1 0.49292 500.0
+ 852  863 1 0.62298 500.0
+ 852  865 1 0.82239 500.0
+ 852  897 1 0.88147 500.0
+ 854  863 1 0.49791 500.0
+ 854  865 1 0.61171 500.0
+ 854  867 1 0.82171 500.0
+ 857  865 1 0.4926 500.0
+ 857  867 1 0.61818 500.0
+ 857  871 1 0.81916 500.0
+ 857  891 1 0.89776 500.0
+ 857  895 1 0.8542 500.0
+ 857  897 1 0.73424 500.0
+ 861  867 1 0.4911 500.0
+ 861  871 1 0.60059 500.0
+ 861  874 1 0.8229 500.0
+ 861  888 1 0.80671 500.0
+ 861  889 1 0.76978 500.0
+ 861  891 1 0.81157 500.0
+ 861  897 1 0.75592 500.0
+ 863  871 1 0.46431 500.0
+ 863  874 1 0.61212 500.0
+ 863  877 1 0.83026 500.0
+ 863  881 1 0.83875 500.0
+ 863  882 1 0.84556 500.0
+ 865  874 1 0.49355 500.0
+ 865  877 1 0.63517 500.0
+ 865  879 1 0.82062 500.0
+ 865  881 1 0.83016 500.0
+ 867  877 1 0.48915 500.0
+ 867  879 1 0.57678 500.0
+ 867  881 1 0.62654 500.0
+ 867  882 1 0.80369 500.0
+ 867  886 1 0.82844 500.0
+ 867  888 1 0.75613 500.0
+ 867  889 1 0.78114 500.0
+ 867  891 1 0.8217 500.0
+ 871  879 1 0.48622 500.0
+ 871  881 1 0.38559 500.0
+ 871  882 1 0.51629 500.0
+ 871  884 1 0.7554 500.0
+ 871  886 1 0.71592 500.0
+ 871  888 1 0.70949 500.0
+ 871  889 1 0.86186 500.0
+ 874  881 1 0.49507 500.0
+ 874  882 1 0.7034 500.0
+ 877  882 1 0.84282 500.0
+ 879  884 1 0.73023 500.0
+ 879  886 1 0.6262 500.0
+ 879  888 1 0.76359 500.0
+ 881  886 1 0.53071 500.0
+ 881  888 1 0.67607 500.0
+ 882  888 1 0.65882 500.0
+ 884  889 1 0.86118 500.0
+ 886  891 1 0.85081 500.0
+ 889  895 1 0.77168 500.0
+ 889  897 1 0.68133 500.0
+ 889  899 1 0.76044 500.0
+ 891  897 1 0.49431 500.0
+ 891  899 1 0.60195 500.0
+ 891  902 1 0.81985 500.0
+ 893  899 1 0.49804 500.0
+ 893  902 1 0.60376 500.0
+ 893  904 1 0.82202 500.0
+ 895  902 1 0.48304 500.0
+ 895  904 1 0.60764 500.0
+ 895  905 1 0.82141 500.0
+ 897  904 1 0.49152 500.0
+ 897  905 1 0.61628 500.0
+ 897  907 1 0.81716 500.0
+ 899  905 1 0.50202 500.0
+ 899  907 1 0.61165 500.0
+ 899  909 1 0.81954 500.0
+ 902  907 1 0.48942 500.0
+ 902  909 1 0.60878 500.0
+ 902  911 1 0.82796 500.0
+ 904  909 1 0.48383 500.0
+ 904  911 1 0.62485 500.0
+ 904  913 1 0.82872 500.0
+ 905  911 1 0.49486 500.0
+ 905  913 1 0.62988 500.0
+ 905  917 1 0.82967 500.0
+ 907  913 1 0.48302 500.0
+ 907  917 1 0.61005 500.0
+ 907  919 1 0.82908 500.0
+ 909  917 1 0.47649 500.0
+ 909  919 1 0.60405 500.0
+ 909  921 1 0.81732 500.0
+ 911  919 1 0.50023 500.0
+ 911  921 1 0.61601 500.0
+ 911  923 1 0.87747 500.0
+ 913  921 1 0.51807 500.0
+ 913  923 1 0.71238 500.0
+ 917  923 1 0.56493 500.0
+ 917  924 1 0.80641 500.0
+ 919  924 1 0.61452 500.0
+ 919  926 1 0.82309 500.0
+ 921  926 1 0.59924 500.0
+ 921  928 1 0.68311 500.0
+ 923  928 1 0.51928 500.0
+ 923  930 1 0.66403 500.0
+ 923  932 1 0.89096 500.0
+ 924  930 1 0.54363 500.0
+ 924  932 1 0.70411 500.0
+ 924  934 1 0.87411 500.0
+ 926  932 1 0.51697 500.0
+ 926  934 1 0.62394 500.0
+ 926  936 1 0.83531 500.0
+ 928  934 1 0.47528 500.0
+ 928  936 1 0.60113 500.0
+ 928  940 1 0.83377 500.0
+ 930  936 1 0.47378 500.0
+ 930  940 1 0.62985 500.0
+ 930  942 1 0.81707 500.0
+ 932  940 1 0.47692 500.0
+ 932  942 1 0.56612 500.0
+ 932  944 1 0.78528 500.0
+ 934  942 1 0.59259 500.0
+ 934  944 1 0.68389 500.0
+ 934  946 1 0.86173 500.0
+ 936  944 1 0.72502 500.0
+ 936  946 1 0.77729 500.0
+ 940  946 1 0.54529 500.0
+ 940  950 1 0.63959 500.0
+ 940  952 1 0.85308 500.0
+ 942  950 1 0.4925 500.0
+ 942  952 1 0.61623 500.0
+ 942  954 1 0.82281 500.0
+ 944  952 1 0.48929 500.0
+ 944  954 1 0.60503 500.0
+ 944  956 1 0.81724 500.0
+ 944  988 1 0.85707 500.0
+ 946  954 1 0.48467 500.0
+ 946  956 1 0.61169 500.0
+ 946  958 1 0.82523 500.0
+ 946  981 1 0.87952 500.0
+ 946  983 1 0.77253 500.0
+ 946  988 1 0.85492 500.0
+ 950  956 1 0.48371 500.0
+ 950  958 1 0.61406 500.0
+ 950  960 1 0.81914 500.0
+ 952  958 1 0.48505 500.0
+ 952  960 1 0.60126 500.0
+ 952  964 1 0.79576 500.0
+ 952 1089 1 0.87483 500.0
+ 954  960 1 0.4968 500.0
+ 954  964 1 0.59595 500.0
+ 954  966 1 0.81583 500.0
+ 954  975 1 0.87769 500.0
+ 954  976 1 0.78943 500.0
+ 954  981 1 0.68705 500.0
+ 954  983 1 0.77141 500.0
+ 954  988 1 0.88946 500.0
+ 956  964 1 0.47023 500.0
+ 956  966 1 0.60163 500.0
+ 956  968 1 0.82317 500.0
+ 956  975 1 0.78484 500.0
+ 956  976 1 0.69326 500.0
+ 956  981 1 0.79786 500.0
+ 956  983 1 0.89369 500.0
+ 958  966 1 0.47945 500.0
+ 958  968 1 0.62186 500.0
+ 958  970 1 0.81942 500.0
+ 958 1089 1 0.8165 500.0
+ 958 1091 1 0.8332 500.0
+ 960  968 1 0.4909 500.0
+ 960  970 1 0.59827 500.0
+ 960  972 1 0.75439 500.0
+ 960  973 1 0.81478 500.0
+ 960  975 1 0.85922 500.0
+ 960 1089 1 0.86052 500.0
+ 964  970 1 0.47966 500.0
+ 964  972 1 0.49443 500.0
+ 964  973 1 0.53661 500.0
+ 964  975 1 0.56848 500.0
+ 964  976 1 0.70018 500.0
+ 964  981 1 0.8164 500.0
+ 966  972 1 0.53452 500.0
+ 966  973 1 0.71649 500.0
+ 966  975 1 0.76143 500.0
+ 966  976 1 0.89042 500.0
+ 968  973 1 0.81656 500.0
+ 970  975 1 0.81365 500.0
+ 972  976 1 0.85807 500.0
+ 973  978 1 0.82659 500.0
+ 973  979 1 0.73948 500.0
+ 973  981 1 0.75623 500.0
+ 975  979 1 0.54343 500.0
+ 975  981 1 0.58704 500.0
+ 975  983 1 0.8252 500.0
+ 976  981 1 0.49459 500.0
+ 976  983 1 0.61254 500.0
+ 976  985 1 0.81747 500.0
+ 978  983 1 0.49591 500.0
+ 978  985 1 0.60567 500.0
+ 978  986 1 0.82512 500.0
+ 979  985 1 0.46591 500.0
+ 979  986 1 0.60042 500.0
+ 979  988 1 0.80359 500.0
+ 981  986 1 0.49185 500.0
+ 981  988 1 0.6079 500.0
+ 981  990 1 0.83226 500.0
+ 983  988 1 0.47511 500.0
+ 983  990 1 0.61888 500.0
+ 983  992 1 0.86464 500.0
+ 985  990 1 0.50554 500.0
+ 985  992 1 0.70268 500.0
+ 986  992 1 0.53939 500.0
+ 986  994 1 0.73405 500.0
+ 988  994 1 0.53894 500.0
+ 988  996 1 0.72213 500.0
+ 988  998 1 0.89474 500.0
+ 990  996 1 0.50783 500.0
+ 990  998 1 0.62257 500.0
+ 990 1000 1 0.82879 500.0
+ 992  998 1 0.48095 500.0
+ 992 1000 1 0.58812 500.0
+ 992 1002 1 0.79798 500.0
+ 994 1000 1 0.58955 500.0
+ 994 1002 1 0.67782 500.0
+ 994 1004 1 0.87769 500.0
+ 996 1002 1 0.52459 500.0
+ 996 1004 1 0.62752 500.0
+ 996 1006 1 0.86299 500.0
+ 998 1004 1 0.49014 500.0
+ 998 1006 1 0.64414 500.0
+ 998 1008 1 0.84019 500.0
+1000 1006 1 0.50365 500.0
+1000 1008 1 0.61683 500.0
+1000 1010 1 0.81585 500.0
+1002 1008 1 0.48323 500.0
+1002 1010 1 0.59409 500.0
+1002 1012 1 0.80305 500.0
+1004 1010 1 0.49907 500.0
+1004 1012 1 0.60104 500.0
+1004 1014 1 0.81138 500.0
+1006 1012 1 0.48674 500.0
+1006 1014 1 0.58446 500.0
+1006 1016 1 0.7774 500.0
+1008 1014 1 0.49155 500.0
+1008 1016 1 0.55719 500.0
+1008 1017 1 0.76566 500.0
+1010 1016 1 0.46584 500.0
+1010 1017 1 0.55258 500.0
+1010 1018 1 0.82782 500.0
+1012 1017 1 0.5831 500.0
+1012 1018 1 0.77193 500.0
+1014 1018 1 0.68742 500.0
+1014 1019 1 0.77466 500.0
+1016 1019 1 0.52604 500.0
+1016 1021 1 0.59796 500.0
+1016 1025 1 0.81576 500.0
+1017 1021 1 0.48747 500.0
+1017 1025 1 0.6045 500.0
+1017 1027 1 0.81229 500.0
+1017 1038 1 0.86671 500.0
+1017 1042 1 0.87329 500.0
+1017 1044 1 0.75556 500.0
+1018 1025 1 0.49341 500.0
+1018 1027 1 0.61024 500.0
+1018 1029 1 0.82069 500.0
+1018 1036 1 0.84784 500.0
+1018 1037 1 0.78396 500.0
+1018 1038 1 0.87797 500.0
+1019 1027 1 0.47887 500.0
+1019 1029 1 0.60082 500.0
+1019 1031 1 0.82088 500.0
+1019 1036 1 0.8871 500.0
+1021 1029 1 0.484 500.0
+1021 1031 1 0.61745 500.0
+1021 1035 1 0.80808 500.0
+1021 1036 1 0.77702 500.0
+1021 1037 1 0.84347 500.0
+1021 1042 1 0.73339 500.0
+1021 1044 1 0.78527 500.0
+1025 1031 1 0.46363 500.0
+1025 1035 1 0.55776 500.0
+1025 1036 1 0.47439 500.0
+1025 1037 1 0.55892 500.0
+1025 1038 1 0.6862 500.0
+1025 1040 1 0.75791 500.0
+1025 1042 1 0.64186 500.0
+1025 1044 1 0.765 500.0
+1027 1035 1 0.4535 500.0
+1027 1036 1 0.51489 500.0
+1027 1037 1 0.70482 500.0
+1029 1036 1 0.70005 500.0
+1031 1037 1 0.77017 500.0
+1031 1040 1 0.84473 500.0
+1031 1042 1 0.71237 500.0
+1035 1038 1 0.89675 500.0
+1036 1040 1 0.7057 500.0
+1036 1042 1 0.7675 500.0
+1037 1042 1 0.74422 500.0
+1037 1044 1 0.86709 500.0
+1038 1044 1 0.58983 500.0
+1038 1046 1 0.69145 500.0
+1040 1046 1 0.48754 500.0
+1040 1050 1 0.6309 500.0
+1040 1052 1 0.83395 500.0
+1042 1050 1 0.49282 500.0
+1042 1052 1 0.6128 500.0
+1042 1054 1 0.80724 500.0
+1044 1052 1 0.49829 500.0
+1044 1054 1 0.60369 500.0
+1044 1056 1 0.82314 500.0
+1046 1054 1 0.47293 500.0
+1046 1056 1 0.60903 500.0
+1046 1058 1 0.82976 500.0
+1050 1056 1 0.48265 500.0
+1050 1058 1 0.62949 500.0
+1050 1060 1 0.82207 500.0
+1052 1058 1 0.49775 500.0
+1052 1060 1 0.61508 500.0
+1052 1062 1 0.8268 500.0
+1054 1060 1 0.47654 500.0
+1054 1062 1 0.60762 500.0
+1054 1064 1 0.82691 500.0
+1056 1062 1 0.49147 500.0
+1056 1064 1 0.63052 500.0
+1056 1066 1 0.82727 500.0
+1058 1064 1 0.49635 500.0
+1058 1066 1 0.61848 500.0
+1058 1068 1 0.8242 500.0
+1060 1066 1 0.48239 500.0
+1060 1068 1 0.61125 500.0
+1060 1070 1 0.82495 500.0
+1062 1068 1 0.48331 500.0
+1062 1070 1 0.62235 500.0
+1062 1071 1 0.83237 500.0
+1064 1070 1 0.48589 500.0
+1064 1071 1 0.62267 500.0
+1064 1073 1 0.82903 500.0
+1066 1071 1 0.48906 500.0
+1066 1073 1 0.61154 500.0
+1066 1075 1 0.81274 500.0
+1068 1073 1 0.48887 500.0
+1068 1075 1 0.59588 500.0
+1068 1077 1 0.8089 500.0
+1070 1075 1 0.49059 500.0
+1070 1077 1 0.6089 500.0
+1070 1079 1 0.82149 500.0
+1071 1077 1 0.48481 500.0
+1071 1079 1 0.59962 500.0
+1071 1081 1 0.7753 500.0
+1071 1083 1 0.87129 500.0
+1073 1079 1 0.47172 500.0
+1073 1081 1 0.51707 500.0
+1073 1083 1 0.61025 500.0
+1075 1081 1 0.56721 500.0
+1075 1083 1 0.49964 500.0
+1075 1085 1 0.7685 500.0
+1077 1083 1 0.56858 500.0
+1077 1085 1 0.82353 500.0
+1079 1085 1 0.75108 500.0
+1081 1087 1 0.87764 500.0
 
 ; Side chain bonds
    1    2 1 0.352 7500
@@ -2039,8 +4469,8 @@
  144  145 1 0.340 1000000
  144  146 1 0.340 1000000
  145  146 1 0.290 1000000
- 148  149 1 0.300 1000000
- 148  150 1 0.320 1000000
+ 148  149 1 0.320 1000000
+ 148  150 1 0.300 1000000
  149  150 1 0.270 1000000
  169  170 1 0.340 1000000
  169  171 1 0.340 1000000
@@ -2796,8 +5226,8 @@
  144  145 1 0.340
  144  146 1 0.340
  145  146 1 0.290
- 148  149 1 0.300
- 148  150 1 0.320
+ 148  149 1 0.320
+ 148  150 1 0.300
  149  150 1 0.270
  169  170 1 0.340
  169  171 1 0.340

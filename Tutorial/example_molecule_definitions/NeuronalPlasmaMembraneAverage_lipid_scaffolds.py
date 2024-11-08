@@ -15,8 +15,10 @@ phospholipid_tails = {
     "OA": "D1A   D2A   D3A   D4A   C5A     -   C1B   D2B   C3B   C4B     -     - ",
 }
 lysephospholipid_tails = {
-    "P": "C1A   C2A   C3A   C4A     -     -     -     -     -     -     -     - ",
-    "I": "C1A   D2A   D3A   C4A     -     -     -     -     -     -     -     - ",
+#    "P" : "C1A   C2A   C3A   C4A     -     -     -     -     -     -     -     - ",
+#    "I" : "C1A   D2A   D3A   C4A     -     -     -     -     -     -     -     - ",
+    "P" : "  -     -     -     -     -     -   C1B   C2B   C3B   C4B     -     - ",
+    "I" : "  -     -     -     -     -     -   C1B   D2B   D3B   C4B    -     - ",
 }
 
 ### Phospholipids with simple head structures
@@ -63,9 +65,9 @@ lipid_scaffolds[(lipid_type, params)]["lipids"].update(diacyl_glycerols_generate
 #  7-3     9--16-17-18-19-20-21 
 lipid_type, params = "inositollipids", "IngolfssonMembranes"
 lipid_scaffolds[(lipid_type, params)] = {}   #  H01   H02   H03   H04   H05   H06   L07   L08   A09   A10   A11   A12   A13   A14   B15   B16   B17   B18   B19   B20
-lipid_scaffolds[(lipid_type, params)]["x"] = (   .5,  .5,   0,   0,   1, .5,  0,  0,   .5,   0,   0,   0,   0,   0,   0,   1,   1,   1,   1,   1,   1)
-lipid_scaffolds[(lipid_type, params)]["y"] = (    0,   0,   0,   0,   0,  0,  0,  0,    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0)
-lipid_scaffolds[(lipid_type, params)]["z"] = (    8,   9,   9,   7,  10, 10, 10,  6,    6,   5,   4,   3,   2,   1,   0,   5,   4,   3,   2,   1,   0)
+lipid_scaffolds[(lipid_type, params)]["x"] = (   .5,   .5, -0.5,    0,  1.5,  0.5, -0.5,    0,   .5,   0,   0,   0,   0,   0,   0,   1,   1,   1,   1,   1,   1)
+lipid_scaffolds[(lipid_type, params)]["y"] = (    0,    0,    0,    0,    0,    0,    0,    0,    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0)
+lipid_scaffolds[(lipid_type, params)]["z"] = (    8,    9,    9,    7,   10, 10.5,   10,    6,    6,   5,   4,   3,   2,   1,   0,   5,   4,   3,   2,   1,   0)
 # lipid_scaffolds[(lipid_type, params)]["charges"] = (("NC3", 1), ("NH3", 1), ("PO4", -1))
 lipid_scaffolds[(lipid_type, params)]["bd"] = (0.25, 0.25, 0.3)
 lipid_scaffolds[(lipid_type, params)]["lipids"] = {      # 1     2    3    4    5   6   7   8    9    10    11    12    13    14   15    16    17    18    19   20 

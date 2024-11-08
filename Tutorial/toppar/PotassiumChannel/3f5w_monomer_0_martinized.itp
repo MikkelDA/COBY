@@ -1,13 +1,3 @@
-; This file was generated using the following command:
-; /home/au613219/anaconda3/bin/martinize2 -f ../step1_pdbreader_no_antibodies_renumbered.pdb -x 3f5w_martinized.pdb -o 3f5w_martinized.top -ff martini3001 -from charmm -dssp /mnt/software/dssp/3.1.2/bin/mkdssp -p backbone -elastic -ea 0 -ep 0 -scfix -cys auto -maxwarn 1000
-; martinize with vermouth 0.9.6
-; The following sequence of secondary structure 
-; was used for the full system:
-; CCHHHHHHHHHHHHHHHHHHHHTTSTTCCCCSHHHHHHHHHHHHHTCCCCSCCCCSHHHHHHHHHHHHHHHHHTTTHHHHHHHHHHCCCCHHHHHHHHHHHHHHHHHHHHTTSTTCCCCSHHHHHHHHHHHHHTCCCCSCCCCSHHHHHHHHHHHHHHHHHTTTHHHHHHHHHHCCCCHHHHHHHHHHHHHHHHHHHHTTSTTCCCCSHHHHHHHHHHHHHTCCCCSCCCCSHHHHHHHHHHHHHHHHHTTTHHHHHHHHHHCCCCHHHHHHHHHHHHHHHHHHHHTTSTTCCCCSHHHHHHHHHHHHHTCCCCSCCCCSHHHHHHHHHHHHHHHHHTTTHHHHHHHHHHCC
-
-; Pleas cite the following papers:
-; Souza, P C T; Alessandri, R; Barnoud, J; Thallmair, S; Faustino, I; Grünewald, F; Patmanidis, I; Abdizadeh, H; Bruininks, B M H; Wassenaar, T A; Kroon, P C; Melcr, J; Nieto, V; Corradi, V; Khan, H M; Domański, J; Javanainen, M; Martinez-Seara, H; Reuter, N; Best, R B; Vattulainen, I; Monticelli, L; Periole, X; Tieleman, D P; de Vries, A H; Marrink, S J;  Nature Methods 2021; 10.1038/s41592-021-01098-3
-
 [ moleculetype ]
 3f5w_monomer_0_martinized 1
 
@@ -216,94 +206,94 @@
 
 [ position_restraints ]
 #ifdef POSRES
-  1 1 1000 1000 1000
-  2 1 1000 1000 1000
-  4 1 1000 1000 1000
-  6 1 1000 1000 1000
-  8 1 1000 1000 1000
- 10 1 1000 1000 1000
- 12 1 1000 1000 1000
- 14 1 1000 1000 1000
- 16 1 1000 1000 1000
- 18 1 1000 1000 1000
- 20 1 1000 1000 1000
- 22 1 1000 1000 1000
- 24 1 1000 1000 1000
- 26 1 1000 1000 1000
- 27 1 1000 1000 1000
- 29 1 1000 1000 1000
- 34 1 1000 1000 1000
- 36 1 1000 1000 1000
- 38 1 1000 1000 1000
- 40 1 1000 1000 1000
- 42 1 1000 1000 1000
- 44 1 1000 1000 1000
- 46 1 1000 1000 1000
- 49 1 1000 1000 1000
- 50 1 1000 1000 1000
- 52 1 1000 1000 1000
- 54 1 1000 1000 1000
- 55 1 1000 1000 1000
- 57 1 1000 1000 1000
- 59 1 1000 1000 1000
- 61 1 1000 1000 1000
- 63 1 1000 1000 1000
- 65 1 1000 1000 1000
- 70 1 1000 1000 1000
- 72 1 1000 1000 1000
- 75 1 1000 1000 1000
- 77 1 1000 1000 1000
- 79 1 1000 1000 1000
- 85 1 1000 1000 1000
- 91 1 1000 1000 1000
- 93 1 1000 1000 1000
- 95 1 1000 1000 1000
- 97 1 1000 1000 1000
- 99 1 1000 1000 1000
-101 1 1000 1000 1000
-103 1 1000 1000 1000
-105 1 1000 1000 1000
-107 1 1000 1000 1000
-108 1 1000 1000 1000
-113 1 1000 1000 1000
-114 1 1000 1000 1000
-116 1 1000 1000 1000
-118 1 1000 1000 1000
-123 1 1000 1000 1000
-125 1 1000 1000 1000
-127 1 1000 1000 1000
-129 1 1000 1000 1000
-131 1 1000 1000 1000
-137 1 1000 1000 1000
-138 1 1000 1000 1000
-141 1 1000 1000 1000
-143 1 1000 1000 1000
-145 1 1000 1000 1000
-147 1 1000 1000 1000
-149 1 1000 1000 1000
-151 1 1000 1000 1000
-153 1 1000 1000 1000
-155 1 1000 1000 1000
-157 1 1000 1000 1000
-159 1 1000 1000 1000
-160 1 1000 1000 1000
-162 1 1000 1000 1000
-164 1 1000 1000 1000
-166 1 1000 1000 1000
-170 1 1000 1000 1000
-171 1 1000 1000 1000
-173 1 1000 1000 1000
-175 1 1000 1000 1000
-177 1 1000 1000 1000
-179 1 1000 1000 1000
-181 1 1000 1000 1000
-183 1 1000 1000 1000
-185 1 1000 1000 1000
-187 1 1000 1000 1000
-193 1 1000 1000 1000
-197 1 1000 1000 1000
-199 1 1000 1000 1000
-200 1 1000 1000 1000
+  1 1 20 20 20 ; posres
+  2 1 20 20 20 ; posres
+  4 1 20 20 20 ; posres
+  6 1 20 20 20 ; posres
+  8 1 20 20 20 ; posres
+ 10 1 20 20 20 ; posres
+ 12 1 20 20 20 ; posres
+ 14 1 20 20 20 ; posres
+ 16 1 20 20 20 ; posres
+ 18 1 20 20 20 ; posres
+ 20 1 20 20 20 ; posres
+ 22 1 20 20 20 ; posres
+ 24 1 20 20 20 ; posres
+ 26 1 20 20 20 ; posres
+ 27 1 20 20 20 ; posres
+ 29 1 20 20 20 ; posres
+ 34 1 20 20 20 ; posres
+ 36 1 20 20 20 ; posres
+ 38 1 20 20 20 ; posres
+ 40 1 20 20 20 ; posres
+ 42 1 20 20 20 ; posres
+ 44 1 20 20 20 ; posres
+ 46 1 20 20 20 ; posres
+ 49 1 20 20 20 ; posres
+ 50 1 20 20 20 ; posres
+ 52 1 20 20 20 ; posres
+ 54 1 20 20 20 ; posres
+ 55 1 20 20 20 ; posres
+ 57 1 20 20 20 ; posres
+ 59 1 20 20 20 ; posres
+ 61 1 20 20 20 ; posres
+ 63 1 20 20 20 ; posres
+ 65 1 20 20 20 ; posres
+ 70 1 20 20 20 ; posres
+ 72 1 20 20 20 ; posres
+ 75 1 20 20 20 ; posres
+ 77 1 20 20 20 ; posres
+ 79 1 20 20 20 ; posres
+ 85 1 20 20 20 ; posres
+ 91 1 20 20 20 ; posres
+ 93 1 20 20 20 ; posres
+ 95 1 20 20 20 ; posres
+ 97 1 20 20 20 ; posres
+ 99 1 20 20 20 ; posres
+101 1 20 20 20 ; posres
+103 1 20 20 20 ; posres
+105 1 20 20 20 ; posres
+107 1 20 20 20 ; posres
+108 1 20 20 20 ; posres
+113 1 20 20 20 ; posres
+114 1 20 20 20 ; posres
+116 1 20 20 20 ; posres
+118 1 20 20 20 ; posres
+123 1 20 20 20 ; posres
+125 1 20 20 20 ; posres
+127 1 20 20 20 ; posres
+129 1 20 20 20 ; posres
+131 1 20 20 20 ; posres
+137 1 20 20 20 ; posres
+138 1 20 20 20 ; posres
+141 1 20 20 20 ; posres
+143 1 20 20 20 ; posres
+145 1 20 20 20 ; posres
+147 1 20 20 20 ; posres
+149 1 20 20 20 ; posres
+151 1 20 20 20 ; posres
+153 1 20 20 20 ; posres
+155 1 20 20 20 ; posres
+157 1 20 20 20 ; posres
+159 1 20 20 20 ; posres
+160 1 20 20 20 ; posres
+162 1 20 20 20 ; posres
+164 1 20 20 20 ; posres
+166 1 20 20 20 ; posres
+170 1 20 20 20 ; posres
+171 1 20 20 20 ; posres
+173 1 20 20 20 ; posres
+175 1 20 20 20 ; posres
+177 1 20 20 20 ; posres
+179 1 20 20 20 ; posres
+181 1 20 20 20 ; posres
+183 1 20 20 20 ; posres
+185 1 20 20 20 ; posres
+187 1 20 20 20 ; posres
+193 1 20 20 20 ; posres
+197 1 20 20 20 ; posres
+199 1 20 20 20 ; posres
+200 1 20 20 20 ; posres
 #endif
 
 [ bonds ]

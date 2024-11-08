@@ -1,0 +1,12 @@
+;;;;; File created by Andreasen, M.D. based on information from supplementary of https://doi.org/10.1038/s41592-021-01098-3
+
+;;;;;; Magnesium ion
+
+[moleculetype]
+; molname       nrexcl
+   TW           1
+
+[atoms]
+;id     type    resnr   residu  atom    cgnr    charge
+ 1      TW      1       TW      TW      1       0
+
