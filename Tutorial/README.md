@@ -40,11 +40,11 @@ Tutorial ToC:
 
 <img src="figures/Membranes4_PhaseSeparation.png" width="500">
 
-    * **Monolayers**: consisting of two monolayers with solvent bridging the headgroups and the vacuum bridging the tails
+*    * **Monolayers**: consisting of two monolayers with solvent bridging the headgroups and the vacuum bridging the tails
 
 <img src="figures/Membranes5_Monolayers.png" width="500">
 
-    * **Lipid optimisation**
+*    * **Lipid optimisation**
 * **Nanodisc**: a disc with DMPC lipids contains within the protein rings
 
 <img src="figures/Nanodisc.png" width="500">
@@ -83,7 +83,7 @@ Tutorial ToC:
     
 <img src="figures/Solvation4_MixedSolvent.png" width="500">
 
-    * **Phase-separated solvent**: A membrane solvated with two solvent volumes containing different salt concentrations
+*    * **Phase-separated solvent**: A membrane solvated with two solvent volumes containing different salt concentrations
 
 <img src="figures/Solvation5_PhaseSeparatedSolvent.png" width="500">
 
@@ -93,8 +93,8 @@ Tutorial ToC:
 
 <img src="figures/Flooding3_ImportMultipleSolutes.png" width="500">
 
-	* **Import multiple solutes**
-	* **Import a lipid**
+*	* **Import multiple solutes**
+*	* **Import a lipid**
 * **Custom unit cell**
 * **COBY logo**
 
