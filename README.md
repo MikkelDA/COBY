@@ -29,8 +29,6 @@ COBY is continuously under development, and we welcome suggestions for new featu
 
 ## Installation 
 
-
-
 **Using pip (requires python>=3.9)**
 
     conda create --name COBY python==3.9 ipykernel
