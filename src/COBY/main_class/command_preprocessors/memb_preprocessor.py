@@ -770,6 +770,9 @@ class memb_preprocessor:
                     leaflet["height_buffer"] *= 10
                     leaflet["kickxy"] *= 10
                     leaflet["kickz"] *= 10
+                    if self.debug_prints == True and (len(self.debug_keys) == 0 or "membrane_preprocessor" in self.debug_keys):
+                        self.print_term('leaflet["apl"]', leaflet["apl"], debug=True, debug_keys=["membrane_preprocessor"])
+                        self.print_term("", debug=True, debug_keys=["membrane_preprocessor"]) # Spacing
                     
                     for holes_patches in [leaflet["hole"], leaflet["patch"]]:
                         for polygon in holes_patches:
@@ -804,28 +807,32 @@ class memb_preprocessor:
                         ratio = 1
                         params = leaflet["params"] or self.lipid_params or self.sys_params
                         charge = leaflet["charge"]
+                        apl    = leaflet["apl"]
                         
                         all_subcmd_names = ["params", "charge", "ratio", "name"]
 
                         i = 0
                         while i < len(sub_cmd):
-                            if sub_cmd[i] == "params":
+                            if sub_cmd[i].lower() == "params":
                                 params = sub_cmd[i+1]
                                 i += 2
-                            elif sub_cmd[i] == "charge":
-                                assert sub_cmd[i+1] in ["top", "topology", "lib", "library"], "Only 'top' and 'lib' are allowed values for lipid specific 'charge'" + "\n" + "Command: " + str(sub_cmd)
-                                if sub_cmd[i+1] in ["top", "topology"]:
+                            elif sub_cmd[i].lower() == "charge":
+                                assert sub_cmd[i+1].lower() in ["top", "topology", "lib", "library"], "Only 'top' and 'lib' are allowed values for lipid specific 'charge'" + "\n" + "Command: " + str(sub_cmd)
+                                if sub_cmd[i+1].lower() in ["top", "topology"]:
                                     charge = "top"
-                                elif sub_cmd[i+1] in ["lib", "library"]:
+                                elif sub_cmd[i+1].lower() in ["lib", "library"]:
                                     charge = "lib"
                                 i += 2
-                            elif sub_cmd[i] == "ratio":
+                            elif sub_cmd[i].lower() == "ratio":
                                 ratio = ast.literal_eval(sub_cmd[i+1])
                                 i += 2
-                            elif sub_cmd[i] == "name":
+                            elif sub_cmd[i].lower() == "name":
                                 name = sub_cmd[i+1]
                                 i += 2
-                            else: ### Assumes that it is the lipid name and potentially ratio
+                            elif sub_cmd[i].lower() == "apl":
+                                apl = ast.literal_eval(sub_cmd[i+1]) * 100 # Converting from nm^2 to Å^2
+                                i += 2
+                            else: ### Assumes that it is the lipid name and potentially also the ratio
                                 name = sub_cmd[i]
                                 if len(sub_cmd[i:]) > 1 and sub_cmd[i+1] not in all_subcmd_names and self.get_number_from_string(sub_cmd[i+1]) is not False:
                                     ratio = ast.literal_eval(sub_cmd[i+1])
@@ -850,6 +857,8 @@ class memb_preprocessor:
                         leaflet["lipids"][name].ratio_add(ratio)
                         tot_ratio += leaflet["lipids"][name].ratio
                         
+                        leaflet["lipids"][name].apl_add(apl)
+
                         if leaflet["lipids"][name].moleculetype is not False:
                             moleculetype = leaflet["lipids"][name].moleculetype
                         else:
@@ -929,8 +938,8 @@ class memb_preprocessor:
                     memb_directional_heights.append(max(lipid_heights) * leaflet["HG_sign"])
                     
                     lipid_heights_ratios = [
-                            lipid_class.get_radius(AXs="z") * 2 * lipid_class.ratio / tot_ratio
-                            for lipid_class in leaflet["lipids"].values()
+                        lipid_class.get_radius(AXs="z") * 2 * lipid_class.ratio / tot_ratio
+                        for lipid_class in leaflet["lipids"].values()
                     ]
                     
                     memb_mean_directional_heights.append(np.sum(lipid_heights_ratios) * leaflet["HG_sign"])
@@ -948,7 +957,24 @@ class memb_preprocessor:
                         "lipid_height": max(lipid_heights),
                         "lipid_radius": max(lipid_radii),
                     }
+
+                    ### Calculating new mean leaflet APL based on lipid-specific APLs
+                    lipid_specific_apl_apls_times_ratios_list = [lipid.ratio * lipid.apl for lipid in leaflet["lipids"].values()]
+                    lipid_specific_apl_apls_times_ratios_sum  = sum(lipid_specific_apl_apls_times_ratios_list)
+                    lipid_specific_apl_ratios_sum             = sum(lipid.ratio for lipid in leaflet["lipids"].values())
+                    leaflet["apl"]                            = lipid_specific_apl_apls_times_ratios_sum / lipid_specific_apl_ratios_sum
                     
+                    if self.debug_prints == True and (len(self.debug_keys) == 0 or "membrane_preprocessor" in self.debug_keys):
+                        lipid_specific_apl_apls_list              = [lipid.apl for lipid in leaflet["lipids"].values()]
+                        lipid_specific_apl_ratios_list            = [lipid.ratio for lipid in leaflet["lipids"].values()]
+                        self.print_term("lipid_specific_apl_apls_list             ", lipid_specific_apl_apls_list,              debug=True, debug_keys=["membrane_preprocessor"])
+                        self.print_term("lipid_specific_apl_ratios_list           ", lipid_specific_apl_ratios_list,            debug=True, debug_keys=["membrane_preprocessor"])
+                        self.print_term("lipid_specific_apl_apls_times_ratios_list", lipid_specific_apl_apls_times_ratios_list, debug=True, debug_keys=["membrane_preprocessor"])
+                        self.print_term("lipid_specific_apl_apls_times_ratios_sum ", lipid_specific_apl_apls_times_ratios_sum,  debug=True, debug_keys=["membrane_preprocessor"])
+                        self.print_term("lipid_specific_apl_ratios_sum            ", lipid_specific_apl_ratios_sum,             debug=True, debug_keys=["membrane_preprocessor"])
+                        self.print_term('leaflet["apl"]                           ', leaflet["apl"],                            debug=True, debug_keys=["membrane_preprocessor"])
+                        self.print_term("", debug=True, debug_keys=["membrane_preprocessor"]) # Spacing
+
                 memb_dict.update({
                     "bead_maxz"      : max(memb_directional_heights),
                     "bead_minz"      : min(memb_directional_heights),
@@ -956,7 +982,7 @@ class memb_preprocessor:
                     "bead_mean_minz" : min(memb_mean_directional_heights),
                     "membrane_height": sum([leaflet["lipid_dimensions"]["lipid_height"] for leaflet in memb_dict["leaflets"].values()]),
                 })
-                
+
                 if return_self == "self":
                     self.MEMBRANES[cmd_nr] = memb_dict.copy()
                 elif return_self == "return":

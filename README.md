@@ -41,9 +41,13 @@ COBY is continuously under development, and we welcome suggestions for new featu
 
 Ipykernel allows the user to use COBY environment within the Jupyter notebook.
 
+## OS compatability
+
+COBY has been developed and thoroughly tested on Ubuntu Linux. It has also been tested to a lesser extent on Windows 11 and macOS, with all tutorial systems running without issue.
+
 ## Testing
 
-Installation can be tested using the tutorial notebooks, which cover the majority of the functions available in COBY.   
+Installation can be tested using the tutorial notebooks, which cover the majority of the functions available in COBY.
 
 ## Basic usage 
 
@@ -58,4 +62,3 @@ Three [tutorials](https://github.com/MikkelDA/COBY/tree/master/Tutorial) are ava
 COBY is preserved under the [Apache License 2.0](https://github.com/MikkelDA/COBY/blob/main/LICENSE).
 
 ![](https://github.com/MikkelDA/COBY/raw/master/figures/membrane_protein.png)
-

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "COBY"
-version = "0.2.6"
+version = "0.2.7"
 authors = [
   { name="Andreasen, M.D.", email="mdahlandreasen@hotmail.com" },
 ]
@@ -26,6 +26,16 @@ dependencies = [
     "alphashape",
     "shapely",
 ]
+
+[tool.hatch.build]
+exclude = [
+    "Tutorial/",              # Excludes the Tutorial directory (which includes a lot of figures)
+    "figures/",               # Excludes the figures directory
+    "environment.yml",        # Excludes the environment yml file
+    "COBY_Documentation.pdf", # Excludes the documentation file
+    "COBY_CHEAT_SHEET.pdf",   # Excludes the cheat sheet file
+]
+
 
 [project.urls]
 Repository = "https://github.com/MikkelDA/COBY"

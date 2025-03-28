@@ -15,7 +15,7 @@ class plane_grid_point_optimizer:
         
         def get_vector_len_fastsingle(v):
             '''
-            Fastest single vector calculator according to following
+            Fastest single vector calculator according to the following
             https://stackoverflow.com/questions/37794849/efficient-and-precise-calculation-of-the-euclidean-distance
             https://stackoverflow.com/questions/7370801/how-do-i-measure-elapsed-time-in-python
             '''
@@ -116,7 +116,7 @@ class plane_grid_point_optimizer:
         bins_arr           = binning_func()
         neighborlist       = update_neighborlist(bins_arr)
         
-        step_modifier_limit = 15
+        step_multiplier_limit = 15
         
         bounce_counter = np.zeros((len(points_arr)))
         max_push = 0
@@ -160,10 +160,10 @@ class plane_grid_point_optimizer:
             '''
             step_tic = time.time()
             
-            if step >= step_modifier_limit:
-                step_modifier = step_modifier_limit**-1
+            if step >= step_multiplier_limit:
+                step_multiplier = step_multiplier_limit**-1
             else:
-                step_modifier = 1-((step-1)/step_modifier_limit) # 'step-1' to have first step modifier be '1'
+                step_multiplier = 1-((step-1)/step_multiplier_limit) # 'step-1' to have first step modifier be '1'
             
             if optimizer_print_to_term and not self.debug_prints:
                 self.print_term(step, end=" ", spaces=0, verbose=2)
@@ -185,36 +185,47 @@ class plane_grid_point_optimizer:
                     point2 = points_arr[pi2]
 
                     vector              = np.array(get_vector(point1, point2))
-                    vector_len          = get_vector_len_fastsingle(vector)
-                    dist                = vector_len
+                    dist                = get_vector_len_fastsingle(vector)
                     combined_lipid_size = lipid_sizes[pi1] + lipid_sizes[pi2]
                     
-                    ideal_dist       = combined_lipid_size * (1 + occupation_modifier)
-                    ideal_dist_diff  = ideal_dist - combined_lipid_size
-                    ideal_dist_lower = combined_lipid_size
-                    ideal_dist_upper = ideal_dist + ideal_dist_diff
+                    dist_ideal       = combined_lipid_size * (1 + occupation_modifier)
+                    dist_ideal_diff  = dist_ideal - combined_lipid_size
+                    dist_ideal_lower_limit = combined_lipid_size
+                    dist_ideal_upper_limit = dist_ideal + dist_ideal_diff
 
-                    if dist <= ideal_dist_upper:
+                    ### Final equation for 'dist_ideal_upper_limit' becomes:
+                    ### dist_ideal_upper_limit = combined_lipid_size * (2 * occupation_modifier + 1)
+
+                    ### No point in pushing if they are already far enough away. Also saves some computing power.
+                    if dist <= dist_ideal_upper_limit:
                         ### Could cause problems if not included. I forgot to write down what those problems were.
+                        ### Update in 0.2.7: The problem is probably just division by zero (happens if two points are on top of each other)
+                        ### ### Changed it such that the vector then points in a random direction instead of simply having a length of zero 
                         if not (vector[0] == 0. and vector[1] == 0.):
-                            vector /= vector_len
+                            vector /= dist
+                        else:
+                            rand_vector = np.random.rand(2)
+                            vector = rand_vector / get_vector_len_fastsingle(rand_vector)
+                        
                         push = 0
                         
-                        ### Difference in distance from ideal distance 
-                        if dist <= ideal_dist_lower: # combined_lipid_size
+                        ### Difference in distance from ideal distance. Forces the two lipids to move out of each others radii.
+                        if dist <= dist_ideal_lower_limit: # combined_lipid_size
                             ### Push very hard if way too close
                             push += (combined_lipid_size-dist)/2
 
-                        ### Always add smaller extra push
+                        ### Always add smaller extra push to move lipids closer to dist_ideal
                         ### Step modifier reduces the push for each step of the optimization algorithm to "calm it down"
-                        push += abs(ideal_dist_upper-dist)*step_modifier
+                        ### Removed "abs" from "abs(dist_ideal_upper_limit-dist)" in v0.2.7 since it seems superfluous since "dist <= dist_ideal_upper" requires that "dist" always be smaller or equal to "dist_ideal_upper"
+                        push += (dist_ideal_upper_limit-dist)*step_multiplier
                         
                         vector_push = vector*push*lipid_push_multiplier
 
                         ### Pseudo-normalizes the force behind the pushes
+                        ### The largest lipid is pushed with the full force, but the force on the smallest lipid is decreased
                         max_size = max([lipid_sizes[pi2], lipid_sizes[pi1]])
-                        pi1_mult = 1/(max_size/lipid_sizes[pi2])
-                        pi2_mult = 1/(max_size/lipid_sizes[pi1])
+                        pi1_mult = 1/(max_size/lipid_sizes[pi2]) ### Equivalent to lipid_sizes[pi2] / max_size
+                        pi2_mult = 1/(max_size/lipid_sizes[pi1]) ### Equivalent to lipid_sizes[pi1] / max_size
                         push_arr[pi1].append(-vector_push*pi1_mult)
                         push_arr[pi2].append(+vector_push*pi2_mult)
 
@@ -296,7 +307,7 @@ class plane_grid_point_optimizer:
                 self.print_term("Time spent so far:",      round(step_toc - steps_tic, 4), "[s]",    debug=True, debug_keys="optimizer", spaces=4)
                 self.print_term("Max push:         ",      round(max_push, 4),             "[nm]",   debug=True, debug_keys="optimizer", spaces=4)
                 self.print_term("Max dist traveled:",      round(max_dists_traveled, 4),   "[nm]",   debug=True, debug_keys="optimizer", spaces=4)
-                self.print_term("step_modifier:    ",      round(step_modifier, 4),        "[mult]", debug=True, debug_keys="optimizer", spaces=4)
+                self.print_term("step_multiplier:  ",      round(step_multiplier, 4),      "[mult]", debug=True, debug_keys="optimizer", spaces=4)
 
             if max_dists_traveled >= bin_size/2:
                 if self.debug_prints:

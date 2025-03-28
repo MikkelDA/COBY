@@ -123,8 +123,12 @@ class planar_grid_maker:
                             lipids = []
                             lipid_groups = []
                             for lgi, lipid_group in enumerate(lipid_radius_groups):
+                                ### Checks if any lipid types in group
                                 if lipid_group: # if list not empty
                                     nlipids_in_group = sum([nlipids for name, nlipids, radius in lipid_group])
+                                    ### Skips group if total number of lipids in group is zero
+                                    if nlipids_in_group == 0:
+                                        continue
                                     mean_radius = sum([nlipids*radius for name, nlipids, radius in lipid_group]) / nlipids_in_group
                                     lipid_groups.append((mean_radius, nlipids_in_group, nlipids_in_group/total_lipids, (nlipids_in_group * (math.pi * mean_radius**2))/total_lipid_area))
 

@@ -328,7 +328,8 @@ if __name__ == "__main__":
         "Library": Library,
     }
 
-    if parser_kwargs:
+    ### Should launch COBY.Library even if no arguments are given.
+    if parser_kwargs or args.program == "Library":
         programs_dict[args.program](
             run = True,
             terminal_run_kwargs = parser_kwargs,
