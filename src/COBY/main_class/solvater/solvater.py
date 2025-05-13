@@ -539,10 +539,6 @@ class solvater:
                     for boxi, ((cxmin, cxmax, cymin, cymax, czmin, czmax), box_type) in enumerate(insertion_boxes):
                         cx, cy, cz = (cxmax + cxmin)/2, (cymax + cymin)/2, (czmax + czmin)/2
                         xlen, ylen, zlen = cxmax - cxmin, cymax - cymin, czmax - czmin
-                        self.print_term("Box type (box nr):", box_type, "("+str(boxi)+")",                debug=True, debug_keys=["solvater"])
-                        self.print_term("cxmin, cxmax:", round(cxmin, 3), round(cxmax, 3),      spaces=1, debug=True, debug_keys=["solvater"])
-                        self.print_term("cymin, cymax:", round(cymin, 3), round(cymax, 3),      spaces=1, debug=True, debug_keys=["solvater"])
-                        self.print_term("czmin, czmax:", round(czmin, 3), round(czmax, 3),      spaces=1, debug=True, debug_keys=["solvater"])
                         
                         xpoints, ypoints, zpoints = int(xlen/gridres), int(ylen/gridres), int(zlen/gridres)
                         ### Calculates actual coordinate ranges for each axis and calculates the "real" grid resolution
@@ -558,15 +554,22 @@ class solvater:
                         lipid_buffer   = solvent_buffer+solvation["lipid_extra_buffer"]
                         protein_buffer = solvent_buffer+solvation["protein_extra_buffer"]
                         
-                        self.print_term("xpoints, xreal_gridres:", xpoints, round(xreal_gridres, 4), spaces=1, debug=True, debug_keys=["solvater"])
-                        self.print_term("ypoints, yreal_gridres:", ypoints, round(yreal_gridres, 4), spaces=1, debug=True, debug_keys=["solvater"])
-                        self.print_term("zpoints, zreal_gridres:", zpoints, round(zreal_gridres, 4), spaces=1, debug=True, debug_keys=["solvater"])
-                        self.print_term("points total          :", xpoints*ypoints*zpoints,          spaces=1, debug=True, debug_keys=["solvater"])
-                        self.print_term("solvent_buffer        :", solvent_buffer,                   spaces=1, debug=True, debug_keys=["solvater"])
-                        self.print_term('solvation["buffer"]   :', solvent_buffer,                   spaces=1, debug=True, debug_keys=["solvater"])
-                        self.print_term("solute_buffer         :", solute_buffer,                    spaces=1, debug=True, debug_keys=["solvater"])
-                        self.print_term("lipid_buffer          :", lipid_buffer,                     spaces=1, debug=True, debug_keys=["solvater"])
-                        self.print_term("protein_buffer        :", protein_buffer,                   spaces=1, debug=True, debug_keys=["solvater"])
+                        ### Separate if-statement for debug mode prevents a lot of calls to the self.print_term() method
+                        if self.debug_prints == True and (len(self.debug_keys) == 0 or "solvater" in self.debug_keys):
+                            self.print_term("Box type (box nr):", box_type, "("+str(boxi)+")",           spaces=0, debug=True, debug_keys=["solvater"])
+
+                            self.print_term("cxmin, cxmax          :", round(cxmin, 3), round(cxmax, 3), spaces=1, debug=True, debug_keys=["solvater"])
+                            self.print_term("cymin, cymax          :", round(cymin, 3), round(cymax, 3), spaces=1, debug=True, debug_keys=["solvater"])
+                            self.print_term("czmin, czmax          :", round(czmin, 3), round(czmax, 3), spaces=1, debug=True, debug_keys=["solvater"])
+                            self.print_term("xpoints, xreal_gridres:", xpoints, round(xreal_gridres, 4), spaces=1, debug=True, debug_keys=["solvater"])
+                            self.print_term("ypoints, yreal_gridres:", ypoints, round(yreal_gridres, 4), spaces=1, debug=True, debug_keys=["solvater"])
+                            self.print_term("zpoints, zreal_gridres:", zpoints, round(zreal_gridres, 4), spaces=1, debug=True, debug_keys=["solvater"])
+                            self.print_term("points total          :", xpoints*ypoints*zpoints,          spaces=1, debug=True, debug_keys=["solvater"])
+                            self.print_term("solvent_buffer        :", solvent_buffer,                   spaces=1, debug=True, debug_keys=["solvater"])
+                            self.print_term('solvation["buffer"]   :', solvent_buffer,                   spaces=1, debug=True, debug_keys=["solvater"])
+                            self.print_term("solute_buffer         :", solute_buffer,                    spaces=1, debug=True, debug_keys=["solvater"])
+                            self.print_term("lipid_buffer          :", lipid_buffer,                     spaces=1, debug=True, debug_keys=["solvater"])
+                            self.print_term("protein_buffer        :", protein_buffer,                   spaces=1, debug=True, debug_keys=["solvater"])
                         
                         ### Creates a 3D matrix indicating the points in space that are allowed to have solvent
                         ### Starts out being completely filled with ones indicating allowed space

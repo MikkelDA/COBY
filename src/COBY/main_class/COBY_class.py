@@ -484,20 +484,20 @@ class COBY(
                 if type(cmd) == str:
                     cmd = ast.literal_eval(cmd)
                 self.quiet = cmd
-                
+            
             elif key in ["debug"]:
                 assert cmd in ["False", "True", "0", "1", False, True, 0, 1], "Value given to 'debug' must be False/True/0/1 (strings allowed): " + cmd
                 if type(cmd) == str:
                     cmd = ast.literal_eval(cmd)
                 self.debug_prints = cmd
-                
+            
             elif key in ["debug_keys"]:
                 if type(cmd) == str:
                     self.debug_keys.append(cmd)
                 elif type(cmd) in [list, tuple]:
                     for subcmd in cmd:
                         self.debug_keys.append(subcmd)
-                
+            
             elif key in ["extra"]:
                 assert cmd in ["False", "True", "0", "1", False, True, 0, 1], "Value given to 'extra' must be False/True/0/1 (strings allowed): " + cmd
                 if type(cmd) == str:
@@ -509,7 +509,7 @@ class COBY(
                 if type(cmd) == str:
                     cmd = ast.literal_eval(cmd)
                 self.warnings = cmd
-                
+            
             elif key == "verbose":
                 number = self.get_number_from_string(cmd)
                 if number is False:
