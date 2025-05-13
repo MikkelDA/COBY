@@ -1,6 +1,6 @@
 # Coarse-grained System Builder (COBY)
 
-The paper is currently available as a preprint on [bioRxiv](https://www.biorxiv.org/content/10.1101/2024.07.23.604601v1).
+The publication is available open-source at [https://doi.org/10.1021/acs.jcim.5c00069](https://doi.org/10.1021/acs.jcim.5c00069).
 
 The source code, documentation, and tutorials are avialable on [GitHub](https://github.com/MikkelDA/COBY).
 
@@ -12,18 +12,19 @@ COBY is continuously under development, and we welcome suggestions for new featu
 
 ![](https://github.com/MikkelDA/COBY/raw/master/figures/COBY_Logo.png)
 
-## Citation (bioRxiv)
+## Citation (JCIM)
 ```
-@article {Andreasen2024COBY,
-	author = {Andreasen, Mikkel D. and Souza, Paulo C. T. and Schi{\o}tt, Birgit and Zuzic, Lorena},
-	title = {Creating Coarse-Grained Systems with COBY: Towards Higher Accuracy in Membrane Complexity},
-	elocation-id = {2024.07.23.604601},
-	year = {2024},
-	doi = {10.1101/2024.07.23.604601},
-	publisher = {Cold Spring Harbor Laboratory},
-	URL = {https://www.biorxiv.org/content/early/2024/07/23/2024.07.23.604601},
-	eprint = {https://www.biorxiv.org/content/early/2024/07/23/2024.07.23.604601.full.pdf},
-	journal = {bioRxiv}
+@article{Andreasen2025,
+author = {Andreasen, Mikkel D. and Souza, Paulo C. T. and Schiøtt, Birgit and Zuzic, Lorena},
+title = {Creating Coarse-Grained Systems with COBY: Toward Higher Accuracy of Complex Biological Systems},
+journal = {Journal of Chemical Information and Modeling},
+volume = {0},
+number = {0},
+pages = {null},
+year = {0},
+doi = {10.1021/acs.jcim.5c00069},
+URL = {https://doi.org/10.1021/acs.jcim.5c00069},
+eprint = {https://doi.org/10.1021/acs.jcim.5c00069}
 }
 ```
 
