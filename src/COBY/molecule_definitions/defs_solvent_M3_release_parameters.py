@@ -1,4 +1,10 @@
 solvent_defs = {}
+solvent_metadata = {}
+
+params = "default"
+solvent_metadata[params] = {
+    "Description": "Solvent and solutes in this parameter library are based on the release parameters for Martini 3 as described in https://doi.org/10.1038/s41592-021-01098-3.",
+}
 
 ################
 ### SOLVENTS ###

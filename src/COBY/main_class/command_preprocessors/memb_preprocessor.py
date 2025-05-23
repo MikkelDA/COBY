@@ -217,7 +217,9 @@ class memb_preprocessor:
                     ### Leaflet-specific data
                     "default": {
                         "lipids": {}, # empty
+                        "lipids_extra": {}, # empty
                         "lipids_preprocessing": [], # empty
+                        "lipids_extra_preprocessing": [], # empty
 
                         "kickxy": 0.025, # [nm] converted to [Å]
                         "kickz": 0.025, # [nm] converted to [Å]
@@ -270,6 +272,12 @@ class memb_preprocessor:
                         if "lipids_preprocessing" not in settings_dict[dict_target].keys():
                             settings_dict[dict_target]["lipids_preprocessing"] = []
                         settings_dict[dict_target]["lipids_preprocessing"].append(sub_cmd[1:])
+                    
+                    ### Designate extra lipids
+                    elif sub_cmd[0].lower() == "lipid_extra":
+                        if "lipids_extra_preprocessing" not in settings_dict[dict_target].keys():
+                            settings_dict[dict_target]["lipids_extra_preprocessing"] = []
+                        settings_dict[dict_target]["lipids_extra_preprocessing"].append(sub_cmd[1:])
                     
                     ### Bilayer/monolayer defition
                     elif sub_cmd[0].lower() in ["type"]:
@@ -614,7 +622,7 @@ class memb_preprocessor:
                             settings_dict[dict_target]["grid_maker_separator"] = ast.literal_eval(sub_cmd[1])
                         
                         else:
-                            assert False, "Unknown subcommand given to '-membrane'. The subcommand is: '" + str(sub_cmd) + "'"
+                            assert False, "Unknown subcommand given to '-membrane'. The subcommand is: '" + str(cmd) + "'"
                     
                     #############################
                     ### OPTIMIZATION SETTINGS ###
@@ -650,7 +658,7 @@ class memb_preprocessor:
                                 settings_dict[dict_target]["optimize_edge_push_multiplier"] = ast.literal_eval(sub_cmd[1])
                         
                         else:
-                            assert False, "Unknown subcommand given to '-membrane'. The subcommand is: '" + str(sub_cmd) + "'"
+                            assert False, "Unknown subcommand given to '-membrane'. The subcommand is: '" + str(cmd) + "'"
 
                     
                     ### Sets whether lipids should be rotated or not [True/False]
@@ -678,7 +686,7 @@ class memb_preprocessor:
                         settings_dict["membrane"]["inside_protein"] = ast.literal_eval(sub_cmd[1])
                     
                     else:
-                        assert False, "Unknown subcommand given to '-membrane'. The subcommand is: '" + str(sub_cmd) + "'"
+                        assert False, "Unknown subcommand given to '-membrane'. The subcommand is: '" + str(cmd) + "'"
                 
                 if layer_definition == "bilayer" and len(settings_dict["default"]["lipids_preprocessing"]) == 0:
                     if len(settings_dict["upper_leaf"]) > 0 and len(settings_dict["lower_leaf"]) == 0:
@@ -797,121 +805,150 @@ class memb_preprocessor:
                 for leaflet_key, leaflet in memb_dict["leaflets"].items():
                     tot_ratio = 0
                     assert len(leaflet["lipids_preprocessing"]) > 0, "No lipids given to '-membrane' flag. Please specify at least one lipid if you use it."
-                    for sub_cmd in leaflet["lipids_preprocessing"]:
-                        """
-                        Checks if parameters specified for lipid.
-                        Order: lipid specific parameters, leaflet specific parameters, general system parameters (defaults to "default")
-                        """
+                    for_prepocessing = [
+                        ("lipids", leaflet["lipids_preprocessing"]),
+                        ("lipids_extra", leaflet["lipids_extra_preprocessing"])
+                    ]
+                    for lipid_argtype, lipids_for_prepocessing in for_prepocessing:
+                        for sub_cmd in lipids_for_prepocessing:
+                            """
+                            Checks if parameters specified for lipid.
+                            Order: lipid specific parameters, leaflet specific parameters, general system parameters (defaults to "default")
+                            """
+                            name       = False
+                            params     = leaflet["params"] or self.lipid_params or self.sys_params
+                            charge     = leaflet["charge"]
+                            apl        = leaflet["apl"]
+                            extra_type = "absolute"
+                            extra_val  = 0
+                            if lipid_argtype == "lipids":
+                                ratio = 1
+                            elif lipid_argtype == "lipids_extra":
+                                ratio = 0
+                            
+                            all_subcmd_names = ["params", "charge", "ratio", "name"]
 
-                        name = False
-                        ratio = 1
-                        params = leaflet["params"] or self.lipid_params or self.sys_params
-                        charge = leaflet["charge"]
-                        apl    = leaflet["apl"]
-                        
-                        all_subcmd_names = ["params", "charge", "ratio", "name"]
-
-                        i = 0
-                        while i < len(sub_cmd):
-                            if sub_cmd[i].lower() == "params":
-                                params = sub_cmd[i+1]
-                                i += 2
-                            elif sub_cmd[i].lower() == "charge":
-                                assert sub_cmd[i+1].lower() in ["top", "topology", "lib", "library"], "Only 'top' and 'lib' are allowed values for lipid specific 'charge'" + "\n" + "Command: " + str(sub_cmd)
-                                if sub_cmd[i+1].lower() in ["top", "topology"]:
-                                    charge = "top"
-                                elif sub_cmd[i+1].lower() in ["lib", "library"]:
-                                    charge = "lib"
-                                i += 2
-                            elif sub_cmd[i].lower() == "ratio":
-                                ratio = ast.literal_eval(sub_cmd[i+1])
-                                i += 2
-                            elif sub_cmd[i].lower() == "name":
-                                name = sub_cmd[i+1]
-                                i += 2
-                            elif sub_cmd[i].lower() == "apl":
-                                apl = ast.literal_eval(sub_cmd[i+1]) * 100 # Converting from nm^2 to Å^2
-                                i += 2
-                            else: ### Assumes that it is the lipid name and potentially also the ratio
-                                name = sub_cmd[i]
-                                if len(sub_cmd[i:]) > 1 and sub_cmd[i+1] not in all_subcmd_names and self.get_number_from_string(sub_cmd[i+1]) is not False:
+                            i = 0
+                            while i < len(sub_cmd):
+                                if sub_cmd[i].lower() == "params":
+                                    params = sub_cmd[i+1]
+                                    i += 2
+                                elif sub_cmd[i].lower() == "charge":
+                                    assert sub_cmd[i+1].lower() in ["top", "topology", "lib", "library"], "Only 'top' and 'lib' are allowed values for lipid specific 'charge'" + "\n" + "Argument: " + str(sub_cmd)
+                                    if sub_cmd[i+1].lower() in ["top", "topology"]:
+                                        charge = "top"
+                                    elif sub_cmd[i+1].lower() in ["lib", "library"]:
+                                        charge = "lib"
+                                    i += 2
+                                elif sub_cmd[i].lower() == "ratio" and lipid_argtype == "lipids": # "lipid_extra" uses "extra_val" to set value
                                     ratio = ast.literal_eval(sub_cmd[i+1])
+                                    i += 2
+                                elif sub_cmd[i].lower() == "name":
+                                    name = sub_cmd[i+1]
+                                    i += 2
+                                elif sub_cmd[i].lower() == "apl"  and lipid_argtype == "lipids": # Not used for "lipid_extra"
+                                    apl = ast.literal_eval(sub_cmd[i+1]) * 100 # Converting from nm^2 to Å^2
+                                    i += 2
+                                elif sub_cmd[i].lower() == "extra_type" and lipid_argtype == "lipids_extra":
+                                    assert sub_cmd[i+1] in ["absolute", "percentage_leaflet", "percentage_lipid"], "Only 'absolute' and 'percentage' are allowed values for lipid_extra specific 'extratype'" + "\n" + "Argument: " + str(sub_cmd)
+                                    extra_type = sub_cmd[i+1]
+                                    i += 2
+                                elif sub_cmd[i].lower() == "extra_val" and lipid_argtype == "lipids_extra":
+                                    extra_val = ast.literal_eval(sub_cmd[i+1])
+                                    i += 2
+                                else: ### Assumes that it is the lipid name and potentially also the ratio - Only for "lipids", not for "lipids_extra"
+                                    assert lipid_argtype != "lipids_extra", "'lipids_extra' arguments do not automatically assume lipid_extra specific subarguments. They must be specified." + "\n" + "Argument: " + str(sub_cmd)
+                                    name = sub_cmd[i]
+                                    if len(sub_cmd[i:]) > 1 and sub_cmd[i+1] not in all_subcmd_names and self.get_number_from_string(sub_cmd[i+1]) is not False:
+                                        ratio = ast.literal_eval(sub_cmd[i+1])
+                                        i += 1
                                     i += 1
-                                i += 1
-                        
-                        ### Checks if lipid name has been given and if it exists in the specified parameter library
-                        assert name is not False, "A name has not been given for a lipid. Full lipid command: " + str(sub_cmd)
-                        assert params in self.lipid_dict.keys(), "\n".join([
-                            "The lipid parameter library '{params}' was not found".format(params=params),
-                            "The available lipid parameter libraries are:"
-                            "    ", " ".join(list(self.lipid_dict.keys()))
-                        ])
-                        assert name in self.lipid_dict[params].keys(), "\n".join([
-                            "The lipid '{name}' was not found in the lipid parameter library '{params}'".format(name=name, params=params),
-                            "The available lipids in the lipid parameter library '{params}' are:".format(params=params),
-                            "    ", " ".join(list(self.lipid_dict[params].keys()))
-                        ])
-                        
-                        leaflet["lipids"][name] = copy.deepcopy(self.lipid_dict[params][name])
-
-                        leaflet["lipids"][name].ratio_add(ratio)
-                        tot_ratio += leaflet["lipids"][name].ratio
-                        
-                        leaflet["lipids"][name].apl_add(apl)
-
-                        if leaflet["lipids"][name].moleculetype is not False:
-                            moleculetype = leaflet["lipids"][name].moleculetype
-                        else:
-                            moleculetype = False
-
-                        ### Finds charge data from topology files
-                        if len(self.ITP_INPUT_cmds) > 0 and charge == "top":
-                            assert moleculetype is not False, "\n".join([
-                                "Charges are set to be obtained from topology, but this molecule does not have a moleculetype: {name}".format(name=name),
-                                "If you have imported the molecule using 'molecule_import' without specifying a moleculetype, then please change membrane command to the following:",
-                                "'lipid:" + ":".join(sub_cmd) + ":charge:lib'",
+                            
+                            ### Checks if lipid name has been given and if it exists in the specified parameter library
+                            assert name is not False, "A name has not been given for a lipid. Full lipid command: " + str(sub_cmd)
+                            assert params in self.lipid_dict.keys(), "\n".join([
+                                "The lipid parameter library '{params}' was not found".format(params=params),
+                                "The available lipid parameter libraries are:"
+                                "    ", " ".join(list(self.lipid_dict.keys()))
                             ])
-                            assert moleculetype in self.itp_moleculetypes.keys(), "\n".join([
-                                "Lipid name '{moleculetype}' could not be found in the topology.".format(moleculetype=moleculetype),
-                                "You can exempt all lipids (in this membrane command) from being searched for in the topology by adding the following to the membrane command:",
-                                "    "+"charge:lib",
-                                "Alternatively, you can exempt a specific lipid from being searched for in the topology by adding the following to the lipid command:",
-                                "    "+"charge:lib",
-                                "Example:",
-                                "    "+"lipid:POPC:5:charge:lib",
+                            assert name in self.lipid_dict[params].keys(), "\n".join([
+                                "The lipid '{name}' was not found in the lipid parameter library '{params}'".format(name=name, params=params),
+                                "The available lipids in the lipid parameter library '{params}' are:".format(params=params),
+                                "    ", " ".join(list(self.lipid_dict[params].keys()))
                             ])
-                            bead_charges = list(map(
-                                self.get_number_from_string,
-                                self.itp_moleculetypes[moleculetype].topology_types_in_molecule["atoms"].get_value_type("charge")
-                            ))
-                            beads_in_structure = leaflet["lipids"][name].get_bead_names()
-                            try:
-                                beads_in_structure_len = len(beads_in_structure)
-                            except:
-                                beads_in_structure_len = "NaN"
-                            beads_in_topology = [entry.atom for entry in self.itp_moleculetypes[moleculetype].topology_types_in_molecule["atoms"].entries.values()]
-                            try:
-                                beads_in_topology_len = len(beads_in_topology)
-                            except:
-                                beads_in_topology_len = "NaN"
-                            assert len(bead_charges) == len(leaflet["lipids"][name].get_beads()), "\n".join([
-                                "Mismatch found between number of beads in structure and number of beads in topology for '{name}' during preprocessing of membrane command".format(name=name),
-                                "Beads in structure:",
-                                "    " + "Number of beads: " + str(beads_in_structure_len),
-                                "    " + "Beads: " + str(beads_in_structure),
-                                "Beads in topology:",
-                                "    " + "Number of beads: " + str(beads_in_topology_len),
-                                "    " + "Beads: " + str(beads_in_topology),
-                            ])
-                            leaflet["lipids"][name].set_bead_charges(bead_charges)
+                            
+                            lipid = copy.deepcopy(self.lipid_dict[params][name])
+
+                            lipid.ratio_add(ratio)
+                            tot_ratio += lipid.ratio
+                            
+                            lipid.apl_add(apl)
+
+                            lipid.extra_type_add(extra_type)
+                            lipid.extra_val_add(extra_val)
+
+                            if lipid.moleculetype is not False:
+                                moleculetype = lipid.moleculetype
+                            else:
+                                moleculetype = False
+
+                            ### Finds charge data from topology files
+                            if len(self.ITP_INPUT_cmds) > 0 and charge == "top":
+                                assert moleculetype is not False, "\n".join([
+                                    "Charges are set to be obtained from topology, but this molecule does not have a moleculetype: {name}".format(name=name),
+                                    "If you have imported the molecule using 'molecule_import' without specifying a moleculetype, then please change membrane command to the following:",
+                                    "'lipid:" + ":".join(sub_cmd) + ":charge:lib'",
+                                ])
+                                assert moleculetype in self.itp_moleculetypes.keys(), "\n".join([
+                                    "Lipid name '{moleculetype}' could not be found in the topology.".format(moleculetype=moleculetype),
+                                    "You can exempt all lipids (in this membrane command) from being searched for in the topology by adding the following to the membrane command:",
+                                    "    "+"charge:lib",
+                                    "Alternatively, you can exempt a specific lipid from being searched for in the topology by adding the following to the lipid command:",
+                                    "    "+"charge:lib",
+                                    "Example:",
+                                    "    "+"lipid:POPC:5:charge:lib",
+                                ])
+                                bead_charges = list(map(
+                                    self.get_number_from_string,
+                                    self.itp_moleculetypes[moleculetype].topology_types_in_molecule["atoms"].get_value_type("charge")
+                                ))
+                                beads_in_structure = lipid.get_bead_names()
+                                try:
+                                    beads_in_structure_len = len(beads_in_structure)
+                                except:
+                                    beads_in_structure_len = "NaN"
+                                beads_in_topology = [entry.atom for entry in self.itp_moleculetypes[moleculetype].topology_types_in_molecule["atoms"].entries.values()]
+                                try:
+                                    beads_in_topology_len = len(beads_in_topology)
+                                except:
+                                    beads_in_topology_len = "NaN"
+                                assert len(bead_charges) == len(lipid.get_beads()), "\n".join([
+                                    "Mismatch found between number of beads in structure and number of beads in topology for '{name}' during preprocessing of membrane command".format(name=name),
+                                    "Beads in structure:",
+                                    "    " + "Number of beads: " + str(beads_in_structure_len),
+                                    "    " + "Beads: " + str(beads_in_structure),
+                                    "Beads in topology:",
+                                    "    " + "Number of beads: " + str(beads_in_topology_len),
+                                    "    " + "Beads: " + str(beads_in_topology),
+                                ])
+                                lipid.set_bead_charges(bead_charges)
+                            
+                            leaflet[lipid_argtype][name] = copy.deepcopy(lipid)
+
+                    ### Adds extra lipids to normal "lipids" to create fake lipid with ratio of zero for easier addition of extra lipids
+                    for lipid_name, lipid in leaflet["lipids_extra"].items():
+                        if lipid_name not in leaflet["lipids"]:
+                            leaflet["lipids"][lipid_name] = copy.deepcopy(lipid)
+
+                    all_leaflet_lipids = list(leaflet["lipids"].values()) + list(leaflet["lipids_extra"].values())
                     
                     lipid_extremes_dict = {"max_xys": [], "max_zs": [], "min_xys": [], "min_zs": []}
-                    for lipid in leaflet["lipids"].keys():
+                    for lipid in all_leaflet_lipids:
                         for func, func_str, sign in [(min, "min", +1), (max, "max", -1)]:
                             for ax, wr in [("xy", "plane"), ("z", "height")]:
                                 lipid_val = round(func([
                                     val + (leaflet["kick" + ax] + leaflet[wr + "_buffer"]) * sign
-                                    for val in leaflet["lipids"][lipid].get_coords(ax)[0]
+                                    for val in lipid.get_coords(ax)[0]
                                 ]), 2)
                                 lipid_extremes_dict[func_str+"_"+ax+"s"].append(lipid_val)
 
@@ -926,12 +963,12 @@ class memb_preprocessor:
                     
                     lipid_radii = [
                             lipid_class.get_radius(AXs="xy")
-                            for lipid_class in leaflet["lipids"].values()
+                            for lipid_class in all_leaflet_lipids
                     ]
                     
                     lipid_heights = [
                             lipid_class.get_radius(AXs="z") * 2
-                            for lipid_class in leaflet["lipids"].values()
+                            for lipid_class in all_leaflet_lipids
                     ]
                     
                     # memb_directional_heights.append(max(lipid_heights) * leaflet["HG_sign"])
@@ -939,7 +976,7 @@ class memb_preprocessor:
                     
                     lipid_heights_ratios = [
                         lipid_class.get_radius(AXs="z") * 2 * lipid_class.ratio / tot_ratio
-                        for lipid_class in leaflet["lipids"].values()
+                        for lipid_class in all_leaflet_lipids
                     ]
                     
                     memb_mean_directional_heights.append(np.sum(lipid_heights_ratios) * leaflet["HG_sign"])
@@ -965,8 +1002,8 @@ class memb_preprocessor:
                     leaflet["apl"]                            = lipid_specific_apl_apls_times_ratios_sum / lipid_specific_apl_ratios_sum
                     
                     if self.debug_prints == True and (len(self.debug_keys) == 0 or "membrane_preprocessor" in self.debug_keys):
-                        lipid_specific_apl_apls_list              = [lipid.apl for lipid in leaflet["lipids"].values()]
-                        lipid_specific_apl_ratios_list            = [lipid.ratio for lipid in leaflet["lipids"].values()]
+                        lipid_specific_apl_apls_list   = [lipid.apl for lipid in leaflet["lipids"].values()]
+                        lipid_specific_apl_ratios_list = [lipid.ratio for lipid in leaflet["lipids"].values()]
                         self.print_term("lipid_specific_apl_apls_list             ", lipid_specific_apl_apls_list,              debug=True, debug_keys=["membrane_preprocessor"])
                         self.print_term("lipid_specific_apl_ratios_list           ", lipid_specific_apl_ratios_list,            debug=True, debug_keys=["membrane_preprocessor"])
                         self.print_term("lipid_specific_apl_apls_times_ratios_list", lipid_specific_apl_apls_times_ratios_list, debug=True, debug_keys=["membrane_preprocessor"])

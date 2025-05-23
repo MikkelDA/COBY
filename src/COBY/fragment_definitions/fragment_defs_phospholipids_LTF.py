@@ -1,9 +1,13 @@
-
 from COBY.fragment_definitions.function_tailbuilder import tail_builder
-
 import copy
 
 fragment_defs = {}
+fragment_metadata = {}
+
+moltype = "phospholipid_LTF"
+fragment_metadata[moltype] = {
+    "Description": "Fragments for this moleculetype (moltype) are based on the phospholipids (glycero-, plasmalogen- and etherphospholipids) from the lipid task force parameters for Martini 3 as described in https://doi.org/10.26434/chemrxiv-2024-8bjrr.",
+}
 
 ### General lipid type
 ### Includes glycerophoshpolipids (GL), etherphospholipids (ET) and plasmalogens (PL), depending on used linker

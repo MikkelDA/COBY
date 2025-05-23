@@ -13,7 +13,7 @@ class molecule_fragment_builder:
                         part, val = cmd_part.split(":", maxsplit=1)
                         assert part not in cmd_dict.keys(), "Molecule part '{part}' given multiple times for molecule builder argument '{cmd}'".format(part=part, cmd=cmd)
                         cmd_dict[part] = val
-                    
+                
                 self.print_term("MOLECULE_FRAGMENT_BUILDER cmd:     ", cmd,      debug=True, debug_keys=["MFB"])
                 self.print_term("MOLECULE_FRAGMENT_BUILDER cmd_dict:", cmd_dict, debug=True, debug_keys=["MFB"])
 

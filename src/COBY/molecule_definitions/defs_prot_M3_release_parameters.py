@@ -1,4 +1,10 @@
-prot_defs    = {}
+prot_defs     = {}
+prot_metadata = {}
+
+params = "default"
+prot_metadata[params] = {
+    "Description": "The protein bead-charge mapping in this parameter library are based on the release parameters for Martini 3 as described in https://doi.org/10.1038/s41592-021-01098-3.",
+}
 
 ###########################
 ### PROTEIN CHARGE DATA ###

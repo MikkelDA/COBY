@@ -1,6 +1,12 @@
 from COBY.fragment_definitions.function_tailbuilder import tail_builder
 
 fragment_defs = {}
+fragment_metadata = {}
+
+moltype = "phospholipid"
+fragment_metadata[moltype] = {
+    "Description": "Fragments for this moleculetype (moltype) are based on the phospholipids from the release parameters for Martini 3 phospholipids as described in https://doi.org/10.1038/s41592-021-01098-3.",
+}
 
 ### General lipid type
 ### Includes glycerophoshpolipids (GL), etherphospholipids (ET) and plasmalogens (PL), depending on used linker

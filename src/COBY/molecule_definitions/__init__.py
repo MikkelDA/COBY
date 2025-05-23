@@ -13,6 +13,15 @@ solvent_defs    = {}
 pos_ion_defs    = {}
 neg_ion_defs    = {}
 prot_defs       = {}
+### Defs for molecule fragment builder
+fragment_defs   = {}
+
+lipid_metadata    = {}
+solvent_metadata  = {}
+pos_ion_metadata  = {}
+neg_ion_metadata  = {}
+prot_metadata     = {}
+fragment_metadata = {}
 
 ### Runs through all definition files and adds their definitions to the global definition dictionaries
 ### Finds list of all definition files in directory
@@ -38,3 +47,14 @@ for defs_file in defs_files:
         neg_ion_defs.update(defs.neg_ion_defs)
     if hasattr(defs, "prot_defs"):
         prot_defs.update(defs.prot_defs)
+    
+    if hasattr(defs, "lipid_metadata"):
+        lipid_metadata.update(defs.lipid_metadata)
+    if hasattr(defs, "solvent_metadata"):
+        solvent_metadata.update(defs.solvent_metadata)
+    if hasattr(defs, "pos_ion_metadata"):
+        pos_ion_metadata.update(defs.pos_ion_metadata)
+    if hasattr(defs, "neg_ion_metadata"):
+        neg_ion_metadata.update(defs.neg_ion_metadata)
+    if hasattr(defs, "prot_metadata"):
+        prot_metadata.update(defs.prot_metadata)

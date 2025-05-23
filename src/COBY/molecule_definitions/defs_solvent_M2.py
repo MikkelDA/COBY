@@ -1,4 +1,10 @@
 solvent_defs = {}
+solvent_metadata = {}
+
+params = "M2"
+solvent_metadata[params] = {
+    "Description": "Solvent in this parameter library is based on the Martini 2 parameters as described in https://doi.org/10.1021/jp071097f.",
+}
 
 ################
 ### SOLVENTS ###

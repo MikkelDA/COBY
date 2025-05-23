@@ -4,7 +4,8 @@ DOCSTRING TO BE WRITTEN
 
 import os
 
-fragment_defs = {}
+fragment_defs   = {}
+fragment_metadata = {}
 
 ### Runs through all definition files and adds their definitions to the global definition dictionary
 ### Finds list of all definition files in directory
@@ -20,3 +21,6 @@ for defs_file in defs_files:
 
     if hasattr(defs, "fragment_defs"):
         fragment_defs.update(defs.fragment_defs)
+
+    if hasattr(defs, "fragment_metadata"):
+        fragment_metadata.update(defs.fragment_metadata)

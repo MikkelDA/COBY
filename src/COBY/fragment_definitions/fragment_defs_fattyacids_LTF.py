@@ -1,7 +1,12 @@
-
 from COBY.fragment_definitions.function_tailbuilder import tail_builder
 
 fragment_defs = {}
+fragment_metadata = {}
+
+moltype = "fattyacid_LTF"
+fragment_metadata[moltype] = {
+    "Description": "Fragments for this moleculetype (moltype) are based on the fatty acids from the lipid task force parameters for Martini 3 as described in https://doi.org/10.26434/chemrxiv-2024-8bjrr.",
+}
 
 ### General lipid type
 moltype = "fattyacid_LTF"

@@ -1,4 +1,10 @@
 lipid_scaffolds = {}
+lipid_metadata = {}
+
+params = "M2"
+lipid_metadata[params] = {
+    "Description": "Lipids in this parameter library are based on the Martini 2 parameters as described in https://doi.org/10.1021/jp071097f.",
+}
 
 ##############
 ### LIPIDS ###

@@ -180,7 +180,63 @@ class lipid_calculator:
                                     subleaflet_key = subleaflet_occupancy_sorted[0]
                                     leaflet["subleaflets"][subleaflet_key]["lipid_ratios"][li] += val
                                     leaflet["leaf_lipid_count_dict"][sb_name] += val
+
+                    if len(leaflet["lipids_extra"]) != 0:
+                        extra_lipids = {}
+                        for lipid_name, lipid in leaflet["lipids_extra"].items():
+                            ### Calculating number of extra lipids
+                            if lipid.extra_type == "absolute":
+                                lipid_count = lipid.extra_val
+                            elif lipid.extra_type == "percentage_lipid":
+                                assert lipid_name in leaflet["leaf_lipid_count_dict"], "'lipid_extra' used with 'extra_type:percentage_lipidtype' for lipid '{lipid_name}', but the lipid has not been added with the 'lipid' argument to the leaflet '{leaflet}'.".format(lipid_name=lipid_name, leaflet=leaflet_key)
+                                lipid_count = int(lipid.extra_val * leaflet["leaf_lipid_count_dict"][lipid_name] + 0.5) # Rounding to integer
+                            elif lipid.extra_type == "percentage_leaflet":
+                                lipid_count = int(lipid.extra_val * sum(leaflet["leaf_lipid_count_dict"].values()) + 0.5) # Rounding to integer
+                            extra_lipids[lipid_name] = lipid_count
                         
+                        ### Extra lipids added in separate loop to prevent one addition from affecting another
+                        for lipid_name, lipid_count in extra_lipids.items():
+                            ### Adding the extra lipids to subleaflets
+                            li = list(leaflet["leaf_lipid_count_dict"].keys()).index(lipid_name)
+                            if lipid_count > 0:
+                                val = 1
+                            elif lipid_count < 0:
+                                val = -1
+                            for _ in range(val*lipid_count):
+                                subleaflet_occupancy = []
+                                for (slxi, slyi, sli), subleaflet in leaflet["subleaflets"].items():
+                                    area    = subleaflet["holed_bbox"].area
+                                    apl     = leaflet["apl"]
+                                    nlipids = np.sum(subleaflet["lipid_ratios"])
+                                    subleaflet_occupancy.append(((slxi, slyi, sli), (apl * (nlipids+val)) / area))
+                                if lipid_count > 0:
+                                    subleaflet_occupancy_sorted = sorted(subleaflet_occupancy, key=lambda x: x[1], reverse=False)[0]
+                                elif lipid_count < 0:
+                                    subleaflet_occupancy_sorted = sorted(subleaflet_occupancy, key=lambda x: x[1], reverse=True)[0]
+                                subleaflet_key = subleaflet_occupancy_sorted[0]
+                                leaflet_lipid_data["lipid_ratios"][li] += val
+                                leaflet["subleaflets"][subleaflet_key]["lipid_ratios"][li] += val
+                                leaflet["leaf_lipid_count_dict"][lipid_name] += val
+
+                    ### Checks if there is less than zero lipids for any lipid type and removes it if that is the case
+                    ### ### Subleaflet-specific data
+                    for sl_key in leaflet["subleaflets"].keys():
+                        lris_to_be_removed = []
+                        for lri, lipid_ratio in enumerate(leaflet["subleaflets"][sl_key]["lipid_ratios"]):
+                            if lipid_ratio <= 0:
+                                lris_to_be_removed.append(lri)
+                        leaflet["subleaflets"][sl_key]["lipid_ratios"] = [ratio for lri, ratio in enumerate(leaflet["subleaflets"][sl_key]["lipid_ratios"]) if lri not in lris_to_be_removed]
+                        leaflet["subleaflets"][sl_key]["lipid_names"] = [ratio for lri, ratio in enumerate(leaflet["subleaflets"][sl_key]["lipid_names"]) if lri not in lris_to_be_removed]
+                    ### ### Leaflet-wide data
+                    lris_to_be_removed = []
+                    for lri, lipid_ratio in enumerate(leaflet_lipid_data["lipid_ratios"]):
+                        if lipid_ratio <= 0:
+                            lris_to_be_removed.append(lri)
+                    leaflet_lipid_data["lipid_ratios"] = [ratio for lri, ratio in enumerate(leaflet_lipid_data["lipid_ratios"]) if lri not in lris_to_be_removed]
+                    leaflet_lipid_data["lipid_names"] = [ratio for lri, ratio in enumerate(leaflet_lipid_data["lipid_names"]) if lri not in lris_to_be_removed]
+                    ### ### Leaflet count dict
+                    leaflet["leaf_lipid_count_dict"] = {lipid_name: count for lipid_name, count in leaflet["leaf_lipid_count_dict"].items() if count > 0}
+
                     leaflet["leaf_lipid_count"] = []
                     for n, c in leaflet["leaf_lipid_count_dict"].items():
                         leaflet["leaf_lipid_count"].append((n, c))

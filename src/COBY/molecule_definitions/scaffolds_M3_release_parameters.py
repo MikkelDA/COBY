@@ -1,4 +1,10 @@
 lipid_scaffolds = {}
+lipid_metadata = {}
+
+params = "default"
+lipid_metadata[params] = {
+    "Description": "Lipids in this parameter library are based on the release parameters for Martini 3 as described in https://doi.org/10.1038/s41592-021-01098-3.",
+}
 
 ### DISCLAIMER
 ### The following scaffolds are converted to the COBY format from insane (https://github.com/Tsjerk/Insane).

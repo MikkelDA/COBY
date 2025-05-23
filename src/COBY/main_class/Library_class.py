@@ -16,6 +16,13 @@ neg_ion_defs    = {}
 prot_defs       = {}
 fragment_defs   = {}
 
+lipid_metadata    = {}
+solvent_metadata  = {}
+pos_ion_metadata  = {}
+neg_ion_metadata  = {}
+prot_metadata     = {}
+fragment_metadata = {}
+
 from COBY.molecule_definitions.__init__ import *
 from COBY.fragment_definitions.__init__ import *
 from COBY.structure_classes.__init__ import *
@@ -87,7 +94,6 @@ class Library(
         self.system_charge = 0
         self.system_name = "PLACEHOLDER_TITLE"
         
-#         self.output_system_file_name     = "output"
         self.output_system_pdb_file_name = False
         self.output_system_gro_file_name = False
         self.output_topol_file_name      = "topol.top"
@@ -165,6 +171,43 @@ class Library(
         except:
             self.print_term("WARNING: No protein charge definitions found", warn=True)
             self.prot_defs = {}
+
+        try:
+            self.lipid_metadata = copy.deepcopy(lipid_metadata)
+        except:
+            self.print_term("WARNING: No lipid metadata found", warn=True)
+            self.lipid_metadata = {}
+
+        try:
+            self.solvent_metadata = copy.deepcopy(solvent_metadata)
+        except:
+            self.print_term("WARNING: No solvent metadata found", warn=True)
+            self.solvent_metadata = {}
+
+        try:
+            self.pos_ion_metadata = copy.deepcopy(pos_ion_metadata)
+        except:
+            self.print_term("WARNING: No positive ion metadata found", warn=True)
+            self.pos_ion_metadata = {}
+
+        try:
+            self.neg_ion_metadata = copy.deepcopy(neg_ion_metadata)
+        except:
+            self.print_term("WARNING: No negative ion metadata found", warn=True)
+            self.neg_ion_metadata = {}
+
+        try:
+            self.prot_metadata = copy.deepcopy(prot_metadata)
+        except:
+            self.print_term("WARNING: No fragment metadata found", warn=True)
+            self.prot_metadata = {}
+
+        try:
+            self.fragment_metadata = copy.deepcopy(fragment_metadata)
+        except:
+            self.print_term("WARNING: No fragment metadata found", warn=True)
+            self.fragment_metadata = {}
+
         
         self.lipid_dict   = {}
         self.solvent_dict = {}
@@ -418,7 +461,6 @@ class Library(
         else:
             assert False, "Invalid 'moltype' recieved by 'print_mol_data': {moltype}".format(moltype=moltype)
 
-
         self.print_term("Below information is for the {moltype_longname} '{mol_name}' from the parameter library '{parameter_library}'".format(moltype_longname=moltype_longname, mol_name=mol_name, parameter_library=parameter_library), verbose=0)
         self.print_term("General data:",                                                                        verbose=0, spaces=1)
         self.print_term("Number of residues:", mol_dict[parameter_library][mol_name].n_residues,                verbose=0, spaces=2)
@@ -634,12 +676,13 @@ class Library(
         val = self.print_term(
             "\n".join([
                 "What library would you like to investigate? Your options are shown below:",
-                "    "+"Quit:                           'q' or 'quit' ",
-                "    "+"For the lipid library:          'lipid(s)'",
-                "    "+"For the solvent/solute library: 'solvent(s)'",
-                "    "+"For the positive ion library:   'pos_ion(s)'",
-                "    "+"For the negative ion library:   'neg_ion(s)'",
-                "    "+"For the protein charge library: 'protein(s)'",
+                "    "+"Quit:                                      'q' or 'quit' ",
+                "    "+"For the lipid library:                     'lipid(s)'",
+                "    "+"For the solvent/solute library:            'solvent(s)'",
+                "    "+"For the positive ion library:              'pos_ion(s)'",
+                "    "+"For the negative ion library:              'neg_ion(s)'",
+                "    "+"For the protein charge library:            'protein(s)'",
+                "    "+"For the molecule fragment builder library: 'fragment(s)'",
                 "",
             ]),
             inp=True
@@ -659,6 +702,8 @@ class Library(
             self.ILR_layer1_lipid_solvent_ions("neg_ion")
         elif val.lower() in ["protein", "proteins"]:
             self.ILR_layer1_protein()
+        elif val.lower() in ["fragment", "fragments"]:
+            self.ILR_layer1_MFB()
         else:
             self.ILR_invalid_answer(val)
             ILR_restart_layer()
@@ -695,7 +740,7 @@ class Library(
         ])))
 
         longest_string = "Print all {moltype_longname} names in a parameter library:".format(moltype_longname=moltype_longname)
-        longest_string_len = len(longest_string)
+        longest_string_len = len(longest_string) + 1
 
         val = self.print_term(
             "\n".join([
@@ -802,21 +847,42 @@ class Library(
         if moltype == "lipid":
             mol_dict = self.lipid_dict
             moltype_longname = "lipid"
-        
+            metadata_dict = self.lipid_metadata
+
         elif moltype == "solvent":
             mol_dict = self.solvent_dict
             moltype_longname = "solvent"
+            metadata_dict = self.solvent_metadata
         
         elif moltype == "pos_ion":
             mol_dict = self.pos_ion_dict
             moltype_longname = "positive ion"
+            metadata_dict = self.pos_ion_metadata
         
         elif moltype == "neg_ion":
             mol_dict = self.neg_ion_dict
             moltype_longname = "negative ion"
+            metadata_dict = self.neg_ion_metadata
+        
         else:
             assert False, "Invalid 'moltype' recieved by 'ILR_layer1': {moltype}".format(moltype=moltype)
 
+        metadata_str = ""
+        if parameter_library in metadata_dict.keys():
+            metadata_str_list = []
+            metadata_str_list.append("")
+            metadata_str_list.append("This parameter library contains the following metadata:")
+            for descriptor, lines in metadata_dict[parameter_library].items():
+                descriptor = str(descriptor)
+                if descriptor[-1] != ":":
+                    descriptor = descriptor + ":"
+                metadata_str_list.append("    " + descriptor)
+                if type(lines) not in [list, tuple]:
+                    lines = [lines]
+                for line in lines:
+                    metadata_str_list.append("    " + "    " + line)
+            metadata_str_list.append("")
+            metadata_str = "\n".join(metadata_str_list)
 
         tags_in_parameter_library = sorted(list(set([
             tag
@@ -827,12 +893,12 @@ class Library(
         mol_names_in_parameter_library = sorted([mol for mol in mol_dict[parameter_library].keys()])
 
         longest_string = "Print names of all {moltype_longname}s in the parameter library:".format(moltype_longname=moltype_longname)
-        longest_string_len = len(longest_string)
+        longest_string_len = len(longest_string) + 1
 
         val = self.print_term(
             "\n".join([
                 "You are in the {moltype_longname} parameter library '{parameter_library}':".format(moltype_longname=moltype_longname, parameter_library=parameter_library),
-                "",
+                metadata_str,
                 "What would you like to do? Your options are shown below:",
                 "    "+"Quit:".ljust(longest_string_len)                                                                                                      + "'q' or 'quit'",
                 "    "+"Return to previous question:".ljust(longest_string_len)                                                                               + "'r' or 'return'",
@@ -855,7 +921,7 @@ class Library(
             pass
         
         elif val in ["r", "return"]:
-            self.ILR_layer1(moltype)
+            self.ILR_layer1_lipid_solvent_ions(moltype)
         
         elif val.lower() in ("print{moltype}".format(moltype=moltype), "print{moltype}s".format(moltype=moltype), "p{first_letter}".format(first_letter=moltype[0])):
             self.print_term("Following {moltype_longname}s are present in the '{parameter_library}' parameter library:".format(moltype_longname=moltype_longname, parameter_library=parameter_library), verbose=0)
@@ -903,7 +969,7 @@ class Library(
         parameter_libraries = sorted(list(self.prot_defs.keys()))
 
         longest_string = "Print all residue names in a parameter library:"
-        longest_string_len = len(longest_string)
+        longest_string_len = len(longest_string) + 1
 
         val = self.print_term(
             "\n".join([
@@ -991,15 +1057,33 @@ class Library(
         restart_dict={"parameter_library": parameter_library}
         self.print_term("-"*self.terminalupdate_string_length, verbose=0)
 
+        metadata_dict = self.prot_metadata
+        metadata_str = ""
+        if parameter_library in metadata_dict.keys():
+            metadata_str_list = []
+            metadata_str_list.append("")
+            metadata_str_list.append("This parameter library contains the following metadata:")
+            for descriptor, lines in metadata_dict[parameter_library].items():
+                descriptor = str(descriptor)
+                if descriptor[-1] != ":":
+                    descriptor = descriptor + ":"
+                metadata_str_list.append("    " + descriptor)
+                if type(lines) not in [list, tuple]:
+                    lines = [lines]
+                for line in lines:
+                    metadata_str_list.append("    " + "    " + line)
+            metadata_str_list.append("")
+            metadata_str = "\n".join(metadata_str_list)
+
         res_names_in_parameter_library = sorted([res for res in self.prot_defs[parameter_library]["charges"].keys()])
 
         longest_string = "Print names of all protein residues in the parameter library:"
-        longest_string_len = len(longest_string)
+        longest_string_len = len(longest_string) + 1
 
         val = self.print_term(
             "\n".join([
                 "You are in the protein residue charge parameter library '{parameter_library}':".format(parameter_library=parameter_library),
-                "",
+                metadata_str,
                 "What would you like to do? Your options are shown below:",
                 "    "+"Quit:".ljust(longest_string_len)                                                         + "'q' or 'quit'",
                 "    "+"Return to previous question:".ljust(longest_string_len)                                  + "'r' or 'return'",
@@ -1047,3 +1131,188 @@ class Library(
             self.ILR_invalid_answer(val)
             ILR_restart_layer(**restart_dict)
 
+    def ILR_layer1_MFB(self):
+        ILR_restart_layer = self.ILR_layer1_MFB
+        self.print_term("-"*self.terminalupdate_string_length, verbose=0)
+
+        moltypes = sorted(list(self.fragment_defs.keys()))
+
+        longest_string = "Examine molecule type (moltype):"
+        longest_string_len = len(longest_string) + 1
+
+        val = self.print_term(
+            "\n".join([
+                "You are in the general molecule fragment builder library. The names of all available fragment molecule types (moltype) are shown below:",
+                "    "+" ".join(["'"+moltype+"'" for moltype in moltypes]),
+                "",
+                "What would you like to do? Your options are shown below:",
+                "    "+"Quit:".ljust(longest_string_len)                                              + "'q' or 'quit'",
+                "    "+"Return to previous question:".ljust(longest_string_len)                       + "'r' or 'return'",
+                "    "+"Examine molecule type (moltype):".ljust(longest_string_len)                   + "'moltype(s):[moltype]' or '[moltype]'",
+                "",
+            ]),
+            inp=True
+        )
+        self.print_term("", verbose=0)
+        val = val.lstrip(" ").rstrip(" ")
+
+        if val.lower() in ["q", "quit"]:
+            pass
+        
+        elif val in ["r", "return"]:
+            self.ILR_layer0_main()
+        
+        elif val.lower().startswith(("moltype:", "moltypes:")) or val in moltypes:
+            moltype = False
+            if val.lower().startswith(("moltype:", "moltypes:")):
+                if len(val.split(":")) == 2:
+                    moltype = val.split(":")[1]
+                else:
+                    self.print_term("You must specify exactly one molecule type (moltype): '{val}'.".format(val=val), verbose=0)
+                    self.print_term("", verbose=0)
+            else:
+                moltype = val
+            
+            if moltype is not False:
+                if moltype in moltypes:
+                    self.ILR_layer2_MFB(moltype=moltype)
+                else:
+                    self.print_term("Molecule type (moltype) not found. You must specify an existing molecule type: '{val}'.".format(val=val), verbose=0)
+                    self.print_term("", verbose=0)
+                    ILR_restart_layer()
+            else:
+                ILR_restart_layer()
+        
+        else:
+            self.ILR_invalid_answer(val)
+            ILR_restart_layer()
+
+    def ILR_layer2_MFB(self, moltype):
+        ILR_restart_layer = self.ILR_layer2_MFB
+        restart_dict={"moltype": moltype}
+        self.print_term("-"*self.terminalupdate_string_length, verbose=0)
+
+        metadata_dict = self.fragment_metadata
+        metadata_str = ""
+        if moltype in metadata_dict.keys():
+            metadata_str_list = []
+            metadata_str_list.append("")
+            metadata_str_list.append("This molecule type (moltype) contains the following metadata:")
+            for descriptor, lines in metadata_dict[moltype].items():
+                descriptor = str(descriptor)
+                if descriptor[-1] != ":":
+                    descriptor = descriptor + ":"
+                metadata_str_list.append("    " + descriptor)
+                if type(lines) not in [list, tuple]:
+                    lines = [lines]
+                for line in lines:
+                    metadata_str_list.append("    " + "    " + line)
+            metadata_str_list.append("")
+            metadata_str = "\n".join(metadata_str_list)
+        
+        moltype_info_str_list = []
+        if "accepted_parts" in self.fragment_defs[moltype]:
+            moltype_info_str_list.append("The moltype '{moltype}' accepts the following part types:".format(moltype=moltype))
+            moltype_info_str_list.append("    "+" ".join(["'"+val+"'" for val in self.fragment_defs[moltype]["accepted_parts"]]))
+        else:
+            moltype_info_str_list.append("The key 'accepted_parts' was not found in the dictionary for the moltype '{moltype}'. Please add it if you wish to use this moltype.".format(moltype=moltype))
+        moltype_info_str_list.append("")
+        
+        if "order" in self.fragment_defs[moltype]:
+            moltype_info_str_list.append("The moltype '{moltype}' will place the particles from the part types in the following order:".format(moltype=moltype))
+            moltype_info_str_list.append("    "+" ".join(["'"+val+"'" for val in self.fragment_defs[moltype]["order"]]))
+        else:
+            moltype_info_str_list.append("The key 'order' was not found in the dictionary for the moltype '{moltype}'. Please add it if you wish to use this moltype.".format(moltype=moltype))
+        moltype_info_str_list.append("")
+        
+        if "parts" in self.fragment_defs[moltype]:
+            moltype_info_str_list.append("The moltype '{moltype}' contains the following parts for the given part types:".format(moltype=moltype))
+            for parttype, parts in self.fragment_defs[moltype]["parts"].items():
+                parts_str_list = []
+                parts_str_list.append(parttype + ":")
+                if "function" in parts.keys():
+                    parts_str_list.append("'Part type built via function'")
+                else:
+                    for part in parts:
+                        parts_str_list.append("'{part}'".format(part=part))
+                moltype_info_str_list.append("    "+" ".join(parts_str_list))
+
+        else:
+            moltype_info_str_list.append("The key 'parts' was not found in the dictionary for the moltype '{moltype}'. Please add it if you wish to use this moltype.".format(moltype=moltype))
+        moltype_info_str_list.append("")
+
+        if "default_parts" in self.fragment_defs[moltype]:
+            moltype_info_str_list.append("The moltype '{moltype}' contains the following default parts:".format(moltype=moltype))
+            for parttype, part in self.fragment_defs[moltype]["default_parts"].items():
+                moltype_info_str_list.append("    "+"{parttype}: {part}".format(parttype=parttype, part=part))
+            moltype_info_str_list.append("")
+
+        if "ascii" in self.fragment_defs[moltype]:
+            moltype_info_str_list.append("The moltype '{moltype}' has the following ascii art detailing its structure:".format(moltype=moltype))
+            for line in self.fragment_defs[moltype]["ascii"]:
+                moltype_info_str_list.append("    "+line)
+            moltype_info_str_list.append("")
+
+        moltype_info_str = "\n".join(moltype_info_str_list)
+
+        longest_string = "Print details and possible parts for a for a specific part type:"
+        longest_string_len = len(longest_string) + 1
+
+        val = self.print_term(
+            "\n".join([
+                "You are in the library entry for the molecule fragment builder molecule type (moltype) '{moltype}':".format(moltype=moltype),
+                metadata_str,
+                moltype_info_str,
+                "What would you like to do? Your options are shown below:",
+                "    "+"Quit:".ljust(longest_string_len)                                                            + "'q' or 'quit'",
+                "    "+"Return to previous question:".ljust(longest_string_len)                                     + "'r' or 'return'",
+                "    "+"Print details and possible parts for a for a specific part type:".ljust(longest_string_len) + "'printpart(s):[parttype]' / 'pp(s):[parttype]' or [parttype]",
+                "",
+            ]),
+            inp=True
+        )
+        self.print_term("", verbose=0)
+        val = val.lstrip(" ").rstrip(" ")
+        
+        if val.lower() in ["q", "quit"]:
+            pass
+        
+        elif val in ["r", "return"]:
+            self.ILR_layer1_MFB()
+        
+        elif val.startswith(("printpart:", "pp:", "printparts:", "pps:")) or val in self.fragment_defs[moltype]["parts"].keys():
+            parttype = val
+            if val.startswith(("printpart:", "pp:", "printparts:", "pps:")) and len(val.split(":")) > 1:
+                parttype = val.split(":")[1]
+            if parttype in self.fragment_defs[moltype]["parts"].keys():
+                if "function" in self.fragment_defs[moltype]["parts"][parttype].keys():
+                    self.print_term("    "+"This part is built via a function called '{function}' - Details for the building function for part type '{parttype}':".format(function=self.fragment_defs[moltype]["parts"][parttype]["function"].__name__, parttype=parttype), verbose=0)
+                    if "kwargs" in self.fragment_defs[moltype]["parts"][parttype].keys():
+                        self.print_term("    "+"    "+"This function uses the following kwargs:", verbose=0)
+                        self.recursive_dict_printer(iterable=self.fragment_defs[moltype]["parts"][parttype]["kwargs"], current_spacing="    "+"    "+"    ", spacing="    ")
+                else:
+                    self.print_term("    "+"This part is selected from a list of prebuilt parts - Available parts for part type '{parttype}':".format(parttype=parttype), verbose=0)
+                    for part_name, part_vals in self.fragment_defs[moltype]["parts"][parttype].items():
+                        self.print_term("    "+"    "+"Part '{part_name}':".format(part_name=part_name), verbose=0)
+                        self.print_term("    "+"    "+"    "+"It contains the following beads", verbose=0)
+                        for bead in part_vals["beads"]:
+                            self.print_term("    "+"    "+"    "+"    "+"'name': {name}, 'charge': {charge}, 'x': {x}, 'y': {y}, 'z': {z}, 'resname': {resname}, 'resnr': {resnr}".format(name=bead["name"], charge=bead["charge"], x=bead["x"], y=bead["y"], z=bead["z"], resname=bead["resname"], resnr=bead["resnr"]), verbose=0)
+                        if "join_to" in part_vals.keys():
+                            self.print_term("    "+"    "+"    "+"It joins to the following part at the given position", verbose=0)
+                            self.print_term("    "+"    "+"    "+"    "+"{join_to_part}: {join_to_position}".format(join_to_part=part_vals["join_to"][0], join_to_position=part_vals["join_to"][0]), verbose=0)
+                        if "join_from" in part_vals.keys():
+                            self.print_term("    "+"    "+"    "+"It is joined to by the following part at the given position", verbose=0)
+                            for frompart, position in part_vals["join_from"].items():
+                                self.print_term("    "+"    "+"    "+"    "+"'join_from': {join_from}".format(join_from=part_vals["join_from"]), verbose=0)
+                self.print_term("", verbose=0)
+
+            else:
+                self.print_term("Part type '{parttype}' not found. You must specify a valid part type. Valid part types:".format(parttype=parttype), verbose=0)
+                self.print_term("    "+" ".join(["'"+parttype+"'" for parttype in self.fragment_defs[moltype]["parts"].keys()]), verbose=0)
+                self.print_term("", verbose=0)
+
+            ILR_restart_layer(**restart_dict)
+        
+        else:
+            self.ILR_invalid_answer(val)
+            ILR_restart_layer(**restart_dict)

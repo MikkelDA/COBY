@@ -12,7 +12,8 @@ import sys
 
 ### Imports the package part
 from COBY.__init__ import *
-from COBY.version import __version__, version_changes_str
+from COBY.version import __version__, __version_changes__, __changes__, __changelog__
+from COBY.citation import __doi__, __citation__
 
 #####################################################################
 ########################## HERE BE PARSING ##########################
@@ -48,11 +49,35 @@ if __name__ == "__main__":
             items.extend(values)
             setattr(namespace, self.dest, items)
 
-    class IsStored_ActionVersion(argparse._VersionAction):
+    class IsStored_ActionPrintVersion(argparse._VersionAction):
         def __call__(self, parser, namespace, values, option_string=None):
-            version = self.version
+            text_for_printing = "COBY version:" + " " + __version__
             formatter = parser._get_formatter()
-            formatter.add_text(version)
+            formatter.add_text(text_for_printing)
+            parser._print_message(formatter.format_help(), sys.stdout)
+            parser.exit()
+    
+    class IsStored_ActionPrintChangelog(argparse._VersionAction):
+        def __call__(self, parser, namespace, values, option_string=None):
+            text_for_printing = "Changes from previous version (Current version: {cv}):\n".format(cv=__version__) + __version_changes__
+            formatter = parser._get_formatter()
+            formatter.add_text(text_for_printing)
+            parser._print_message(formatter.format_help(), sys.stdout)
+            parser.exit()
+    
+    class IsStored_ActionPrintDOI(argparse._VersionAction):
+        def __call__(self, parser, namespace, values, option_string=None):
+            text_for_printing = "DOI:" + " " + __doi__
+            formatter = parser._get_formatter()
+            formatter.add_text(text_for_printing)
+            parser._print_message(formatter.format_help(), sys.stdout)
+            parser.exit()
+
+    class IsStored_ActionPrintCitation(argparse._VersionAction):
+        def __call__(self, parser, namespace, values, option_string=None):
+            text_for_printing = __citation__
+            formatter = parser._get_formatter()
+            formatter.add_text(text_for_printing)
             parser._print_message(formatter.format_help(), sys.stdout)
             parser.exit()
 
@@ -105,8 +130,15 @@ if __name__ == "__main__":
     ### VERSION ###
     ###############
     ### Program exits if one of the following arguments are used
-    parser.add_argument("--version","-version",action=IsStored_ActionVersion, version="COBY version:" + " " + __version__)
-    parser.add_argument("--version_changes", "--changes", "--changelog", "-version_changes",  "-changes", "-changelog", action=IsStored_ActionVersion, version="Changes from previous version (Current version: {cv}):\n".format(cv=__version__) + version_changes_str)
+    parser.add_argument("--version", "-version", action=IsStored_ActionPrintVersion)
+    parser.add_argument("--version_changes", "--changes", "--changelog", "-version_changes", "-changes", "-changelog", action=IsStored_ActionPrintChangelog)
+
+    ########################
+    ### Citation and DOI ###
+    ########################
+    ### Program exits if one of the following arguments are used
+    parser.add_argument("--doi", "--DOI","-doi", "-DOI", action=IsStored_ActionPrintDOI)
+    parser.add_argument("--citation", "-citation", action=IsStored_ActionPrintCitation)
 
     ############
     ### MISC ###
