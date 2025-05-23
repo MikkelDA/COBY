@@ -1,6 +1,6 @@
 # Coarse-grained System Builder (COBY)
 
-The paper is currently available as a preprint on [bioRxiv](https://www.biorxiv.org/content/10.1101/2024.07.23.604601v1).
+The publication is available open-source at [https://doi.org/10.1021/acs.jcim.5c00069](https://doi.org/10.1021/acs.jcim.5c00069).
 
 The source code, documentation, and tutorials are avialable on [GitHub](https://github.com/MikkelDA/COBY).
 
@@ -12,7 +12,7 @@ COBY is continuously under development, and we welcome suggestions for new featu
 
 ![](https://github.com/MikkelDA/COBY/raw/master/figures/COBY_Logo.png)
 
-## Citation (bioRxiv)
+## Citation (JCIM)
 ```
 @article{Andreasen2025,
 	author = {Andreasen, Mikkel D. and Souza, Paulo C. T. and Schiøtt, Birgit and Zuzic, Lorena},
