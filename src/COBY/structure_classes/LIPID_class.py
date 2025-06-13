@@ -7,7 +7,7 @@ class LIPID(MOLECULE):
         self.apl        = 0.6
         self.extra_type = "addition"
         self.extra_val  = 0
-
+        self.z_offset   = 0 # Not used but still tracked for each lipid
     
     def ratio_add(self, ratio):
         self.ratio = ratio
@@ -20,3 +20,6 @@ class LIPID(MOLECULE):
 
     def extra_val_add(self, extra_val):
         self.extra_val = extra_val
+
+    def z_offset_add(self, z_offset):
+        self.z_offset = z_offset

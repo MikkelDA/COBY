@@ -1,0 +1,43 @@
+#include "toppar/martini_v3/martini_v3.0.0.itp"
+#include "toppar/martini_v3/martini_v3.0.0_ions_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_nucleobases_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_phospholipids_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_solvents_v1.itp"
+#include "toppar/martini_v3/martini_v3.0_sterols_v1.0.itp"
+
+[ system ]
+; name
+StackedMembranes1_ThreeBilayers
+
+[ molecules ]
+; name number
+CHOL   56
+POPC  277
+CHOL   56
+POPC  277
+CHOL  133
+POPE  200
+CHOL  133
+POPE  200
+CHOL   56
+POPC  277
+CHOL   56
+POPC  277
+W    6660
+NA     72
+CL     72
+W    6660
+NA     72
+CL     72
+W    3330
+NA     36
+CL     36
+W    3330
+NA     36
+CL     36
+W    3330
+NA     36
+CL     36
+W    3330
+NA     36
+CL     36

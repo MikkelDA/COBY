@@ -587,7 +587,7 @@ class solvater:
                                             zminbuffer = solvent_buffer
                                             zmaxbuffer = leaflet["lipid_dimensions"]["min_max_zs"] + solvent_buffer
                                         if leaflet["HG_direction"] == "down":
-                                            ### Also"min_max_zs" here as the lipid dimensions are done for a generalized upwards pointing lipid
+                                            ### Also "min_max_zs" here as the lipid dimensions are done for a generalized upwards pointing lipid
                                             ### It is subtracted inside coord_to_indices()
                                             zminbuffer = leaflet["lipid_dimensions"]["min_max_zs"] + solvent_buffer
                                             zmaxbuffer = solvent_buffer

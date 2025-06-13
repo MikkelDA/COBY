@@ -1,0 +1,28 @@
+#include "toppar/martini_v3/martini_v3.0.0.itp"
+#include "toppar/martini_v3/martini_v3.0.0_ions_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_nucleobases_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_phospholipids_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_solvents_v1.itp"
+#include "toppar/martini_v3/martini_v3.0_sterols_v1.0.itp"
+#include "toppar/SugarTransporter/8BB6_martinized.itp"
+#include "toppar/solutes/SUCROSE/sucrose.itp"
+#include "toppar/solutes/M3_small_molecules/BENZENE/BENZ_cog.itp"
+#include "toppar/solutes/M3_small_molecules/TOLUENE/TOLU_cog.itp"
+#include "toppar/solutes/M3_small_molecules/ETHYLNAPHTHALENE/ENAPH_cog.itp"
+
+[ system ]
+; name
+Flooding3_ImportMultipleSolutes
+
+[ molecules ]
+; name number
+8BB6_CG    1
+POPC     139
+POPC     139
+BENZ      10
+ENAPH     10
+SUCR      10
+TOLU      10
+W       5643
+NA        61
+CL        77

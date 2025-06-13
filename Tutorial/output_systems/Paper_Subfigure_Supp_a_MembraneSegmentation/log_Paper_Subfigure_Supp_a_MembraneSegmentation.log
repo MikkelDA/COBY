@@ -1,0 +1,215 @@
+The following COBY arguments will be processed:
+COBY(
+    box = [
+        100,
+        20,
+        20,
+    ],
+    membrane = [
+        "lipid:POPC:5 lipid:POPE:3 lipid:CHOL:2 hole:rectangle:cx:33.333333333333336:cy:0:xlength:3:ylength:50:rotate:-30 optimize_max_steps:1000 optimize_push_tolerance:0.1 optimize_run:True",
+    ],
+    solvation = "default",
+    itp_input = "file:toppar/top_for_COBY.itp",
+    out_sys = "output_systems/Paper_Subfigure_Supp_a_MembraneSegmentation/output_Paper_Subfigure_Supp_a_MembraneSegmentation",
+    out_top = "output_systems/Paper_Subfigure_Supp_a_MembraneSegmentation/topol_Paper_Subfigure_Supp_a_MembraneSegmentation.top",
+    out_log = "output_systems/Paper_Subfigure_Supp_a_MembraneSegmentation/log_Paper_Subfigure_Supp_a_MembraneSegmentation.log",
+    sn = "Paper_Subfigure_Supp_a_MembraneSegmentation",
+)
+Setting random seed to: 1749800749
+-------------------------- PREPROCESSING DEFINITIONS ---------------------------
+Loading topology file(s)
+    Finished loading topologies. Number of moleculetypes found: 194 
+
+Preprocessing lipid scaffolds
+    Number of lipids preprocessed: 6109 
+
+Preprocessing lipid definitions
+    Number of lipids preprocessed: 0 
+
+Preprocessing ion definitions
+    Number of positive ions preprocessed: 8
+    Number of negative ions preprocessed: 11 
+
+Preprocessing solvent definitions
+    Number of solvents preprocessed: 64
+---------------------- DEFINITIONS PREPROCESSING COMPLETE ----------------------
+                            (Time spent: 0.6353 [s])                            
+
+---------------------------- PREPROCESSING COMMANDS ----------------------------
+Preprocessing membrane requests
+    Starting membrane argument: 1
+    Number of membranes preprocessed: 1
+Preprocessing solvation requests
+    Starting solvation argument: 1
+    Number of solvent commands preprocessed: 1
+------------------------ COMMAND PREPROCESSING COMPLETE ------------------------
+                            (Time spent: 0.0019 [s])                            
+
+----------------------- CREATING LEAFLET BOUNDARY BOXES ------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+        Base parameters: x=100.0nm y=20.0nm APL=0.6nm^2
+        The x-axis will be split into 3.0 subleaflets.
+        A total of 3.0 subleaflets have been made for the current leaflet
+    Starting lower leaflet
+        Base parameters: x=100.0nm y=20.0nm APL=0.6nm^2
+        The x-axis will be split into 3.0 subleaflets.
+        A total of 3.0 subleaflets have been made for the current leaflet
+------------------------ LEAFLET BOUNDARY BOXES CREATED ------------------------
+                            (Time spent: 0.0012 [s])                             
+
+------------------------ CREATING HOLED BOUNDARY BOXES -------------------------
+Starting membrane nr 1
+    Calculating holed boundary box
+        Starting upper leaflet
+        Starting lower leaflet
+------------------------- HOLED BOUNDARY BOXES CREATED -------------------------
+                            (Time spent: 0.0021 [s])                             
+
+--------------------------- CALCULATING LIPID RATIOS ---------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+        Lipid optimization 'lipid_optim' setting: force_fill
+            Forcefully filling leaflet until all grid points have a lipid
+
+        Starting subleaflet 1/4
+            Maximum number of lipids allowed in subleaflet: 1111
+
+        Starting subleaflet 2/4
+            Maximum number of lipids allowed in subleaflet: 1111
+
+        Starting subleaflet 3/4
+            Maximum number of lipids allowed in subleaflet: 498
+
+        Starting subleaflet 4/4
+            Maximum number of lipids allowed in subleaflet: 498
+            
+        Maximum number of lipids allowed in leaflet: 3218
+            Number of allowed lipids in leaflet does not match the number of lipids in subleaflets for all lipid types
+            Adjusting number of lipids in subleaflets
+        Final deviations from expected ratios: Difference in %-values
+            Maximum: 0.012
+            Average: 0.008
+            Minimum: 0.0
+        Leaflet specific lipid data (Combined subleafs)
+            Name : Total lipids : Final % : Expected %
+            POPC : 1609         : 50.0    : 50.0      
+            POPE : 965          : 29.988  : 30.0      
+            CHOL : 644          : 20.012  : 20.0      
+
+    Starting lower leaflet
+        Lipid optimization 'lipid_optim' setting: force_fill
+            Forcefully filling leaflet until all grid points have a lipid
+
+        Starting subleaflet 1/4
+            Maximum number of lipids allowed in subleaflet: 1111
+
+        Starting subleaflet 2/4
+            Maximum number of lipids allowed in subleaflet: 1111
+
+        Starting subleaflet 3/4
+            Maximum number of lipids allowed in subleaflet: 498
+
+        Starting subleaflet 4/4
+            Maximum number of lipids allowed in subleaflet: 498
+            
+        Maximum number of lipids allowed in leaflet: 3218
+            Number of allowed lipids in leaflet does not match the number of lipids in subleaflets for all lipid types
+            Adjusting number of lipids in subleaflets
+        Final deviations from expected ratios: Difference in %-values
+            Maximum: 0.012
+            Average: 0.008
+            Minimum: 0.0
+        Leaflet specific lipid data (Combined subleafs)
+            Name : Total lipids : Final % : Expected %
+            POPC : 1609         : 50.0    : 50.0      
+            POPE : 965          : 29.988  : 30.0      
+            CHOL : 644          : 20.012  : 20.0      
+
+    Membrane-wide lipid data
+            Name : Total lipids : Total %
+            POPC : 3218         : 50.0   
+            POPE : 1930         : 29.988 
+            CHOL : 1288         : 20.012 
+---------------------- LIPID RATIO CALCULATIONS COMPLETE -----------------------
+                            (Time spent: 0.0036 [s])                             
+
+----------------------------- CREATING LIPID GRID ------------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+            Total leaflet optimization time: 0.6936 [s]
+
+    Starting lower leaflet
+            Total leaflet optimization time: 0.6629 [s]
+------------------------------ LIPID GRID CREATED ------------------------------
+                            (Time spent: 3.3212 [s])                             
+
+------------------------------- CREATING LIPIDS --------------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+    Starting lower leaflet
+--------------------------- LIPID CREATION COMPLETE ----------------------------
+                            (Time spent: 1.0823 [s])                             
+
+------------------------------- SOLVATING SYSTEM -------------------------------
+Starting solvation nr 1
+    Calculating box volume: (all values in [nm^3])
+        Bead radius used for volume calculations 'bead_radius': 0.264 [nm]
+        Solvent box volume: 40000.0
+        Excluded volume:    5654.667
+            Solute volume:  0.0
+            Lipid volume:   5654.667
+            Protein volume: 0.0
+        Free volume:        34345.333
+        Solvent volume:     34491.375
+
+    Solvent box charge information:
+        Solvent box charge before solvent insertion: 0.0
+            Prior solvent beads:  0
+            Lipid beads:          0.0
+            Protein beads:        0
+        Solvent box charge after solvent insertion:  0.0
+            New solvent beads: 0.0
+                Solvent       (solv): 0
+                Positive ions (pos):  3116.0
+                Negative ions (neg):  -3116.0
+
+    Calculating the number of available grid points
+        Final number of 3D grid points available for molecule placement: 1679787
+        Inserting 293522 solvent molecules into random grid points:
+            Currently at solvent number: 1
+            Currently at solvent number: 25000
+            Currently at solvent number: 50000
+            Currently at solvent number: 75000
+            Currently at solvent number: 100000
+            Currently at solvent number: 125000
+            Currently at solvent number: 150000
+            Currently at solvent number: 175000
+            Currently at solvent number: 200000
+            Currently at solvent number: 225000
+            Currently at solvent number: 250000
+            Currently at solvent number: 275000
+            Currently at solvent number: 293522
+
+Solvent data for whole system
+        Name : Totals : Total % : Molarity(box) : Molarity(free) : Molarity(solvent) : Charge
+        W    : 287290 : 97.877  : 11.926        : 13.89          : 13.831            : 0     
+        NA   : 3116   : 1.062   : 0.129         : 0.151          : 0.15              : 1.0   
+        CL   : 3116   : 1.062   : 0.129         : 0.151          : 0.15              : -1.0  
+------------------------------ SOLVATION COMPLETE ------------------------------
+                            (Time spent: 3.398 [s])                              
+
+                          +--------------------------+                          
+--------------------------+ FINAL SYSTEM CHARGE: 0.0 +--------------------------
+                          +--------------------------+                          
+
+-------------------------------- WRITING FILES ---------------------------------
+Writing structure files (PDB/GRO)
+    PDB file written: output_systems/Paper_Subfigure_Supp_a_MembraneSegmentation/output_Paper_Subfigure_Supp_a_MembraneSegmentation.pdb
+    GRO file written: output_systems/Paper_Subfigure_Supp_a_MembraneSegmentation/output_Paper_Subfigure_Supp_a_MembraneSegmentation.gro
+    CIF file written: output_systems/Paper_Subfigure_Supp_a_MembraneSegmentation/output_Paper_Subfigure_Supp_a_MembraneSegmentation.cif
+
+Writing topology file (TOP)
+    TOP file written: output_systems/Paper_Subfigure_Supp_a_MembraneSegmentation/topol_Paper_Subfigure_Supp_a_MembraneSegmentation.top 
+
+Writing log file (LOG)

@@ -1,0 +1,186 @@
+The following COBY arguments will be processed:
+COBY(
+    box = [
+        10,
+        10,
+        16,
+    ],
+    membrane = [
+        "type:mono_lower lipid:POPC center:0:0:+5",
+        "type:mono_upper lipid:POPC center:0:0:-5",
+    ],
+    solvation = "default zlength:10",
+    itp_input = "file:toppar/top_for_COBY.itp",
+    out_sys = "output_systems/Paper_Subfigure_Main_f_Monolayers/output_Paper_Subfigure_Main_f_Monolayers",
+    out_top = "output_systems/Paper_Subfigure_Main_f_Monolayers/topol_Paper_Subfigure_Main_f_Monolayers.top",
+    out_log = "output_systems/Paper_Subfigure_Main_f_Monolayers/log_Paper_Subfigure_Main_f_Monolayers.log",
+    sn = "Paper_Subfigure_Main_f_Monolayers",
+)
+Setting random seed to: 1749800593
+-------------------------- PREPROCESSING DEFINITIONS ---------------------------
+Loading topology file(s)
+    Finished loading topologies. Number of moleculetypes found: 194 
+
+Preprocessing lipid scaffolds
+    Number of lipids preprocessed: 6109 
+
+Preprocessing lipid definitions
+    Number of lipids preprocessed: 0 
+
+Preprocessing ion definitions
+    Number of positive ions preprocessed: 8
+    Number of negative ions preprocessed: 11 
+
+Preprocessing solvent definitions
+    Number of solvents preprocessed: 64
+---------------------- DEFINITIONS PREPROCESSING COMPLETE ----------------------
+                            (Time spent: 0.5862 [s])                            
+
+---------------------------- PREPROCESSING COMMANDS ----------------------------
+Preprocessing membrane requests
+    Starting membrane argument: 1
+    Starting membrane argument: 2
+    Number of membranes preprocessed: 2
+Preprocessing solvation requests
+    Starting solvation argument: 1
+    Number of solvent commands preprocessed: 1
+------------------------ COMMAND PREPROCESSING COMPLETE ------------------------
+                            (Time spent: 0.001 [s])                             
+
+----------------------- CREATING LEAFLET BOUNDARY BOXES ------------------------
+Starting membrane nr 1
+    Starting lower leaflet
+        Base parameters: x=10.0nm y=10.0nm APL=0.6nm^2
+
+Starting membrane nr 2
+    Starting upper leaflet
+        Base parameters: x=10.0nm y=10.0nm APL=0.6nm^2
+------------------------ LEAFLET BOUNDARY BOXES CREATED ------------------------
+                            (Time spent: 0.0009 [s])                             
+
+------------------------ CREATING HOLED BOUNDARY BOXES -------------------------
+Starting membrane nr 1
+    Calculating holed boundary box
+        Starting lower leaflet
+
+Starting membrane nr 2
+    Calculating holed boundary box
+        Starting upper leaflet
+------------------------- HOLED BOUNDARY BOXES CREATED -------------------------
+                            (Time spent: 0.0004 [s])                             
+
+--------------------------- CALCULATING LIPID RATIOS ---------------------------
+Starting membrane nr 1
+    Starting lower leaflet
+        Lipid optimization 'lipid_optim' setting: force_fill
+            Forcefully filling leaflet until all grid points have a lipid
+
+            Maximum number of lipids allowed in subleaflet: 167
+            
+        Maximum number of lipids allowed in leaflet: 167
+        Final deviations from expected ratios: Difference in %-values
+            Maximum: 0.0
+            Average: 0.0
+            Minimum: 0.0
+        Leaflet specific lipid data (Combined subleafs)
+            Name : Final lipids : Final % : Expected % : Starting % : Starting lipids
+            POPC : 167          : 100.0   : 100.0      : 100.0      : 167            
+
+Starting membrane nr 2
+    Starting upper leaflet
+        Lipid optimization 'lipid_optim' setting: force_fill
+            Forcefully filling leaflet until all grid points have a lipid
+
+            Maximum number of lipids allowed in subleaflet: 167
+            
+        Maximum number of lipids allowed in leaflet: 167
+        Final deviations from expected ratios: Difference in %-values
+            Maximum: 0.0
+            Average: 0.0
+            Minimum: 0.0
+        Leaflet specific lipid data (Combined subleafs)
+            Name : Final lipids : Final % : Expected % : Starting % : Starting lipids
+            POPC : 167          : 100.0   : 100.0      : 100.0      : 167            
+
+
+Lipid data for whole system
+            Name : Total lipids : Total %
+            POPC : 167          : 100.0  
+---------------------- LIPID RATIO CALCULATIONS COMPLETE -----------------------
+                            (Time spent: 0.0007 [s])                             
+
+----------------------------- CREATING LIPID GRID ------------------------------
+Starting membrane nr 1
+    Starting lower leaflet
+            Total leaflet optimization time: 0.0 [s]
+
+Starting membrane nr 2
+    Starting upper leaflet
+            Total leaflet optimization time: 0.0 [s]
+------------------------------ LIPID GRID CREATED ------------------------------
+                            (Time spent: 0.0258 [s])                             
+
+------------------------------- CREATING LIPIDS --------------------------------
+Starting membrane nr 1
+    Starting lower leaflet
+Starting membrane nr 2
+    Starting upper leaflet
+--------------------------- LIPID CREATION COMPLETE ----------------------------
+                            (Time spent: 0.0577 [s])                             
+
+------------------------------- SOLVATING SYSTEM -------------------------------
+Starting solvation nr 1
+    Calculating box volume: (all values in [nm^3])
+        Bead radius used for volume calculations 'bead_radius': 0.264 [nm]
+        Solvent box volume: 1000.0
+        Excluded volume:    308.907
+            Solute volume:  0.0
+            Lipid volume:   308.907
+            Protein volume: 0.0
+        Free volume:        691.093
+        Solvent volume:     694.054
+
+    Solvent box charge information:
+        Solvent box charge before solvent insertion: 0.0
+            Prior solvent beads:  0
+            Lipid beads:          0.0
+            Protein beads:        0
+        Solvent box charge after solvent insertion:  0.0
+            New solvent beads: 0.0
+                Solvent       (solv): 0
+                Positive ions (pos):  63.0
+                Negative ions (neg):  -63.0
+
+    Calculating the number of available grid points
+        Final number of 3D grid points available for molecule placement: 28327
+        Inserting 5907 solvent molecules into random grid points:
+            Currently at solvent number: 1
+            Currently at solvent number: 5907
+
+Solvent data for whole system
+        Name : Totals : Total % : Molarity(box) : Molarity(free) : Molarity(solvent) : Charge
+        W    : 5781   : 97.867  : 6.0           : 7.435          : 13.831            : 0     
+        NA   : 63     : 1.067   : 0.065         : 0.081          : 0.151             : 1.0   
+        CL   : 63     : 1.067   : 0.065         : 0.081          : 0.151             : -1.0  
+------------------------------ SOLVATION COMPLETE ------------------------------
+                            (Time spent: 0.846 [s])                              
+
+                          +--------------------------+                          
+--------------------------+ FINAL SYSTEM CHARGE: 0.0 +--------------------------
+                          +--------------------------+                          
+
+-------------------------------- WRITING FILES ---------------------------------
+Writing structure files (PDB/GRO)
+    File "output_systems/Paper_Subfigure_Main_f_Monolayers/output_Paper_Subfigure_Main_f_Monolayers.pdb" already exists. Backing it up
+    PDB file written: output_systems/Paper_Subfigure_Main_f_Monolayers/output_Paper_Subfigure_Main_f_Monolayers.pdb
+    File "output_systems/Paper_Subfigure_Main_f_Monolayers/output_Paper_Subfigure_Main_f_Monolayers.gro" already exists. Backing it up
+    GRO file written: output_systems/Paper_Subfigure_Main_f_Monolayers/output_Paper_Subfigure_Main_f_Monolayers.gro
+    File "output_systems/Paper_Subfigure_Main_f_Monolayers/output_Paper_Subfigure_Main_f_Monolayers.cif" already exists. Backing it up
+    CIF file written: output_systems/Paper_Subfigure_Main_f_Monolayers/output_Paper_Subfigure_Main_f_Monolayers.cif
+
+Writing topology file (TOP)
+    File "output_systems/Paper_Subfigure_Main_f_Monolayers/topol_Paper_Subfigure_Main_f_Monolayers.top" already exists. Backing it up
+    TOP file written: output_systems/Paper_Subfigure_Main_f_Monolayers/topol_Paper_Subfigure_Main_f_Monolayers.top 
+
+Writing log file (LOG)
+    File "output_systems/Paper_Subfigure_Main_f_Monolayers/log_Paper_Subfigure_Main_f_Monolayers.log" already exists. Backing it up

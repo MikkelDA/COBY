@@ -1,0 +1,18 @@
+#include "toppar/martini_v3/martini_v3.0.0.itp"
+#include "toppar/martini_v3/martini_v3.0.0_ions_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_nucleobases_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_phospholipids_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_solvents_v1.itp"
+#include "toppar/martini_v3/martini_v3.0_sterols_v1.0.itp"
+
+[ system ]
+; name
+Holes2_HoledMembrane_HoleEmpty
+
+[ molecules ]
+; name number
+POPC   620
+POPC   620
+W    23866
+NA     259
+CL     259

@@ -283,7 +283,7 @@ class Crafter(
                 self.RUN = cmd
             
             else:
-                assert False, "Invalid argument given to LipidBuilder: " + str((key, cmd))
+                assert False, "Invalid argument given to Crafter: " + str((key, cmd))
 
         ### Setting randseed
         self.print_term("Setting random seed to:", self.randseed, verbose=1)

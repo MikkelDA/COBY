@@ -1,0 +1,22 @@
+#include "toppar/martini_v3/martini_v3.0.0.itp"
+#include "toppar/martini_v3/martini_v3.0.0_ions_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_nucleobases_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_phospholipids_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_solvents_v1.itp"
+#include "toppar/martini_v3/martini_v3.0_sterols_v1.0.itp"
+
+[ system ]
+; name
+Membranes3_ComplexAsymmetricMembrane
+
+[ molecules ]
+; name number
+CHOL   12
+POPC   97
+POPE   73
+CHOL   62
+POPC  111
+POPE   49
+W    9565
+NA    104
+CL    104

@@ -1,0 +1,55 @@
+#include "toppar/M2_DNA/martini_v2.1-dna.itp"
+#include "toppar/M2_DNA/PLASMA-v01-PA2.itp"
+#include "toppar/M2_DNA/martini_v2.0_ions.itp"
+#include "toppar/M2_DNA/Nucleic_A+Nucleic_B.itp"
+
+[ system ]
+; name
+Paper_Subfigure_Main_c_MultilamelarWithDNA
+
+[ molecules ]
+; name number
+Nucleic_A+Nucleic_B    1
+Nucleic_A+Nucleic_B    1
+Nucleic_A+Nucleic_B    1
+Nucleic_A+Nucleic_B    1
+Nucleic_A+Nucleic_B    1
+Nucleic_A+Nucleic_B    1
+Nucleic_A+Nucleic_B    1
+Nucleic_A+Nucleic_B    1
+Nucleic_A+Nucleic_B    1
+Nucleic_A+Nucleic_B    1
+Nucleic_A+Nucleic_B    1
+Nucleic_A+Nucleic_B    1
+DOPE                 375
+DOPE                 375
+DOPE                 375
+DOPE                 375
+DOPE                 375
+DOPE                 375
+DOPE                 375
+DOPE                 375
+W                   2625
+NA                   100
+CL                    28
+W                   2625
+NA                    94
+CL                    28
+W                   2625
+NA                   100
+CL                    28
+W                   2625
+NA                    94
+CL                    28
+W                   2625
+NA                   100
+CL                    28
+W                   2625
+NA                    94
+CL                    28
+W                   2625
+NA                   100
+CL                    28
+W                   2625
+NA                    94
+CL                    28

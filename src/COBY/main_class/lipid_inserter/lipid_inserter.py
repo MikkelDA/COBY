@@ -26,16 +26,19 @@ class lipid_inserter:
                         lipids      = subleaflet["lipids"]
                         grid_points = subleaflet["grid_points"]
                         for (l_name, l_radius), (grid_point_x, grid_point_y, grid_point_z) in zip(lipids, grid_points):
-                            new_x, new_y, new_z = [], [], []
+
                             leaflet["grid_lipids"].append({
                                 "grid_point_x": grid_point_x,
                                 "grid_point_y": grid_point_y,
                                 "grid_point_z": grid_point_z,
                             })
+
                             if rotate_lipids:
                                 random_rotaion_angle = random.uniform(0, 360)
                             else:
                                 random_rotaion_angle = 0
+                            
+                            new_x, new_y, new_z = [], [], []
                             for x, y, z in leaflet["lipids"][l_name].get_beads("xyz"):
                                 nx, ny, nz = self.rotate_point(x, y, z, 0, 0, random_rotaion_angle)
                                 checked_beads, error = self.coord_checker([nx, ny, nz], self.pbc_box, error_count = True)
@@ -44,7 +47,7 @@ class lipid_inserter:
                                 new_z.append(checked_beads[2])
 
                             beads, charges = list(zip(*[(bead.bead, bead.charge) for bead in leaflet["lipids"][l_name].get_res_beads_info()]))
-
+                            
                             lipid_dict = {
                                 "name":    l_name,
                                 "beads":   beads,

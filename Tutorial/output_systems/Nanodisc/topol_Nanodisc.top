@@ -1,0 +1,22 @@
+#include "toppar/martini_v3/martini_v3.0.0.itp"
+#include "toppar/martini_v3/martini_v3.0.0_ions_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_nucleobases_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_phospholipids_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_solvents_v1.itp"
+#include "toppar/martini_v3/martini_v3.0_sterols_v1.0.itp"
+#include "toppar/Nanodisc/6clz_nanodisc_martinized_ring1.itp"
+#include "toppar/Nanodisc/6clz_nanodisc_martinized_ring2.itp"
+
+[ system ]
+; name
+Nanodisc
+
+[ molecules ]
+; name number
+nanodisc_ring1     1
+nanodisc_ring2     1
+DLPC             120
+DLPC             117
+W              37321
+NA               419
+CL               405

@@ -1,0 +1,144 @@
+The following COBY arguments will be processed:
+COBY(
+    box = [
+        20,
+        20,
+        20,
+    ],
+    protein = [
+        "file:example_proteins/8BB6_martinized.pdb moleculetypes:8BB6_CG cx:5 cy:5 cen_method:cog",
+        "file:example_proteins/8BB6_martinized.pdb moleculetypes:8BB6_CG cx:-5 cy:5 cen_method:axis",
+        "file:example_proteins/8BB6_martinized.pdb moleculetypes:8BB6_CG cx:5 cy:-5 cen_method:bead_axis:5:7:9-45:63",
+        "file:example_proteins/8BB6_martinized.pdb moleculetypes:8BB6_CG cx:-5 cy:-5 cen_method:res:15:25-32:65",
+        "file:example_proteins/8BB6_martinized.pdb moleculetypes:8BB6_CG cen_method:point:4.5:4:4.5",
+    ],
+    solvation = "default",
+    itp_input = [
+        "file:toppar/top_for_COBY.itp",
+        "include:toppar/SugarTransporter/8BB6_martinized.itp",
+    ],
+    out_sys = "output_systems/Proteins2_Centering/output_Proteins2_Centering",
+    out_top = "output_systems/Proteins2_Centering/topol_Proteins2_Centering.top",
+    out_log = "output_systems/Proteins2_Centering/log_Proteins2_Centering.log",
+    sn = "Proteins2_Centering",
+)
+Setting random seed to: 1749800533
+-------------------------- PREPROCESSING DEFINITIONS ---------------------------
+Loading topology file(s)
+    Finished loading topologies. Number of moleculetypes found: 195 
+
+Preprocessing lipid scaffolds
+    Number of lipids preprocessed: 6109 
+
+Preprocessing lipid definitions
+    Number of lipids preprocessed: 0 
+
+Preprocessing ion definitions
+    Number of positive ions preprocessed: 8
+    Number of negative ions preprocessed: 11 
+
+Preprocessing solvent definitions
+    Number of solvents preprocessed: 64
+---------------------- DEFINITIONS PREPROCESSING COMPLETE ----------------------
+                            (Time spent: 0.8276 [s])                            
+
+---------------------------- PREPROCESSING COMMANDS ----------------------------
+Preprocessing protein requests
+    Starting protein: 1
+    Starting protein: 2
+    Starting protein: 3
+    Starting protein: 4
+    Starting protein: 5
+    Number of molecule insertions preprocessed: 5
+Preprocessing solvation requests
+    Starting solvation argument: 1
+    Number of solvent commands preprocessed: 1
+------------------------ COMMAND PREPROCESSING COMPLETE ------------------------
+                            (Time spent: 0.0468 [s])                            
+
+------------------------------ PROTEIN PLACEMENT -------------------------------
+Starting protein nr 1
+    Total charge of protein is: 16.0
+    Centering protein using 'cog' at x/y/z: 43.358 42.68 56.995 (Input file coordinate system [Å])
+    New protein center at x/y/z: 50 50 0 (Internal coordinate system [Å])
+    Finished placing protein nr 1
+
+Starting protein nr 2
+    Total charge of protein is: 16.0
+    Centering protein using 'axis' at x/y/z: 43.086 41.736 56.696 (Input file coordinate system [Å])
+    New protein center at x/y/z: -50 50 0 (Internal coordinate system [Å])
+    Finished placing protein nr 2
+
+Starting protein nr 3
+    Total charge of protein is: 16.0
+    Centering protein using 'bead_axis ['5', '7', '9-45', '63']' at x/y/z: 44.927 56.124 50.968 (Input file coordinate system [Å])
+    New protein center at x/y/z: 50 -50 0 (Internal coordinate system [Å])
+    Finished placing protein nr 3
+
+Starting protein nr 4
+    Total charge of protein is: 16.0
+    Centering protein using 'res ['15', '25-32', '65']' at x/y/z: 40.089 47.141 66.818 (Input file coordinate system [Å])
+    New protein center at x/y/z: -50 -50 0 (Internal coordinate system [Å])
+    Finished placing protein nr 4
+
+Starting protein nr 5
+    Total charge of protein is: 16.0
+    Centering protein using 'point 45.0 40 45.0' at x/y/z: 45.0 40 45.0 (Input file coordinate system [Å])
+    New protein center at x/y/z: 0 0 0 (Internal coordinate system [Å])
+    Finished placing protein nr 5
+-------------------------- PROTEIN PLACEMENT COMPLETE --------------------------
+                            (Time spent: 0.019 [s])                              
+
+------------------------------- SOLVATING SYSTEM -------------------------------
+Starting solvation nr 1
+    Calculating box volume: (all values in [nm^3])
+        Bead radius used for volume calculations 'bead_radius': 0.264 [nm]
+        Solvent box volume: 8000.0
+        Excluded volume:    841.634
+            Solute volume:  0.0
+            Lipid volume:   0.0
+            Protein volume: 420.817
+        Free volume:        7158.366
+        Solvent volume:     7188.815
+
+    Solvent box charge information:
+        Solvent box charge before solvent insertion: 80.0
+            Prior solvent beads:  0
+            Lipid beads:          0
+            Protein beads:        80.0
+        Solvent box charge after solvent insertion:  0.0
+            New solvent beads: -80.0
+                Solvent       (solv): 0
+                Positive ions (pos):  649.0
+                Negative ions (neg):  -729.0
+
+    Calculating the number of available grid points
+        Final number of 3D grid points available for molecule placement: 382848
+        Inserting 61256 solvent molecules into random grid points:
+            Currently at solvent number: 1
+            Currently at solvent number: 25000
+            Currently at solvent number: 50000
+            Currently at solvent number: 61256
+
+Solvent data for whole system
+        Name : Totals : Total % : Molarity(box) : Molarity(free) : Molarity(solvent) : Charge
+        W    : 59878  : 97.75   : 12.429        : 13.119         : 13.831            : 0     
+        NA   : 649    : 1.059   : 0.135         : 0.142          : 0.15              : 1.0   
+        CL   : 729    : 1.19    : 0.151         : 0.16           : 0.168             : -1.0  
+------------------------------ SOLVATION COMPLETE ------------------------------
+                            (Time spent: 0.751 [s])                              
+
+                          +--------------------------+                          
+--------------------------+ FINAL SYSTEM CHARGE: 0.0 +--------------------------
+                          +--------------------------+                          
+
+-------------------------------- WRITING FILES ---------------------------------
+Writing structure files (PDB/GRO)
+    PDB file written: output_systems/Proteins2_Centering/output_Proteins2_Centering.pdb
+    GRO file written: output_systems/Proteins2_Centering/output_Proteins2_Centering.gro
+    CIF file written: output_systems/Proteins2_Centering/output_Proteins2_Centering.cif
+
+Writing topology file (TOP)
+    TOP file written: output_systems/Proteins2_Centering/topol_Proteins2_Centering.top 
+
+Writing log file (LOG)

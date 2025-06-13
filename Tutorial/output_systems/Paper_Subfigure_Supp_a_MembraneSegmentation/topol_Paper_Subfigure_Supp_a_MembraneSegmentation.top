@@ -1,0 +1,22 @@
+#include "toppar/martini_v3/martini_v3.0.0.itp"
+#include "toppar/martini_v3/martini_v3.0.0_ions_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_nucleobases_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_phospholipids_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_solvents_v1.itp"
+#include "toppar/martini_v3/martini_v3.0_sterols_v1.0.itp"
+
+[ system ]
+; name
+Paper_Subfigure_Supp_a_MembraneSegmentation
+
+[ molecules ]
+; name number
+CHOL    644
+POPC   1609
+POPE    965
+CHOL    644
+POPC   1609
+POPE    965
+W    287290
+NA     3116
+CL     3116

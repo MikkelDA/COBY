@@ -1,0 +1,433 @@
+The following COBY arguments will be processed:
+COBY(
+    box = [
+        30,
+        30,
+    ],
+    stacked_membranes = "number:2 distance:8:31.4 distance_type:surface membrane_argument:positions:1 apl:0.535 lipid:POPC:9.325682832451273 lipid:DOPC:13.042476313361767 lipid:POPE:13.438667551374865 lipid:POPI:21.664695759:params:IMPORTED lipid:POPS:10.699081092519885 lipid:CHOL:31.829396451256525 gridsplits:False membrane_argument:positions:2 leaflet:upper apl:0.515 lipid:POPC:0.243 lipid:PAPC:0.121 lipid:POPE:0.020 lipid:CHOL:0.313 leaflet:lower apl:0.556 lipid:POPC:0.139 lipid:PAPC:0.075 lipid:POPE:0.054 lipid:PAPS:0.161 lipid:CHOL:0.280 gridsplits:False solvation_argument:positions:1:2 default",
+    protein = [
+        "file:example_proteins/SARS-CoV2_FI_only_full_protein_martinized_martini3001.pdb moleculetypes:SARS-CoV2_FI_only_monomer_1:SARS-CoV2_FI_only_monomer_2:SARS-CoV2_FI_only_monomer_3 cen_method:axis cz:-4.3",
+    ],
+    import_library = [
+        "example_molecule_definitions/m3_POPI.py",
+    ],
+    itp_input = [
+        "file:toppar/top_for_COBY.itp",
+        "include:toppar/m3_phosphoinositides/martini_v3.0_phosphoinositides_v1.0.itp",
+        "include:toppar/SARS-CoV2/SARS-CoV2_FI_only_monomer_1_martinized_martini3001.itp",
+        "include:toppar/SARS-CoV2/SARS-CoV2_FI_only_monomer_2_martinized_martini3001.itp",
+        "include:toppar/SARS-CoV2/SARS-CoV2_FI_only_monomer_3_martinized_martini3001.itp",
+    ],
+    out_sys = "output_systems/Paper_Subfigure_Main_a_SARSCov2FusionIntermediate/output_Paper_Subfigure_Main_a_SARSCov2FusionIntermediate",
+    out_top = "output_systems/Paper_Subfigure_Main_a_SARSCov2FusionIntermediate/topol_Paper_Subfigure_Main_a_SARSCov2FusionIntermediate.top",
+    out_log = "output_systems/Paper_Subfigure_Main_a_SARSCov2FusionIntermediate/log_Paper_Subfigure_Main_a_SARSCov2FusionIntermediate.log",
+    sn = "Paper_Subfigure_Main_a_SARSCov2FusionIntermediate",
+)
+Setting random seed to: 1749800664
+-------------------------- PREPROCESSING DEFINITIONS ---------------------------
+Loading topology file(s)
+    Finished loading topologies. Number of moleculetypes found: 222 
+
+Preprocessing lipid scaffolds
+    Number of lipids preprocessed: 6110 
+
+Preprocessing lipid definitions
+    Number of lipids preprocessed: 0 
+
+Preprocessing ion definitions
+    Number of positive ions preprocessed: 8
+    Number of negative ions preprocessed: 11 
+
+Preprocessing solvent definitions
+    Number of solvents preprocessed: 64
+---------------------- DEFINITIONS PREPROCESSING COMPLETE ----------------------
+                            (Time spent: 0.9529 [s])                            
+
+----------------- PRE-PREPROCESSING STACKED MEMBRANE COMMANDS ------------------
+Prepreprocessing stacked membranes request:
+    Starting argument: 1
+Preprocessing membrane requests
+    Starting membrane argument: 1
+Preprocessing membrane requests
+    Starting membrane argument: 1
+Number of membranes preprocessed: 1
+----------------- STACKED MEMBRANE PRE-PREPROCESSING COMPLETE ------------------
+                            (Time spent: 0.0059 [s])                            
+
+---------------------------- PREPROCESSING COMMANDS ----------------------------
+Preprocessing protein requests
+    Starting protein: 1
+    Number of molecule insertions preprocessed: 1
+Preprocessing membrane requests
+    Starting membrane argument: 1
+    Starting membrane argument: 2
+    Number of membranes preprocessed: 2
+Preprocessing solvation requests
+    Starting solvation argument: 1
+    Starting solvation argument: 2
+    Starting solvation argument: 3
+    Starting solvation argument: 4
+    Number of solvent commands preprocessed: 4
+------------------------ COMMAND PREPROCESSING COMPLETE ------------------------
+                            (Time spent: 0.0734 [s])                            
+
+------------------------------ PROTEIN PLACEMENT -------------------------------
+Starting protein nr 1
+    Total charge of protein is: -33.0
+    Centering protein using 'axis' at x/y/z: 74.094 91.388 -57.335 (Input file coordinate system [Å])
+    New protein center at x/y/z: 0 0 -43.0 (Internal coordinate system [Å])
+    Finished placing protein nr 1
+-------------------------- PROTEIN PLACEMENT COMPLETE --------------------------
+                            (Time spent: 0.0125 [s])                             
+
+----------------------- CREATING LEAFLET BOUNDARY BOXES ------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+        Base parameters: x=30.0nm y=30.0nm APL=0.535nm^2
+    Starting lower leaflet
+        Base parameters: x=30.0nm y=30.0nm APL=0.535nm^2
+
+Starting membrane nr 2
+    Starting upper leaflet
+        Base parameters: x=30.0nm y=30.0nm APL=0.515nm^2
+    Starting lower leaflet
+        Base parameters: x=30.0nm y=30.0nm APL=0.556nm^2
+------------------------ LEAFLET BOUNDARY BOXES CREATED ------------------------
+                            (Time spent: 0.0013 [s])                             
+
+------------------------ CREATING HOLED BOUNDARY BOXES -------------------------
+Starting membrane nr 1
+    Finding protein beads inside leaflets
+        Starting upper leaflet
+            124 protein beads found within leaflet
+
+        Starting lower leaflet
+            116 protein beads found within leaflet
+
+    Calculating holed boundary box
+        Starting upper leaflet
+        Starting lower leaflet
+
+Starting membrane nr 2
+    Finding protein beads inside leaflets
+        Starting upper leaflet
+            No proteins beads found within leaflet
+
+        Starting lower leaflet
+            No proteins beads found within leaflet
+
+    Calculating holed boundary box
+        Starting upper leaflet
+        Starting lower leaflet
+------------------------- HOLED BOUNDARY BOXES CREATED -------------------------
+                            (Time spent: 0.1298 [s])                             
+
+--------------------------- CALCULATING LIPID RATIOS ---------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+        Lipid optimization 'lipid_optim' setting: force_fill
+            Forcefully filling leaflet until all grid points have a lipid
+
+            Maximum number of lipids allowed in subleaflet: 1674
+            
+        Maximum number of lipids allowed in leaflet: 1674
+        Final deviations from expected ratios: Difference in %-values
+            Maximum: 0.02
+            Average: 0.01083
+            Minimum: 0.002
+        Leaflet specific lipid data (Combined subleafs)
+            Name : Final lipids : Final % : Expected % : Starting % : Starting lipids
+            CHOL : 533          : 31.84   : 31.829     : 31.837     : 532            
+            POPI : 363          : 21.685  : 21.665     : 21.664     : 362            
+            POPE : 225          : 13.441  : 13.439     : 13.405     : 224            
+            DOPC : 218          : 13.023  : 13.042     : 13.046     : 218            
+            POPS : 179          : 10.693  : 10.699     : 10.712     : 179            
+            POPC : 156          : 9.319   : 9.326      : 9.336      : 156            
+
+    Starting lower leaflet
+        Lipid optimization 'lipid_optim' setting: force_fill
+            Forcefully filling leaflet until all grid points have a lipid
+
+            Maximum number of lipids allowed in subleaflet: 1674
+            
+        Maximum number of lipids allowed in leaflet: 1674
+        Final deviations from expected ratios: Difference in %-values
+            Maximum: 0.02
+            Average: 0.01083
+            Minimum: 0.002
+        Leaflet specific lipid data (Combined subleafs)
+            Name : Final lipids : Final % : Expected % : Starting % : Starting lipids
+            CHOL : 533          : 31.84   : 31.829     : 31.837     : 532            
+            POPI : 363          : 21.685  : 21.665     : 21.664     : 362            
+            POPE : 225          : 13.441  : 13.439     : 13.405     : 224            
+            DOPC : 218          : 13.023  : 13.042     : 13.046     : 218            
+            POPS : 179          : 10.693  : 10.699     : 10.712     : 179            
+            POPC : 156          : 9.319   : 9.326      : 9.336      : 156            
+
+    Membrane-wide lipid data
+            Name : Total lipids : Total %
+            CHOL : 1066         : 31.84  
+            POPI : 726          : 21.685 
+            POPE : 450          : 13.441 
+            DOPC : 436          : 13.023 
+            POPS : 358          : 10.693 
+            POPC : 312          : 9.319  
+
+Starting membrane nr 2
+    Starting upper leaflet
+        Lipid optimization 'lipid_optim' setting: force_fill
+            Forcefully filling leaflet until all grid points have a lipid
+
+            Maximum number of lipids allowed in subleaflet: 1748
+            
+        Maximum number of lipids allowed in leaflet: 1748
+        Final deviations from expected ratios: Difference in %-values
+            Maximum: 0.106
+            Average: 0.053
+            Minimum: 0.024
+        Leaflet specific lipid data (Combined subleafs)
+            Name : Final lipids : Final % : Expected % : Starting % : Starting lipids
+            CHOL : 784          : 44.851  : 44.907     : 44.903     : 784            
+            POPC : 609          : 34.84   : 34.864     : 34.88      : 609            
+            PAPC : 303          : 17.334  : 17.36      : 17.354     : 303            
+            POPE : 52           : 2.975   : 2.869      : 2.864      : 50             
+
+    Starting lower leaflet
+        Lipid optimization 'lipid_optim' setting: force_fill
+            Forcefully filling leaflet until all grid points have a lipid
+
+            Maximum number of lipids allowed in subleaflet: 1619
+            
+        Maximum number of lipids allowed in leaflet: 1619
+        Final deviations from expected ratios: Difference in %-values
+            Maximum: 0.105
+            Average: 0.0418
+            Minimum: 0.016
+        Leaflet specific lipid data (Combined subleafs)
+            Name : Final lipids : Final % : Expected % : Starting % : Starting lipids
+            CHOL : 639          : 39.469  : 39.492     : 39.518     : 639            
+            PAPS : 367          : 22.668  : 22.708     : 22.696     : 367            
+            POPC : 317          : 19.58   : 19.605     : 19.604     : 317            
+            PAPC : 171          : 10.562  : 10.578     : 10.575     : 171            
+            POPE : 125          : 7.721   : 7.616      : 7.607      : 123            
+
+    Membrane-wide lipid data
+            Name : Total lipids : Total %
+            CHOL : 1423         : 42.263 
+            POPC : 926          : 27.502 
+            PAPC : 474          : 14.078 
+            PAPS : 367          : 10.9   
+            POPE : 177          : 5.257  
+
+
+Lipid data for whole system
+            Name : Total lipids : Total %
+            POPC : 926          : 18.948 
+            DOPC : 436          : 8.922  
+            POPE : 177          : 3.622  
+            POPI : 726          : 14.856 
+            POPS : 358          : 7.326  
+            CHOL : 1423         : 29.118 
+            PAPC : 474          : 9.699  
+            PAPS : 367          : 7.51   
+---------------------- LIPID RATIO CALCULATIONS COMPLETE -----------------------
+                            (Time spent: 0.0055 [s])                             
+
+----------------------------- CREATING LIPID GRID ------------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+            Total leaflet optimization time: 7.1915 [s]
+
+    Starting lower leaflet
+            Total leaflet optimization time: 6.7426 [s]
+
+Starting membrane nr 2
+    Starting upper leaflet
+            Total leaflet optimization time: 0.0 [s]
+
+    Starting lower leaflet
+            Total leaflet optimization time: 0.0 [s]
+------------------------------ LIPID GRID CREATED ------------------------------
+                           (Time spent: 17.7088 [s])                             
+
+------------------------------- CREATING LIPIDS --------------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+    Starting lower leaflet
+Starting membrane nr 2
+    Starting upper leaflet
+    Starting lower leaflet
+--------------------------- LIPID CREATION COMPLETE ----------------------------
+                            (Time spent: 1.0758 [s])                             
+
+------------------------------- SOLVATING SYSTEM -------------------------------
+Starting solvation nr 1
+    Calculating box volume: (all values in [nm^3])
+        Bead radius used for volume calculations 'bead_radius': 0.264 [nm]
+        Solvent box volume: 5743.8
+        Excluded volume:    1458.754
+            Solute volume:  0.0
+            Lipid volume:   1458.754
+            Protein volume: 0.0
+        Free volume:        4285.046
+        Solvent volume:     4303.228
+
+    Solvent box charge information:
+        Solvent box charge before solvent insertion: 0.0
+            Prior solvent beads:  0
+            Lipid beads:          0.0
+            Protein beads:        0
+        Solvent box charge after solvent insertion:  0.0
+            New solvent beads: 0.0
+                Solvent       (solv): 0
+                Positive ions (pos):  389.0
+                Negative ions (neg):  -389.0
+
+    Calculating the number of available grid points
+        Final number of 3D grid points available for molecule placement: 199303
+        Inserting 36621 solvent molecules into random grid points:
+            Currently at solvent number: 1
+            Currently at solvent number: 25000
+            Currently at solvent number: 36621
+
+    Solvent data for the the specific solvation command
+        Name : Totals : Total % : Molarity(box) : Molarity(free) : Molarity(solvent) : Charge
+        W    : 35843  : 97.876  : 10.362        : 13.89          : 13.831            : 0     
+        NA   : 389    : 1.062   : 0.112         : 0.151          : 0.15              : 1.0   
+        CL   : 389    : 1.062   : 0.112         : 0.151          : 0.15              : -1.0  
+
+Starting solvation nr 2
+    Calculating box volume: (all values in [nm^3])
+        Bead radius used for volume calculations 'bead_radius': 0.264 [nm]
+        Solvent box volume: 5770.8
+        Excluded volume:    1570.433
+            Solute volume:  0.0
+            Lipid volume:   1508.929
+            Protein volume: 30.752
+        Free volume:        4200.367
+        Solvent volume:     4218.227
+
+    Solvent box charge information:
+        Solvent box charge before solvent insertion: -548.0
+            Prior solvent beads:  0
+            Lipid beads:          -542.0
+            Protein beads:        -6.0
+        Solvent box charge after solvent insertion:  0.0
+            New solvent beads: 548.0
+                Solvent       (solv): 0
+                Positive ions (pos):  929.0
+                Negative ions (neg):  -381.0
+
+    Calculating the number of available grid points
+        Final number of 3D grid points available for molecule placement: 194647
+        Inserting 36445 solvent molecules into random grid points:
+            Currently at solvent number: 1
+            Currently at solvent number: 25000
+            Currently at solvent number: 36445
+
+    Solvent data for the the specific solvation command
+        Name : Totals : Total % : Molarity(box) : Molarity(free) : Molarity(solvent) : Charge
+        W    : 35135  : 96.406  : 10.11         : 13.89          : 13.831            : 0     
+        NA   : 929    : 2.549   : 0.267         : 0.367          : 0.366             : 1.0   
+        CL   : 381    : 1.045   : 0.11          : 0.151          : 0.15              : -1.0  
+
+Starting solvation nr 3
+    Calculating box volume: (all values in [nm^3])
+        Bead radius used for volume calculations 'bead_radius': 0.264 [nm]
+        Solvent box volume: 16300.8
+        Excluded volume:    1739.222
+            Solute volume:  0.0
+            Lipid volume:   1508.929
+            Protein volume: 115.147
+        Free volume:        14561.578
+        Solvent volume:     14623.508
+
+    Solvent box charge information:
+        Solvent box charge before solvent insertion: -563.0
+            Prior solvent beads:  0
+            Lipid beads:          -542.0
+            Protein beads:        -21.0
+        Solvent box charge after solvent insertion:  0.0
+            New solvent beads: 563.0
+                Solvent       (solv): 0
+                Positive ions (pos):  1884.0
+                Negative ions (neg):  -1321.0
+
+    Calculating the number of available grid points
+        Final number of 3D grid points available for molecule placement: 747322
+        Inserting 125009 solvent molecules into random grid points:
+            Currently at solvent number: 1
+            Currently at solvent number: 25000
+            Currently at solvent number: 50000
+            Currently at solvent number: 75000
+            Currently at solvent number: 100000
+            Currently at solvent number: 125000
+            Currently at solvent number: 125009
+
+    Solvent data for the the specific solvation command
+        Name : Totals : Total % : Molarity(box) : Molarity(free) : Molarity(solvent) : Charge
+        W    : 121804 : 97.436  : 12.408        : 13.89          : 13.831            : 0     
+        NA   : 1884   : 1.507   : 0.192         : 0.215          : 0.214             : 1.0   
+        CL   : 1321   : 1.057   : 0.135         : 0.151          : 0.15              : -1.0  
+
+Starting solvation nr 4
+    Calculating box volume: (all values in [nm^3])
+        Bead radius used for volume calculations 'bead_radius': 0.264 [nm]
+        Solvent box volume: 16273.8
+        Excluded volume:    1581.146
+            Solute volume:  0.0
+            Lipid volume:   1391.085
+            Protein volume: 95.031
+        Free volume:        14692.654
+        Solvent volume:     14755.091
+
+    Solvent box charge information:
+        Solvent box charge before solvent insertion: -373.0
+            Prior solvent beads:  0
+            Lipid beads:          -367.0
+            Protein beads:        -6.0
+        Solvent box charge after solvent insertion:  0.0
+            New solvent beads: 373.0
+                Solvent       (solv): 0
+                Positive ions (pos):  1706.0
+                Negative ions (neg):  -1333.0
+
+    Calculating the number of available grid points
+        Final number of 3D grid points available for molecule placement: 747034
+        Inserting 125939 solvent molecules into random grid points:
+            Currently at solvent number: 1
+            Currently at solvent number: 25000
+            Currently at solvent number: 50000
+            Currently at solvent number: 75000
+            Currently at solvent number: 100000
+            Currently at solvent number: 125000
+            Currently at solvent number: 125939
+
+    Solvent data for the the specific solvation command
+        Name : Totals : Total % : Molarity(box) : Molarity(free) : Molarity(solvent) : Charge
+        W    : 122900 : 97.587  : 12.54         : 13.89          : 13.831            : 0     
+        NA   : 1706   : 1.355   : 0.174         : 0.193          : 0.192             : 1.0   
+        CL   : 1333   : 1.058   : 0.136         : 0.151          : 0.15              : -1.0  
+
+Solvent data for whole system
+        Name : Totals : Total % : Molarity(box) : Molarity(free) : Molarity(solvent) : Charge
+        W    : 315682 : 97.429  : 11.89         : 12.304         : 13.831            : 0     
+        NA   : 4908   : 1.515   : 0.185         : 0.191          : 0.215             : 1.0   
+        CL   : 3424   : 1.057   : 0.129         : 0.133          : 0.15              : -1.0  
+------------------------------ SOLVATION COMPLETE ------------------------------
+                            (Time spent: 4.417 [s])                              
+
+                          +--------------------------+                          
+--------------------------+ FINAL SYSTEM CHARGE: 0.0 +--------------------------
+                          +--------------------------+                          
+
+-------------------------------- WRITING FILES ---------------------------------
+Writing structure files (PDB/GRO)
+    PDB file written: output_systems/Paper_Subfigure_Main_a_SARSCov2FusionIntermediate/output_Paper_Subfigure_Main_a_SARSCov2FusionIntermediate.pdb
+    GRO file written: output_systems/Paper_Subfigure_Main_a_SARSCov2FusionIntermediate/output_Paper_Subfigure_Main_a_SARSCov2FusionIntermediate.gro
+    CIF file written: output_systems/Paper_Subfigure_Main_a_SARSCov2FusionIntermediate/output_Paper_Subfigure_Main_a_SARSCov2FusionIntermediate.cif
+
+Writing topology file (TOP)
+    TOP file written: output_systems/Paper_Subfigure_Main_a_SARSCov2FusionIntermediate/topol_Paper_Subfigure_Main_a_SARSCov2FusionIntermediate.top 
+
+Writing log file (LOG)

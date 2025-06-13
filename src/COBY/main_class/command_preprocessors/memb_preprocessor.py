@@ -8,7 +8,6 @@ class memb_preprocessor:
         Preprocesses membrane commands for later ease of use
         '''
         ### ### Preprocessing membranes
-        
         if return_self == "return":
             MEMBRANES = {}
         
@@ -221,8 +220,9 @@ class memb_preprocessor:
                         "lipids_preprocessing": [], # empty
                         "lipids_extra_preprocessing": [], # empty
 
-                        "kickxy": 0.025, # [nm] converted to [Å]
-                        "kickz": 0.025, # [nm] converted to [Å]
+                        "kickxy":   0.025, # [nm] converted to [Å]
+                        "kickz":    0.025, # [nm] converted to [Å]
+                        "z_offset": 0,     # [nm] converted to [Å]
 
                         "apl": 0.6, # [nm^2] converted to [Å^2]
                         
@@ -551,6 +551,11 @@ class memb_preprocessor:
                         else:
                             settings_dict[dict_target][sub_cmd[0].lower()] = ast.literal_eval(sub_cmd[1])
 
+                    elif sub_cmd[0].lower() == "z_offset":
+                        ### Z-direction offset for all beads
+                        ### max(0, val) ensures lipids cannot end up overlapping with the other leaflet
+                        settings_dict[dict_target]["z_offset"] = max(0, ast.literal_eval(sub_cmd[1]))
+
                     ### Bead distance scaling for z is 0.3 by default and 0.25 by default for x and y [multiplier]
                     elif sub_cmd[0].lower() in ["bdx", "bdy", "bdz"]:
                         settings_dict[dict_target][sub_cmd[0].lower()] = ast.literal_eval(sub_cmd[1])
@@ -778,6 +783,7 @@ class memb_preprocessor:
                     leaflet["height_buffer"] *= 10
                     leaflet["kickxy"] *= 10
                     leaflet["kickz"] *= 10
+                    leaflet["z_offset"] *= 10
                     if self.debug_prints == True and (len(self.debug_keys) == 0 or "membrane_preprocessor" in self.debug_keys):
                         self.print_term('leaflet["apl"]', leaflet["apl"], debug=True, debug_keys=["membrane_preprocessor"])
                         self.print_term("", debug=True, debug_keys=["membrane_preprocessor"]) # Spacing
@@ -821,6 +827,8 @@ class memb_preprocessor:
                             apl        = leaflet["apl"]
                             extra_type = "absolute"
                             extra_val  = 0
+                            z_offset   = leaflet["z_offset"]
+
                             if lipid_argtype == "lipids":
                                 ratio = 1
                             elif lipid_argtype == "lipids_extra":
@@ -846,8 +854,13 @@ class memb_preprocessor:
                                 elif sub_cmd[i].lower() == "name":
                                     name = sub_cmd[i+1]
                                     i += 2
+                                elif sub_cmd[i].lower() == "z_offset":
+                                    ### max(0, val) ensures lipids cannot end up overlapping with the other leaflet
+                                    ### val*10 to convert from [nm] to [Å]
+                                    z_offset = max(0, ast.literal_eval(sub_cmd[i+1]) * 10)
+                                    i += 2
                                 elif sub_cmd[i].lower() == "apl"  and lipid_argtype == "lipids": # Not used for "lipid_extra"
-                                    apl = ast.literal_eval(sub_cmd[i+1]) * 100 # Converting from nm^2 to Å^2
+                                    apl = ast.literal_eval(sub_cmd[i+1]) * 100 # Converting from [nm^2] to [Å^2]
                                     i += 2
                                 elif sub_cmd[i].lower() == "extra_type" and lipid_argtype == "lipids_extra":
                                     assert sub_cmd[i+1] in ["absolute", "percentage_leaflet", "percentage_lipid"], "Only 'absolute' and 'percentage' are allowed values for lipid_extra specific 'extratype'" + "\n" + "Argument: " + str(sub_cmd)
@@ -886,6 +899,11 @@ class memb_preprocessor:
 
                             lipid.extra_type_add(extra_type)
                             lipid.extra_val_add(extra_val)
+
+                            ### Adds z-direction offset for all beads
+                            lipid.z_offset_add(z_offset)
+                            if z_offset != 0:
+                                lipid.move_coords([0, 0, lipid.z_offset])
 
                             if lipid.moleculetype is not False:
                                 moleculetype = lipid.moleculetype

@@ -1,0 +1,190 @@
+The following COBY arguments will be processed:
+COBY(
+    box_type = "skewed_hexagonal",
+    box = [
+        15,
+    ],
+    protein = "file:example_proteins/8BB6_martinized.pdb moleculetypes:8BB6_CG",
+    membrane = "lipid:POPC",
+    solvation = "default",
+    itp_input = [
+        "file:toppar/top_for_COBY.itp",
+        "include:toppar/SugarTransporter/8BB6_martinized.itp",
+    ],
+    out_sys = "output_systems/BoxTypes2_SkewedHexagonalBox/output_BoxTypes2_SkewedHexagonalBox",
+    out_top = "output_systems/BoxTypes2_SkewedHexagonalBox/topol_BoxTypes2_SkewedHexagonalBox.top",
+    out_log = "output_systems/BoxTypes2_SkewedHexagonalBox/log_BoxTypes2_SkewedHexagonalBox.log",
+    sn = "BoxTypes2_SkewedHexagonalBox",
+)
+Setting random seed to: 1749800543
+-------------------------- PREPROCESSING DEFINITIONS ---------------------------
+Loading topology file(s)
+    Finished loading topologies. Number of moleculetypes found: 195 
+
+Preprocessing lipid scaffolds
+    Number of lipids preprocessed: 6109 
+
+Preprocessing lipid definitions
+    Number of lipids preprocessed: 0 
+
+Preprocessing ion definitions
+    Number of positive ions preprocessed: 8
+    Number of negative ions preprocessed: 11 
+
+Preprocessing solvent definitions
+    Number of solvents preprocessed: 64
+---------------------- DEFINITIONS PREPROCESSING COMPLETE ----------------------
+                            (Time spent: 0.6889 [s])                            
+
+---------------------------- PREPROCESSING COMMANDS ----------------------------
+Preprocessing protein requests
+    Starting protein: 1
+    Number of molecule insertions preprocessed: 1
+Preprocessing membrane requests
+    Starting membrane argument: 1
+    Number of membranes preprocessed: 1
+Preprocessing solvation requests
+    Starting solvation argument: 1
+    Number of solvent commands preprocessed: 1
+------------------------ COMMAND PREPROCESSING COMPLETE ------------------------
+                            (Time spent: 0.008 [s])                             
+
+------------------------------ PROTEIN PLACEMENT -------------------------------
+Starting protein nr 1
+    Total charge of protein is: 16.0
+    Centering protein using 'cog' at x/y/z: 43.358 42.68 56.995 (Input file coordinate system [Å])
+    New protein center at x/y/z: 0 0 0 (Internal coordinate system [Å])
+    Finished placing protein nr 1
+-------------------------- PROTEIN PLACEMENT COMPLETE --------------------------
+                            (Time spent: 0.0037 [s])                             
+
+----------------------- CREATING LEAFLET BOUNDARY BOXES ------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+        Base parameters: x=15.0nm y=12.99038105676658nm APL=0.6nm^2
+    Starting lower leaflet
+        Base parameters: x=15.0nm y=12.99038105676658nm APL=0.6nm^2
+------------------------ LEAFLET BOUNDARY BOXES CREATED ------------------------
+                            (Time spent: 0.0007 [s])                             
+
+------------------------ CREATING HOLED BOUNDARY BOXES -------------------------
+Starting membrane nr 1
+    Finding protein beads inside leaflets
+        Starting upper leaflet
+            395 protein beads found within leaflet
+
+        Starting lower leaflet
+            428 protein beads found within leaflet
+
+    Calculating holed boundary box
+        Starting upper leaflet
+        Starting lower leaflet
+------------------------- HOLED BOUNDARY BOXES CREATED -------------------------
+                            (Time spent: 0.3637 [s])                             
+
+--------------------------- CALCULATING LIPID RATIOS ---------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+        Lipid optimization 'lipid_optim' setting: force_fill
+            Forcefully filling leaflet until all grid points have a lipid
+
+            Maximum number of lipids allowed in subleaflet: 297
+            
+        Maximum number of lipids allowed in leaflet: 297
+        Final deviations from expected ratios: Difference in %-values
+            Maximum: 0.0
+            Average: 0.0
+            Minimum: 0.0
+        Leaflet specific lipid data (Combined subleafs)
+            Name : Final lipids : Final % : Expected % : Starting % : Starting lipids
+            POPC : 297          : 100.0   : 100.0      : 100.0      : 297            
+
+    Starting lower leaflet
+        Lipid optimization 'lipid_optim' setting: force_fill
+            Forcefully filling leaflet until all grid points have a lipid
+
+            Maximum number of lipids allowed in subleaflet: 298
+            
+        Maximum number of lipids allowed in leaflet: 298
+        Final deviations from expected ratios: Difference in %-values
+            Maximum: 0.0
+            Average: 0.0
+            Minimum: 0.0
+        Leaflet specific lipid data (Combined subleafs)
+            Name : Final lipids : Final % : Expected % : Starting % : Starting lipids
+            POPC : 298          : 100.0   : 100.0      : 100.0      : 298            
+
+    Membrane-wide lipid data
+            Name : Total lipids : Total %
+            POPC : 595          : 100.0  
+---------------------- LIPID RATIO CALCULATIONS COMPLETE -----------------------
+                            (Time spent: 0.0007 [s])                             
+
+----------------------------- CREATING LIPID GRID ------------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+            Total leaflet optimization time: 0.2811 [s]
+
+    Starting lower leaflet
+            Total leaflet optimization time: 0.3038 [s]
+------------------------------ LIPID GRID CREATED ------------------------------
+                            (Time spent: 0.6418 [s])                             
+
+------------------------------- CREATING LIPIDS --------------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+    Starting lower leaflet
+--------------------------- LIPID CREATION COMPLETE ----------------------------
+                            (Time spent: 0.1029 [s])                             
+
+------------------------------- SOLVATING SYSTEM -------------------------------
+Starting solvation nr 1
+    Calculating box volume: (all values in [nm^3])
+        Bead radius used for volume calculations 'bead_radius': 0.264 [nm]
+        Solvent box volume: 2386.485
+        Excluded volume:    718.626
+            Solute volume:  0.0
+            Lipid volume:   550.299
+            Protein volume: 84.163
+        Free volume:        1667.86
+        Solvent volume:     1674.925
+
+    Solvent box charge information:
+        Solvent box charge before solvent insertion: 16.0
+            Prior solvent beads:  0
+            Lipid beads:          0.0
+            Protein beads:        16.0
+        Solvent box charge after solvent insertion:  0.0
+            New solvent beads: -16.0
+                Solvent       (solv): 0
+                Positive ions (pos):  151.0
+                Negative ions (neg):  -167.0
+
+    Calculating the number of available grid points
+        Final number of 3D grid points available for molecule placement: 76714
+        Inserting 14269 solvent molecules into random grid points:
+            Currently at solvent number: 1
+            Currently at solvent number: 14269
+
+Solvent data for whole system
+        Name : Totals : Total % : Molarity(box) : Molarity(free) : Molarity(solvent) : Charge
+        W    : 13951  : 97.771  : 9.707         : 13.223         : 13.831            : 0     
+        NA   : 151    : 1.058   : 0.105         : 0.143          : 0.15              : 1.0   
+        CL   : 167    : 1.17    : 0.116         : 0.158          : 0.166             : -1.0  
+------------------------------ SOLVATION COMPLETE ------------------------------
+                            (Time spent: 0.125 [s])                              
+
+                          +--------------------------+                          
+--------------------------+ FINAL SYSTEM CHARGE: 0.0 +--------------------------
+                          +--------------------------+                          
+
+-------------------------------- WRITING FILES ---------------------------------
+Writing structure files (PDB/GRO)
+    PDB file written: output_systems/BoxTypes2_SkewedHexagonalBox/output_BoxTypes2_SkewedHexagonalBox.pdb
+    GRO file written: output_systems/BoxTypes2_SkewedHexagonalBox/output_BoxTypes2_SkewedHexagonalBox.gro
+    CIF file written: output_systems/BoxTypes2_SkewedHexagonalBox/output_BoxTypes2_SkewedHexagonalBox.cif
+
+Writing topology file (TOP)
+    TOP file written: output_systems/BoxTypes2_SkewedHexagonalBox/topol_BoxTypes2_SkewedHexagonalBox.top 
+
+Writing log file (LOG)

@@ -1,0 +1,20 @@
+#include "toppar/martini_v3/martini_v3.0.0.itp"
+#include "toppar/martini_v3/martini_v3.0.0_ions_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_nucleobases_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_phospholipids_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_solvents_v1.itp"
+#include "toppar/martini_v3/martini_v3.0_sterols_v1.0.itp"
+
+[ system ]
+; name
+Solvation3_ChargeNeutralizationMethods
+
+[ molecules ]
+; name number
+POPC  151
+POPG   16
+POPC  151
+POPG   16
+W    5781
+NA     79
+CL     47

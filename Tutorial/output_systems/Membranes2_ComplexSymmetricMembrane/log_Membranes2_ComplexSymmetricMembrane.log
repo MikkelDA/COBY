@@ -1,0 +1,174 @@
+The following COBY arguments will be processed:
+COBY(
+    box = [
+        10,
+        10,
+        10,
+    ],
+    membrane = "lipid:POPC:8 lipid:POPE:4 lipid:CHOL:3 apl:0.5",
+    solvation = "default",
+    itp_input = "file:toppar/top_for_COBY.itp",
+    out_sys = "output_systems/Membranes2_ComplexSymmetricMembrane/output_Membranes2_ComplexSymmetricMembrane",
+    out_top = "output_systems/Membranes2_ComplexSymmetricMembrane/topol_Membranes2_ComplexSymmetricMembrane.top",
+    out_log = "output_systems/Membranes2_ComplexSymmetricMembrane/log_Membranes2_ComplexSymmetricMembrane.log",
+    sn = "Membranes2_ComplexSymmetricMembrane",
+)
+Setting random seed to: 1749800527
+-------------------------- PREPROCESSING DEFINITIONS ---------------------------
+Loading topology file(s)
+    Finished loading topologies. Number of moleculetypes found: 194 
+
+Preprocessing lipid scaffolds
+    Number of lipids preprocessed: 6109 
+
+Preprocessing lipid definitions
+    Number of lipids preprocessed: 0 
+
+Preprocessing ion definitions
+    Number of positive ions preprocessed: 8
+    Number of negative ions preprocessed: 11 
+
+Preprocessing solvent definitions
+    Number of solvents preprocessed: 64
+---------------------- DEFINITIONS PREPROCESSING COMPLETE ----------------------
+                            (Time spent: 0.6742 [s])                            
+
+---------------------------- PREPROCESSING COMMANDS ----------------------------
+Preprocessing membrane requests
+    Starting membrane argument: 1
+    Number of membranes preprocessed: 1
+Preprocessing solvation requests
+    Starting solvation argument: 1
+    Number of solvent commands preprocessed: 1
+------------------------ COMMAND PREPROCESSING COMPLETE ------------------------
+                            (Time spent: 0.0018 [s])                            
+
+----------------------- CREATING LEAFLET BOUNDARY BOXES ------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+        Base parameters: x=10.0nm y=10.0nm APL=0.5nm^2
+    Starting lower leaflet
+        Base parameters: x=10.0nm y=10.0nm APL=0.5nm^2
+------------------------ LEAFLET BOUNDARY BOXES CREATED ------------------------
+                            (Time spent: 0.0014 [s])                             
+
+------------------------ CREATING HOLED BOUNDARY BOXES -------------------------
+Starting membrane nr 1
+    Calculating holed boundary box
+        Starting upper leaflet
+        Starting lower leaflet
+------------------------- HOLED BOUNDARY BOXES CREATED -------------------------
+                            (Time spent: 0.0008 [s])                             
+
+--------------------------- CALCULATING LIPID RATIOS ---------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+        Lipid optimization 'lipid_optim' setting: force_fill
+            Forcefully filling leaflet until all grid points have a lipid
+
+            Maximum number of lipids allowed in subleaflet: 200
+            
+        Maximum number of lipids allowed in leaflet: 200
+        Final deviations from expected ratios: Difference in %-values
+            Maximum: 0.167
+            Average: 0.11133
+            Minimum: 0.0
+        Leaflet specific lipid data (Combined subleafs)
+            Name : Final lipids : Final % : Expected % : Starting % : Starting lipids
+            POPC : 107          : 53.5    : 53.333     : 53.266     : 106            
+            POPE : 53           : 26.5    : 26.667     : 26.633     : 53             
+            CHOL : 40           : 20.0    : 20.0       : 20.101     : 40             
+
+    Starting lower leaflet
+        Lipid optimization 'lipid_optim' setting: force_fill
+            Forcefully filling leaflet until all grid points have a lipid
+
+            Maximum number of lipids allowed in subleaflet: 200
+            
+        Maximum number of lipids allowed in leaflet: 200
+        Final deviations from expected ratios: Difference in %-values
+            Maximum: 0.167
+            Average: 0.11133
+            Minimum: 0.0
+        Leaflet specific lipid data (Combined subleafs)
+            Name : Final lipids : Final % : Expected % : Starting % : Starting lipids
+            POPC : 107          : 53.5    : 53.333     : 53.266     : 106            
+            POPE : 53           : 26.5    : 26.667     : 26.633     : 53             
+            CHOL : 40           : 20.0    : 20.0       : 20.101     : 40             
+
+    Membrane-wide lipid data
+            Name : Total lipids : Total %
+            POPC : 214          : 53.5   
+            POPE : 106          : 26.5   
+            CHOL : 80           : 20.0   
+---------------------- LIPID RATIO CALCULATIONS COMPLETE -----------------------
+                            (Time spent: 0.0028 [s])                             
+
+----------------------------- CREATING LIPID GRID ------------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+            Total leaflet optimization time: 0.0 [s]
+
+    Starting lower leaflet
+            Total leaflet optimization time: 0.0 [s]
+------------------------------ LIPID GRID CREATED ------------------------------
+                            (Time spent: 0.0362 [s])                             
+
+------------------------------- CREATING LIPIDS --------------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+    Starting lower leaflet
+--------------------------- LIPID CREATION COMPLETE ----------------------------
+                            (Time spent: 0.0679 [s])                             
+
+------------------------------- SOLVATING SYSTEM -------------------------------
+Starting solvation nr 1
+    Calculating box volume: (all values in [nm^3])
+        Bead radius used for volume calculations 'bead_radius': 0.264 [nm]
+        Solvent box volume: 1000.0
+        Excluded volume:    351.451
+            Solute volume:  0.0
+            Lipid volume:   351.451
+            Protein volume: 0.0
+        Free volume:        648.549
+        Solvent volume:     651.313
+
+    Solvent box charge information:
+        Solvent box charge before solvent insertion: 0.0
+            Prior solvent beads:  0
+            Lipid beads:          0.0
+            Protein beads:        0
+        Solvent box charge after solvent insertion:  0.0
+            New solvent beads: 0.0
+                Solvent       (solv): 0
+                Positive ions (pos):  59.0
+                Negative ions (neg):  -59.0
+
+    Calculating the number of available grid points
+        Final number of 3D grid points available for molecule placement: 28318
+        Inserting 5543 solvent molecules into random grid points:
+            Currently at solvent number: 1
+            Currently at solvent number: 5543
+
+Solvent data for whole system
+        Name : Totals : Total % : Molarity(box) : Molarity(free) : Molarity(solvent) : Charge
+        W    : 5425   : 97.871  : 9.008         : 13.89          : 13.831            : 0     
+        NA   : 59     : 1.064   : 0.098         : 0.151          : 0.15              : 1.0   
+        CL   : 59     : 1.064   : 0.098         : 0.151          : 0.15              : -1.0  
+------------------------------ SOLVATION COMPLETE ------------------------------
+                            (Time spent: 0.154 [s])                              
+
+                          +--------------------------+                          
+--------------------------+ FINAL SYSTEM CHARGE: 0.0 +--------------------------
+                          +--------------------------+                          
+
+-------------------------------- WRITING FILES ---------------------------------
+Writing structure files (PDB/GRO)
+    PDB file written: output_systems/Membranes2_ComplexSymmetricMembrane/output_Membranes2_ComplexSymmetricMembrane.pdb
+    GRO file written: output_systems/Membranes2_ComplexSymmetricMembrane/output_Membranes2_ComplexSymmetricMembrane.gro
+    CIF file written: output_systems/Membranes2_ComplexSymmetricMembrane/output_Membranes2_ComplexSymmetricMembrane.cif
+
+Writing topology file (TOP)
+    TOP file written: output_systems/Membranes2_ComplexSymmetricMembrane/topol_Membranes2_ComplexSymmetricMembrane.top 
+
+Writing log file (LOG)

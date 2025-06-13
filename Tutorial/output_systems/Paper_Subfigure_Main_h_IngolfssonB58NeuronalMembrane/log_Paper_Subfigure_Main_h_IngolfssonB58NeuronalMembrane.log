@@ -1,0 +1,371 @@
+The following COBY arguments will be processed:
+COBY(
+    box = [
+        90,
+        50,
+        20,
+    ],
+    membrane = [
+        "leaflet:upper apl:0.460 params:IngolfssonMembranes lipid:DPPC:0.053 lipid:POPC:0.087 lipid:DOPC:0.022 lipid:PFPC:0.006 lipid:PAPC:0.046 lipid:PUPC:0.017 lipid:OIPC:0.006 lipid:OUPC:0.004 lipid:POPE:0.013 lipid:PAPE:0.031 lipid:PUPE:0.050 lipid:OIPE:0.001 lipid:OAPE:0.007 lipid:OUPE:0.007 lipid:DPSM:0.058 lipid:POSM:0.007 lipid:PNSM:0.013 lipid:PBSM:0.011 lipid:DPG1:0.009 lipid:DBG1:0.002 lipid:POG1:0.001 lipid:PNG1:0.002 lipid:DPG3:0.009 lipid:DBG3:0.002 lipid:POG3:0.001 lipid:PNG3:0.002 lipid:DPGS:0.049 lipid:DBGS:0.009 lipid:POGS:0.006 lipid:PNGS:0.011 lipid:DPCE:0.004 lipid:DBCE:0.001 lipid:PNCE:0.001 lipid:PPC:0.002 lipid:IPC:0.001 lipid:PPE:0.001 lipid:IPE:0.001 lipid:PODG:0.001 lipid:PADG:0.003 lipid:CHOL:0.444 leaflet:lower apl:0.485 params:IngolfssonMembranes lipid:DPPC:0.030 lipid:POPC:0.049 lipid:DOPC:0.012 lipid:PFPC:0.003 lipid:PAPC:0.026 lipid:PUPC:0.010 lipid:OIPC:0.003 lipid:OUPC:0.002 lipid:POPE:0.025 lipid:PAPE:0.061 lipid:PUPE:0.097 lipid:OIPE:0.003 lipid:OAPE:0.013 lipid:OUPE:0.014 lipid:DPSM:0.015 lipid:POSM:0.002 lipid:PNSM:0.003 lipid:PBSM:0.003 lipid:DPPS:0.005 lipid:POPS:0.025 lipid:PAPS:0.028 lipid:PUPS:0.034 lipid:OUPS:0.007 lipid:POPI:0.013 lipid:PIPI:0.005 lipid:PAPI:0.013 lipid:PUPI:0.020 lipid:POPA:0.001 lipid:PAPA:0.003 lipid:POP1:0.002 lipid:PAP1:0.003 lipid:POP2:0.002 lipid:PAP2:0.003 lipid:POP3:0.002 lipid:PAP3:0.003 lipid:DPCE:0.004 lipid:DBCE:0.001 lipid:PNCE:0.001 lipid:PPC:0.001 lipid:IPC:0.001 lipid:PPE:0.001 lipid:IPE:0.002 lipid:PODG:0.001 lipid:PADG:0.003 lipid:CHOL:0.446",
+    ],
+    solvation = "default",
+    import_library = "example_molecule_definitions/NeuronalPlasmaMembraneAverage_lipid_scaffolds.py",
+    itp_input = [
+        "include:toppar/NeuronalPlasmaMembraneBrain/martini_v2.2.itp",
+        "include:toppar/NeuronalPlasmaMembraneBrain/martini_v2.0_brain_complex_b5-GMs_old.itp",
+        "include:toppar/NeuronalPlasmaMembraneBrain/DPPX_Martini_v2.0_lipid.itp",
+        "include:toppar/NeuronalPlasmaMembraneBrain/POPX_Martini_v2.0_lipid.itp",
+        "include:toppar/NeuronalPlasmaMembraneBrain/martini_v2.0_ions.itp",
+    ],
+    out_sys = "output_systems/Paper_Subfigure_Main_h_IngolfssonB58NeuronalMembrane/output_Paper_Subfigure_Main_h_IngolfssonB58NeuronalMembrane",
+    out_top = "output_systems/Paper_Subfigure_Main_h_IngolfssonB58NeuronalMembrane/topol_Paper_Subfigure_Main_h_IngolfssonB58NeuronalMembrane.top",
+    out_log = "output_systems/Paper_Subfigure_Main_h_IngolfssonB58NeuronalMembrane/log_Paper_Subfigure_Main_h_IngolfssonB58NeuronalMembrane.log",
+    sn = "Paper_Subfigure_Main_h_IngolfssonB58NeuronalMembrane",
+)
+Setting random seed to: 1749800507
+-------------------------- PREPROCESSING DEFINITIONS ---------------------------
+Loading topology file(s)
+    Finished loading topologies. Number of moleculetypes found: 68 
+
+Preprocessing lipid scaffolds
+    Number of lipids preprocessed: 6208 
+
+Preprocessing lipid definitions
+    Number of lipids preprocessed: 0 
+
+Preprocessing ion definitions
+    Number of positive ions preprocessed: 8
+    Number of negative ions preprocessed: 11 
+
+Preprocessing solvent definitions
+    Number of solvents preprocessed: 64
+---------------------- DEFINITIONS PREPROCESSING COMPLETE ----------------------
+                            (Time spent: 0.3785 [s])                            
+
+---------------------------- PREPROCESSING COMMANDS ----------------------------
+Preprocessing membrane requests
+    Starting membrane argument: 1
+    Number of membranes preprocessed: 1
+Preprocessing solvation requests
+    Starting solvation argument: 1
+    Number of solvent commands preprocessed: 1
+------------------------ COMMAND PREPROCESSING COMPLETE ------------------------
+                            (Time spent: 0.022 [s])                             
+
+----------------------- CREATING LEAFLET BOUNDARY BOXES ------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+        Base parameters: x=90.0nm y=50.0nm APL=0.4599999999999999nm^2
+        The x-axis will be split into 2.0 subleaflets.
+        The y-axis will be split into 2.0 subleaflets.
+        A total of 4.0 subleaflets have been made for the current leaflet
+    Starting lower leaflet
+        Base parameters: x=90.0nm y=50.0nm APL=0.48499999999999993nm^2
+        The x-axis will be split into 2.0 subleaflets.
+        The y-axis will be split into 2.0 subleaflets.
+        A total of 4.0 subleaflets have been made for the current leaflet
+------------------------ LEAFLET BOUNDARY BOXES CREATED ------------------------
+                            (Time spent: 0.0011 [s])                             
+
+------------------------ CREATING HOLED BOUNDARY BOXES -------------------------
+Starting membrane nr 1
+    Calculating holed boundary box
+        Starting upper leaflet
+        Starting lower leaflet
+------------------------- HOLED BOUNDARY BOXES CREATED -------------------------
+                            (Time spent: 0.0011 [s])                             
+
+--------------------------- CALCULATING LIPID RATIOS ---------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+        Lipid optimization 'lipid_optim' setting: force_fill
+            Forcefully filling leaflet until all grid points have a lipid
+
+        Starting subleaflet 1/4
+            Maximum number of lipids allowed in subleaflet: 2446
+
+        Starting subleaflet 2/4
+            Maximum number of lipids allowed in subleaflet: 2446
+
+        Starting subleaflet 3/4
+            Maximum number of lipids allowed in subleaflet: 2446
+
+        Starting subleaflet 4/4
+            Maximum number of lipids allowed in subleaflet: 2446
+            
+        Maximum number of lipids allowed in leaflet: 9783
+            Number of allowed lipids in leaflet does not match the number of lipids in subleaflets for all lipid types
+            Adjusting number of lipids in subleaflets
+        Final deviations from expected ratios: Difference in %-values
+            Maximum: 0.023
+            Average: 0.00818
+            Minimum: 0.0
+        Leaflet specific lipid data (Combined subleafs)
+            Name : Total lipids : Final % : Expected %
+            CHOL : 4339         : 44.352  : 44.356    
+            POPC : 850          : 8.689   : 8.691     
+            DPSM : 566          : 5.786   : 5.794     
+            DPPC : 517          : 5.285   : 5.295     
+            PUPE : 488          : 4.988   : 4.995     
+            DPGS : 478          : 4.886   : 4.895     
+            PAPC : 449          : 4.59    : 4.595     
+            PAPE : 302          : 3.087   : 3.097     
+            DOPC : 215          : 2.198   : 2.198     
+            PUPC : 166          : 1.697   : 1.698     
+            POPE : 127          : 1.298   : 1.299     
+            PNSM : 127          : 1.298   : 1.299     
+            PNGS : 107          : 1.094   : 1.099     
+            PBSM : 107          : 1.094   : 1.099     
+            DPG3 : 87           : 0.889   : 0.899     
+            DPG1 : 87           : 0.889   : 0.899     
+            DBGS : 87           : 0.889   : 0.899     
+            POSM : 68           : 0.695   : 0.699     
+            OUPE : 68           : 0.695   : 0.699     
+            OAPE : 68           : 0.695   : 0.699     
+            POGS : 58           : 0.593   : 0.599     
+            PFPC : 58           : 0.593   : 0.599     
+            OIPC : 58           : 0.593   : 0.599     
+            OUPC : 39           : 0.399   : 0.4       
+            DPCE : 39           : 0.399   : 0.4       
+            PADG : 29           : 0.296   : 0.3       
+            PPC  : 19           : 0.194   : 0.2       
+            PNG3 : 19           : 0.194   : 0.2       
+            PNG1 : 19           : 0.194   : 0.2       
+            DBG3 : 19           : 0.194   : 0.2       
+            DBG1 : 19           : 0.194   : 0.2       
+            POG3 : 12           : 0.123   : 0.1       
+            POG1 : 12           : 0.123   : 0.1       
+            PNCE : 12           : 0.123   : 0.1       
+            OIPE : 12           : 0.123   : 0.1       
+            DBCE : 12           : 0.123   : 0.1       
+            PPE  : 11           : 0.112   : 0.1       
+            PODG : 11           : 0.112   : 0.1       
+            IPE  : 11           : 0.112   : 0.1       
+            IPC  : 11           : 0.112   : 0.1       
+
+    Starting lower leaflet
+        Lipid optimization 'lipid_optim' setting: force_fill
+            Forcefully filling leaflet until all grid points have a lipid
+
+        Starting subleaflet 1/4
+            Maximum number of lipids allowed in subleaflet: 2320
+
+        Starting subleaflet 2/4
+            Maximum number of lipids allowed in subleaflet: 2320
+
+        Starting subleaflet 3/4
+            Maximum number of lipids allowed in subleaflet: 2320
+
+        Starting subleaflet 4/4
+            Maximum number of lipids allowed in subleaflet: 2320
+            
+        Maximum number of lipids allowed in leaflet: 9278
+            Number of allowed lipids in leaflet does not match the number of lipids in subleaflets for all lipid types
+            Adjusting number of lipids in subleaflets
+        Final deviations from expected ratios: Difference in %-values
+            Maximum: 0.04
+            Average: 0.01022
+            Minimum: 0.0
+        Leaflet specific lipid data (Combined subleafs)
+            Name : Total lipids : Final % : Expected %
+            CHOL : 4133         : 44.546  : 44.555    
+            PUPE : 899          : 9.69    : 9.69      
+            PAPE : 565          : 6.09    : 6.094     
+            POPC : 454          : 4.893   : 4.895     
+            PUPS : 315          : 3.395   : 3.397     
+            DPPC : 278          : 2.996   : 2.997     
+            PAPS : 259          : 2.792   : 2.797     
+            PAPC : 240          : 2.587   : 2.597     
+            POPS : 231          : 2.49    : 2.498     
+            POPE : 231          : 2.49    : 2.498     
+            PUPI : 185          : 1.994   : 1.998     
+            DPSM : 139          : 1.498   : 1.499     
+            OUPE : 129          : 1.39    : 1.399     
+            POPI : 120          : 1.293   : 1.299     
+            PAPI : 120          : 1.293   : 1.299     
+            OAPE : 120          : 1.293   : 1.299     
+            DOPC : 111          : 1.196   : 1.199     
+            PUPC : 92           : 0.992   : 0.999     
+            OUPS : 64           : 0.69    : 0.699     
+            PIPI : 46           : 0.496   : 0.5       
+            DPPS : 46           : 0.496   : 0.5       
+            DPCE : 37           : 0.399   : 0.4       
+            PNSM : 27           : 0.291   : 0.3       
+            PFPC : 27           : 0.291   : 0.3       
+            PBSM : 27           : 0.291   : 0.3       
+            PAPA : 27           : 0.291   : 0.3       
+            PAP3 : 27           : 0.291   : 0.3       
+            PAP2 : 27           : 0.291   : 0.3       
+            PAP1 : 27           : 0.291   : 0.3       
+            PADG : 27           : 0.291   : 0.3       
+            OIPE : 27           : 0.291   : 0.3       
+            OIPC : 27           : 0.291   : 0.3       
+            POSM : 18           : 0.194   : 0.2       
+            POP3 : 18           : 0.194   : 0.2       
+            POP2 : 18           : 0.194   : 0.2       
+            POP1 : 18           : 0.194   : 0.2       
+            OUPC : 18           : 0.194   : 0.2       
+            IPE  : 18           : 0.194   : 0.2       
+            POPA : 13           : 0.14    : 0.1       
+            DBCE : 13           : 0.14    : 0.1       
+            PPE  : 12           : 0.129   : 0.1       
+            PPC  : 12           : 0.129   : 0.1       
+            PODG : 12           : 0.129   : 0.1       
+            PNCE : 12           : 0.129   : 0.1       
+            IPC  : 12           : 0.129   : 0.1       
+
+    Membrane-wide lipid data
+            Name : Total lipids : Total %
+            CHOL : 8472         : 44.447 
+            PUPE : 1387         : 7.277  
+            POPC : 1304         : 6.841  
+            PAPE : 867          : 4.549  
+            DPPC : 795          : 4.171  
+            DPSM : 705          : 3.699  
+            PAPC : 689          : 3.615  
+            DPGS : 478          : 2.508  
+            POPE : 358          : 1.878  
+            DOPC : 326          : 1.71   
+            PUPS : 315          : 1.653  
+            PAPS : 259          : 1.359  
+            PUPC : 258          : 1.354  
+            POPS : 231          : 1.212  
+            OUPE : 197          : 1.034  
+            OAPE : 188          : 0.986  
+            PUPI : 185          : 0.971  
+            PNSM : 154          : 0.808  
+            PBSM : 134          : 0.703  
+            POPI : 120          : 0.63   
+            PAPI : 120          : 0.63   
+            PNGS : 107          : 0.561  
+            DPG3 : 87           : 0.456  
+            DPG1 : 87           : 0.456  
+            DBGS : 87           : 0.456  
+            POSM : 86           : 0.451  
+            PFPC : 85           : 0.446  
+            OIPC : 85           : 0.446  
+            DPCE : 76           : 0.399  
+            OUPS : 64           : 0.336  
+            POGS : 58           : 0.304  
+            OUPC : 57           : 0.299  
+            PADG : 56           : 0.294  
+            PIPI : 46           : 0.241  
+            DPPS : 46           : 0.241  
+            OIPE : 39           : 0.205  
+            PPC  : 31           : 0.163  
+            IPE  : 29           : 0.152  
+            PAPA : 27           : 0.142  
+            PAP3 : 27           : 0.142  
+            PAP2 : 27           : 0.142  
+            PAP1 : 27           : 0.142  
+            DBCE : 25           : 0.131  
+            PNCE : 24           : 0.126  
+            PPE  : 23           : 0.121  
+            PODG : 23           : 0.121  
+            IPC  : 23           : 0.121  
+            PNG3 : 19           : 0.1    
+            PNG1 : 19           : 0.1    
+            DBG3 : 19           : 0.1    
+            DBG1 : 19           : 0.1    
+            POP3 : 18           : 0.094  
+            POP2 : 18           : 0.094  
+            POP1 : 18           : 0.094  
+            POPA : 13           : 0.068  
+            POG3 : 12           : 0.063  
+            POG1 : 12           : 0.063  
+---------------------- LIPID RATIO CALCULATIONS COMPLETE -----------------------
+                            (Time spent: 0.1357 [s])                             
+
+----------------------------- CREATING LIPID GRID ------------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+            Total leaflet optimization time: 2.9973 [s]
+
+    Starting lower leaflet
+            Total leaflet optimization time: 3.8765 [s]
+------------------------------ LIPID GRID CREATED ------------------------------
+                           (Time spent: 44.5563 [s])                             
+
+------------------------------- CREATING LIPIDS --------------------------------
+Starting membrane nr 1
+    Starting upper leaflet
+    Starting lower leaflet
+--------------------------- LIPID CREATION COMPLETE ----------------------------
+                            (Time spent: 3.1303 [s])                             
+
+------------------------------- SOLVATING SYSTEM -------------------------------
+Starting solvation nr 1
+    Calculating box volume: (all values in [nm^3])
+        Bead radius used for volume calculations 'bead_radius': 0.264 [nm]
+        Solvent box volume: 90000.0
+        Excluded volume:    15709.259
+            Solute volume:  0.0
+            Lipid volume:   15709.259
+            Protein volume: 0.0
+        Free volume:        74290.741
+        Solvent volume:     74606.734
+
+    Solvent box charge information:
+        Solvent box charge before solvent insertion: -2415.0
+            Prior solvent beads:  0
+            Lipid beads:          -2415.0
+            Protein beads:        0
+        Solvent box charge after solvent insertion:  0.0
+            New solvent beads: 2415.0
+                Solvent       (solv): 0
+                Positive ions (pos):  9154.0
+                Negative ions (neg):  -6739.0
+
+    Calculating the number of available grid points
+        Final number of 3D grid points available for molecule placement: 3750660
+        Inserting 637317 solvent molecules into random grid points:
+            Currently at solvent number: 1
+            Currently at solvent number: 25000
+            Currently at solvent number: 50000
+            Currently at solvent number: 75000
+            Currently at solvent number: 100000
+            Currently at solvent number: 125000
+            Currently at solvent number: 150000
+            Currently at solvent number: 175000
+            Currently at solvent number: 200000
+            Currently at solvent number: 225000
+            Currently at solvent number: 250000
+            Currently at solvent number: 275000
+            Currently at solvent number: 300000
+            Currently at solvent number: 325000
+            Currently at solvent number: 350000
+            Currently at solvent number: 375000
+            Currently at solvent number: 400000
+            Currently at solvent number: 425000
+            Currently at solvent number: 450000
+            Currently at solvent number: 475000
+            Currently at solvent number: 500000
+            Currently at solvent number: 525000
+            Currently at solvent number: 550000
+            Currently at solvent number: 575000
+            Currently at solvent number: 600000
+            Currently at solvent number: 625000
+            Currently at solvent number: 637317
+
+Solvent data for whole system
+        Name : Totals : Total % : Molarity(box) : Molarity(free) : Molarity(solvent) : Charge
+        W    : 621424 : 97.506  : 11.466        : 13.89          : 13.831            : 0     
+        NA   : 9154   : 1.436   : 0.169         : 0.205          : 0.204             : 1.0   
+        CL   : 6739   : 1.057   : 0.124         : 0.151          : 0.15              : -1.0  
+------------------------------ SOLVATION COMPLETE ------------------------------
+                            (Time spent: 8.553 [s])                              
+
+                          +--------------------------+                          
+--------------------------+ FINAL SYSTEM CHARGE: 0.0 +--------------------------
+                          +--------------------------+                          
+
+-------------------------------- WRITING FILES ---------------------------------
+Writing structure files (PDB/GRO)
+    PDB file written: output_systems/Paper_Subfigure_Main_h_IngolfssonB58NeuronalMembrane/output_Paper_Subfigure_Main_h_IngolfssonB58NeuronalMembrane.pdb
+    GRO file written: output_systems/Paper_Subfigure_Main_h_IngolfssonB58NeuronalMembrane/output_Paper_Subfigure_Main_h_IngolfssonB58NeuronalMembrane.gro
+    CIF file written: output_systems/Paper_Subfigure_Main_h_IngolfssonB58NeuronalMembrane/output_Paper_Subfigure_Main_h_IngolfssonB58NeuronalMembrane.cif
+
+Writing topology file (TOP)
+    TOP file written: output_systems/Paper_Subfigure_Main_h_IngolfssonB58NeuronalMembrane/topol_Paper_Subfigure_Main_h_IngolfssonB58NeuronalMembrane.top 
+
+Writing log file (LOG)

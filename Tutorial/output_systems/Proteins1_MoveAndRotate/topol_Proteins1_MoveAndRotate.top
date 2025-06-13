@@ -1,0 +1,21 @@
+#include "toppar/martini_v3/martini_v3.0.0.itp"
+#include "toppar/martini_v3/martini_v3.0.0_ions_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_nucleobases_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_phospholipids_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_solvents_v1.itp"
+#include "toppar/martini_v3/martini_v3.0_sterols_v1.0.itp"
+#include "toppar/SugarTransporter/8BB6_martinized.itp"
+
+[ system ]
+; name
+Proteins1_MoveAndRotate
+
+[ molecules ]
+; name number
+8BB6_CG     1
+8BB6_CG     1
+8BB6_CG     1
+8BB6_CG     1
+W       61286
+NA        665
+CL        729

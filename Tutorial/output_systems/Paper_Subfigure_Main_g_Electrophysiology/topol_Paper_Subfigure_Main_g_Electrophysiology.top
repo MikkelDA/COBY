@@ -1,0 +1,41 @@
+#include "toppar/martini_v3/martini_v3.0.0.itp"
+#include "toppar/martini_v3/martini_v3.0.0_ions_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_nucleobases_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_phospholipids_v1.itp"
+#include "toppar/martini_v3/martini_v3.0.0_solvents_v1.itp"
+#include "toppar/martini_v3/martini_v3.0_sterols_v1.0.itp"
+#include "toppar/PotassiumChannel/3f5w_monomer_0_martinized.itp"
+#include "toppar/PotassiumChannel/3f5w_monomer_1_martinized.itp"
+#include "toppar/PotassiumChannel/3f5w_monomer_2_martinized.itp"
+#include "toppar/PotassiumChannel/3f5w_monomer_3_martinized.itp"
+
+[ system ]
+; name
+Paper_Subfigure_Main_g_Electrophysiology
+
+[ molecules ]
+; name number
+3f5w_monomer_0_martinized     1
+3f5w_monomer_1_martinized     1
+3f5w_monomer_2_martinized     1
+3f5w_monomer_3_martinized     1
+3f5w_monomer_0_martinized     1
+3f5w_monomer_1_martinized     1
+3f5w_monomer_2_martinized     1
+3f5w_monomer_3_martinized     1
+POPC                        486
+POPC                        472
+POPC                        472
+POPC                        486
+W                         10895
+NA                          118
+CL                          122
+W                         10895
+NA                          118
+CL                          122
+W                         10988
+NA                          318
+CL                          318
+W                         10988
+NA                          318
+CL                          318

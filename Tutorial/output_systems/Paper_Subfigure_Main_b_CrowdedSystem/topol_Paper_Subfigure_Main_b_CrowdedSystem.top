@@ -1,0 +1,53 @@
+#include "toppar/M2_BacterialMembrane/Other/martiniforcefield.itp"
+#include "toppar/M2_BacterialMembrane/Other/martini_v2.2_solvents.itp"
+#include "toppar/M2_BacterialMembrane/Other/martini_v2.0_ions.itp"
+#include "toppar/M2_BacterialMembrane/Other/martini_v2.0_MG.itp"
+#include "toppar/M2_BacterialMembrane/Lipids/martini_v2.0_POPE_02.itp"
+#include "toppar/M2_BacterialMembrane/Lipids/martini_v2.0_POPG_02.itp"
+#include "toppar/M2_BacterialMembrane/Lipids/martini_v2.0_CDL0_01.itp"
+#include "toppar/M2_BacterialMembrane/Lipids/martini_v2.0_RAMP.itp"
+#include "toppar/M2_BacterialMembrane/Proteins/BLP_RCSB1eq7_0_martini22.itp"
+#include "toppar/M2_BacterialMembrane/Proteins/BLP_RCSB1eq7_1_martini22.itp"
+#include "toppar/M2_BacterialMembrane/Proteins/BLP_RCSB1eq7_2_martini22.itp"
+#include "toppar/M2_BacterialMembrane/Proteins/LolB_RCSB1wlm_0_martini22.itp"
+#include "toppar/M2_BacterialMembrane/Proteins/OmpA_ZENODO1636577_0_martini22.itp"
+#include "toppar/M2_BacterialMembrane/Proteins/Pal_RCSB2w8b_0_martini22.itp"
+#include "toppar/M2_BacterialMembrane/Osmolytes/GLYL.itp"
+#include "toppar/M2_BacterialMembrane/Osmolytes/PUT.itp"
+#include "toppar/M2_BacterialMembrane/Osmolytes/SPER.itp"
+#include "toppar/M2_BacterialMembrane/Osmolytes/UREA.itp"
+
+[ system ]
+; name
+Paper_Subfigure_Main_b_CrowdedSystem
+
+[ molecules ]
+; name number
+BLP_RCSB1eq7_0_martini22           1
+BLP_RCSB1eq7_1_martini22           1
+BLP_RCSB1eq7_2_martini22           1
+BLP_RCSB1eq7_0_martini22           1
+BLP_RCSB1eq7_1_martini22           1
+BLP_RCSB1eq7_2_martini22           1
+BLP_RCSB1eq7_0_martini22           1
+BLP_RCSB1eq7_1_martini22           1
+BLP_RCSB1eq7_2_martini22           1
+BLP_RCSB1eq7_0_martini22           1
+BLP_RCSB1eq7_1_martini22           1
+BLP_RCSB1eq7_2_martini22           1
+LolB_RCSB1wlm_0_martini22          1
+Pal_RCSB2w8b_0_martini22           1
+OmpA_ZENODO1636577_0_martini22     1
+RAMP                              99
+CDL0                              13
+POPE                             227
+POPG                              13
+SPER                              17
+PUT                               25
+GLYL                              29
+UREA                              25
+MG                               990
+W                              18721
+WF                               189
+NA                               286
+CL                               273
