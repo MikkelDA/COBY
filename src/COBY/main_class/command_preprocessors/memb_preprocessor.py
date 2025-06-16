@@ -166,8 +166,8 @@ class memb_preprocessor:
                     "upper_leaf": {},
                     "lower_leaf": {},
 
-                    ### Membrane-wide data
-                    "membrane"  : {
+                    ### Membrane-wide data (values here can not be set for each individual leaflet)
+                    "membrane": {
                         "xlength": self.pbcx / 10, # [nm] converted to [Å]
                         "ylength": self.pbcy / 10, # [nm] converted to [Å]
                         "center": [0, 0, 0], # [nm] converted to [Å]
@@ -187,20 +187,6 @@ class memb_preprocessor:
                         "split_bbox": True,
                         ### Readjusts the max/min x/y-values if cutouts/holes are made
                         "readjust_bbox": True,
-
-                        ### ### ### ################### ### ### ###
-                        ### ### ### Grid maker settings ### ### ###
-                        ### ### ### ################### ### ### ###
-                        ### Sets which algorithm to use for the grid making process
-                        "grid_maker_algorithm": "iterative_groups", # "lines_single", "lines_iterative" or "3D_matrix"
-                        ### Limiter used to set when '2D_grid' and 'LineStrings' algorithms should be used.
-                        "grid_maker_area_portion_limiter": 0.7, # 0.7 = 70%
-                        ### Multiplier used to scale the buffer space around lipids during the grid making process
-                        "grid_maker_multiplier": 1, # float or int
-                        ### Radius size separater
-                        "grid_maker_separator": 0.4,
-                        ### Whether lipids should be evenly or randomly distributed
-                        "grid_maker_lipid_distribution": "random", # "random" or "evenly"
 
                         ### ### ### ################## ### ### ###
                         ### ### ### Optimizer settings ### ### ###
@@ -234,6 +220,22 @@ class memb_preprocessor:
                         "alpha_multiplier": 1.0,
                         
                         "lipid_rounding_function": ("int", int), # int, round, math.floor, math.ceil
+
+                        ### ### ### ################### ### ### ###
+                        ### ### ### Grid maker settings ### ### ###
+                        ### ### ### ################### ### ### ###
+                        ### Sets which algorithm to use for the grid making process
+                        "grid_maker_algorithm": "iterative_groups", # "iterative_groups", "no_groups" or "3D_matrix"
+                        ### Limiter used to set when '2D_grid' and 'LineStrings' algorithms should be used.
+                        "grid_maker_area_portion_limiter": 0.7, # 0.7 = 70%
+                        ### Multiplier used to scale the buffer space around lipids during the grid making process
+                        "grid_maker_multiplier": 1, # float or int
+                        ### Radius size separater
+                        "grid_maker_separator": 0.4,
+                        ### Whether lipids should be evenly or randomly distributed
+                        "grid_maker_lipid_distribution": "random", # "random" or "evenly"
+                        ### Whether the lipid order should be reversed or not
+                        "grid_maker_reverse_lipid_order": False, # "random" or "evenly"
 
                         "lipid_optim": 'force_fill', # str: see below
                         ### 'force_fill':  Fills up to the allowed number number of lipids
@@ -622,6 +624,10 @@ class memb_preprocessor:
                             elif val in ["r", "ran", "rand", "random"]:
                                 settings_dict[dict_target]["grid_maker_lipid_distribution"] = "random"
 
+                        ### Whether the lipid order should be reversed or not (default is no)
+                        elif sub_cmd[0].lower().endswith(("_rlo", "_reverse_lipid_order")):
+                            settings_dict[dict_target]["grid_maker_reverse_lipid_order"] = bool(ast.literal_eval(sub_cmd[1]))
+
                         ### Multiplier used to scale the buffer space around lipids during the grid making process
                         elif sub_cmd[0].lower().endswith(("_sep", "_separator")):
                             settings_dict[dict_target]["grid_maker_separator"] = ast.literal_eval(sub_cmd[1])
@@ -693,11 +699,14 @@ class memb_preprocessor:
                     else:
                         assert False, "Unknown subcommand given to '-membrane'. The subcommand is: '" + str(cmd) + "'"
                 
-                if layer_definition == "bilayer" and len(settings_dict["default"]["lipids_preprocessing"]) == 0:
-                    if len(settings_dict["upper_leaf"]) > 0 and len(settings_dict["lower_leaf"]) == 0:
-                        layer_definition = "upper"
-                    if len(settings_dict["lower_leaf"]) > 0 and len(settings_dict["upper_leaf"]) == 0:
-                        layer_definition = "lower"
+                ### Commented out in v1.0.2 due to to it triggering unintentionally. May reintroduce later, if it can be made more consistent.
+                # if layer_definition == "default" and len(settings_dict["default"]["lipids_preprocessing"]) == 0:
+                #     if len(settings_dict["upper_leaf"]) > 0 and len(settings_dict["lower_leaf"]) == 0:
+                #         layer_definition = "upper"
+                #     elif len(settings_dict["lower_leaf"]) > 0 and len(settings_dict["upper_leaf"]) == 0:
+                #         layer_definition = "lower"
+                #     else:
+                #         layer_definition = "bilayer"
                 
                 memb_dict = {"leaflets": {}, "membrane_type": layer_definition}
                 
@@ -798,7 +807,7 @@ class memb_preprocessor:
                                 polygon["yscaling"] *= 10
                             for pi, (xval, yval) in enumerate(polygon["points"]):
                                 polygon["points"][pi] = (xval*10 + leaflet["center"][0], yval*10 + leaflet["center"][1])
-
+                
                 ################################
                 ### Lipid data incorporation ###
                 ################################

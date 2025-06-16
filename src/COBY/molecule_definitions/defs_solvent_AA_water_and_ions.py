@@ -167,12 +167,42 @@ solvent_defs[params] = {
     },
 }
 
+### Uses the Charmm36 atom names
+params = "AA_Amber"
+solvent_defs[params] = {
+    ### TIP3P
+    "TP3": { 
+        "mapping_ratio": 1, "density": 0.99669, "molar_mass": 18.01528,
+        "beads": [
+            {"name": "O",  "x":  0,     "y": 0,     "z": 0, "charge": -0.834},
+            {"name": "H1", "x":  0.074, "y": 0.064, "z": 0, "charge":  0.417},
+            {"name": "H2", "x": -0.074, "y": 0.064, "z": 0, "charge":  0.417},
+        ],
+        "tags": ("atomistic", "water"),
+    },
+    ### “optimal” point charge (OPC)
+    "OPC": { ### Positions based on figure 2 from https://pubs.acs.org/doi/10.1021/jz501780a
+        "mapping_ratio": 1, "density": 0.99669, "molar_mass": 18.01528,
+        "beads": [
+            {"name": "O",   "x":  0,      "y": 0,      "z": 0, "charge":  0},
+            {"name": "H1",  "x":  0.0540, "y": 0.0686, "z": 0, "charge":  0.679142},
+            {"name": "H2",  "x": -0.0540, "y": 0.0686, "z": 0, "charge":  0.679142},
+            {"name": "EPW", "x":  0,      "y": 0.016,  "z": 0, "charge": -1.358284},
+        ],
+        "tags": ("atomistic", "water"),
+    },
+}
+
 
 params = "AA"
 pos_ion_defs[params] = {
     ### Monovalent
     "SOD": {
         "beads": [{"name": "SOD", "x": 0, "y":  0, "z": 0, "charge": 1}],
+        "tags": ("atomistic", "ions"),
+    },
+    "Na+": {
+        "beads": [{"name": "Na+", "x": 0, "y":  0, "z": 0, "charge": 1}],
         "tags": ("atomistic", "ions"),
     },
 }
@@ -182,6 +212,10 @@ neg_ion_defs[params] = {
     ### Monovalent
     "CLA": {
         "beads": [{"name": "CLA", "x": 0, "y":  0, "z": 0, "charge": -1}],
+        "tags": ("atomistic", "ions"),
+    },
+    "Cl-": {
+        "beads": [{"name": "Cl-", "x": 0, "y":  0, "z": 0, "charge": -1}],
         "tags": ("atomistic", "ions"),
     },
 }

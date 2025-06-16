@@ -9,10 +9,10 @@ class make_rect_grid_lines_based:
     def make_rect_grid_lines_based(self, leaflet, subleaflet, occupation_modifier):
         xmin, xmax, ymin, ymax = itemgetter("xmin", "xmax", "ymin", "ymax")(subleaflet)
 
-        ### "edge_buffer" uses "occupation_modifier*2" while "mean_lipid_radius" uses only "occupation_modifier"
+        ### "edge_buffer" uses "1.01+occupation_modifier" while "mean_lipid_radius" uses "1.00+occupation_modifier"
         ### Done to ensure lipids are allowed to be placed right near the border
-        edge_buffer       = (leaflet["lipid_dimensions"]["lipid_radius"] + leaflet["kickxy"] + leaflet["plane_buffer"]) * (1+occupation_modifier*2)
-        mean_lipid_radius = (leaflet["lipid_dimensions"]["lipid_radius"] + leaflet["kickxy"] + leaflet["plane_buffer"]) * (1+occupation_modifier)
+        edge_buffer       = (leaflet["lipid_dimensions"]["lipid_radius"] + leaflet["kickxy"] + leaflet["plane_buffer"]) * (1.01+occupation_modifier)
+        mean_lipid_radius = (leaflet["lipid_dimensions"]["lipid_radius"] + leaflet["kickxy"] + leaflet["plane_buffer"]) * (1.00+occupation_modifier)
         bbox_polygon      = subleaflet["holed_bbox"]
         lipids            = subleaflet["lipids"]
         
@@ -71,6 +71,8 @@ class make_rect_grid_lines_based:
             LineStringsOverlapping = []
             LineStringsContained   = []
 
+            
+
             for xval in xlinespace:
                 top_point = (xval, ylinespace[-1])
                 bot_point = (xval, ylinespace[0])
@@ -113,6 +115,7 @@ class make_rect_grid_lines_based:
                                 last_top_point, last_bot_point = (last_xmax, last_ymax), (last_xmin, last_ymin)
                                 new_last_LS = shapely.LineString([last_top_point, last_bot_point])
                                 new_momentary_LineStrings[-1] = new_last_LS
+                            
                             if curr_cut >= curr_length:
                                 ### If current LineString too short, then just don't do anything
                                 pass

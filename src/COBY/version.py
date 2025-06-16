@@ -1,26 +1,25 @@
-__version__="1.0.1"
+__version__="1.0.2"
 
 major_changes = [
+    "Made it possible to apply all 'grid_maker' arguments to specific leaflets instead of always being applied to both leaflets.",
 ]
 
 minor_changes = [
-    "Added 'z_offset' subargument for membranes and 'z_offset' subsubargument for lipid subargument for membranes. Can be used to move lipids furthere away from the center of the membrane."
+    "Slightly modified the algorithm for finding initial lipid placements.",
+    "Added 'gm_rlo'/'grid_maker_lipid_distribution' subargument to the Membrane argument allowing for the reversal of the lipid placement order.",
 ]
 
 bug_fixes = [
-    "Fixed an incorrect error statement for COBY.Crafter() when giving invalid arguments.",
 ]
 
 documentation_changes = [
+    "Added documentation for gm_rlo'/'grid_maker_lipid_distribution' subargument."
 ]
 
 tutorial_changes = [
 ]
 
 other_changes = [
-    "Added a version requirement for Shapely to avoid incompatabilities with earlier versions of Shapely.",
-    "Fixed some minor grammatical errors in the README.md file.",
-    "Updated the pyproject.toml 'development status' classifier from '4 - Beta' to '5 - Production/Stable'.",
 ]
 
 def version_change_writer(iterable, recursion_depth = 0):

@@ -30,7 +30,7 @@ class make_rect_grid_lines_iterative_based:
             self.print_term("xmin, xmax, ymin, ymax:    ", xmin, xmax, ymin, ymax, spaces=4, debug=True, debug_keys=["optimizer"])
 
             ### "edge_buffer" is used to buffer all edges
-            edge_buffer = mean_lipid_radius + (leaflet["kickxy"] + leaflet["plane_buffer"] * (1+occupation_modifier*2))
+            edge_buffer = mean_lipid_radius + (leaflet["kickxy"] + leaflet["plane_buffer"] * (1.01+occupation_modifier))
             self.print_term("edge_buffer:               ", edge_buffer, spaces=4, debug=True, debug_keys=["optimizer"])
 
             ### "mean_lipid_radius_buffered" may be reduced in size later while "mean_lipid_radius" must remain a separate and unchanged value

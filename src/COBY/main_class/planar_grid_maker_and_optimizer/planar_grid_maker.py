@@ -124,7 +124,7 @@ class planar_grid_maker:
                             lipid_groups = []
                             for lgi, lipid_group in enumerate(lipid_radius_groups):
                                 ### Checks if any lipid types in group
-                                if lipid_group: # if list not empty
+                                if lipid_group: ### Checking if list is not empty
                                     nlipids_in_group = sum([nlipids for name, nlipids, radius in lipid_group])
                                     ### Skips group if total number of lipids in group is zero
                                     if nlipids_in_group == 0:
@@ -135,12 +135,17 @@ class planar_grid_maker:
                                     lipids_in_lipid_group = []
                                     for name, nlipids, radius in lipid_group:
                                         lipids_in_lipid_group.append([(name, radius) for _ in range(nlipids)])
-                                    if leaflet["grid_maker_lipid_distribution"] == "evenly":
+                                    
+                                    if leaflet["grid_maker_lipid_distribution"] in "evenly":
                                         lipids_in_lipid_group = self.n_list_mixer(*lipids_in_lipid_group)
                                     elif leaflet["grid_maker_lipid_distribution"] == "random":
                                         lipids_in_lipid_group = flatten(lipids_in_lipid_group)
                                         random.shuffle(lipids_in_lipid_group)
 
+                                    if leaflet["grid_maker_reverse_lipid_order"]:
+                                        ### Reverses the lipid list for the current group'
+                                        lipids_in_lipid_group.reverse()
+                                    
                                     lipids.extend(lipids_in_lipid_group)
 
                                     self.print_term("Number of lipids in group nr {lgi}: {nlipids}".format(lgi=lgi, nlipids=len(lipids_in_lipid_group)), spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
