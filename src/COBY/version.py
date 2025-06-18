@@ -1,15 +1,13 @@
-__version__="1.0.3"
+__version__="1.0.4"
 
 major_changes = [
 ]
 
 minor_changes = [
-    "Added atomistic OPC water model in v1.0.2 (forgot to write in version changes).",
-    "Reorganized/renamed the directory-file structure for some membrane, protein and solvation related classes/methods.",
-    "Added 'gm_ldo'/'grid_maker_lipid_distribution_offset' subargument to the Membrane argument allowing offsetting/shifting the lipid order.",]
+    "Added 'flush=True' to printing. This forces prints to always happen while the program is running instead of prints being buffered until the program is done running, as can happen when running COBY from a command line.",
+]
 
 bug_fixes = [
-    "The subargument 'optimize_run' for membrane arguments can now be used again. The setting was previously being given the wrong key in the membrane settings dictionary."
 ]
 
 documentation_changes = [

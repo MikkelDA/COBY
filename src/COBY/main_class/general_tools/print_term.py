@@ -41,7 +41,7 @@ class print_term:
 
         ### Print to terminal if not quiet
         if print_true and not self.quiet and self.verbose >= verbose:
-            print(string, end=end)
+            print(string, end=end, flush=True)
         
         ### Appends string to log file, for later writing
         if print_true and self.output_log_file_name:
