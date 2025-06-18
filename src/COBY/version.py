@@ -1,10 +1,9 @@
-__version__="1.0.4"
+__version__="1.0.5"
 
 major_changes = [
 ]
 
 minor_changes = [
-    "Added 'flush=True' to printing. This forces prints to always happen while the program is running instead of prints being buffered until the program is done running, as can happen when running COBY from a command line.",
 ]
 
 bug_fixes = [
