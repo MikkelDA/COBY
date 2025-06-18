@@ -1,13 +1,13 @@
 import time
 
-class prot_placer:
-    def prot_placer(self):
+class protein_placer:
+    def protein_placer(self):
         '''
         Places all proteins into the systems internal coordinate system
         Checks if all atoms/beads are within the pbc and moves them if they are outside
         '''
         if len(self.PROTEINS) != 0:
-            prot_placer_tic = time.time()
+            protein_placer_tic = time.time()
             string = " ".join(["", "PROTEIN PLACEMENT", ""])
             self.print_term("{string:-^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
             for protein_i, (protein_nr, protein) in enumerate(self.PROTEINS.items()):
@@ -103,10 +103,10 @@ class prot_placer:
 
                 self.print_term("Finished placing protein nr", protein_nr, spaces=1, verbose=2)
                 
-            prot_placer_toc = time.time()
-            prot_placer_time = round(prot_placer_toc - prot_placer_tic, 4)
+            protein_placer_toc = time.time()
+            protein_placer_time = round(protein_placer_toc - protein_placer_tic, 4)
             string = " ".join(["", "PROTEIN PLACEMENT COMPLETE", ""])
             self.print_term("{string:-^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
-            string = " ".join(["", "(Time spent:", str(prot_placer_time), "[s])", ""])
+            string = " ".join(["", "(Time spent:", str(protein_placer_time), "[s])", ""])
             self.print_term("{string:^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), "\n", spaces=0, verbose=1)
 

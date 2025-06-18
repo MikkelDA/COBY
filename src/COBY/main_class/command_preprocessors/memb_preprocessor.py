@@ -234,6 +234,8 @@ class memb_preprocessor:
                         "grid_maker_separator": 0.4,
                         ### Whether lipids should be evenly or randomly distributed
                         "grid_maker_lipid_distribution": "random", # "random" or "evenly"
+                        ### Whether lipids should be evenly or randomly distributed
+                        "grid_maker_lipid_distribution_offset": 0, # [int]
                         ### Whether the lipid order should be reversed or not
                         "grid_maker_reverse_lipid_order": False, # "random" or "evenly"
 
@@ -623,6 +625,12 @@ class memb_preprocessor:
                                 settings_dict[dict_target]["grid_maker_lipid_distribution"] = "evenly"
                             elif val in ["r", "ran", "rand", "random"]:
                                 settings_dict[dict_target]["grid_maker_lipid_distribution"] = "random"
+                        
+                        ### Whether lipids should be evenly or randomly distributed
+                        elif sub_cmd[0].lower().endswith(("_ldo", "_lipid_distribution_offset")):
+                            val = ast.literal_eval(sub_cmd[1])
+                            assert type(val) == int, "Value given to 'grid_maker_lipid_distribution_offset' must be an integer"
+                            settings_dict[dict_target]["grid_maker_lipid_distribution_offset"] = val
 
                         ### Whether the lipid order should be reversed or not (default is no)
                         elif sub_cmd[0].lower().endswith(("_rlo", "_reverse_lipid_order")):
@@ -642,11 +650,11 @@ class memb_preprocessor:
                         if sub_cmd[0].lower().endswith(("_run")):
                             sub_cmd1_lowercase = str(sub_cmd[1]).lower()
                             if sub_cmd1_lowercase in ["false", "0", "no"]:
-                                settings_dict[dict_target]["optim_run"] = False
+                                settings_dict[dict_target]["optimize_run"] = False
                             elif sub_cmd1_lowercase in ["true", "1", "yes"]:
-                                settings_dict[dict_target]["optim_run"] = True
+                                settings_dict[dict_target]["optimize_run"] = True
                             elif sub_cmd1_lowercase in "auto":
-                                settings_dict[dict_target]["optim_run"] = "auto"
+                                settings_dict[dict_target]["optimize_run"] = "auto"
                         
                         elif sub_cmd[0].lower().endswith(("_ms", "_max_steps", "_maxsteps")):
                             isnumber, isint = self.is_number(sub_cmd[1])

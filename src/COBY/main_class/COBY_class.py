@@ -29,12 +29,9 @@ from COBY.main_class.molecule_fragment_builder.__init__ import *
 from COBY.main_class.command_preprocessors.__init__ import *
 from COBY.main_class.special_preprocessors.__init__ import *
 
-from COBY.main_class.protein_inserter.__init__ import *
-from COBY.main_class.polygon_makers.__init__ import *
-from COBY.main_class.lipid_calculator.__init__ import *
-from COBY.main_class.planar_grid_maker_and_optimizer.__init__ import *
-from COBY.main_class.lipid_inserter.__init__ import *
-from COBY.main_class.solvater.__init__ import *
+from COBY.main_class.protein.__init__ import *
+from COBY.main_class.membrane.__init__ import *
+from COBY.main_class.solvation.__init__ import *
 
 class COBY(
     structure_file_handlers,
@@ -45,12 +42,9 @@ class COBY(
     command_preprocessors,
     special_preprocessors,
 
-    protein_inserter,
-    polygon_makers,
-    lipid_calculator,
-    planar_grid_maker_and_optimizer,
-    lipid_inserter,
-    solvater,
+    protein,
+    membrane,
+    solvation,
 ):
     
     def __init__(self, run = True, terminal_run_kwargs = False, **kwargs):
@@ -946,7 +940,7 @@ class COBY(
         ###############################
         ### RUNNING SYSTEM CREATION ###
         ###############################
-        self.prot_placer()
+        self.protein_placer()
         self.subleaflet_poly_maker()
         self.holed_subleaflet_bbox_maker()
         self.lipid_calculator()
@@ -960,9 +954,9 @@ class COBY(
         system_charge_str = str(round(self.system_charge, 2))
         sclen = len(system_charge_str)
 
-        string1 = "+---------------------" + "-" + "-"*sclen         + "-" +  "+"
-        string2 = "+ FINAL SYSTEM CHARGE:" + " " + system_charge_str + " " +  "+"
-        string3 = "+---------------------" + "-" + "-"*sclen         + "-" +  "+"
+        string1 = "+---------------------" + "-" + "-"*sclen         + "-" + "+"
+        string2 = "+ FINAL SYSTEM CHARGE:" + " " + system_charge_str + " " + "+"
+        string3 = "+---------------------" + "-" + "-"*sclen         + "-" + "+"
         self.print_term("{string:^{string_length}}".format(string=string1, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
         self.print_term("{string:-^{string_length}}".format(string=string2, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
         self.print_term("{string:^{string_length}}".format(string=string3, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)

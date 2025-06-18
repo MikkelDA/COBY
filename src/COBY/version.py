@@ -1,19 +1,18 @@
-__version__="1.0.2"
+__version__="1.0.3"
 
 major_changes = [
-    "Made it possible to apply all 'grid_maker' arguments to specific leaflets instead of always being applied to both leaflets.",
 ]
 
 minor_changes = [
-    "Slightly modified the algorithm for finding initial lipid placements.",
-    "Added 'gm_rlo'/'grid_maker_lipid_distribution' subargument to the Membrane argument allowing for the reversal of the lipid placement order.",
-]
+    "Added atomistic OPC water model in v1.0.2 (forgot to write in version changes).",
+    "Reorganized/renamed the directory-file structure for some membrane, protein and solvation related classes/methods.",
+    "Added 'gm_ldo'/'grid_maker_lipid_distribution_offset' subargument to the Membrane argument allowing offsetting/shifting the lipid order.",]
 
 bug_fixes = [
+    "The subargument 'optimize_run' for membrane arguments can now be used again. The setting was previously being given the wrong key in the membrane settings dictionary."
 ]
 
 documentation_changes = [
-    "Added documentation for gm_rlo'/'grid_maker_lipid_distribution' subargument."
 ]
 
 tutorial_changes = [

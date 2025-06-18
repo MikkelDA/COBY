@@ -141,7 +141,12 @@ class planar_grid_maker:
                                     elif leaflet["grid_maker_lipid_distribution"] == "random":
                                         lipids_in_lipid_group = flatten(lipids_in_lipid_group)
                                         random.shuffle(lipids_in_lipid_group)
-
+                                    
+                                    ### Shifts the lipid order by the given number (gm_ldo = 0 by default, i.e. no shifting is done)
+                                    if leaflet["grid_maker_lipid_distribution_offset"] != 0:
+                                        gm_ldo = leaflet["grid_maker_lipid_distribution_offset"]
+                                        lipids_in_lipid_group = lipids_in_lipid_group[gm_ldo:] + lipids_in_lipid_group[:gm_ldo]
+                                    
                                     if leaflet["grid_maker_reverse_lipid_order"]:
                                         ### Reverses the lipid list for the current group'
                                         lipids_in_lipid_group.reverse()
