@@ -62,12 +62,6 @@ class Library(
 
         self.MOLECULE_FRAGMENT_BUILDER_cmds = []
         
-        self.PLOT_cmd        = []
-        self.plot_data       = {}
-        self.plots_requested = False
-        
-        self.plot_grid = False
-        
         self.PICKLE_cmd = False
         
         self.randseed = round(time.time())

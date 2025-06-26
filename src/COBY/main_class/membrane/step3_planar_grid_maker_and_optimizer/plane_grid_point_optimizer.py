@@ -78,8 +78,8 @@ class plane_grid_point_optimizer:
         
         points_arr = np.array(grid_points)
         
-        largest_lipid  = max(lipid_sizes)
-        bin_size       = largest_lipid*2
+        largest_lipid = max(lipid_sizes)
+        bin_size      = largest_lipid*2
         
         ### Calculating number of bins along each axis, by rounding down
         xnbins = int(xlen / bin_size)
@@ -99,7 +99,7 @@ class plane_grid_point_optimizer:
             self.print_term("xbinlen         ", xbinlen,          debug=True, debug_keys="optimizer", spaces=4)
             self.print_term("ybinlen         ", ybinlen,          debug=True, debug_keys="optimizer", spaces=4)
         
-        if self.plot_grid:
+        if self.PLOT_cmd["make plots"]:
             POINT_STEPS = []
             POINT_STEPS.append(points_arr.copy())
         else:
@@ -288,7 +288,7 @@ class plane_grid_point_optimizer:
                     points_arr[pi1] += vector_push
                     pushes[pi1]     += vector_push_len
             
-            if self.plot_grid:
+            if self.PLOT_cmd["make plots"]:
                 POINT_STEPS.append(points_arr.copy())
 
             ### Checks if anything was pushed

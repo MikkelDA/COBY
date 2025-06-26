@@ -63,7 +63,6 @@ class COBY(
         if terminal_run_kwargs:
             kwargs.update(terminal_run_kwargs)
         
-        
         self.PROTEINS      = {}
         self.PROTEINS_cmds = []
         
@@ -83,11 +82,17 @@ class COBY(
 
         self.MOLECULE_FRAGMENT_BUILDER_cmds = []
         
-        self.PLOT_cmd        = []
-        self.plot_data       = {}
-        self.plots_requested = False
-        
-        self.plot_grid = False
+        self.PLOT_cmd  = {
+            "make plots":              False,  # Will automatically change to True if any plot_grid argument has been given.
+            "path":                    False,  # No default value, but must be given.
+            "lipid_colors":            "type", # Accepted values are 'type', 'same'.
+            "given_lipid_colors":      {},     # No default given lipid colors.
+            "plot_initial_placement":  True,   # Accepted values are 'True' and 'False'
+            "plot_optimization_steps": True,   # Accepted values are 'True' and 'False'
+            "make_gif":                True,   # Accepted values are 'True' and 'False'
+            "make_mp4":                True,   # Accepted values are 'True' and 'False'
+        }
+        self.plot_data = {}
         
         self.PICKLE_cmd = False
         
@@ -448,10 +453,38 @@ class COBY(
                 self.system_name = cmd
             
             elif key in ["plot_grid"]:
-                if type(cmd) == str:
-                    cmd = ast.literal_eval(cmd)
-                self.plot_grid = True
+                self.PLOT_cmd["make plots"] = True
+                for cmd in cmd.split():
+                    sub_cmd = cmd.split(":")
+                    if sub_cmd[0].lower() == "path":
+                        self.PLOT_cmd["path"] = os.path.join(sub_cmd[1])
+
+                    elif sub_cmd[0].lower() == "lipid_colors":
+                        assert sub_cmd[1].lower() in ("type", "same"), "The subargument 'lipid_colors' for the 'plot_grid' argument only accepts 'type' and 'same'."
+                        self.PLOT_cmd["lipid_colors"] = sub_cmd[1].lower()
+
+                    elif sub_cmd[0].lower() == "set_lipid_color":
+                        assert len(sub_cmd) == 3, "The subargument 'set_lipid_color' for the 'plot_grid' argument must contain exactly three values: set_lipid_color:[lipid name]:[color]."
+                        self.PLOT_cmd["given_lipid_colors"][sub_cmd[1]] = sub_cmd[2]
+
+                    elif sub_cmd[0].lower() == "plot_initial_placement":
+                        assert sub_cmd[1] in ("True", "False"), "The subargument 'plot_initial_placement' for the 'plot_grid' argument only accepts 'True' and 'False'."
+                        self.PLOT_cmd["plot_initial_placement"] = ast.literal_eval(sub_cmd[1])
+
+                    elif sub_cmd[0].lower() == "plot_optimization_steps":
+                        assert sub_cmd[1] in ("True", "False"), "The subargument 'plot_optimization_steps' for the 'plot_grid' argument only accepts 'True' and 'False'."
+                        self.PLOT_cmd["plot_optimization_steps"] = ast.literal_eval(sub_cmd[1])
+
+                    elif sub_cmd[0].lower() == "make_gif":
+                        assert sub_cmd[1] in ("True", "False"), "The subargument 'make_gif' for the 'plot_grid' argument only accepts 'True' and 'False'."
+                        self.PLOT_cmd["make_gif"] = ast.literal_eval(sub_cmd[1])
                     
+                    elif sub_cmd[0].lower() == "make_mp4":
+                        assert sub_cmd[1] in ("True", "False"), "The subargument 'make_mp4' for the 'plot_grid' argument only accepts 'True' and 'False'."
+                        self.PLOT_cmd["make_mp4"] = ast.literal_eval(sub_cmd[1])
+
+                assert self.PLOT_cmd["path"] is not False, "The subargument 'path' for the 'plot_grid' argument must be given if one wishes to use the argument."
+            
             elif key in ["rand", "randseed"]:
                 cmd = self.get_number_from_string(cmd)
                 assert type(cmd) in [int, float], "Value given to rand/randseed must be a number (string-numbers are allowed): " + str(cmd)
@@ -982,6 +1015,24 @@ class COBY(
         self.print_term("{string:-^{string_length}}".format(string=string1, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
         self.print_term("{string:^{string_length}}".format(string=string2, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
         self.print_term("", spaces=0, verbose=1)
+
+        #####################
+        ### GRID PLOTTING ###
+        #####################
+        if self.PLOT_cmd["make plots"]:
+            string = " ".join(["", "PLOTTING LEAFLET GRIDS", ""])
+            self.print_term("{string:-^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+            plotting_tic = time.time()
+            
+            self.grid_plotter()
+            
+            plotting_toc = time.time()
+            plotting_time = round(plotting_toc - plotting_tic, 4)
+            string1 = " ".join(["", "PLOTTING LEAFLET GRIDS COMPLETE", ""])
+            string2 = " ".join(["", "(Time spent:", str(plotting_time), "[s])", ""])
+            self.print_term("{string:-^{string_length}}".format(string=string1, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+            self.print_term("{string:^{string_length}}".format(string=string2, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+            self.print_term("", spaces=0, verbose=1)
 
         ######################
         ### END OF PROGRAM ###

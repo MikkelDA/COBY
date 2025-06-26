@@ -10,7 +10,6 @@ from COBY.general_functions.flatten import flatten
 class planar_grid_maker:
     def planar_grid_maker(self):
         self.SYS_lipids_dict = {}
-        self.GRID_PLOTTING = {}
         if len(self.MEMBRANES) != 0:
             grid_making_tic = time.time()
             string = " ".join(["", "CREATING LIPID GRID", ""])
@@ -40,8 +39,8 @@ class planar_grid_maker:
                             if sli != 0:
                                 self.print_term("", verbose=3)
                             self.print_term("Starting lipid point creation for subleaflet nr", sli+1, spaces=2, verbose=3)
-                        if self.plot_grid:
-                            self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi, sli)] = {}
+                        if self.PLOT_cmd["make plots"]:
+                            self.plot_data[(memb_key, leaflet_key, slxi, slyi, sli)] = {}
                         radii = [
                             leaflet["lipids"][name].get_radius(AXs="xy") + leaflet["kickxy"] + leaflet["plane_buffer"]
                             for name in subleaflet["lipid_names"]
@@ -146,7 +145,7 @@ class planar_grid_maker:
                                     if leaflet["grid_maker_lipid_distribution_offset"] != 0:
                                         gm_ldo = leaflet["grid_maker_lipid_distribution_offset"]
                                         lipids_in_lipid_group = lipids_in_lipid_group[gm_ldo:] + lipids_in_lipid_group[:gm_ldo]
-                                    
+
                                     if leaflet["grid_maker_reverse_lipid_order"]:
                                         ### Reverses the lipid list for the current group'
                                         lipids_in_lipid_group.reverse()
@@ -248,9 +247,22 @@ class planar_grid_maker:
                             self.print_term("Initial grid creation time:", initial_grid_maker_time, "[s]", spaces=3, verbose=2)
 
                         grid_points_arr = np.asarray(grid_points)
-                        if self.plot_grid:
+                        if self.PLOT_cmd["make plots"]:
+                            self.plot_data[(memb_key, leaflet_key, slxi, slyi, sli)].update({
+                                ### Inputs
+                                "lipids"    : lipids,
+                                "holed_bbox": subleaflet["holed_bbox"],
+                                
+                                "xdims"                : (subleaflet["xmin"], subleaflet["xmax"]),
+                                "ydims"                : (subleaflet["ymin"], subleaflet["ymax"]),
+                                "xdims_original"       : (subleaflet["xmin_original"], subleaflet["xmax_original"]),
+                                "ydims_original"       : (subleaflet["ymin_original"], subleaflet["ymax_original"]),
+                                "lipid_push_multiplier": leaflet["optimize_lipid_push_multiplier"],
+                                "edge_push_multiplier" : leaflet["optimize_edge_push_multiplier"],
+                                "apl"                  : leaflet["apl"],
+                            })
                             for key, vals in dict_for_plotting.items():
-                                self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi, sli)][key] = vals
+                                self.plot_data[(memb_key, leaflet_key, slxi, slyi, sli)][key] = vals
                         
                         z_values_arr = np.asarray([[leaflet["center"][2]] for _ in range(len(grid_points_arr))])
 
@@ -279,37 +291,24 @@ class planar_grid_maker:
                             
                             subleaflet["grid_points"] = np.hstack([optimized_grid_points_arr, z_values_arr])
                             
-                            if self.plot_grid:
+                            if self.PLOT_cmd["make plots"]:
                                 generated_keys = []
                                 for string1 in ["points", "Points", "Points_buffered", "Points_buffered_union", "polygon_exterior_points", "ALPHASHAPE", "ConcaveHulls_Polygon"]:
                                     for string2 in ["inside_membrane", "surrounding_membrane"]:
                                         generated_keys.append("protein"+"_"+string1+"_"+string2)
 
                                 for key in generated_keys + ["remove_union", "require_union", "holed_bbox_without_protein_removed"]:
-                                    self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi, sli)].update({
+                                    self.plot_data[(memb_key, leaflet_key, slxi, slyi, sli)].update({
                                         key: leaflet[key]
                                     })
                                 
                                 for key in ["original_holed_bbox"]:
                                     if key in subleaflet and subleaflet[key]:
-                                        self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi, sli)].update({
+                                        self.plot_data[(memb_key, leaflet_key, slxi, slyi, sli)].update({
                                             key: subleaflet[key]
                                         })
                                     
-                                self.GRID_PLOTTING[(memb_key, leaflet_key, slxi, slyi, sli)].update({
-                                    ### Inputs
-                                    "lipids"    : lipids,
-                                    "holed_bbox": subleaflet["holed_bbox"],
-                                    
-                                    "xdims"                : (subleaflet["xmin"], subleaflet["xmax"]),
-                                    "ydims"                : (subleaflet["ymin"], subleaflet["ymax"]),
-                                    "xdims_original"       : (subleaflet["xmin_original"], subleaflet["xmax_original"]),
-                                    "ydims_original"       : (subleaflet["ymin_original"], subleaflet["ymax_original"]),
-                                    "lipid_push_multiplier": leaflet["optimize_lipid_push_multiplier"],
-                                    "edge_push_multiplier" : leaflet["optimize_edge_push_multiplier"],
-                                    "apl"                  : leaflet["apl"],
-                                    "bin_size"             : bin_size,
-
+                                self.plot_data[(memb_key, leaflet_key, slxi, slyi, sli)].update({
                                     ### Outputs
                                     "grid_points"          : grid_points_arr,
                                     "grid_points_no_random": grid_points_no_random,
@@ -319,6 +318,7 @@ class planar_grid_maker:
                                     "steps_time"           : steps_time,
                                     "mean_steps_time"      : mean_steps_time,
                                     "max_push"             : max_push,
+                                    "bin_size"             : bin_size,
                                 })
                         else:
                             subleaflet["grid_points"] = np.hstack([grid_points_arr, z_values_arr])

@@ -247,8 +247,8 @@ if __name__ == "__main__":
         ### Molecule structure import arguments
         parser.add_argument("--molecule_import", "-molecule_import", dest = "molecule_import_args", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
-        ### Plotting argument. Developer feature to test different algorithms.
-        parser.add_argument("--plot_grid", "-plot_grid", "-plot", dest = "plot_grid_arg", action=IsStored_ActionStore)
+        ### Plotting argument.
+        parser.add_argument("--plot_grid", "-plot_grid", "-plot", dest = "plot_grid_arg", action=IsStored_ActionAppend, type=str, default = [], nargs="+")
 
         ### System parameters
         parser.add_argument("--sys_params",   "-sys_params",   "-sysp", dest = "sys_params",   action=IsStored_ActionStore)
@@ -291,6 +291,7 @@ if __name__ == "__main__":
         parse_flooding_args          = [" ".join(i) for i in args.flooding_args]
         parse_stacked_membranes_args = [" ".join(i) for i in args.stacked_membranes_args]
         parse_molecule_import_args   = [" ".join(i) for i in args.molecule_import_args]
+        parse_plot_grid_arg          = [" ".join(i) for i in args.plot_grid_arg]
 
         args_for_COBY.extend([
             ("membrane",          parse_membrane_args,          "membrane_args"),
@@ -300,7 +301,7 @@ if __name__ == "__main__":
             ("stacked_membranes", parse_stacked_membranes_args, "stacked_membranes_args"),
             ("molecule_import",   parse_molecule_import_args,   "molecule_import_args"),
             
-            ("plot_grid", args.plot_grid_arg, "plot_grid_arg"),
+            ("plot_grid", parse_plot_grid_arg, "plot_grid_arg"),
             
             ("sys_params",   args.sys_params,   "sys_params"),
             ("prot_params",  args.prot_params,  "prot_params"),

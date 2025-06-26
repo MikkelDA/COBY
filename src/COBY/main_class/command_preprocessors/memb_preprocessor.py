@@ -208,7 +208,7 @@ class memb_preprocessor:
 
                         "kickxy":   0.025, # [nm] converted to [Å]
                         "kickz":    0.025, # [nm] converted to [Å]
-                        "z_offset": 0,     # [nm] converted to [Å]
+                        "z_offset": 0,     # [int]
 
                         "apl": 0.6, # [nm^2] converted to [Å^2]
                         

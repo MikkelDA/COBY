@@ -4,12 +4,19 @@ major_changes = [
 ]
 
 minor_changes = [
+    "Added 'plot_grid' argument which plots the lipid placement process.",
+    [
+        "It was originally a seperate script i used to debug the program but has now been implemented directly into COBY.",
+        "It requires the 'pyrecorder' package to be able to run.",
+    ],
 ]
 
 bug_fixes = [
 ]
 
 documentation_changes = [
+    "Added documentation for 'plot_grid'",
+    "Moved documentation for 'z_offset' as it was placed in the wrong section.",
 ]
 
 tutorial_changes = [

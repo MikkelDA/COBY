@@ -37,7 +37,6 @@ class make_rect_grid_lines_iterative_based:
             mean_lipid_radius_buffered = mean_lipid_radius
             self.print_term("mean_lipid_radius_buffered:", mean_lipid_radius_buffered, spaces=4, debug=True, debug_keys=["optimizer"])
 
-            # total_area_portion_limiter = 0.7
             total_area_portion_limiter = leaflet["grid_maker_area_portion_limiter"]
             self.print_term("total_portion:             ", total_portion, spaces=4, debug=True, debug_keys=["optimizer"])
             self.print_term("total_area_portion:        ", total_area_portion, spaces=4, debug=True, debug_keys=["optimizer"])
@@ -220,7 +219,7 @@ class make_rect_grid_lines_iterative_based:
                             "real_yspace": real_yspace,
                         })
 
-                    if self.plot_grid:
+                    if self.PLOT_cmd["make plots"]:
                         dict_for_plotting["LineStringsInfo"].append({
                             "grid_method": grid_method,
                             "bbox_polygon": bbox_polygon,
@@ -256,7 +255,7 @@ class make_rect_grid_lines_iterative_based:
                     GridPoints_Contained = [(p.x, p.y) for p in GridPoints_MultiPoint_Contained.geoms]
                     ngridpoints = len(GridPoints_Contained)
 
-                    if self.plot_grid:
+                    if self.PLOT_cmd["make plots"]:
                         dict_for_plotting["LineStringsInfo"].append({
                             "grid_method": grid_method,
                             "bbox_polygon": bbox_polygon,
@@ -333,13 +332,13 @@ class make_rect_grid_lines_iterative_based:
                         ylines_ratio_ideal = ylines_ideal/ratio_tot_ideal
 
                         bbox_polygon_Buffered = shapely.buffer(bbox_polygon, -mean_lipid_radius_buffered*mean_lipid_radius_buffered_multiplier)
-                        if self.plot_grid:
+                        if self.PLOT_cmd["make plots"]:
                             dict_for_plotting["LineStringsInfo"][-1]["bbox_polygon_Buffered"] = bbox_polygon_Buffered
 
                 else:
                     enough_points = True
                 
-                if self.plot_grid:
+                if self.PLOT_cmd["make plots"]:
                     dict_for_plotting["LineStringsInfo"][-1]["enough_points"] = enough_points
             
             ### Finding the points that should be removed due to number of lipids

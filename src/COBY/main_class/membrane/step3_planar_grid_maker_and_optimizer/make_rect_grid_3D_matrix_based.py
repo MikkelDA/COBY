@@ -180,7 +180,7 @@ class make_rect_grid_3D_matrix_based:
             dict_for_plotting["lipid_insertion"]["subgrid_polygons_points"].append(subgrid_polygon_points)
             dict_for_plotting["lipid_insertion"]["subgrid_polygons"].append(subgrid_Polygon)
 
-        if self.plot_grid:
+        if self.PLOT_cmd["make plots"]:
             grid_points = []
         step = 1
         subgrid_pointer = 0
@@ -212,7 +212,7 @@ class make_rect_grid_3D_matrix_based:
                     subgrid_pointer += 1
                 if point_found == "break":
                     break
-                if self.plot_grid:
+                if self.PLOT_cmd["make plots"]:
                     grid_points.append((x, y))
 
                 for li2, radius2 in enumerate(radii_sorted_by_size):
@@ -246,7 +246,7 @@ class make_rect_grid_3D_matrix_based:
                         grid_bool_matrix[li2, xmin:xmax, ymin:ymax] = 0
                 
                 self.print_term("Number of grid points:", [np.sum(grid_bool_matrix[i,:,:]) for i in range(len(radii_sorted_by_size))], "Lipid insertion step nr: " + str(step) + " / " + str(total_number_of_lipids), spaces=4, verbose=3)
-                if self.plot_grid:
+                if self.PLOT_cmd["make plots"]:
                     dict_for_plotting["lipid_insertion"]["lipid_insertion_steps"].append({
                         "grid_points": grid_points.copy(),
                         "grid_bool_matrix": grid_bool_matrix.copy(),
