@@ -22,8 +22,8 @@ class plane_grid_point_optimizer:
             return math.sqrt(v[0]**2 + v[1]**2)
 
         def update_neighborlist(bins_arr):
-            neighborlist = np.zeros((points_arr.shape[0], points_arr.shape[0]), dtype=int)
             nst_tic = time.time()
+            neighborlist = np.zeros((points_arr.shape[0], points_arr.shape[0]), dtype=int)
             for bix, binx in enumerate(bins_arr):
                 for biy, biny in enumerate(binx):
                     points_for_nstlist = biny
@@ -31,13 +31,12 @@ class plane_grid_point_optimizer:
                         for pj2, pi2 in enumerate(points_for_nstlist[pj1+1:], pj1+1):
                             point1 = points_arr[pi1]
                             point2 = points_arr[pi2]
-                            dist = scipy.spatial.distance.cdist([point1], [point2])[0]
                             dist = get_vector_len_fastsingle(get_vector(point1, point2))
                             if dist < bin_size*2: ### Equivalent to largest_lipid*4
                                 neighborlist[pi1, pi2] = 1
             nst_toc = time.time()
             if self.debug_prints:
-                self.print_term("Time spent calculating neighborlist:", round(nst_toc-nst_tic, 4), spaces=5, debug=True, debug_keys="optimizer")
+                self.print_term("Time spent calculating neighborlist:", round(nst_toc-nst_tic, 4), "[s]", spaces=5, debug=True, debug_keys="optimizer")
 
             return neighborlist
 
@@ -72,7 +71,7 @@ class plane_grid_point_optimizer:
                             new_bins_arr[pix+xi][piy+yi].append(pi)
             bin_toc = time.time()
             if self.debug_prints:
-                self.print_term("Time spent calculating bins:        ", round(bin_toc-bin_tic, 4), spaces=5, debug=True, debug_keys="optimizer")
+                self.print_term("Time spent calculating bins:        ", round(bin_toc-bin_tic, 4), "[s]", spaces=5, debug=True, debug_keys="optimizer")
 
             return new_bins_arr
         
@@ -188,8 +187,8 @@ class plane_grid_point_optimizer:
                     dist                = get_vector_len_fastsingle(vector)
                     combined_lipid_size = lipid_sizes[pi1] + lipid_sizes[pi2]
                     
-                    dist_ideal       = combined_lipid_size * (1 + occupation_modifier)
-                    dist_ideal_diff  = dist_ideal - combined_lipid_size
+                    dist_ideal             = combined_lipid_size * (1 + occupation_modifier)
+                    dist_ideal_diff        = dist_ideal - combined_lipid_size
                     dist_ideal_lower_limit = combined_lipid_size
                     dist_ideal_upper_limit = dist_ideal + dist_ideal_diff
 
@@ -232,10 +231,10 @@ class plane_grid_point_optimizer:
             ### Pushes grid points
             for pi, push in enumerate(push_arr):
                 if push:
-                    push_vector         = np.mean(np.array(push), axis=0)
-                    push_vector_len     = get_vector_len_fastsingle(push_vector)
-                    points_arr[pi]     += np.mean(np.array(push), axis=0)
-                    pushes[pi]         += push_vector_len
+                    push_vector      = np.mean(np.array(push), axis=0)
+                    push_vector_len  = get_vector_len_fastsingle(push_vector)
+                    points_arr[pi]  += np.mean(np.array(push), axis=0)
+                    pushes[pi]      += push_vector_len
 
             ### BBOX and protein distance checks
             all_contained = True

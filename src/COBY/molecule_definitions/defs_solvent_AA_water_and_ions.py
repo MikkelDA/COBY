@@ -201,7 +201,19 @@ pos_ion_defs[params] = {
         "beads": [{"name": "SOD", "x": 0, "y":  0, "z": 0, "charge": 1}],
         "tags": ("atomistic", "ions"),
     },
+    "Na": {
+        "beads": [{"name": "Na+", "x": 0, "y":  0, "z": 0, "charge": 1}],
+        "tags": ("atomistic", "ions"),
+    },
+    "NA": {
+        "beads": [{"name": "Na+", "x": 0, "y":  0, "z": 0, "charge": 1}],
+        "tags": ("atomistic", "ions"),
+    },
     "Na+": {
+        "beads": [{"name": "Na+", "x": 0, "y":  0, "z": 0, "charge": 1}],
+        "tags": ("atomistic", "ions"),
+    },
+    "NA+": {
         "beads": [{"name": "Na+", "x": 0, "y":  0, "z": 0, "charge": 1}],
         "tags": ("atomistic", "ions"),
     },
@@ -214,7 +226,19 @@ neg_ion_defs[params] = {
         "beads": [{"name": "CLA", "x": 0, "y":  0, "z": 0, "charge": -1}],
         "tags": ("atomistic", "ions"),
     },
+    "Cl": {
+        "beads": [{"name": "Cl-", "x": 0, "y":  0, "z": 0, "charge": -1}],
+        "tags": ("atomistic", "ions"),
+    },
+    "CL": {
+        "beads": [{"name": "Cl-", "x": 0, "y":  0, "z": 0, "charge": -1}],
+        "tags": ("atomistic", "ions"),
+    },
     "Cl-": {
+        "beads": [{"name": "Cl-", "x": 0, "y":  0, "z": 0, "charge": -1}],
+        "tags": ("atomistic", "ions"),
+    },
+    "CL-": {
         "beads": [{"name": "Cl-", "x": 0, "y":  0, "z": 0, "charge": -1}],
         "tags": ("atomistic", "ions"),
     },

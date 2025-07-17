@@ -193,7 +193,7 @@ class prot_preprocessor:
 
                 cur_res = False
                 for (key, vals), charge in zip(prot_dict["beads"].items(), protein_bead_charges):
-                    if vals["res_nr"] != cur_res:
+                    if vals["res_nr"] is not cur_res:
                         prot_dict["protein"].add_res(vals["res_name"], vals["res_nr"])
                         cur_res = vals["res_nr"]
                     

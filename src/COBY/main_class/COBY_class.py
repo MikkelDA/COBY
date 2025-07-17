@@ -454,8 +454,10 @@ class COBY(
             
             elif key in ["plot_grid"]:
                 self.PLOT_cmd["make plots"] = True
-                for cmd in cmd.split():
-                    sub_cmd = cmd.split(":")
+                if type(cmd) not in [list, tuple]:
+                    cmd = [cmd]
+                for plot_cmd in cmd:
+                    sub_cmd = plot_cmd.split(":")
                     if sub_cmd[0].lower() == "path":
                         self.PLOT_cmd["path"] = os.path.join(sub_cmd[1])
 

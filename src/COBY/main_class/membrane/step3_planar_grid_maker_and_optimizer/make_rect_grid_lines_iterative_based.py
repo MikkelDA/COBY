@@ -41,10 +41,17 @@ class make_rect_grid_lines_iterative_based:
             self.print_term("total_portion:             ", total_portion, spaces=4, debug=True, debug_keys=["optimizer"])
             self.print_term("total_area_portion:        ", total_area_portion, spaces=4, debug=True, debug_keys=["optimizer"])
             self.print_term("total_area_portion_limiter:", total_area_portion_limiter, spaces=4, debug=True, debug_keys=["optimizer"])
-            if total_area_portion < total_area_portion_limiter:
-                grid_method = "2D_Grid"
-            else:
-                grid_method = "LineStrings"
+            
+            if  leaflet["grid_maker_placement_algorithm"] == "automatic":
+                if total_area_portion < total_area_portion_limiter:
+                    grid_method = "2D_Grid"
+                else:
+                    grid_method = "LineStrings"
+            elif  leaflet["grid_maker_placement_algorithm"] == "2D_Grid":
+                    grid_method = "2D_Grid"
+            elif  leaflet["grid_maker_placement_algorithm"] == "LineStrings":
+                    grid_method = "LineStrings"
+            
             self.print_term("grid_method:               ", grid_method, spaces=4, debug=True, debug_keys=["optimizer"])
 
             xmin_edge = xmin + edge_buffer
@@ -76,14 +83,19 @@ class make_rect_grid_lines_iterative_based:
             self.print_term("x_edgelen_ratio:       ", x_edgelen_ratio, spaces=4, debug=True, debug_keys=["optimizer"])
             self.print_term("y_edgelen_ratio:       ", y_edgelen_ratio, spaces=4, debug=True, debug_keys=["optimizer"])
 
-            if grid_method == "LineStrings":
+            if  leaflet["grid_maker_placement_algorithm"] == "automatic" and grid_method == "2D_Grid":
+                x_grid_points_ideal = x_edge_len / (mean_lipid_radius*2)
+                y_grid_points_ideal = y_edge_len / (mean_lipid_radius*2)
+            elif grid_method == "LineStrings":
                 nlipids_sqrt = math.sqrt(nlipids)
                 self.print_term("nlipids_sqrt:          ", nlipids_sqrt, spaces=4, debug=True, debug_keys=["optimizer"])
                 x_grid_points_ideal = nlipids_sqrt * x_edgelen_ratio
                 y_grid_points_ideal = nlipids_sqrt * y_edgelen_ratio
             elif grid_method == "2D_Grid":
-                x_grid_points_ideal = x_edge_len / (mean_lipid_radius*2)
-                y_grid_points_ideal = y_edge_len / (mean_lipid_radius*2)
+                nlipids_sqrt = math.sqrt(nlipids)
+                self.print_term("nlipids_sqrt:          ", nlipids_sqrt, spaces=4, debug=True, debug_keys=["optimizer"])
+                x_grid_points_ideal = nlipids_sqrt * x_edgelen_ratio
+                y_grid_points_ideal = nlipids_sqrt * y_edgelen_ratio
             self.print_term("x_grid_points_ideal:   ", x_grid_points_ideal, spaces=4, debug=True, debug_keys=["optimizer"])
             self.print_term("y_grid_points_ideal:   ", y_grid_points_ideal, spaces=4, debug=True, debug_keys=["optimizer"])
             
@@ -194,6 +206,7 @@ class make_rect_grid_lines_iterative_based:
                     
                     ngridpoints = 0
                     lines_info = []
+                    line_ymin, line_ymax = ymin, ymax
                     for LineString in LineStringsContained:
                         line_length = LineString.length
                         npoints_on_line = round(line_length // yspace) + 1
@@ -207,7 +220,6 @@ class make_rect_grid_lines_iterative_based:
                         xs, ys = LineString.xy
                         xval = xs[0] # both x-values are the same
                         line_ymin, line_ymax = min(ys), max(ys)
-                        line_xmin, line_xmax = xmin, xmax
                         
                         lines_info.append({
                             "LineString": LineString,
@@ -228,9 +240,9 @@ class make_rect_grid_lines_iterative_based:
                             "ylines": ylines,
                             "xspace": xspace,
                             "yspace": yspace,
-                            "xmin": line_xmin,
+                            "xmin": xmin,
                             "ymin": line_ymin,
-                            "xmax": line_xmax,
+                            "xmax": xmax,
                             "ymax": line_ymax,
                             "xmax_edge": xmax_edge,
                             "xmin_edge": xmin_edge,

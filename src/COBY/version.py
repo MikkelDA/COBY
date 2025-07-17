@@ -1,22 +1,24 @@
-__version__="1.0.5"
+__version__="1.0.6"
 
 major_changes = [
 ]
 
 minor_changes = [
-    "Added 'plot_grid' argument which plots the lipid placement process.",
+    "Added even more name alternatives for sodium and chloride ions.",
+    "Allows for specific selection of the algorithm used for initially placing lipids using the subargument 'grid_maker_placement_algorithm'",
     [
-        "It was originally a seperate script i used to debug the program but has now been implemented directly into COBY.",
-        "It requires the 'pyrecorder' package to be able to run.",
+        "Allowed settings are: 'automatic' (default), '2D_grid' and 'LineStrings' (none of them are case sensitive)",
     ],
+    "Changed name of the 'grid_maker_algorithm' subargument to 'grid_maker_grouping_algorithm' to avoid confusing it with the new 'grid_maker_placement_algorithm' subargument",
 ]
 
 bug_fixes = [
+    "Fixed distances being accidentally calculated twice during neighborlist searches in the lipid optimization.",
+    "Fixed crash when loading protein files caused by improper checking of values.",
+    "Fixed potential crash when using 'plot_grid' functionality.",
 ]
 
 documentation_changes = [
-    "Added documentation for 'plot_grid'",
-    "Moved documentation for 'z_offset' as it was placed in the wrong section.",
 ]
 
 tutorial_changes = [

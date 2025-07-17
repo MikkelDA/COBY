@@ -225,9 +225,11 @@ class memb_preprocessor:
                         ### ### ### Grid maker settings ### ### ###
                         ### ### ### ################### ### ### ###
                         ### Sets which algorithm to use for the grid making process
-                        "grid_maker_algorithm": "iterative_groups", # "iterative_groups", "no_groups" or "3D_matrix"
+                        "grid_maker_grouping_algorithm": "iterative_groups", # "iterative_groups", "no_groups" or "3D_matrix"
                         ### Limiter used to set when '2D_grid' and 'LineStrings' algorithms should be used.
                         "grid_maker_area_portion_limiter": 0.7, # 0.7 = 70%
+                        ### 'automatic' (uses grid_maker_area_portion_limiter), '2D_grid', 'LineStrings'
+                        "grid_maker_placement_algorithm": "automatic",
                         ### Multiplier used to scale the buffer space around lipids during the grid making process
                         "grid_maker_multiplier": 1, # float or int
                         ### Radius size separater
@@ -596,14 +598,14 @@ class memb_preprocessor:
                     ###########################
                     elif sub_cmd[0].lower().startswith(("grid_maker_", "gm_")):
                         ### Sets the algorithm to be used
-                        if sub_cmd[0].lower().endswith(("_alg", "_algorithm")):
-                            assert sub_cmd[1].lower() in ["ig", "iterative_groups", "ng", "no_groups", "3d", "3d_matrix"], "The 'grid_maker_algorithm' setting only accepts 'iterative_groups'/'ig', 'no_groups'/'ng' and '3D_matrix'/'3d' (experimental)"
+                        if sub_cmd[0].lower().endswith(("_galg", "grouping_algorithm")):
+                            assert sub_cmd[1].lower() in ["ig", "iterative_groups", "ng", "no_groups", "3d", "3d_matrix"], "The 'grid_maker_grouping_algorithm' setting only accepts 'iterative_groups'/'ig', 'no_groups'/'ng' and '3D_matrix'/'3d' (experimental)"
                             if sub_cmd[1].lower() in ["ig", "iterative_groups"]:
-                                settings_dict[dict_target]["grid_maker_algorithm"] = "iterative_groups"
+                                settings_dict[dict_target]["grid_maker_grouping_algorithm"] = "iterative_groups"
                             elif sub_cmd[1].lower() in ["ng", "no_groups"]:
-                                settings_dict[dict_target]["grid_maker_algorithm"] = "no_groups"
+                                settings_dict[dict_target]["grid_maker_grouping_algorithm"] = "no_groups"
                             elif sub_cmd[1].lower() in ["3d", "3d_matrix"]:
-                                settings_dict[dict_target]["grid_maker_algorithm"] = "3D_matrix"
+                                settings_dict[dict_target]["grid_maker_grouping_algorithm"] = "3D_matrix"
                         
                         ### Multiplier used to scale the buffer space around lipids during the grid making process
                         elif sub_cmd[0].lower().endswith(("_mult", "_multiplier")):
@@ -612,6 +614,16 @@ class memb_preprocessor:
                         ### Multiplier used to scale the buffer space around lipids during the grid making process
                         elif sub_cmd[0].lower().endswith(("_apl", "_area_portion_limiter")):
                             settings_dict[dict_target]["grid_maker_area_portion_limiter"] = ast.literal_eval(sub_cmd[1])
+                            
+                        ### Multiplier used to scale the buffer space around lipids during the grid making process
+                        elif sub_cmd[0].lower().endswith(("_palg", "placement_algorithm")):
+                            assert sub_cmd[1].lower() in ["apl", "area_portion_limiter", "2d", "2d_grid", "ls", "linestrings"], "The 'grid_maker_area_portion_limiter' setting only accepts 'area_portion_limiter'/'apl', '2D_grid'/'2D' and 'LineStrings'/'LS'"
+                            if sub_cmd[1].lower() in ["auto", "automatic"]:
+                                settings_dict[dict_target]["grid_maker_placement_algorithm"] = "automatic"
+                            elif sub_cmd[1].lower() in ["2d", "2d_grid"]:
+                                settings_dict[dict_target]["grid_maker_placement_algorithm"] = "2D_grid"
+                            elif sub_cmd[1].lower() in ["ls", "linestrings"]:
+                                settings_dict[dict_target]["grid_maker_placement_algorithm"] = "LineStrings"
 
                         ### Whether lipids should be evenly or randomly distributed
                         elif sub_cmd[0].lower().endswith(("_ld", "_lipid_distribution")):

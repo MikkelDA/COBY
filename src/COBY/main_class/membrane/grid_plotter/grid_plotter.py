@@ -633,7 +633,7 @@ class grid_plotter:
             png_main_name = os.path.join(key_pngs_dir, "grid")
             os.makedirs(key_dir, exist_ok=True)
 
-            if vals["grid_maker_algorithm"] == "3D_matrix":
+            if vals["grid_maker_grouping_algorithm"] == "3D_matrix":
                 key_lipid_steps_dir  = os.path.join(key_dir, "lipid_steps")
                 png_lipid_steps_name = os.path.join(key_lipid_steps_dir, "grid")
                 os.makedirs(key_lipid_steps_dir, exist_ok=True)
@@ -664,6 +664,9 @@ class grid_plotter:
             gif_writer = GIF(gif_file, duration = 0.1)
             mp4_writer = Video(mp4_file, fps = 8)
 
+            def protein_vals_checker(key_prefix):
+                keys = [key_prefix + "_" + string for string in ["inside_membrane", "surrounding_membrane"]]
+                return any([vals[key] for key in keys if key in vals])
 
             self.print_term("General steps:", spaces=1, verbose=2, end=" ")
             frame_counter = 0
@@ -682,7 +685,7 @@ class grid_plotter:
                 frame_counter += 1
 
             ################################### All protein points
-            if any(vals["protein"+"_"+"points"+"_"+"inside_membrane"] for string in ["inside_membrane", "surrounding_membrane"]):
+            if protein_vals_checker("protein"+"_"+"points"):
                 plot_name = "PP"
 
                 frame_nr = str(frame_counter)
@@ -698,7 +701,7 @@ class grid_plotter:
                 frame_counter += 1
 
             ################################### Protein points buffered
-            if any(vals["protein"+"_"+"Points_buffered_union"+"_"+"inside_membrane"] for string in ["inside_membrane", "surrounding_membrane"]):
+            if protein_vals_checker("protein"+"_"+"Points_buffered_union"):
                 plot_name = "PPB"
 
                 frame_nr = str(frame_counter)
@@ -714,7 +717,7 @@ class grid_plotter:
                 frame_counter += 1
 
             ################################### Exterior protein points
-            if any(vals["protein"+"_"+"polygon_exterior_points"+"_"+"inside_membrane"] for string in ["inside_membrane", "surrounding_membrane"]):
+            if protein_vals_checker("protein"+"_"+"polygon_exterior_points"):
                 plot_name = "PXP"
 
                 frame_nr = str(frame_counter)
@@ -730,7 +733,7 @@ class grid_plotter:
                 frame_counter += 1
 
             ################################### ConcaveHulls
-            if any(vals["protein"+"_"+"ConcaveHulls_Polygon"+"_"+"inside_membrane"] for string in ["inside_membrane", "surrounding_membrane"]):
+            if protein_vals_checker("protein"+"_"+"ConcaveHulls_Polygon"):
                 plot_name = "PCH_PXP"
 
                 frame_nr = str(frame_counter)
@@ -764,7 +767,7 @@ class grid_plotter:
                 frame_counter += 1
 
             ################################### Outer protein points, concave hulls and BBOX
-            if vals["holed_bbox"] and any(vals["protein"+"_"+"polygon_exterior_points"+"_"+"inside_membrane"] for string in ["inside_membrane", "surrounding_membrane"]):
+            if vals["holed_bbox"] and protein_vals_checker("protein"+"_"+"polygon_exterior_points"):
                 plot_name = "BBOX_PCH_PXP"
 
                 frame_nr = str(frame_counter)
@@ -782,7 +785,7 @@ class grid_plotter:
                 frame_counter += 1
 
             ################################### BBOX and protein points
-            if vals["holed_bbox"] and any(vals["protein"+"_"+"points"+"_"+"inside_membrane"] for string in ["inside_membrane", "surrounding_membrane"]):
+            if vals["holed_bbox"] and protein_vals_checker("protein"+"_"+"points"):
                 plot_name = "BBOX_PP"
 
                 frame_nr = str(frame_counter)
@@ -815,7 +818,7 @@ class grid_plotter:
                 frame_counter += 1
 
             ################################### All LineStrings iterations and BBOX
-            if self.PLOT_cmd["plot_initial_placement"] and vals["grid_maker_algorithm"] == "lines" and vals["LineStringsInfo"] and plot_AllLineStringsIterations:
+            if self.PLOT_cmd["plot_initial_placement"] and vals["grid_maker_grouping_algorithm"] == "lines" and vals["LineStringsInfo"] and plot_AllLineStringsIterations:
                 for i in range(len(vals["LineStringsInfo"])):
                     plot_name = "_".join([
                         "BBOX",
@@ -897,7 +900,7 @@ class grid_plotter:
                     frame_counter += 1
 
             ################################### LineStrings and BBOX
-            if self.PLOT_cmd["plot_initial_placement"] and vals["grid_maker_algorithm"] == "lines" and vals["LineStringsInfo"]:
+            if self.PLOT_cmd["plot_initial_placement"] and vals["grid_maker_grouping_algorithm"] == "lines" and vals["LineStringsInfo"]:
                 plot_name = "BBOX_FinalGridLS"
 
                 frame_nr = str(frame_counter)
@@ -918,7 +921,7 @@ class grid_plotter:
                 frame_counter += 1
 
             ################################### LineStrings and BBOX
-            if self.PLOT_cmd["plot_initial_placement"] and vals["grid_maker_algorithm"] == "lines" and vals["LineStringsInfo"]:
+            if self.PLOT_cmd["plot_initial_placement"] and vals["grid_maker_grouping_algorithm"] == "lines" and vals["LineStringsInfo"]:
                 plot_name = "BBOX_FinalLS"
 
                 frame_nr = str(frame_counter)
@@ -938,7 +941,7 @@ class grid_plotter:
                 frame_counter += 1
 
             ################################### Overlapping LineStrings, normal BBOX and reduced BBOX
-            if self.PLOT_cmd["plot_initial_placement"] and vals["grid_maker_algorithm"] == "lines" and vals["LineStringsInfo"]:
+            if self.PLOT_cmd["plot_initial_placement"] and vals["grid_maker_grouping_algorithm"] == "lines" and vals["LineStringsInfo"]:
 #                     c1 = (not all([o==c for o, c in zip(vals["LineStringsInfo"][-1]["LineStringsOverlapping"], vals["LineStringsInfo"][-1]["LineStringsContained"])]))
 #                     c2 = (("bbox_polygon_BufferedForLineStrings" in vals and vals["bbox_polygon_BufferedForLineStrings"]) or ("bbox_polygon_BufferedForLineStrings" in vals["LineStringsInfo"][-1] and vals["LineStringsInfo"][-1]["bbox_polygon_BufferedForLineStrings"]))
 #                     print("c1, c2", c1, c2)
@@ -961,7 +964,7 @@ class grid_plotter:
                     frame_counter += 1
 
             ################################### Contained LineStrings, normal BBOX and reduced BBOX
-            if self.PLOT_cmd["plot_initial_placement"] and vals["grid_maker_algorithm"] == "lines" and vals["LineStringsInfo"] and (("bbox_polygon_BufferedForLineStrings" in vals and vals["bbox_polygon_BufferedForLineStrings"]) or ("bbox_polygon_BufferedForLineStrings" in vals["LineStringsInfo"][-1] and vals["LineStringsInfo"][-1]["bbox_polygon_BufferedForLineStrings"])):
+            if self.PLOT_cmd["plot_initial_placement"] and vals["grid_maker_grouping_algorithm"] == "lines" and vals["LineStringsInfo"] and (("bbox_polygon_BufferedForLineStrings" in vals and vals["bbox_polygon_BufferedForLineStrings"]) or ("bbox_polygon_BufferedForLineStrings" in vals["LineStringsInfo"][-1] and vals["LineStringsInfo"][-1]["bbox_polygon_BufferedForLineStrings"])):
                 plot_name = "BBOX_LSBufferedBBOX_ContainedLS"
 
                 frame_nr = str(frame_counter)
@@ -979,7 +982,7 @@ class grid_plotter:
                 frame_counter += 1
 
             ################################### Contained LineStrings and normal BBOX
-            if self.PLOT_cmd["plot_initial_placement"] and vals["grid_maker_algorithm"] == "lines" and vals["LineStringsInfo"] and (("bbox_polygon_BufferedForLineStrings" in vals and vals["bbox_polygon_BufferedForLineStrings"]) or ("bbox_polygon_BufferedForLineStrings" in vals["LineStringsInfo"][-1] and vals["LineStringsInfo"][-1]["bbox_polygon_BufferedForLineStrings"])):
+            if self.PLOT_cmd["plot_initial_placement"] and vals["grid_maker_grouping_algorithm"] == "lines" and vals["LineStringsInfo"] and (("bbox_polygon_BufferedForLineStrings" in vals and vals["bbox_polygon_BufferedForLineStrings"]) or ("bbox_polygon_BufferedForLineStrings" in vals["LineStringsInfo"][-1] and vals["LineStringsInfo"][-1]["bbox_polygon_BufferedForLineStrings"])):
                 plot_name = "BBOX_ContainedLS"
 
                 frame_nr = str(frame_counter)
@@ -1013,7 +1016,7 @@ class grid_plotter:
                 frame_counter += 1
 
             ################################### BBOX and intial lipid placements post random
-            if self.PLOT_cmd["plot_initial_placement"] and vals["POINT_STEPS"]:
+            if self.PLOT_cmd["plot_initial_placement"] and "POINT_STEPS" in vals and vals["POINT_STEPS"]:
                 plot_name = "BBOX_PostRandomLP"
 
                 frame_nr = str(frame_counter)
@@ -1030,7 +1033,7 @@ class grid_plotter:
                 frame_counter += 1
 
             ################################### BBOX and final lipid placements
-            if vals["POINT_STEPS"]:
+            if "POINT_STEPS" in vals and vals["POINT_STEPS"]:
                 plot_name = "BBOX_FinalLP_PP"
 
                 frame_nr = str(frame_counter)
@@ -1047,7 +1050,7 @@ class grid_plotter:
                 frame_counter += 1            
 
             ################################### BBOX, final lipid placements and protein
-            if vals["POINT_STEPS"] and any(vals["protein"+"_"+"points"+"_"+"inside_membrane"] for string in ["inside_membrane", "surrounding_membrane"]):
+            if "POINT_STEPS" in vals and vals["POINT_STEPS"] and protein_vals_checker("protein"+"_"+"points"):
                 plot_name = "BBOX_FinalLP"
 
                 frame_nr = str(frame_counter)
@@ -1066,7 +1069,7 @@ class grid_plotter:
 
             self.print_term("", verbose=2)
             ################################### Lipid optimization frames
-            if self.PLOT_cmd["plot_optimization_steps"] and vals["POINT_STEPS"]:
+            if self.PLOT_cmd["plot_optimization_steps"] and "POINT_STEPS" in vals and vals["POINT_STEPS"]:
                 with Recorder(gif_writer, converter = converter) as gif_rec:
                     with Recorder(mp4_writer, converter = converter) as mp4_rec:
                         self.print_term("Optimization steps:", spaces=1, verbose=2, end=" ")
@@ -1181,7 +1184,7 @@ class grid_plotter:
                 self.print_term("", verbose=2)
             
             ################################### BBOX and intial lipid placements post random
-            if vals["grid_maker_algorithm"] == "3D_matrix" and "lipid_insertion" in vals and plot_AllLipidInsertions:
+            if vals["grid_maker_grouping_algorithm"] == "3D_matrix" and "lipid_insertion" in vals and plot_AllLipidInsertions:
                 self.print_term("Insertion steps:", spaces=1, verbose=2, end=" ")
                 for i in range(len(vals["lipid_insertion"]["lipid_insertion_steps"])):
                     plot_name = "BBOX_LipidInsertionStep" + str(i)
