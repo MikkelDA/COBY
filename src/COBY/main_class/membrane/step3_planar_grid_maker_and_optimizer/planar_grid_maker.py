@@ -89,25 +89,40 @@ class planar_grid_maker:
                             else:
                                 optimize_run = False
                         
-                        elif leaflet["grid_maker_grouping_algorithm"] in ["no_groups", "iterative_groups"]:
+                        elif leaflet["grid_maker_grouping_algorithm"] in ["automatic", "no_groups", "iterative_groups"]:
                             min_radius, max_radius = min(radii), max(radii)
-                            if leaflet["grid_maker_grouping_algorithm"] == "iterative_groups":
+
+                            if (leaflet["grid_maker_grouping_algorithm"] == "automatic" and max_radius - min_radius >= leaflet["grid_maker_separator"]) or leaflet["grid_maker_grouping_algorithm"] == "iterative_groups":
+                                effective_grid_maker_grouping_algorithm = "iterative_groups"
+                            elif (leaflet["grid_maker_grouping_algorithm"] == "automatic" and max_radius - min_radius < leaflet["grid_maker_separator"]) or leaflet["grid_maker_grouping_algorithm"] == "no_groups":
+                                effective_grid_maker_grouping_algorithm = "no_groups"
+
+                            if effective_grid_maker_grouping_algorithm == "iterative_groups":
                                 separator = leaflet["grid_maker_separator"]
-                            elif leaflet["grid_maker_grouping_algorithm"] == "no_groups":
+                            elif effective_grid_maker_grouping_algorithm == "no_groups":
                                 separator = 100000 # No lipids should be larger than this anyways
 
                             ### *0.49 instead of 0.5 because of float problems
-                            n_radius_groups         = math.ceil(((max_radius+separator*0.49) - (min_radius-separator*0.49)) / separator)
-                            radius_group_separators = np.linspace(start=min_radius-separator*0.5, stop=max_radius+separator*0.5, endpoint=True, num=n_radius_groups+1)
+                            # n_radius_groups         = math.ceil(((max_radius+separator*0.49) - (min_radius-separator*0.49)) / separator)
+                            # radius_group_separators = np.linspace(start=min_radius-separator*0.5, stop=max_radius+separator*0.5, endpoint=True, num=n_radius_groups+1)
+                            # radius_groups           = list(reversed([(i, j) for i, j in zip(radius_group_separators[:-1], radius_group_separators[1:])]))
+                            # lipid_radius_groups     = [[] for i in radius_groups]
+
+                            n_radius_groups         = ((max_radius) - (min_radius)) / separator
+                            n_radius_groups_rounded = max([1, math.ceil(n_radius_groups)])
+                            ### +/-0.01 to avoid some radii ending up outside the range due to floats
+                            radius_group_separators = np.linspace(start=min_radius-0.01, stop=max_radius+0.01, endpoint=True, num=n_radius_groups_rounded+1)
                             radius_groups           = list(reversed([(i, j) for i, j in zip(radius_group_separators[:-1], radius_group_separators[1:])]))
                             lipid_radius_groups     = [[] for i in radius_groups]
 
                             self.print_term("leaflet['grid_maker_grouping_algorithm']:", leaflet["grid_maker_grouping_algorithm"], spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
-                            self.print_term("separator:                               ", separator,                       spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
-                            self.print_term("n_radius_groups:                         ", n_radius_groups,                 spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
-                            self.print_term("radii:                                   ", radii,                           spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
-                            self.print_term("radius_group_separators:                 ", radius_group_separators,         spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
-                            self.print_term("radius_groups:                           ", radius_groups,                   spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("effective_grid_maker_grouping_algorithm: ", effective_grid_maker_grouping_algorithm,  spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("separator:                               ", separator,                                spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("n_radius_groups:                         ", n_radius_groups,                          spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("n_radius_groups_rounded:                 ", n_radius_groups_rounded,                  spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("radii:                                   ", radii,                                    spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("radius_group_separators:                 ", radius_group_separators,                  spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("radius_groups:                           ", radius_groups,                            spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
 
                             ### Iterates over list sorted according to radius
                             total_lipids = 0
@@ -234,10 +249,10 @@ class planar_grid_maker:
 
                             else:
                                 ### "iterative_groups" with one lipid group is identical to "lines_single" so no need to warn
-                                if leaflet["grid_maker_grouping_algorithm"] == "iterative_groups" and len(lipid_groups) > 1:
+                                if effective_grid_maker_grouping_algorithm == "iterative_groups" and len(lipid_groups) > 1:
                                     self.print_term(
                                         " ".join([
-                                            "Using 'grid_maker_grouping_algorithm' algorithm 'iterative_groups' but 'optimize_run' is set to 'False'.",
+                                            "Effective grid maker grouping algorithm is 'iterative_groups' but 'optimize_run' is set to 'False'.",
                                             "Lipids are VERY likely to overlap with 'iterative_groups' without optimization.",
                                             "We strongly suggest you set 'optimize_run' to 'True' or 'auto'.",
                                         ]),

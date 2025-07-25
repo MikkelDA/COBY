@@ -90,8 +90,7 @@ class lipid_scaffolds_preprocessor(tags_checker):
                         lx = [xi * bdx * 10 for xi, bead in zip(x, beads) if bead != "-"]
                         ly = [yi * bdy * 10 for yi, bead in zip(y, beads) if bead != "-"]
                         minz = min([zi for zi, bead in zip(z, beads) if bead != "-"])
-                        inter_leaflet_buffer = 1.5
-                        lz = [(zi - minz) * bdz * 10 + inter_leaflet_buffer for zi, bead in zip(z, beads) if bead != "-"]
+                        lz = [(zi - minz) * bdz * 10 for zi, bead in zip(z, beads) if bead != "-"]
                         beads = [bead for bead in beads if bead != "-"]
                         beadnrs = list([i for i in range(len(beads))])
                         

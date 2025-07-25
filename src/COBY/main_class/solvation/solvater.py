@@ -5,6 +5,8 @@ import random
 import shapely
 from operator import itemgetter
 import copy
+import itertools
+from scipy.spatial.transform import Rotation as R
 
 class solvater:
     def solvater(self):
@@ -132,15 +134,6 @@ class solvater:
                 ###########################
                 solvent_box_solvent_charge = 0
 
-                ### List used to find the maximum solvent/ion size
-                solvent_radii = []
-                
-                solvent_radii = [
-                    vals.get_radius()
-                    for dict_pointer in ["solvent", "pos_ions", "neg_ions"]
-                    for key, vals in solvation[dict_pointer].items()
-                ]
-                
                 def get_solvent_ratios(solvent_type_dict, tot_ratio):
                     ratios = [
                         round(1 / tot_ratio * vals.ratio, 4)
@@ -480,29 +473,73 @@ class solvater:
                 ##############################################
                 ### RUNNING SOLVENT OPTIMIZATION ALGORITHM ###
                 ##############################################
+
+                def molecule_extent_under_rotations(coords, max_angles):
+                    step = 1
+                    angle_options = {
+                        "x": np.arange(max_angles[0][0], max_angles[0][1] + step, step),
+                        "y": np.arange(max_angles[1][0], max_angles[1][1] + step, step),
+                        "z": np.arange(max_angles[2][0], max_angles[2][1] + step, step)
+                    }
+
+                    rotations_x = [(x, 0, 0) for x in angle_options['x']]
+                    rotations_y = [(0, y, 0) for y in angle_options['y']]
+                    rotations_z = [(0, 0, z) for z in angle_options['z']]
+
+                    rotations = rotations_x + rotations_y + rotations_z
+
+                    max_molecule_axial_extents = np.zeros(3)
+
+                    for angles in rotations:
+                        rot                        = R.from_euler('xyz', angles, degrees=True)
+                        rotated                    = rot.apply(coords)
+                        molecule_axial_extents     = rotated.max(axis=0) - rotated.min(axis=0)
+                        max_molecule_axial_extents = np.maximum(max_molecule_axial_extents, molecule_axial_extents)
+
+                    return max_molecule_axial_extents
+                
+                ### List used to find the maximum solvent/ion size along each axis
+                molecules_in_solvation = [
+                    molecule.get_beads()
+                    for dict_pointer in ["solvent", "pos_ions", "neg_ions"]
+                    for molecule in solvation[dict_pointer].values()
+                ]
+
+                molecules_max_axial_extents = []
+                for molecule in molecules_in_solvation:
+                    ### Only check for rotations if the molecule contains multiple beads. No point in checking it for single-bead molecules.
+                    if len(molecule) > 1:
+                        molecules_max_axial_extents.append(tuple(molecule_extent_under_rotations(np.array(molecule), solvation["rotation_angles"])))
+                    else:
+                        molecules_max_axial_extents.append((0, 0, 0))
+
                 ### Finds the maximum size of molecules used as solvent/ions
                 ### Also includes buffer/kick size to prevent edge overlap cases
-                ### *2 to get actual size (diameter) instead of radius
-                max_mol_size = max(solvent_radii)*2
+                max_mol_sizes = [max(molecule_extents_per_axis) for molecule_extents_per_axis in zip(*molecules_max_axial_extents)]
                 
-                self.print_term("max_mol_size:    ", max_mol_size,          debug=True, debug_keys=["solvater"])
-                self.print_term("max_mol_size*1.2:", max_mol_size*1.2,      debug=True, debug_keys=["solvater"])
-                self.print_term("kick:            ", solvation["kick"],     debug=True, debug_keys=["solvater"])
-                self.print_term("kick*2.2:        ", solvation["kick"]*2.2, debug=True, debug_keys=["solvater"])
+                self.print_term('solvation["rotation_angles"]:', solvation["rotation_angles"],           debug=True, debug_keys=["solvater"])
+                self.print_term("molecules_max_axial_extents: ", molecules_max_axial_extents,            debug=True, debug_keys=["solvater"])
+                self.print_term("max_mol_sizes:               ", max_mol_sizes,                          debug=True, debug_keys=["solvater"])
+                self.print_term("max_mol_sizes*1.2:           ", [val*1.2 for val in max_mol_sizes],     debug=True, debug_keys=["solvater"])
+                self.print_term("kick:                        ", solvation["kick"],                      debug=True, debug_keys=["solvater"])
+                self.print_term("kick*2.2:                    ", [val*2.2 for val in solvation["kick"]], debug=True, debug_keys=["solvater"])
                 
-                gridres = solvation["gridres"]
+                original_gridres = solvation["gridres"].copy()
+                gridres = solvation["gridres"].copy()
                 
-                self.print_term("gridres first:",    solvation["gridres"],  debug=True, debug_keys=["solvater"])
+                self.print_term("gridres first:               ", solvation["gridres"], debug=True, debug_keys=["solvater"])
                 
                 ### if 'the largest molecule + 2*kick' is bigger than the designated grid resolution then change the gridres
-                if (max_mol_size+solvation["kick"]*2) >= gridres:
-                    gridres = (max_mol_size + solvation["kick"]*2)*1.2 # 20% extra
-                    self.print_term("Requested solvent is too large for the grid resolution. Adjusting grid resolution to prevent molecule overlaps.", warn = True)
-                    self.print_term("Original grid resolution was:", round(solvation["gridres"]/10, 4), "[nm]", warn = True)
-                    self.print_term("New grid resolution is:      ", round(gridres/10, 4), "[nm]", warn = True)
-                    self.print_term("Calculation: (largest molecule size + 2 * particle kick value) * 1.2", "\n",  warn = True)
-                
-                self.print_term("gridres last:", gridres, debug=True, debug_keys=["solvater"])
+                axes = ["x", "y", "z"]
+                for i in range(len(gridres)):
+                    if (max_mol_sizes[i]+solvation["kick"][i]*2) >= gridres[i]:
+                        gridres[i] = (max_mol_sizes[i] + solvation["kick"][i]*2)*1.2 # 20% extra
+                        self.print_term("Requested solvent is too large for the grid resolution for axis '{axis}'. Adjusting grid resolution to prevent molecule overlaps.".format(axis=axes[i]), warn = True)
+                        self.print_term("Original grid resolution was:", round(original_gridres[i]/10, 4), "[nm]", warn = True)
+                        self.print_term("New grid resolution is:      ", round(gridres[i]/10, 4), "[nm]", warn = True)
+                        self.print_term("Calculation: ('largest molecule size along the {axis}-axis' + 2 * 'particle kick value') * 1.2".format(axis=axes[i]), "\n",  warn = True)
+
+                self.print_term("gridres last:                ", gridres, debug=True, debug_keys=["solvater"])
                 
                 solvent_buffer = solvation["buffer"]
 
@@ -512,7 +549,7 @@ class solvater:
                 self.print_term("", verbose=2)
                 self.print_term("Calculating the number of available grid points", spaces=1, verbose=2)
 
-                def coord_to_indices(pos, dim, center, real_gridres, max_int, min_buffer, max_buffer):
+                def coord_to_indices(pos, dim, center, real_gridres, min_buffer, max_buffer):
                     ### Buffer limit
                     bead_min = pos-min_buffer
                     bead_max = pos+max_buffer
@@ -540,11 +577,11 @@ class solvater:
                         cx, cy, cz = (cxmax + cxmin)/2, (cymax + cymin)/2, (czmax + czmin)/2
                         xlen, ylen, zlen = cxmax - cxmin, cymax - cymin, czmax - czmin
                         
-                        xpoints, ypoints, zpoints = int(xlen/gridres), int(ylen/gridres), int(zlen/gridres)
+                        xpoints, ypoints, zpoints = int(xlen/gridres[0]), int(ylen/gridres[1]), int(zlen/gridres[2])
                         ### Calculates actual coordinate ranges for each axis and calculates the "real" grid resolution
-                        xcoords, xreal_gridres = np.linspace(cxmin-gridres/2, cxmax+gridres/2, xpoints+2, retstep=True)
-                        ycoords, yreal_gridres = np.linspace(cymin-gridres/2, cymax+gridres/2, ypoints+2, retstep=True)
-                        zcoords, zreal_gridres = np.linspace(czmin-gridres/2, czmax+gridres/2, zpoints+2, retstep=True)
+                        xcoords, xreal_gridres = np.linspace(cxmin-gridres[0]/2, cxmax+gridres[0]/2, xpoints+2, retstep=True)
+                        ycoords, yreal_gridres = np.linspace(cymin-gridres[1]/2, cymax+gridres[1]/2, ypoints+2, retstep=True)
+                        zcoords, zreal_gridres = np.linspace(czmin-gridres[2]/2, czmax+gridres[2]/2, zpoints+2, retstep=True)
                         ### Removes the first and last points as they are the actual edges of the box
                         xcoords = xcoords[1:-1]
                         ycoords = ycoords[1:-1]
@@ -591,7 +628,7 @@ class solvater:
                                             ### It is subtracted inside coord_to_indices()
                                             zminbuffer = leaflet["lipid_dimensions"]["min_max_zs"] + solvent_buffer
                                             zmaxbuffer = solvent_buffer
-                                        zmin, zmax = coord_to_indices(lcz, zlen, cz, zreal_gridres, zpoints, zminbuffer, zmaxbuffer)
+                                        zmin, zmax = coord_to_indices(lcz, zlen, cz, zreal_gridres, zminbuffer, zmaxbuffer)
                                         
                                         ### Advanced (and slower) solvent-in-membrane prevention method
                                         ### Creates a series of points in 2D and marks matrix coordinates one point at a time
@@ -605,8 +642,8 @@ class solvater:
                                                 llx = poly_xmax - poly_xmin
                                                 lly = poly_ymax - poly_ymin
 
-                                                xmin_i, xmax_i = coord_to_indices(lcx, xlen, cx, xreal_gridres, xpoints, llx/2, llx/2)
-                                                ymin_i, ymax_i = coord_to_indices(lcy, ylen, cy, yreal_gridres, ypoints, lly/2, lly/2)
+                                                xmin_i, xmax_i = coord_to_indices(lcx, xlen, cx, xreal_gridres, llx/2, llx/2)
+                                                ymin_i, ymax_i = coord_to_indices(lcy, ylen, cy, yreal_gridres, lly/2, lly/2)
                                                 xcoords_in_leaflet = xcoords[xmin_i:xmax_i+1]
                                                 ycoords_in_leaflet = ycoords[ymin_i:ymax_i+1]
 
@@ -618,8 +655,8 @@ class solvater:
                                                 points_in_geom = [point for point, point_bool in zip(points_to_check, points_contained_bools) if point_bool]
                                                 
                                                 for lcx, lcy in points_in_geom:
-                                                    xmin, xmax = coord_to_indices(lcx, xlen, cx, xreal_gridres, xpoints, solvent_buffer, solvent_buffer)
-                                                    ymin, ymax = coord_to_indices(lcy, ylen, cy, yreal_gridres, ypoints, solvent_buffer, solvent_buffer)
+                                                    xmin, xmax = coord_to_indices(lcx, xlen, cx, xreal_gridres, solvent_buffer, solvent_buffer)
+                                                    ymin, ymax = coord_to_indices(lcy, ylen, cy, yreal_gridres, solvent_buffer, solvent_buffer)
                                                     grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
 
                                         ### Simple (and fast) solvent-in-membrane prevention method
@@ -628,32 +665,32 @@ class solvater:
                                         else:
                                             lcx, lcy = leaflet["center"][:2] # Center of leaflet on given axis
                                             llx, lly = leaflet["xlength"], leaflet["ylength"] # Length of leaflet in given axis
-                                            xmin, xmax = coord_to_indices(lcx, xlen, cx, xreal_gridres, xpoints, llx/2, llx/2)
-                                            ymin, ymax = coord_to_indices(lcy, ylen, cy, yreal_gridres, ypoints, lly/2, lly/2)
+                                            xmin, xmax = coord_to_indices(lcx, xlen, cx, xreal_gridres, llx/2, llx/2)
+                                            ymin, ymax = coord_to_indices(lcy, ylen, cy, yreal_gridres, lly/2, lly/2)
                                             grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
 
                         ### Prior solvent beads
                         for xpos, ypos, zpos in solvent_beads_for_cell_checker:
                             ### Checks if any non-solvent bead is within the solvent cell
-                            xmin, xmax = coord_to_indices(xpos, xlen, cx, xreal_gridres, xpoints, solute_buffer, solute_buffer)
-                            ymin, ymax = coord_to_indices(ypos, ylen, cy, yreal_gridres, ypoints, solute_buffer, solute_buffer)
-                            zmin, zmax = coord_to_indices(zpos, zlen, cz, zreal_gridres, zpoints, solute_buffer, solute_buffer)
+                            xmin, xmax = coord_to_indices(xpos, xlen, cx, xreal_gridres, solute_buffer, solute_buffer)
+                            ymin, ymax = coord_to_indices(ypos, ylen, cy, yreal_gridres, solute_buffer, solute_buffer)
+                            zmin, zmax = coord_to_indices(zpos, zlen, cz, zreal_gridres, solute_buffer, solute_buffer)
                             grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
 
                         ### Lipid beads
                         for xpos, ypos, zpos in lipid_beads_for_cell_checker:
                             ### Checks if any lipid bead is within the solvent cell
-                            xmin, xmax = coord_to_indices(xpos, xlen, cx, xreal_gridres, xpoints, lipid_buffer, lipid_buffer)
-                            ymin, ymax = coord_to_indices(ypos, ylen, cy, yreal_gridres, ypoints, lipid_buffer, lipid_buffer)
-                            zmin, zmax = coord_to_indices(zpos, zlen, cz, zreal_gridres, zpoints, lipid_buffer, lipid_buffer)
+                            xmin, xmax = coord_to_indices(xpos, xlen, cx, xreal_gridres, lipid_buffer, lipid_buffer)
+                            ymin, ymax = coord_to_indices(ypos, ylen, cy, yreal_gridres, lipid_buffer, lipid_buffer)
+                            zmin, zmax = coord_to_indices(zpos, zlen, cz, zreal_gridres, lipid_buffer, lipid_buffer)
                             grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
 
                         ### Protein beads
                         for xpos, ypos, zpos in prot_beads_for_cell_checker:
                             ### Checks if any protein bead is within the solvent cell
-                            xmin, xmax = coord_to_indices(xpos, xlen, cx, xreal_gridres, xpoints, protein_buffer, protein_buffer)
-                            ymin, ymax = coord_to_indices(ypos, ylen, cy, yreal_gridres, ypoints, protein_buffer, protein_buffer)
-                            zmin, zmax = coord_to_indices(zpos, zlen, cz, zreal_gridres, zpoints, protein_buffer, protein_buffer)
+                            xmin, xmax = coord_to_indices(xpos, xlen, cx, xreal_gridres, protein_buffer, protein_buffer)
+                            ymin, ymax = coord_to_indices(ypos, ylen, cy, yreal_gridres, protein_buffer, protein_buffer)
+                            zmin, zmax = coord_to_indices(zpos, zlen, cz, zreal_gridres, protein_buffer, protein_buffer)
                             
                             grid_bool_matrix[xmin:xmax, ymin:ymax, zmin:zmax] = 0
                         
@@ -741,10 +778,13 @@ class solvater:
 
                 ### Calculating kicks first might be faster for large number of solvent
                 kick = solvation["kick"]
-                kxs = [random.uniform(-kick, kick) for _ in range(len(collected_solvent))]
-                kys = [random.uniform(-kick, kick) for _ in range(len(collected_solvent))]
-                kzs = [random.uniform(-kick, kick) for _ in range(len(collected_solvent))]
+                kxs = [random.uniform(-kick[0], kick[0]) for _ in range(len(collected_solvent))]
+                kys = [random.uniform(-kick[1], kick[1]) for _ in range(len(collected_solvent))]
+                kzs = [random.uniform(-kick[2], kick[2]) for _ in range(len(collected_solvent))]
                 kicks = zip(kxs, kys, kzs)
+
+                ### Unpacking rotation angles because finding values in a dictionary is slower
+                x_rotation_angles, y_rotation_angles, z_rotation_angles = solvation["rotation_angles"]
 
                 grid_solvated = []
                 stype_order_dict = {"solvent": 1, "pos_ions": 2, "neg_ions": 3}
@@ -766,7 +806,10 @@ class solvater:
 
                     ### Only makes sense to rotate if molecule contains more than 1 bead
                     if snbeads > 1:
-                        rx, ry, rz   = random.uniform(0, 360), random.uniform(0, 360), random.uniform(0, 360)
+                        rx   = random.uniform(*x_rotation_angles)
+                        ry   = random.uniform(*y_rotation_angles)
+                        rz   = random.uniform(*z_rotation_angles)
+                        
                         for j, (x, y, z) in enumerate(zip(sx, sy, sz)):
                             sx[j], sy[j], sz[j] = self.rotate_point(x, y, z, rx, ry, rz)
                     

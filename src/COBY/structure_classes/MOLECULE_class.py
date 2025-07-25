@@ -183,20 +183,31 @@ class MOLECULE:
     
     def move_coords(self, translation = [0, 0, 0]):
         tx, ty, tz = translation
-        i = 0
         for ri, res in enumerate(self.residues):
             for bi, bead in enumerate(res.beads):
                 self.residues[ri].beads[bi].move_atom(bead.x+tx, bead.y+ty, bead.z+tz)
-                i += 1
     
     def move_atom(self, ri, bi, translation = [0, 0, 0]):
         tx, ty, tz = translation
         bead = self.residues[ri].beads[i]
         self.residues[ri].beads[bi].move_atom(bead.x+tx, bead.y+ty, bead.z+tz)
     
+    def move_coords_to(self, new_coords):
+        i = 0
+        for ri, res in enumerate(self.residues):
+            for bi, bead in enumerate(res.beads):
+                nx, ny, nz = new_coords[i]
+                self.residues[ri].beads[bi].move_atom(nx, ny, nz)
+                i += 1
+    
+    def scale_coords(self, scaling = [1, 1, 1]):
+        sx, sy, sz = scaling
+        for ri, res in enumerate(self.residues):
+            for bi, bead in enumerate(res.beads):
+                self.residues[ri].beads[bi].move_atom(bead.x*sx, bead.y*sy, bead.z*sz)
+
     def rotate_coords(self, rotation = [0, 0, 0]):
         x_deg, y_deg, z_deg = rotation
-        i = 0
         for ri, res in enumerate(self.residues):
             for bi, bead in enumerate(res.beads):
                 
@@ -243,11 +254,19 @@ class MOLECULE:
                 new_z = rm_xyz[2][0] * x + rm_xyz[2][1] * y + rm_xyz[2][2] * z
                 
                 self.residues[ri].beads[bi].move_atom(new_x, new_y, new_z)
-                i += 1
     
-    def get_max_length(self):
+    def get_max_length(self, axis = "all"):
         beads = self.get_beads()
-        max_length = max([math.dist(bead1, bead2) for bead1 in beads for bead2 in beads])
+        
+        if axis.lower() == "all":
+            max_length = max([math.dist(bead1, bead2) for bead1 in beads for bead2 in beads])
+        elif axis.lower() == "x":
+            max_length = max([math.dist([bead1[0]], [bead2[0]]) for bead1 in beads for bead2 in beads])
+        elif axis.lower() == "y":
+            max_length = max([math.dist([bead1[1]], [bead2[1]]) for bead1 in beads for bead2 in beads])
+        elif axis.lower() == "z":
+            max_length = max([math.dist([bead1[2]], [bead2[2]]) for bead1 in beads for bead2 in beads])
+
         return max_length
 
     def get_res_beads_info(self, output_type="ATOM"):

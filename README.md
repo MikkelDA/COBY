@@ -58,6 +58,13 @@ For a quick reminder of available commands, you can use the [Cheat Sheet](https:
 
 Three [tutorials](https://github.com/MikkelDA/COBY/tree/master/Tutorial) are available as Jupyter Notebooks: one covering the basics, another focusing on more advanced functionalities, and the final tutorial showcasing the systems from the manuscript.
 
+## Known issues
+
+* Recursion depth crash on Mac
+	* Problem: It has been reported that running COBY with newer versions of Shapely on a Mac may lead to crashes caused by exceeding the recursion depth limit. The reason for why or how this happens is unclear but is likely not something that can be fixed by the COBY developer. The error may be relatod the the macOS version as the problem is known to occur on Sonoma but not on Sequoia.
+	* Solution 1: Downgrade Shapely to version 2.0.2, which is the newest version known to be stable on Mac.
+	* Solution 2: Update your Mac to Sequoia or an even newer version.
+
 ## Licence
 
 COBY is preserved under the [Apache License 2.0](https://github.com/MikkelDA/COBY/blob/main/LICENSE).

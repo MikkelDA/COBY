@@ -48,13 +48,15 @@ class solv_preprocessor:
                     "solv_per_lipid": False, # Number of solv particles per lipid contained in solvent box
                     "solv_per_lipid_cutoff": 0.5, # Number of solv particles per lipid contained in solvent box
                     "count": False, # [bool] Uses specific molarity value as absolute number of molecules instead of molarity ratio. Will be rounded using int(val+0.5)
-                    "kick": 0.264/4, # [nm] converted to [Å]
+                    # "kick": 0.264/4, # [nm] converted to [Å]
+                    "kick": [0.264/4, 0.264/4, 0.264/4], # [nm] converted to [Å]
                     "mapping": True,# bool, Whether AA-to-CG mapping should be considered
                     "ratio_method": "coarse", # "coarse", "atomistic"
                     
                     "params": False, # False or str
                     "bead_radius": 0.264, # [nm] converted to [Å] # Used for volume calculations
-                    "gridres": 0.264, # [nm] converted to [Å] # 2.64
+                    # "gridres": 0.264, # [nm] converted to [Å] # 2.64
+                    "gridres": [0.264, 0.264, 0.264], # [nm] converted to [Å] # 2.64
                     
                     "buffer": 0.2, # [nm] converted to [Å]
                     "protein_extra_buffer": 0.2, # [nm] converted to [Å]
@@ -70,6 +72,9 @@ class solv_preprocessor:
                     ### Sets whether the hydrophobic volume of leaflets should be solvated
                     ### True values must be paired with True values in a "membrane / leaflet" argument
                     "solvate_hydrophobic_volume": False,
+
+                    ### The allowed rotations angles along each axis
+                    "rotation_angles": [(-180, 180), (-180, 180), (-180, 180)],
                 }
                 
                 ### Added "default" solvation command per user request
@@ -221,15 +226,25 @@ class solv_preprocessor:
 
                     ### Grid resolution
                     elif sub_cmd[0].lower() == "gridres":
-                        solv_dict["gridres"] = ast.literal_eval(sub_cmd[1])
+                        # solv_dict["gridres"] = ast.literal_eval(sub_cmd[1])
+                        assert len(sub_cmd[1:]) in [1, 3], "subargument 'gridres' only accepts 1 or 3 values." # Either one universal value of 3 separate values
+                        if len(sub_cmd[1:]) == 1:
+                            solv_dict["gridres"] = [ast.literal_eval(sub_cmd[1]) for _ in range(3)]
+                        elif len(sub_cmd[1:]) == 3:
+                            solv_dict["gridres"] = [ast.literal_eval(sub_cmd[val]) for val in sub_cmd[1:]]
 
                     ### Minimum wiggle room for beads
                     elif sub_cmd[0].lower() == "wr":
                         solv_dict["WR"] = ast.literal_eval(sub_cmd[1])
 
-                    elif sub_cmd[0].lower() in ["kick"]:
+                    elif sub_cmd[0].lower() == "kick":
                         ### Random kick to beads x/y/z positions [Å]
-                        solv_dict["kick"] = ast.literal_eval(sub_cmd[1])
+                        # solv_dict["kick"] = ast.literal_eval(sub_cmd[1])
+                        assert len(sub_cmd[1:]) in [1, 3], "subargument 'kick' only accepts 1 or 3 values." # Either one universal value of 3 separate values
+                        if len(sub_cmd[1:]) == 1:
+                            solv_dict["kick"] = [ast.literal_eval(sub_cmd[1]) for _ in range(3)]
+                        elif len(sub_cmd[1:]) == 3:
+                            solv_dict["kick"] = [ast.literal_eval(sub_cmd[val]) for val in sub_cmd[1:]]
                     
                     ### Whether mapping should be used
                     elif sub_cmd[0].lower() == "mapping":
@@ -247,15 +262,37 @@ class solv_preprocessor:
                     ### Bead scaling distances
                     ### Bead distance scaling for z is 0.3 by default and 0.25 by default for x and y [multiplier]
                     elif sub_cmd[0].lower() in ["bdx", "bdy", "bdz"]:
-                        leaf_dict[sub_cmd[0].lower()] = ast.literal_eval(sub_cmd[1])
+                        solv_dict[sub_cmd[0].lower()] = ast.literal_eval(sub_cmd[1])
 
-                    ### Designates force field
+                    ### Designates parameter library
                     elif sub_cmd[0].lower() == "params":
                         solv_dict["params"] = sub_cmd[1]
 
-                    ### Gerenal buffer for solvent placement
+                    ### General buffer for solvent placement
                     elif sub_cmd[0].lower() == "buffer":
                         solv_dict["buffer"] = ast.literal_eval(sub_cmd[1])
+
+                    ### The allowed rotations angles along each axis
+                    elif sub_cmd[0].lower() == "rotation_angles":
+                        assert (len(sub_cmd[1:]) == 6 and not any([axis in ":".join(sub_cmd[1:]).lower() for axis in ["x", "y", "z"]])) or (len(sub_cmd[1:]) % 3 == 0 and len(sub_cmd[1:]) <= 9), "The subargument 'rotation_angles' accepts two types of formats; 'xval1:xval2:yval1:yval2:zval1:zval2' or any combination of 'x:val1:val2', 'y:val1:val2' and 'z:val1:val2'."
+                        order = {'x': 0, 'y': 1, 'z': 2}
+                        if len(sub_cmd[1:]) == 6 and not any([axis in ":".join(sub_cmd[1:]).lower() for axis in ["x", "y", "z"]]):
+                            new_rotation_angles = []
+                            for i in [1, 3, 5]:
+                                val1, val2 = ast.literal_eval(sub_cmd[i]), ast.literal_eval(sub_cmd[i+1])
+                                minval, maxval = min(val1, val2), max(val1, val2)
+                                assert maxval - minval <= 360, "Values given to 'rotation_angles' must be within 360 of each other (i.e. it is required that 'maxval - minval <= 360'). Values are '{maxval}' and '{minval}' and difference is: '{maxval} - {minval} = {diff}'".format(maxval=maxval, minval=minval, diff = maxval - minval)
+                                new_rotation_angles.append((minval, maxval))
+                            solv_dict["rotation_angles"] = new_rotation_angles
+                        else:
+                            i = 1
+                            while i < len(sub_cmd):
+                                assert sub_cmd[i] in ["x", "y", "z"], "The subargument 'rotation_angles' did not receive a correctly formatted subsubarguments '{subsubargs}'. The subargument 'rotation_angles' accepts two types of formats; 'xval1:xval2:yval1:yval2:zval1:zval2' or any combination of 'x:val1:val2', 'y:val1:val2' and 'z:val1:val2'.".format(":".join(sub_cmd[:1]))
+                                val1, val2 = ast.literal_eval(sub_cmd[i+1]), ast.literal_eval(sub_cmd[i+2])
+                                minval, maxval = min(val1, val2), max(val1, val2)
+                                assert maxval - minval <= 360, "Values given to 'rotation_angles' must be within 360 of each other (i.e. it is required that 'maxval - minval <= 360'). Values are '{maxval}' and '{minval}' and difference is: '{maxval} - {minval} = {diff}'".format(maxval=maxval, minval=minval, diff = maxval - minval)
+                                solv_dict["rotation_angles"][order[sub_cmd[i]]] = (minval, maxval)
+                                i += 3
 
                     ### Extra buffer given to proteins
                     elif sub_cmd[0].lower() == "protein_extra_buffer":
@@ -321,7 +358,7 @@ class solv_preprocessor:
                     #########################
                     ### FLOODING SPECIFIC ###
                     #########################
-                    ### Used to check if command is made as flooding or not
+                    ### Used to check if command is made as flooding or solvation
                     elif sub_cmd[0].lower() == "flooding":
                         solv_dict["flooding"] = ast.literal_eval(sub_cmd[1])
                     
@@ -378,9 +415,9 @@ class solv_preprocessor:
                     "zlength": solv_dict["zlength"]*10,
                     "center": [val*10 for val in solv_dict["center"]],
                     
-                    "kick":        solv_dict["kick"]*10,
+                    "kick":        [val*10 for val in solv_dict["kick"]],
                     "bead_radius": solv_dict["bead_radius"]*10,
-                    "gridres":     solv_dict["gridres"]*10,
+                    "gridres":     [val*10 for val in solv_dict["gridres"]],
                     
                     "buffer":               solv_dict["buffer"]*10,
                     "protein_extra_buffer": solv_dict["protein_extra_buffer"]*10,
@@ -522,7 +559,9 @@ class solv_preprocessor:
                     params = solv_dict["params"] or self.solv_params or self.sys_params
                     charge = solv_dict["charge"]
 
-                    all_subcmd_names = ["params", "charge", "ratio", "name"]
+                    all_subcmd_names = ["params", "charge", "ratio", "name", "scale", "scale_x", "scale_y", "scale_z"]
+                    scaling  = [1, 1, 1]
+                    rotation = [0, 0, 0]
 
                     i = 0
                     while i < len(sub_cmd):
@@ -541,6 +580,30 @@ class solv_preprocessor:
                             i += 2
                         elif sub_cmd[i] == "name":
                             name = sub_cmd[i+1]
+                            i += 2
+                        elif sub_cmd[i].lower() == "scale":
+                            scaling = [ast.literal_eval(sub_cmd[i+1+j]) for j in range(3)]
+                            i += 4
+                        elif sub_cmd[i].lower() == "scale_x":
+                            scaling[0] = ast.literal_eval(sub_cmd[i+1])
+                            i += 2
+                        elif sub_cmd[i].lower() == "scale_y":
+                            scaling[1] = ast.literal_eval(sub_cmd[i+1])
+                            i += 2
+                        elif sub_cmd[i].lower() == "scale_z":
+                            scaling[2] = ast.literal_eval(sub_cmd[i+1])
+                            i += 2
+                        elif sub_cmd[i].lower() == "rotate":
+                            rotation = [ast.literal_eval(sub_cmd[i+1+j]) for j in range(3)]
+                            i += 4
+                        elif sub_cmd[i].lower() == "rotate_x":
+                            rotation[0] = ast.literal_eval(sub_cmd[i+1])
+                            i += 2
+                        elif sub_cmd[i].lower() == "rotate_y":
+                            rotation[1] = ast.literal_eval(sub_cmd[i+1])
+                            i += 2
+                        elif sub_cmd[i].lower() == "rotate_z":
+                            rotation[2] = ast.literal_eval(sub_cmd[i+1])
                             i += 2
                         else: ### Assumes that it is the solvent/solute/ion name and potentially ratio
                             name = sub_cmd[i]
@@ -596,6 +659,11 @@ class solv_preprocessor:
                             solv_ratio_type = "neg_tot_ratio"
                             molarity = solv_dict["salt_molarity"]
                     
+                    ### Scaling and rotation all bead coordinates.
+                    ### Re-centering should not be necessary here as the molecules are already centered along all axes.
+                    solv_dict[solv_type][name].scale_coords(scaling)
+                    solv_dict[solv_type][name].rotate_coords(rotation)
+
                     if solv_dict[solv_type][name].moleculetype is not False:
                         moleculetype = solv_dict[solv_type][name].moleculetype
                     else:

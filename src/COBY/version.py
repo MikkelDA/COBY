@@ -1,30 +1,44 @@
-__version__="1.0.6"
+__version__="1.0.7"
 
 major_changes = [
+    "Added 'scale', 'scale_x', 'scale_y' and 'scale_z' subsubarguments for the 'lipid', 'solvent', 'solute', 'pos_ion' and 'neg_ion' subarguments",
+    [
+        "'scale_x:val', 'scale_y:val' and 'scale_z:val' can be used to scale the coordinates along any given axis of any given molecule.",
+        "'scale:xval:yval:zval' can be used to scale all the x/y/z-coordinates of any given molecule in a single subsubargument. All three values must be given.",
+    ],
+    "Added 'rotate', 'rotate_x', 'rotate_y' and 'rotate_z' subsubarguments for the 'lipid', 'solvent', 'solute', 'pos_ion' and 'neg_ion' subarguments",
+    [
+        "'rotate_x:val', 'rotate_y:val' and 'rotate_z:val' can be used to scale the coordinates along any given axis of any given molecule.",
+        "'rotate:xval:yval:zval' can be used to rotate all the x/y/z-coordinates of any given molecule in a single subsubargument. All three values must be given.",
+    ],
+    "Added 'interleaflet_buffer' subargument for membrane argument. Allows one to set the buffer distance between the middle of a membrane and the lipids. Can be given to the whole membrane or each leaflet individually.",
+    "Added 'rotation_angles' subargument to solvation and flooding arguments. Allows one to set the allowed range of rotations for molecules along each axis.",
+    [
+        "Accepts 'xval1:xval2:yval1:yval2:zval1:zval2' or any combination of 'x:val1:val2', 'y:val1:val2' and 'z:val1:val2' (example: rotation_angles:z:-40:40:y:-50:80)",
+        "The values must be within 360 of each other (i.e. it is required that 'maxval - minval <= 360'). All val1 and val2 values are -180 and 180, respectively, by default."
+    ]
 ]
 
 minor_changes = [
-    "Added even more name alternatives for sodium and chloride ions.",
-    "Allows for specific selection of the algorithm used for initially placing lipids using the subargument 'grid_maker_placement_algorithm'",
-    [
-        "Allowed settings are: 'automatic' (default), '2D_grid' and 'LineStrings' (none of them are case sensitive)",
-    ],
-    "Changed name of the 'grid_maker_algorithm' subargument to 'grid_maker_grouping_algorithm' to avoid confusing it with the new 'grid_maker_placement_algorithm' subargument",
 ]
 
 bug_fixes = [
-    "Fixed distances being accidentally calculated twice during neighborlist searches in the lipid optimization.",
-    "Fixed crash when loading protein files caused by improper checking of values.",
-    "Fixed potential crash when using 'plot_grid' functionality.",
+    "Fixed a bug where the lipid grouping algorithm would separate lipids into different groups when they should be contained within a single group.",
+    "Fixed a bug where no radius groups were created causing no lipids to be placed but did not result in a crash.",
 ]
 
 documentation_changes = [
+    "Added documentation for the new 'scale', 'rotate', 'interleaflet_buffer' and 'rotation_angles' functionalities."
 ]
 
 tutorial_changes = [
 ]
 
 other_changes = [
+    "Added a 'known issues' section to the front page README file.",
+    [
+        "Added 'Recursion depth crash on Mac' to the list of known issues."
+    ]
 ]
 
 def version_change_writer(iterable, recursion_depth = 0):

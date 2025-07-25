@@ -30,7 +30,6 @@ class molecule_beads_checker:
         if type_of_molecule == "solvent":
             lz = [zi * bdz * 10 for zi in zs]
         elif type_of_molecule == "lipid":
-            inter_leaflet_buffer = 1.5
-            lz = [(zi - minz) * bdz * 10 + inter_leaflet_buffer for zi in zs]
+            lz = [(zi - minz) * bdz * 10 for zi in zs]
         
         return beads, lx, ly, lz

@@ -225,7 +225,7 @@ class memb_preprocessor:
                         ### ### ### Grid maker settings ### ### ###
                         ### ### ### ################### ### ### ###
                         ### Sets which algorithm to use for the grid making process
-                        "grid_maker_grouping_algorithm": "iterative_groups", # "iterative_groups", "no_groups" or "3D_matrix"
+                        "grid_maker_grouping_algorithm": "automatic", # "automatic", "iterative_groups", "no_groups" or "3D_matrix"
                         ### Limiter used to set when '2D_grid' and 'LineStrings' algorithms should be used.
                         "grid_maker_area_portion_limiter": 0.7, # 0.7 = 70%
                         ### 'automatic' (uses grid_maker_area_portion_limiter), '2D_grid', 'LineStrings'
@@ -256,6 +256,9 @@ class memb_preprocessor:
 
                         ### Misc
                         "rotate_lipids": True, # Sets whether lipids should be randomly rotated or not
+
+                        ### The buffer distance used to move lipids away from the center of the membrane
+                        "interleaflet_buffer": 0.15, # [nm] converted to [Å]
 
                         ### Sets whether the hydrophobic volume of the leaflet is solvatable
                         ### True values must be paired with True values in a "solvation" argument
@@ -599,8 +602,10 @@ class memb_preprocessor:
                     elif sub_cmd[0].lower().startswith(("grid_maker_", "gm_")):
                         ### Sets the algorithm to be used
                         if sub_cmd[0].lower().endswith(("_galg", "grouping_algorithm")):
-                            assert sub_cmd[1].lower() in ["ig", "iterative_groups", "ng", "no_groups", "3d", "3d_matrix"], "The 'grid_maker_grouping_algorithm' setting only accepts 'iterative_groups'/'ig', 'no_groups'/'ng' and '3D_matrix'/'3d' (experimental)"
-                            if sub_cmd[1].lower() in ["ig", "iterative_groups"]:
+                            assert sub_cmd[1].lower() in ["auto", "automatic", "ig", "iterative_groups", "ng", "no_groups", "3d", "3d_matrix"], "The 'grid_maker_grouping_algorithm' setting only accepts 'iterative_groups'/'ig', 'no_groups'/'ng' and '3D_matrix'/'3d' (experimental)"
+                            if sub_cmd[1].lower() in ["auto", "automatic"]:
+                                settings_dict[dict_target]["grid_maker_grouping_algorithm"] = "iterative_groups"
+                            elif sub_cmd[1].lower() in ["ig", "iterative_groups"]:
                                 settings_dict[dict_target]["grid_maker_grouping_algorithm"] = "iterative_groups"
                             elif sub_cmd[1].lower() in ["ng", "no_groups"]:
                                 settings_dict[dict_target]["grid_maker_grouping_algorithm"] = "no_groups"
@@ -695,6 +700,10 @@ class memb_preprocessor:
                     ### Sets whether lipids should be rotated or not [True/False]
                     elif sub_cmd[0].lower() == "rotate_lipids":
                         settings_dict[dict_target]["rotate_lipids"] = ast.literal_eval(sub_cmd[1])
+                    
+                    ### Sets the buffer distance used to move lipids away from the center of the membrane
+                    elif sub_cmd[0].lower() == "interleaflet_buffer":
+                        settings_dict[dict_target]["interleaflet_buffer"] = ast.literal_eval(sub_cmd[1])
                     
                     ### Sets whether the hydrophobic volume of the leaflet is solvatable [True/False]
                     elif sub_cmd[0].lower() == "solvate_hydrophobic_volume":
@@ -863,7 +872,9 @@ class memb_preprocessor:
                             elif lipid_argtype == "lipids_extra":
                                 ratio = 0
                             
-                            all_subcmd_names = ["params", "charge", "ratio", "name"]
+                            all_subcmd_names = ["params", "charge", "ratio", "name", "z_offset", "scale", "scale_x", "scale_y", "scale_z", "apl", "extra_type", "extra_val"]
+                            scaling  = [1, 1, 1]
+                            rotation = [0, 0, 0]
 
                             i = 0
                             while i < len(sub_cmd):
@@ -887,6 +898,30 @@ class memb_preprocessor:
                                     ### max(0, val) ensures lipids cannot end up overlapping with the other leaflet
                                     ### val*10 to convert from [nm] to [Å]
                                     z_offset = max(0, ast.literal_eval(sub_cmd[i+1]) * 10)
+                                    i += 2
+                                elif sub_cmd[i].lower() == "scale":
+                                    scaling = [ast.literal_eval(sub_cmd[i+1+j]) for j in range(3)]
+                                    i += 4
+                                elif sub_cmd[i].lower() == "scale_x":
+                                    scaling[0] = ast.literal_eval(sub_cmd[i+1])
+                                    i += 2
+                                elif sub_cmd[i].lower() == "scale_y":
+                                    scaling[1] = ast.literal_eval(sub_cmd[i+1])
+                                    i += 2
+                                elif sub_cmd[i].lower() == "scale_z":
+                                    scaling[2] = ast.literal_eval(sub_cmd[i+1])
+                                    i += 2
+                                elif sub_cmd[i].lower() == "rotate":
+                                    rotation = [ast.literal_eval(sub_cmd[i+1+j]) for j in range(3)]
+                                    i += 4
+                                elif sub_cmd[i].lower() == "rotate_x":
+                                    rotation[0] = ast.literal_eval(sub_cmd[i+1])
+                                    i += 2
+                                elif sub_cmd[i].lower() == "rotate_y":
+                                    rotation[1] = ast.literal_eval(sub_cmd[i+1])
+                                    i += 2
+                                elif sub_cmd[i].lower() == "rotate_z":
+                                    rotation[2] = ast.literal_eval(sub_cmd[i+1])
                                     i += 2
                                 elif sub_cmd[i].lower() == "apl"  and lipid_argtype == "lipids": # Not used for "lipid_extra"
                                     apl = ast.literal_eval(sub_cmd[i+1]) * 100 # Converting from [nm^2] to [Å^2]
@@ -920,6 +955,19 @@ class memb_preprocessor:
                             ])
                             
                             lipid = copy.deepcopy(self.lipid_dict[params][name])
+
+                            ### Scaling all bead coordinates.
+                            lipid.scale_coords(scaling)
+                            lipid.rotate_coords(rotation)
+
+                            ### Fixes beads in case they have been placed in unaccepted positions by scaling or rotation
+                            ### Also moves them slightly away from the center of the membrane by interleaflet_buffer (moved to here from molecule_beads_checker() and lipid_scaffolds_preprocessor() in v1.0.7)
+                            beads                = lipid.get_beads(AXs="all")
+                            minz                 = min(list(zip(*beads))[2])
+                            new_zs               = [(z - minz) + leaflet["interleaflet_buffer"] for z in list(zip(*beads))[2]]
+                            new_beads            = [(x, y, new_z) for (x, y, z), new_z in zip(beads, new_zs)]
+                            lipid.move_coords_to(new_coords = new_beads)
+                            lipid.set_coords_to_center(centering = "axis", AXs = "xy")
 
                             lipid.ratio_add(ratio)
                             tot_ratio += lipid.ratio
