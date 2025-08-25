@@ -25,7 +25,9 @@ class prot_preprocessor:
                     ### Separate way to rotate multiple times
                     "rotate": [],
                     
+                    "center_protein": True,
                     "cen_method": ("cog",), # "axis" (axial center), "mean" (mean of all points), "bead:INT", "res:INT" or "point:x:y:z"
+
                     "lipids_inside": False, # [bool]
                     
                     "pbc_check": True,
@@ -47,8 +49,13 @@ class prot_preprocessor:
                         ### Find file name
                         file_name = sub_cmd[1]
                         
-                        prot_dict["beads"] = self.structure_importer(file_name)
+                        prot_dict["beads"], prot_dict["box_info"] = self.structure_importer(file_name, return_box_info = True)
                     
+                    ### Sets whether to center the protein in the box or use its position in the input box (relative to the input box center)
+                    elif sub_cmd[0].lower() == "center_protein":
+                        assert sub_cmd[1] in ["True", "False", "1", "0"], "Value given to 'center_protein' must either be 'True', '1', 'False' or '0'"
+                        prot_dict["center_protein"] = bool(ast.literal_eval(sub_cmd[1]))
+
                     ### Center methods "cog" / "mean_of_beads" (mean of all points) (default), "axis" / "mean_of_extremes" (axial center), "bead:INT", "res:INT" or "point:x:y:z"
                     elif sub_cmd[0].lower() in ["cen_method", "centering_method"]:
                         if sub_cmd[1].lower() in ["cog", "mean_of_beads"] + ["axis", "mean_of_extremes"]:
@@ -127,6 +134,8 @@ class prot_preprocessor:
                     ### Errors out if unknown subargument used, and prints the subargument to console
                     else:
                         assert False, "Unknown subargument given to 'protein' argument. The subargument is: '" + str(cmd) + "'"
+
+                assert "beads" in prot_dict, "Subargument 'file' must be given in protein arguments."
                 
                 ### Checks rotation subarguments short and long versions are mutually exclusive to prevent confusion from using both
                 assert not (prot_dict["rotate"] and any([prot_dict["rx"], prot_dict["ry"], prot_dict["rz"]])), "'rotate' and individual 'rx'/'ry'/'rz' subarguments are mutually exclusive."

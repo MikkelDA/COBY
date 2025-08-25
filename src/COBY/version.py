@@ -1,44 +1,24 @@
-__version__="1.0.7"
+__version__="1.0.8"
 
 major_changes = [
-    "Added 'scale', 'scale_x', 'scale_y' and 'scale_z' subsubarguments for the 'lipid', 'solvent', 'solute', 'pos_ion' and 'neg_ion' subarguments",
-    [
-        "'scale_x:val', 'scale_y:val' and 'scale_z:val' can be used to scale the coordinates along any given axis of any given molecule.",
-        "'scale:xval:yval:zval' can be used to scale all the x/y/z-coordinates of any given molecule in a single subsubargument. All three values must be given.",
-    ],
-    "Added 'rotate', 'rotate_x', 'rotate_y' and 'rotate_z' subsubarguments for the 'lipid', 'solvent', 'solute', 'pos_ion' and 'neg_ion' subarguments",
-    [
-        "'rotate_x:val', 'rotate_y:val' and 'rotate_z:val' can be used to scale the coordinates along any given axis of any given molecule.",
-        "'rotate:xval:yval:zval' can be used to rotate all the x/y/z-coordinates of any given molecule in a single subsubargument. All three values must be given.",
-    ],
-    "Added 'interleaflet_buffer' subargument for membrane argument. Allows one to set the buffer distance between the middle of a membrane and the lipids. Can be given to the whole membrane or each leaflet individually.",
-    "Added 'rotation_angles' subargument to solvation and flooding arguments. Allows one to set the allowed range of rotations for molecules along each axis.",
-    [
-        "Accepts 'xval1:xval2:yval1:yval2:zval1:zval2' or any combination of 'x:val1:val2', 'y:val1:val2' and 'z:val1:val2' (example: rotation_angles:z:-40:40:y:-50:80)",
-        "The values must be within 360 of each other (i.e. it is required that 'maxval - minval <= 360'). All val1 and val2 values are -180 and 180, respectively, by default."
-    ]
 ]
 
 minor_changes = [
+    "Added 'center_protein' subargument to the protein argument. It allows the user to disable centering of inserted proteins. It accepts bools (True/1 and False/0) and the default values i True. Requires box information to be present in the imported structure to work properly if turned off.",
+    "Added check and error message for 'protein' argument telling the user that the 'file' subargument must be used.",
 ]
 
 bug_fixes = [
-    "Fixed a bug where the lipid grouping algorithm would separate lipids into different groups when they should be contained within a single group.",
-    "Fixed a bug where no radius groups were created causing no lipids to be placed but did not result in a crash.",
+    "Fixed incorrectly written '_cell.angle_gamma' for written mmcif files.",
 ]
 
 documentation_changes = [
-    "Added documentation for the new 'scale', 'rotate', 'interleaflet_buffer' and 'rotation_angles' functionalities."
 ]
 
 tutorial_changes = [
 ]
 
 other_changes = [
-    "Added a 'known issues' section to the front page README file.",
-    [
-        "Added 'Recursion depth crash on Mac' to the list of known issues."
-    ]
 ]
 
 def version_change_writer(iterable, recursion_depth = 0):

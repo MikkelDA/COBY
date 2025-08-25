@@ -46,7 +46,7 @@ class system_file_writer:
                 "_cell.length_c    " + str(c),
                 "_cell.angle_alpha " + str(alpha),
                 "_cell.angle_beta  " + str(beta),
-                "_cell.angle_gamm  " + str(gamma),
+                "_cell.angle_gamma " + str(gamma),
                 "_cell.Z_PDB       " + str(1),
                 "#",
                 "loop_",

@@ -26,43 +26,49 @@ class protein_placer:
                 ### CENTERING ###
                 #################
 
-                ### Centered on the mean of largest/smallest x/y/z coordinate
-                if protein["cen_method"][0] in ["cog", "mean_of_beads"]: # Default
-                    centering = "mean_of_beads"
-                    target = False
+                ### Centers the protein using the given centering algorithm
+                if protein["center_protein"]:
+                    ### Centered on the mean of largest/smallest x/y/z coordinate
+                    if protein["cen_method"][0] in ["cog", "mean_of_beads"]: # Default
+                        centering = "mean_of_beads"
+                        target = False
 
-                ### Centered on the mean coordinate of all beads (center of geometry)
-                elif protein["cen_method"][0] in ["axis", "mean_of_extremes"]:
-                    centering = "mean_of_extremes"
-                    target = False
+                    ### Centered on the mean coordinate of all beads (center of geometry)
+                    elif protein["cen_method"][0] in ["axis", "mean_of_extremes"]:
+                        centering = "mean_of_extremes"
+                        target = False
 
-                ### Centered on a single bead
-                elif protein["cen_method"][0].startswith("bead"):
-                    centering = "beadnr"
-                    if len(protein["cen_method"][0]) > 4:
-                        centering = centering + protein["cen_method"][0][4:]
-                    target = protein["cen_method"][1] # a list of bead numbers
+                    ### Centered on a single bead
+                    elif protein["cen_method"][0].startswith("bead"):
+                        centering = "beadnr"
+                        if len(protein["cen_method"][0]) > 4:
+                            centering = centering + protein["cen_method"][0][4:]
+                        target = protein["cen_method"][1] # a list of bead numbers
 
-                ### Centered on the mean position of all beads in a single residue
-                elif protein["cen_method"][0].startswith("res"):
-                    centering = "resnr"
-                    if len(protein["cen_method"][0]) > 3:
-                        centering = centering + protein["cen_method"][0][3:]
-                    target = protein["cen_method"][1] # a list of residue numbers
+                    ### Centered on the mean position of all beads in a single residue
+                    elif protein["cen_method"][0].startswith("res"):
+                        centering = "resnr"
+                        if len(protein["cen_method"][0]) > 3:
+                            centering = centering + protein["cen_method"][0][3:]
+                        target = protein["cen_method"][1] # a list of residue numbers
 
-                ### Centered on the specific x/y/z coordinates
-                elif protein["cen_method"][0] == "point":
-                    centering = "vals"
-                    target = protein["cen_method"][1:]
-                
-                xcen, ycen, zcen = self.PROTEINS[protein_nr]["protein"].get_center_point(centering = centering, target = target)
-                self.print_term(
-                    "Centering protein using", "'" + " ".join([str(i) for i in protein["cen_method"]])+"'",
-                    "at x/y/z:", round(xcen, 3), round(ycen, 3), round(zcen, 3), "(Input file coordinate system [Å])",
-                    spaces=1,
-                    verbose=2
-                )
-                self.PROTEINS[protein_nr]["protein"].set_coords_to_center(centering = centering, target = target)
+                    ### Centered on the specific x/y/z coordinates
+                    elif protein["cen_method"][0] == "point":
+                        centering = "vals"
+                        target = protein["cen_method"][1:]
+                    
+                    xcen, ycen, zcen = self.PROTEINS[protein_nr]["protein"].get_center_point(centering = centering, target = target)
+                    self.print_term(
+                        "Centering protein using", "'" + " ".join([str(i) for i in protein["cen_method"]])+"'",
+                        "at x/y/z:", round(xcen, 3), round(ycen, 3), round(zcen, 3), "(Input file coordinate system [Å])",
+                        spaces=1,
+                        verbose=2
+                    )
+                    self.PROTEINS[protein_nr]["protein"].set_coords_to_center(centering = centering, target = target)
+                else:
+                    ### Adjusts the coordinates to account for centrosymmetric box used in COBY
+                    xlen, ylen, zlen = self.PROTEINS[protein_nr]["box_info"]["x"], self.PROTEINS[protein_nr]["box_info"]["y"], self.PROTEINS[protein_nr]["box_info"]["z"]
+                    self.PROTEINS[protein_nr]["protein"].move_coords(translation = [-xlen/2, -ylen/2, -zlen/2])
 
                 #################
                 ### ROTATIONS ###
@@ -93,7 +99,7 @@ class protein_placer:
                                 self.PROTEINS[protein_nr]["protein"].residues[ri].beads[bi].move_atom(*checked_beads)
 
                     if errors_count > 0:
-                        self.print_term("WARNING:", str(errors_count), "Protein beads are outside pbc. Moved to other side. Expect potential problems from this. Please move the protein such that it fits within the pbc.", warn = True, spaces=2)
+                        self.print_term(str(errors_count), "Protein beads are outside pbc. Moved to other side. Expect potential problems from this. Please move the protein such that it fits within the pbc.", warn = True, spaces=2)
 
                 xcen_new, ycen_new, zcen_new = 0, 0, 0
                 xcen_new, ycen_new, zcen_new = xcen_new + cx, ycen_new + cy, zcen_new + cz
