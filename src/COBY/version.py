@@ -1,15 +1,13 @@
-__version__="1.0.8"
+__version__="1.0.9"
 
 major_changes = [
 ]
 
 minor_changes = [
-    "Added 'center_protein' subargument to the protein argument. It allows the user to disable centering of inserted proteins. It accepts bools (True/1 and False/0) and the default values i True. Requires box information to be present in the imported structure to work properly if turned off.",
-    "Added check and error message for 'protein' argument telling the user that the 'file' subargument must be used.",
 ]
 
 bug_fixes = [
-    "Fixed incorrectly written '_cell.angle_gamma' for written mmcif files.",
+    "Fixed bug making lipids in different being too close to each other."
 ]
 
 documentation_changes = [

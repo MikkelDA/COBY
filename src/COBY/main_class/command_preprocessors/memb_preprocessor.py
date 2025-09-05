@@ -822,6 +822,7 @@ class memb_preprocessor:
                     leaflet["kickxy"] *= 10
                     leaflet["kickz"] *= 10
                     leaflet["z_offset"] *= 10
+                    leaflet["interleaflet_buffer"] *= 10
                     if self.debug_prints == True and (len(self.debug_keys) == 0 or "membrane_preprocessor" in self.debug_keys):
                         self.print_term('leaflet["apl"]', leaflet["apl"], debug=True, debug_keys=["membrane_preprocessor"])
                         self.print_term("", debug=True, debug_keys=["membrane_preprocessor"]) # Spacing

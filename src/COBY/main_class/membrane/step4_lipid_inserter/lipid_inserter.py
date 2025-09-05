@@ -26,7 +26,7 @@ class lipid_inserter:
                         lipids      = subleaflet["lipids"]
                         grid_points = subleaflet["grid_points"]
                         for (l_name, l_radius), (grid_point_x, grid_point_y, grid_point_z) in zip(lipids, grid_points):
-
+                            
                             leaflet["grid_lipids"].append({
                                 "grid_point_x": grid_point_x,
                                 "grid_point_y": grid_point_y,

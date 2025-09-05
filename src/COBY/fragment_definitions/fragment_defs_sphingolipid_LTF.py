@@ -129,7 +129,7 @@ inositol_head_charges = {
 #  -x   |   x+
 # <----PO4---->
 
-#              C1      C2     C3      C4  PO4     P3   P4    P5
+#              C1      C2     C3      C4  PO4     P3       P4      P5
 inostiol_x = (  0,   -0.2,   0.2,      0,   0, 0.275,   0.175,   -0.2)
 inostiol_y = (  0,      0,     0,      0,   0,     0,       0,      0)
 inostiol_z = (1/3,    2/3, 1.75/3, 1.5/3,   0, 2.25/3,  2.5/3, 2.75/3)
