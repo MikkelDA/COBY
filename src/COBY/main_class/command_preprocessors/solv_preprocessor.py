@@ -55,7 +55,6 @@ class solv_preprocessor:
                     
                     "params": False, # False or str
                     "bead_radius": 0.264, # [nm] converted to [Å] # Used for volume calculations
-                    # "gridres": 0.264, # [nm] converted to [Å] # 2.64
                     "gridres": [0.264, 0.264, 0.264], # [nm] converted to [Å] # 2.64
                     
                     "buffer": 0.2, # [nm] converted to [Å]
@@ -226,7 +225,6 @@ class solv_preprocessor:
 
                     ### Grid resolution
                     elif sub_cmd[0].lower() == "gridres":
-                        # solv_dict["gridres"] = ast.literal_eval(sub_cmd[1])
                         assert len(sub_cmd[1:]) in [1, 3], "subargument 'gridres' only accepts 1 or 3 values." # Either one universal value of 3 separate values
                         if len(sub_cmd[1:]) == 1:
                             solv_dict["gridres"] = [ast.literal_eval(sub_cmd[1]) for _ in range(3)]

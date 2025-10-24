@@ -279,35 +279,193 @@ class molecule_defs_checker(molecule_beads_checker, rotation_matrix_from_vectors
         self.print_term("    ", "moleculetype     ", mol_class.moleculetype, debug=True)
 
         ### Rotates a lipid such that it is vertically aligned based on the designated upwards and downwards pointing beads
-        if type_of_molecule == "lipid" and "upbeads" in cur_dict.keys() and "downbeads" in cur_dict.keys():
-            up_coords = []
-            down_coords = []
-            for beadname, coords_list in [("upbeads", up_coords), ("downbeads", down_coords)]:
-                for res_nr, bead_nr in cur_dict[beadname]:
-                    x = round(residues_list[res_nr]["x"][bead_nr], 4)
-                    y = round(residues_list[res_nr]["y"][bead_nr], 4)
-                    z = round(residues_list[res_nr]["z"][bead_nr], 4)
-                    coords_list.append((x, y, z))
+        ### ### First version aligns based on line between middle of upbeads and middle of downbeads
+        if "alignment" in cur_dict.keys():
+            if cur_dict["alignment"] == "manual":
+                up_coords = []
+                down_coords = []
+                for beadname, coords_list in [("upbeads", up_coords), ("downbeads", down_coords)]:
+                    for res_nr, bead_nr in cur_dict[beadname]:
+                        x = round(residues_list[res_nr]["x"][bead_nr], 4)
+                        y = round(residues_list[res_nr]["y"][bead_nr], 4)
+                        z = round(residues_list[res_nr]["z"][bead_nr], 4)
+                        coords_list.append((x, y, z))
+                
+                up_coords_array        = np.array(up_coords)
+                down_coords_array      = np.array(down_coords)
+                up_coords_mean         = np.mean(up_coords_array, axis=0)
+                down_coords_mean       = np.mean(down_coords_array, axis=0)
+                original_vector        = up_coords_mean - down_coords_mean
+                original_vector_length = math.sqrt(original_vector[0]**2 + original_vector[1]**2+original_vector[2]**2)
+                alignment_vector       = [0, 0, original_vector_length]
+                rotation_matrix        = self.rotation_matrix_from_vectors(original_vector, alignment_vector)
+                for res_nr, res_dict in enumerate(residues_list, 0):
+                    xs, ys, zs = res_dict["x"], res_dict["y"], res_dict["z"]
+                    new_xs, new_ys, new_zs = [], [], []
+                    for x, y, z in zip(xs, ys, zs):
+                        coord = np.array((x, y, z))
+                        new_coord = np.dot(coord, rotation_matrix.T)
+                        new_xs.append(new_coord[0])
+                        new_ys.append(new_coord[1])
+                        new_zs.append(new_coord[2])
+                    res_dict["x"], res_dict["y"], res_dict["z"] = new_xs, new_ys, new_zs
             
-            up_coords_array        = np.array(up_coords)
-            down_coords_array      = np.array(down_coords)
-            up_coords_mean         = np.mean(up_coords_array, axis=0)
-            down_coords_mean       = np.mean(down_coords_array, axis=0)
-            original_vector        = up_coords_mean - down_coords_mean
-            original_vector_length = math.sqrt(original_vector[0]**2 + original_vector[1]**2+original_vector[2]**2)
-            alignment_vector       = [0, 0, original_vector_length]
-            rotation_matrix        = self.rotation_matrix_from_vectors(original_vector, alignment_vector)
-            for res_nr, res_dict in enumerate(residues_list, 0):
-                xs, ys, zs = res_dict["x"], res_dict["y"], res_dict["z"]
-                new_xs, new_ys, new_zs = [], [], []
-                for x, y, z in zip(xs, ys, zs):
-                    coord = np.array((x, y, z))
-                    new_coord = np.dot(coord, rotation_matrix.T)
-                    new_xs.append(new_coord[0])
-                    new_ys.append(new_coord[1])
-                    new_zs.append(new_coord[2])
-                res_dict["x"], res_dict["y"], res_dict["z"] = new_xs, new_ys, new_zs
-        
+            ### ### Second version aligns based on principal axis using a principal component analysis.
+            ### ### Uses "upbeads" or "downbeads" to determine if final structure should be rotated 180 degrees around the x-axis to ensure "upbeads" are pointing up / "downbeads" are pointing down.
+            elif cur_dict["alignment"] == "principal":
+
+                ### Code in the following three functions was specifically written with a lot of help from ChatGPT. Beware of potential errors.
+                def rodrigues_rotation_formula(axis, theta):
+                    """
+                    Rodrigues' rotation formula to create a rotation matrix.
+                    """
+                    axis = np.asarray(axis, dtype=float)
+                    axis = axis / np.linalg.norm(axis)
+                    a    = np.cos(theta)
+                    b    = np.sin(theta)
+
+                    K = np.array([
+                        [       0, -axis[2],  axis[1]],
+                        [ axis[2],        0, -axis[0]],
+                        [-axis[1],  axis[0],        0],
+                    ])
+
+                    R = a * np.eye(3) + b * K + (1 - a) * np.outer(axis, axis)
+                    return R
+
+                def principal_axis_to_z(points):
+                    """
+                    Given an (N,3) array of 3D points, compute a rotation matrix that aligns the
+                    principal axis (direction of maximum variance) with the z-axis [0, 0, 1].
+                    Returns:
+                        R : (3,3) rotation matrix
+                        pts_rot : (N,3) rotated points (after centering and rotation)
+                        principal : (3,) principal axis (unit vector, in original coordinates)
+                        var_explained : fraction of total variance along the principal axis
+                        centroid : (3,) centroid that was subtracted
+                    """
+                    pts = np.asarray(points, dtype=float)
+                    if pts.ndim != 2 or pts.shape[1] != 3:
+                        raise ValueError("points must be an (N,3) array")
+                    
+                    # Center the points
+                    centroid = pts.mean(axis=0)
+                    X        = pts - centroid
+
+                    ### Covariance and eigen decomposition
+                    cov              = np.cov(X, rowvar=False, bias=False)
+                    eigvals, eigvecs = np.linalg.eigh(cov)
+                    idx              = np.argsort(eigvals)[::-1]
+                    eigvals          = eigvals[idx]
+                    eigvecs          = eigvecs[:, idx]
+                    principal        = eigvecs[:, 0] / np.linalg.norm(eigvecs[:, 0])
+                    var_explained    = eigvals[0] / np.sum(eigvals)
+
+                    ### Compute rotation to z-axis
+                    z     = np.array([0.0, 0.0, 1.0])
+                    dot   = np.clip(np.dot(principal, z), -1.0, 1.0)
+                    angle = math.acos(dot)
+
+                    if math.isclose(angle, 0.0, abs_tol=1e-12):
+                        R = np.eye(3)
+                    elif math.isclose(angle, np.pi, rel_tol=1e-12, abs_tol=1e-12):
+                        ### 180 degree rotation: choose arbitrary perpendicular axis
+                        v     = np.array([1.0, 0.0, 0.0]) if abs(principal[0]) < abs(principal[1]) else np.array([0.0, 1.0, 0.0])
+                        axis  = np.cross(principal, v)
+                        axis /= np.linalg.norm(axis)
+                        R     = rodrigues_rotation_formula(axis, np.pi)
+                    else:
+                        axis  = np.cross(principal, z)
+                        axis /= np.linalg.norm(axis)
+                        R     = rodrigues_rotation_formula(axis, angle)
+
+                    pts_rot = (R @ X.T).T
+
+                    return R, pts_rot, principal, var_explained, centroid
+
+                def rotate_x_180(points):
+                    """
+                    Rotates an (N,3) array of 3D points 180 degrees around the x-axis.
+                    Returns rotated points.
+                    """
+                    ### 180° rotation matrix around x-axis
+                    R = np.array([
+                        [1,  0,  0],
+                        [0, -1,  0],
+                        [0,  0, -1]
+                    ])
+                    return (R @ points.T).T
+
+                ### First get particle points into a usable format
+                points = []
+                for res_nr, res_dict in enumerate(residues_list, 0):
+                    xs, ys, zs = res_dict["x"], res_dict["y"], res_dict["z"]
+                    points.extend(list(zip(xs, ys, zs)))
+                points = np.array(points)
+
+                ### Run principal axis aligner
+                R, points_rotated, principal, explained, centroid = principal_axis_to_z(points)
+
+                self.print_term("Principal axis (unit vector, original coords):", principal, spaces=3, debug=True, debug_keys=["molecule_defs_checker"])
+                self.print_term("Variance explained by principal axis:", explained,          spaces=3, debug=True, debug_keys=["molecule_defs_checker"])
+                self.print_term("Centroid (subtracted):", centroid,                          spaces=3, debug=True, debug_keys=["molecule_defs_checker"])
+                self.print_term("Rotation matrix R:\n", R,                                   spaces=3, debug=True, debug_keys=["molecule_defs_checker"])
+
+                ### Check if both of up/down beads have been given
+                assert not ("upbeads" in cur_dict.keys() and "downbeads" in cur_dict.keys()), "Both 'upbeads' and 'downbeads' have been specified for molecule '{cur_name}' while the 'principal' alignment method is being used. Please only use one of the two beads with 'principal' alignment.".format(cur_name=cur_name)
+                
+                ### Check if either of up/down beads has been given
+                assert "upbeads" in cur_dict.keys() or "downbeads" in cur_dict.keys(), "Neither 'upbeads' nor 'downbeads' have been specified for molecule '{cur_name}' while the 'principal' alignment method is being used. Please specify exactly one of the two with 'principal' alignment.".format(cur_name=cur_name)
+                
+                ### Check which of up/down beads has given
+                pointer_direction = False
+                if "upbeads" in cur_dict.keys():
+                    pointer_direction = "upbeads"
+                elif "downbeads" in cur_dict.keys():
+                    pointer_direction = "downbeads"
+
+                ### Assign new coordinates to general dict and get up/down bead coords
+                bead_i = 0
+                pointer_coords = []
+                for res_nr, res_dict in enumerate(residues_list, 0):
+                    new_xs, new_ys, new_zs = [], [], []
+                    bead_i_in_res = 0
+                    for x, y, z in zip(xs, ys, zs):
+                        new_xs.append(points_rotated[bead_i][0])
+                        new_ys.append(points_rotated[bead_i][1])
+                        new_zs.append(points_rotated[bead_i][2])
+                        if (res_nr, bead_i_in_res) in cur_dict[pointer_direction]:
+                            pointer_coords.append((points_rotated[bead_i][0], points_rotated[bead_i][1], points_rotated[bead_i][2]))
+                        bead_i += 1
+                        bead_i_in_res += 1
+                    res_dict["x"], res_dict["y"], res_dict["z"] = new_xs, new_ys, new_zs
+
+                assert len(pointer_coords) > 0, "The beads {beads} given using '{pointer_direction}' for molecule '{cur_name}' were not found.".format(beads=cur_dict[pointer_direction], pointer_direction=pointer_direction, cur_name=cur_name)
+
+                pointer_coords_array = np.array(pointer_coords)
+                pointer_coords_mean  = np.mean(pointer_coords_array, axis=0)
+
+                points_rotated_mean = np.mean(points_rotated, axis=0)
+
+                ### Check if they are on the right side of the center and rotate 180 around the x-axis if not
+                new_rotated_points = False
+                if pointer_direction == "upbeads" and pointer_coords_mean[2] < points_rotated_mean[2]:
+                    new_rotated_points = rotate_x_180(points_rotated)
+                elif pointer_direction == "downbeads" and pointer_coords_mean[2] > points_rotated_mean[2]:
+                    new_rotated_points = rotate_x_180(points_rotated)
+
+                ### Assign new coordinates to general dict if points have been rotated
+                if new_rotated_points is not False:
+                    bead_i = 0
+                    for res_nr, res_dict in enumerate(residues_list, 0):
+                        new_xs, new_ys, new_zs = [], [], []
+                        for x, y, z in zip(xs, ys, zs):
+                            new_xs.append(new_rotated_points[bead_i][0])
+                            new_ys.append(new_rotated_points[bead_i][1])
+                            new_zs.append(new_rotated_points[bead_i][2])
+                            bead_i += 1
+                        res_dict["x"], res_dict["y"], res_dict["z"] = new_xs, new_ys, new_zs
+
         ### Calculates 'minz' used in 'molecule_beads_checker' with lipids as it must be for all beads not only the beads in a specific residue
         minz = False
         if type_of_molecule == "lipid":

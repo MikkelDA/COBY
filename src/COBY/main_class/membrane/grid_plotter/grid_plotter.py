@@ -604,7 +604,7 @@ class grid_plotter:
         #                 hspace=0.0,
             )
 
-        main_dir = os.path.join(self.PLOT_cmd["path"], "grid_plots")
+        main_dir = os.path.join(self.PLOT_cmd["path"], self.PLOT_cmd["dir"])
         os.makedirs(main_dir, exist_ok=True)
 
         for pi, (keys, vals) in enumerate(list(self.plot_data.items())[:]):
@@ -615,17 +615,20 @@ class grid_plotter:
             ### The 'key' is a tuple with 5 values (membrane number, leaflet designation, subleaflet x-index, subleaflet y-index, subleaflet general index)
             self.print_term("Making plot series", pi,                                         spaces=0, verbose=2)
 
-            self.print_term("Plot details:      ",                                            spaces=1, verbose=2)
-            self.print_term("Membrane nr:       ", keys[0],                                   spaces=2, verbose=2)
-            self.print_term("Leaflet:           ", " ".join(keys[1].capitalize().split("_")), spaces=2, verbose=2)
-            self.print_term("Subleaflet x-index:", keys[2],                                   spaces=2, verbose=2)
-            self.print_term("Subleaflet y-index:", keys[3],                                   spaces=2, verbose=2)
-            self.print_term("Subleaflet nr:     ", keys[4],                                   spaces=2, verbose=2)
+            self.print_term("Plot details:",                                                   spaces=1, verbose=2)
+
+            self.print_term("Membrane nr:        ", keys[0],                                   spaces=2, verbose=2)
+            self.print_term("Leaflet:            ", " ".join(keys[1].capitalize().split("_")), spaces=2, verbose=2)
+            self.print_term("Subleaflet x-index: ", keys[2],                                   spaces=2, verbose=2)
+            self.print_term("Subleaflet y-index: ", keys[3],                                   spaces=2, verbose=2)
+            self.print_term("Subleaflet nr:      ", keys[4],                                   spaces=2, verbose=2)
             
             plot_dir_name = "_".join([str(pi)] + [str(key) for key in keys])
             self.print_term("Plot directory name:", plot_dir_name, spaces=2, verbose=2)
 
             key_dir       = os.path.join(main_dir, plot_dir_name)
+            self.print_term("Plot directory path:", key_dir, spaces=2, verbose=2)
+            
             key_pngs_dir  = os.path.join(key_dir, "optimization")
             gif_file      = os.path.join(key_dir, "animation_of_optimization.gif")
             mp4_file      = os.path.join(key_dir, "animation_of_optimization.mp4")
@@ -646,7 +649,7 @@ class grid_plotter:
 
             self.print_term("Leaflet details:",                                                                       spaces=1, verbose=2)
             self.print_term("X- and Y-axial bounds:", round(xmin, 3), round(xmax, 3), round(ymin, 3), round(ymax, 3), spaces=2, verbose=2)
-            self.print_term("X- and Y- lengths:    ", round(pbcx, 3), round(pbcy, 3),                                 spaces=2, verbose=2)
+            self.print_term("X- and Y-lengths:     ", round(pbcx, 3), round(pbcy, 3),                                 spaces=2, verbose=2)
             # print("row_length", "col_height", round(ncols * (pbcx/pbc_mod), 3), round(nrows * (pbcy/pbc_mod), 3))
 
             self.print_term("Optimization details:", spaces=1, verbose=2)

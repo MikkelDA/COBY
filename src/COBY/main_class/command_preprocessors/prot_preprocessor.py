@@ -181,7 +181,6 @@ class prot_preprocessor:
                         ))
                         ### Assert for len(bead_charges) == n_atoms done further below
                         protein_bead_charges.extend(bead_charges)
-                
 
                 prot_dict["moleculetypes"] = prot_dict["moleculetypes"] or ["_".join(["PROT", str(cmd_nr)])]
                 

@@ -3,8 +3,8 @@ class system_file_writer:
 
         self.print_term("Writing structure files (PDB/GRO)", spaces=0, verbose=1)
             
-        output_system_pdb_file_lines   = []
-        output_system_gro_file_lines   = []
+        output_system_pdb_file_lines = []
+        output_system_gro_file_lines = []
         output_system_cif_file_lines = []
 
         atom_count = self.protein_beads_in_sys + self.lipid_beads_in_sys + self.solvent_beads_in_sys
@@ -68,8 +68,8 @@ class system_file_writer:
 
         self.molecules_for_top = []
 
-        atom_nr    = 0
-        res_nr     = 0
+        atom_nr = 0
+        res_nr  = 0
 
         ### Counting atoms
 

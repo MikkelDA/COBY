@@ -83,14 +83,15 @@ class COBY(
         self.MOLECULE_FRAGMENT_BUILDER_cmds = []
         
         self.PLOT_cmd  = {
-            "make plots":              False,  # Will automatically change to True if any plot_grid argument has been given.
-            "path":                    False,  # No default value, but must be given.
-            "lipid_colors":            "type", # Accepted values are 'type', 'same'.
-            "given_lipid_colors":      {},     # No default given lipid colors.
-            "plot_initial_placement":  True,   # Accepted values are 'True' and 'False'
-            "plot_optimization_steps": True,   # Accepted values are 'True' and 'False'
-            "make_gif":                True,   # Accepted values are 'True' and 'False'
-            "make_mp4":                True,   # Accepted values are 'True' and 'False'
+            "make plots":              False,        # Will automatically change to True if any plot_grid argument has been given.
+            "path":                    False,        # No default value, but must be given.
+            "dir":                     "grid_plots", # Name of directory that files while be placed inside
+            "lipid_colors":            "type",       # Accepted values are 'type', 'same'.
+            "given_lipid_colors":      {},           # No default given lipid colors.
+            "plot_initial_placement":  True,         # Accepted values are 'True' and 'False'
+            "plot_optimization_steps": True,         # Accepted values are 'True' and 'False'
+            "make_gif":                True,         # Accepted values are 'True' and 'False'
+            "make_mp4":                True,         # Accepted values are 'True' and 'False'
         }
         self.plot_data = {}
         
@@ -451,15 +452,22 @@ class COBY(
             
             elif key in ["system_name", "sn"]:
                 self.system_name = cmd
-            
+
             elif key in ["plot_grid"]:
+                ### Sets that plots should be made if any 'plot_grid' subargument is given
                 self.PLOT_cmd["make plots"] = True
                 if type(cmd) not in [list, tuple]:
-                    cmd = [cmd]
+                    cmd = cmd.split()
+                else:
+                    ### Flattens list and splits all strings in list
+                    cmd = [subsubcmd for subcmd in cmd for subsubcmd in subcmd.split()]
                 for plot_cmd in cmd:
                     sub_cmd = plot_cmd.split(":")
                     if sub_cmd[0].lower() == "path":
                         self.PLOT_cmd["path"] = os.path.join(sub_cmd[1])
+
+                    elif sub_cmd[0].lower() == "dir":
+                        self.PLOT_cmd["dir"] = os.path.join(sub_cmd[1])
 
                     elif sub_cmd[0].lower() == "lipid_colors":
                         assert sub_cmd[1].lower() in ("type", "same"), "The subargument 'lipid_colors' for the 'plot_grid' argument only accepts 'type' and 'same'."
@@ -1042,4 +1050,4 @@ class COBY(
         self.print_term("My task is complete. Did i do a good job?", verbose=1)
         COBY_run_toc  = time.time()
         COBY_run_time = round(COBY_run_toc - self.COBY_run_tic, 4)
-        self.print_term("Time spent running COBY:", COBY_run_time, verbose=1)
+        self.print_term("Time spent running COBY:", COBY_run_time, "[s]", verbose=1)

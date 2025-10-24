@@ -14,6 +14,7 @@ class molecule_importer:
                 name           = False
                 upbeads_cmds   = []
                 downbeads_cmds = []
+                alignment      = False # False, "manual" or "principal"
                 charge_cmds    = []
                 library_types  = []
                 ### Solvent-specific values
@@ -71,9 +72,7 @@ class molecule_importer:
                     if sub_cmd[0] == "file":
 
                         ### Find file name
-                        file_name = sub_cmd[1]
-
-                        structure = self.structure_importer(file_name)
+                        structure = self.structure_importer(sub_cmd[1])
                     
                     elif sub_cmd[0] == "params":
                         params = sub_cmd[1]
@@ -90,6 +89,12 @@ class molecule_importer:
                     elif sub_cmd[0] == "charge":
                         charge_cmds.append(sub_cmd)
                     
+                    elif sub_cmd[0] == "alignment":
+                        if alignment == "False":
+                            alignment = False
+                        else:
+                            alignment = sub_cmd[1]
+
                     elif sub_cmd[0] in ["upbead", "upbeads"]:
                         upbeads_cmds.append(sub_cmd[1:])
                     
@@ -142,6 +147,7 @@ class molecule_importer:
                         assert False, "Unknown subargument given to molecule_import: '{sub_cmd}'".format(sub_cmd=sub_cmd)
                     
                 assert len(structure) > 0, "No structure file given (.pdb, .gro and .cif are accepted file formats)"
+                assert alignment in [False, "manual", "principal"], "'alignment' must be either False, 'manual' or 'principal'"
                 nres                             = len(set(list(zip(*structure.keys()))[2]))
 
                 charge                           = False
@@ -194,39 +200,57 @@ class molecule_importer:
                         cur_bead   = False
                         cur_charge = False
                 
-                assert (len(upbeads_cmds) == 0 and len(downbeads_cmds) == 0) or (len(upbeads_cmds) > 0 and len(downbeads_cmds) > 0), "\n".join([
-                    "If you wish to designate the top-most and bottom-most beads then you need to supply at least one bead for each.",
-                    "Top-most beads:    " + str(upbeads_cmds),
-                    "Bottom-most beads: " + str(downbeads_cmds),
-                ])
+                if alignment == "manual":
+                    assert (len(upbeads_cmds) > 0 and len(downbeads_cmds) > 0), "\n".join([
+                        "The alignment method 'manual' requires both the top-most and bottom-most beads to be specified.",
+                        "Top-most beads:    " + str(upbeads_cmds),
+                        "Bottom-most beads: " + str(downbeads_cmds),
+                    ])
+                elif alignment == "principal":
+                    assert (
+                            ### XOR gate
+                            (bool(len(upbeads_cmds) > 0) + bool(len(downbeads_cmds) > 0) == 1) and
+
+                            (len(upbeads_cmds) > 0 or len(downbeads_cmds) > 0) and
+                            (not (len(upbeads_cmds) > 0 and len(downbeads_cmds) > 0))
+                        ), "\n".join([
+                        "If you wish to designate the top-most or bottom-most beads when using 'principal' alignment then you may supply at least one bead for one of them (but not for both).",
+                        "Top-most beads:    " + str(upbeads_cmds),
+                        "Bottom-most beads: " + str(downbeads_cmds),
+                    ])
 
                 upbeads   = []
                 downbeads = []
-                if len(upbeads_cmds) > 0 and len(downbeads_cmds) > 0:
-                    check_one_res_any_method_upbead = nres == 1 and all([len(sub_cmd) in [2, 4] for sub_cmd in upbeads_cmds])
-                    check_mult_res_only_res_upbead  = nres >= 1 and all([len(sub_cmd) == 4 for sub_cmd in upbeads_cmds])
-                    assert any([check_one_res_any_method_upbead, check_mult_res_only_res_upbead,]), "\n".join([
-                        "Improper upbead subarguments have been given. The following subarguments are accepted.",
-                        "Your subarguments: " + str(upbeads_cmds),
-                        "Always usable:",
-                        "    " + "No upbead subargument",
-                        "    " + "upbead:res:[resnr]:bead:[beadnr] (any number of these may be used)",
-                        "Only usable for single-residue molecules:",
-                        "    " + "upbead:bead:[beadnr] (any number of these may be used)",
-                    ])
-                    check_one_res_any_method_downbead = nres == 1 and all([len(sub_cmd) in [2, 4] for sub_cmd in downbeads_cmds])
-                    check_mult_res_only_res_downbead  = nres >= 1 and all([len(sub_cmd) == 4 for sub_cmd in downbeads_cmds])
-                    assert any([check_one_res_any_method_downbead, check_mult_res_only_res_downbead,]), "\n".join([
-                        "Improper downbead subarguments have been given. The following subarguments are accepted.",
-                        "Your subarguments: " + str(downbeads_cmds),
-                        "Always usable:",
-                        "    " + "No downbead subargument",
-                        "    " + "downbead:res:[resnr]:bead:[beadnr] (any number of these may be used)",
-                        "Only usable for single-residue molecules:",
-                        "    " + "downbead:bead:[beadnr] (any number of these may be used)",
-                    ])
+                if (alignment == "manual" and (len(upbeads_cmds) > 0 and len(downbeads_cmds) > 0)) or ((alignment == "principal" and (len(upbeads_cmds) > 0 or len(downbeads_cmds) > 0))):
+                    directions_with_cmds = []
+                    if len(upbeads_cmds) > 0:
+                        check_one_res_any_method_upbead = nres == 1 and all([len(sub_cmd) in [2, 4] for sub_cmd in upbeads_cmds])
+                        check_mult_res_only_res_upbead  = nres >= 1 and all([len(sub_cmd) == 4 for sub_cmd in upbeads_cmds])
+                        assert any([check_one_res_any_method_upbead, check_mult_res_only_res_upbead,]), "\n".join([
+                            "Improper upbead subarguments have been given. The following subarguments are accepted.",
+                            "Your subarguments: " + str(upbeads_cmds),
+                            "Always usable:",
+                            "    " + "No upbead subargument",
+                            "    " + "upbead:res:[resnr]:bead:[beadnr] (any number of these may be used)",
+                            "Only usable for single-residue molecules:",
+                            "    " + "upbead:bead:[beadnr] (any number of these may be used)",
+                        ])
+                        directions_with_cmds.append((upbeads_cmds, upbeads))
+                    if len(downbeads_cmds) > 0:
+                        check_one_res_any_method_downbead = nres == 1 and all([len(sub_cmd) in [2, 4] for sub_cmd in downbeads_cmds])
+                        check_mult_res_only_res_downbead  = nres >= 1 and all([len(sub_cmd) == 4 for sub_cmd in downbeads_cmds])
+                        assert any([check_one_res_any_method_downbead, check_mult_res_only_res_downbead,]), "\n".join([
+                            "Improper downbead subarguments have been given. The following subarguments are accepted.",
+                            "Your subarguments: " + str(downbeads_cmds),
+                            "Always usable:",
+                            "    " + "No downbead subargument",
+                            "    " + "downbead:res:[resnr]:bead:[beadnr] (any number of these may be used)",
+                            "Only usable for single-residue molecules:",
+                            "    " + "downbead:bead:[beadnr] (any number of these may be used)",
+                        ])
+                        directions_with_cmds.append((downbeads_cmds, downbeads))
 
-                    for beads_cmds, beads in [(upbeads_cmds, upbeads), (downbeads_cmds, downbeads)]:
+                    for beads_cmds, beads in directions_with_cmds:
                         for sub_cmd in beads_cmds:
                             cur_res = False
                             cur_bead = False
@@ -274,8 +298,14 @@ class molecule_importer:
                 else:
                     mol_dict["charge"] = 0
 
-                if len(upbeads) > 0 and len(downbeads) > 0:
+                ### Type of alignment to run
+                if alignment is not False:
+                    mol_dict["alignment"] = alignment
+
+                if len(upbeads) > 0:
                     mol_dict["upbeads"]   = upbeads
+                
+                if len(downbeads) > 0:
                     mol_dict["downbeads"] = downbeads
 
                 ### Solvent-specific values

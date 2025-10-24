@@ -318,7 +318,7 @@ class solvater:
                                 "count": vals.count,
                             }
                     
-                    current_charge = solvent_box_charge + sol_charges + pos_charges + neg_charges
+                    current_charge = round(solvent_box_charge + sol_charges + pos_charges + neg_charges, 5)
                     
                     pos_charges = 0
                     neg_charges = 0
@@ -401,7 +401,7 @@ class solvater:
                         for (key, vals), ratio in zip(solvation[ion_type].items(), ion_ratios):
                             
                             ### Checks if negative number of the ion should be inserted and set to zero if it is the case.
-                            ### Incase "remove" or "mean" methods have removed more ions than should even be present.
+                            ### ### Done incase "remove" or "mean" methods have removed more ions than should even be present.
                             if vals.count < 0:
                                 vals.count_set(0)
 
@@ -709,11 +709,16 @@ class solvater:
                         self.print_term("Number of available grid points ({GP}) is less than number of molecules to be inserted ({NS}).".format(GP=len(solv_grid_3D), NS=len(collected_solvent)), warn=True)
                         self.print_term("Reducing grid size (resolution) by 5% and recalculating grid occupancy.", warn=True)
                         self.print_term("    ", "Old: {GR}".format(GR=gridres), warn=True)
-                        gridres = gridres*0.95
+                        gridres = [val * 0.95 for val in gridres]
                         self.print_term("    ", "New: {GR}".format(GR=gridres), warn=True)
                         
-                        if gridres < max_mol_size:
-                            self.print_term("New grid resolution ({GR}) is very small compared to largest molecule. This will likely result in overlapping molecules. Consider changing the concentration.".format(GR=gridres), warn=True)
+                        if any([val < max_mol_size for val, max_mol_size in zip(gridres, max_mol_sizes)]):
+                            if solvation["flooding"]:
+                                self.print_term("New grid resolution is very small compared to the largest molecule. This will likely result in overlapping molecules. Consider changing the the number of molecules '{nmolecules}' or kick values '{kick}'.".format(nmolecules=len(collected_solvent), kick=solvation["kick"]), warn=True)
+                            else:
+                                self.print_term("New grid resolution is very small compared to the largest molecule. This will likely result in overlapping molecules. Consider changing the solvent molarity '{solv_molarity}' or kick values '{kick}'.".format(solv_molarity=solvation["solv_molarity"], kick=solvation["kick"]), warn=True)
+                            self.print_term("Grid resolution along each axis:       {x}, {y}, {z}.".format(x=gridres[0], y=gridres[1], z=gridres[2]), spaces=1, warn=True)
+                            self.print_term("Largest molecule size along each axis: {x}, {y}, {z}.".format(x=max_mol_sizes[0], y=max_mol_sizes[1], z=max_mol_sizes[2]), spaces=1, warn=True)
 
                 self.print_term("Final number of 3D grid points available for molecule placement:", len(solv_grid_3D), spaces=2, verbose=2)
 

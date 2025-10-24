@@ -64,8 +64,6 @@ class gro_reader:
                         "beta":  beta,  # [angle] (in degrees)
                         "gamma": gamma, # [angle] (in degrees)
                     }
-
-
                 else:
                     if len(line):
                         tot_atoms -= 1

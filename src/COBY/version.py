@@ -1,19 +1,41 @@
-__version__="1.0.9"
+__version__="1.0.10"
 
 major_changes = [
+    "Changed the way molcule alignment works with the 'molecule_import' argument.",
+    [
+        "Added subargument 'alignment' which can be either False (default), 'manual' or 'principal'",
+        [
+            "False: The alignment algorithms are turned off.",
+            "'manual': Aligns the molecule along the line that runs through the center of two groups of beads. This is how alignment used to work before if 'upbeads' and 'downbeads' were supplied.",
+            [
+                "Requires both 'upbeads' and 'downbeads' to be given",
+            ],
+            "'principal': Aligns the molecule along the first principal axis based on a principal component analysis.",
+            [
+                "It is required to specify either 'upbeads' or 'downbeads' (but not both). The algorithm will use that bead group to ensure that the molecule points in the correct direction.",
+            ],
+        ],
+    ],
 ]
 
 minor_changes = [
+    "Added unit to final 'Time spent running COBY' print.",
+    "Adde 'dir' subargument to 'plot_grid' argument, which allows one to change the name of the directory where the plotting files are placed. Default is 'grid_plots'.",
 ]
 
 bug_fixes = [
-    "Fixed bug making lipids in different being too close to each other."
+    "Fixed potential crash caused by incorrect checking and reconfiguring of the 'grid resolution' during solvations.",
+    "Solvent charge is now rounded to 5 decimals to prevent errors from float values.",
 ]
 
 documentation_changes = [
+    "Fixed an error in an example for 'hole:rectangle' using 'xradius' and 'yradius' instead of 'xlength' and 'ylength'.",
+    "Changed existing documentation and added extra documentation for alignment with 'molecule_import'.",
+    "Added documentation for new 'dir' subargument for the 'plot_grid' argument.",
 ]
 
 tutorial_changes = [
+    "Changed the tutorial '2_Advanced_tutorial - Import a lipid' to fit with the new syntax.",
 ]
 
 other_changes = [
