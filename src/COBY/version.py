@@ -1,41 +1,35 @@
-__version__="1.0.10"
+__version__="1.0.11"
 
 major_changes = [
-    "Changed the way molcule alignment works with the 'molecule_import' argument.",
+    "Residue numbers for structures imported using the 'protein' argument can now be conserved in the outputted structure.",
     [
-        "Added subargument 'alignment' which can be either False (default), 'manual' or 'principal'",
+        "System components are separated with 'TER' lines in outputted .pdb files.",
+        "Outputted .gro files are unaffected as they do not have a similar functinality to 'TER'. This means that outputted .gro and .pdb files may not be identical in terms of atom/residue numbering.",
+        "This new behaviour can be turned off using the 'keep_residue_numbering'/'krn' argument as shown below:",
         [
-            "False: The alignment algorithms are turned off.",
-            "'manual': Aligns the molecule along the line that runs through the center of two groups of beads. This is how alignment used to work before if 'upbeads' and 'downbeads' were supplied.",
-            [
-                "Requires both 'upbeads' and 'downbeads' to be given",
-            ],
-            "'principal': Aligns the molecule along the first principal axis based on a principal component analysis.",
-            [
-                "It is required to specify either 'upbeads' or 'downbeads' (but not both). The algorithm will use that bead group to ensure that the molecule points in the correct direction.",
-            ],
+            "COBY(..., keep_residue_numbering = \"False\", ...)",
+            "python -m COBY ... -keep_residue_numbering False ...)",
         ],
     ],
 ]
 
 minor_changes = [
-    "Added unit to final 'Time spent running COBY' print.",
-    "Adde 'dir' subargument to 'plot_grid' argument, which allows one to change the name of the directory where the plotting files are placed. Default is 'grid_plots'.",
+    "Structure file importers now check if all x/y/z coordinate values are numbers and not 'nan' and crash the program if a 'nan' is found",
+    "Added warnings when using 'charge:lib' or 'charge:[val]' alongside 'moleculetypes'",
 ]
 
 bug_fixes = [
-    "Fixed potential crash caused by incorrect checking and reconfiguring of the 'grid resolution' during solvations.",
-    "Solvent charge is now rounded to 5 decimals to prevent errors from float values.",
+    "Fixed crash in the 'Library' program when looking through tags.",
+    "Fixed large proteins not having their residue numbers correctly assigned due to the use of 'is not' instead of '!='.",
+    [
+        "This problem lead to residue referencing when centering proteins not working properly, but did not impact the residue numbering of written files.",
+    ],
 ]
 
 documentation_changes = [
-    "Fixed an error in an example for 'hole:rectangle' using 'xradius' and 'yradius' instead of 'xlength' and 'ylength'.",
-    "Changed existing documentation and added extra documentation for alignment with 'molecule_import'.",
-    "Added documentation for new 'dir' subargument for the 'plot_grid' argument.",
 ]
 
 tutorial_changes = [
-    "Changed the tutorial '2_Advanced_tutorial - Import a lipid' to fit with the new syntax.",
 ]
 
 other_changes = [

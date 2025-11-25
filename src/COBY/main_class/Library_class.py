@@ -546,6 +546,9 @@ class Library(
         else:
             assert False, "Invalid 'moltype' recieved by 'print_mol_data': {moltype}".format(moltype=moltype)
 
+        if type(parameter_libraries) not in (list, tuple):
+            parameter_libraries = [parameter_libraries]
+        
         for parameter_library in parameter_libraries:
             found_mols_with_tags = []
             func_str = False
@@ -924,7 +927,7 @@ class Library(
             ILR_restart_layer(**restart_dict)
         
         elif val.lower().startswith(("tag:", "any:" ,"all:")):
-            self.print_mols_with_tags(moltype=moltype, parameter_libraries=parameter_libraries, tagsarg=val)
+            self.print_mols_with_tags(moltype=moltype, parameter_libraries=parameter_library, tagsarg=val)
             ILR_restart_layer(**restart_dict)
         
         elif val.lower() in ("printtag", "printtags", "pt"):

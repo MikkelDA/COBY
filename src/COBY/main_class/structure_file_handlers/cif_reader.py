@@ -1,4 +1,5 @@
 import ast
+import math
 
 class cif_reader:
     def cif_reader(self, cif_file_dest, return_box_info = False):
@@ -65,6 +66,9 @@ class cif_reader:
                 elif any([line.split(" ") == string for string in ["ATOM", "HETATM"]]):
                     ### Adds only needed data types to atom_dict and converts to needed value type
                     atom_dict = {key: key_value_types[key](val) for key, val in zip(dict_order, line.split()) if key in key_value_types.keys()}
+                    for key in ["x", "y", "z"]:
+                        assert not math.isnan(atom_dict[key]), "Line nr '" + str(line_nr) + "' contains a 'nan' value instead of a coordinate value:\n" + line
+
                     processed_file[(atom_nr, atom_dict["atom_nr"], atom_dict["res_nr"])] = atom_dict
                     atom_nr += 1
         

@@ -37,6 +37,7 @@ class prot_preprocessor:
                     "moleculetypes": [],
                     "charge": "top", # int/float, "top" or "lib"
 
+                    ### Sets whether protein should constitute a membrane border
                     "membrane_border": False,
                 }
                 
@@ -129,7 +130,7 @@ class prot_preprocessor:
 
                     ### Sets whether protein should constitute a membrane border
                     elif sub_cmd[0].lower() == "membrane_border":
-                        prot_dict["membrane_border"] = ast.literal_eval(sub_cmd[1])
+                        prot_dict["membrane_border"] = bool(ast.literal_eval(sub_cmd[1]))
 
                     ### Errors out if unknown subargument used, and prints the subargument to console
                     else:
@@ -147,11 +148,16 @@ class prot_preprocessor:
 
                 ### Post-preprocessing (topology and charge determination)
                 if isinstance(prot_dict["charge"], (float, int)):
+                    if len(prot_dict["moleculetypes"]) > 0:
+                        self.print_term("The 'charge' method 'value' has been used while 'moleculetypes' have been given. The given 'moleculetypes' will be ignored for charge determination. You can use the 'moleculetypes' for charge determination by using 'charge:topology'/'charge:top'", spaces=1, warn=True)
                     ### Sets charge manually
                     ### Evenly distributes charges accross all beads as there is no way of knowing where they are located based on a single charge value
                     protein_bead_charges = [prot_dict["charge"]/len(prot_dict["beads"]) for _ in range(len(prot_dict["beads"]))]
                     
                 elif prot_dict["charge"] == "lib":
+                    if len(prot_dict["moleculetypes"]) > 0:
+                        self.print_term("The 'charge' method 'library'/'lib' has been used while 'moleculetypes' have been given. The given 'moleculetypes' will be ignored for charge determination. You can use the 'moleculetypes' for charge determination by using 'charge:topology'/'charge:top'", spaces=1, warn=True)
+
                     ### Finds charge information from prot_defs charge dictionary
                     protein_bead_charges = []
                     for (bead_i, bead_nr, res_nr), values in prot_dict["beads"].items():
@@ -161,7 +167,6 @@ class prot_preprocessor:
                         assert res_name in self.prot_defs[params]["charges"], "Residue name '{resname}' not in 'prot_defs' charges for system parameters '{params}'.".format(resname=res_name, params=params)
                         assert atom_name in self.prot_defs[params]["charges"][res_name], "Residue name '{atomname}' not in 'prot_defs' charges for system parameters '{params}'.".format(atomname=atom_name, params=params)
                         protein_bead_charges.append(self.prot_defs[params]["charges"][res_name][atom_name])
-
                 
                 elif prot_dict["charge"] == "top":
                     ### Finds charge information in topology files
@@ -201,7 +206,7 @@ class prot_preprocessor:
 
                 cur_res = False
                 for (key, vals), charge in zip(prot_dict["beads"].items(), protein_bead_charges):
-                    if vals["res_nr"] is not cur_res:
+                    if (vals["res_nr"] is False) or (vals["res_nr"] != cur_res):
                         prot_dict["protein"].add_res(vals["res_name"], vals["res_nr"])
                         cur_res = vals["res_nr"]
                     

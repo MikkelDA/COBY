@@ -1,6 +1,6 @@
 import ast
-import numpy as np
 import math
+import numpy as np
 
 class gro_reader:
     def gro_reader(self, gro_file_dest, return_box_info = False):
@@ -82,6 +82,7 @@ class gro_reader:
                                 atom_dict[key] = func(line[i1:i2].replace(" ",""))
                                 if key in ["x", "y", "z"]: # Convert [nm] to [Å]
                                     atom_dict[key] *= 10
+                                    assert not math.isnan(atom_dict[key]), "Line nr '" + str(line_nr) + "' contains a 'nan' value instead of a coordinate value:\n" + line
                         processed_file[(atom_nr, atom_dict["atom_nr"], atom_dict["res_nr"])] = atom_dict
                         atom_nr += 1
         

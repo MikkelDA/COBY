@@ -68,11 +68,10 @@ class system_file_writer:
 
         self.molecules_for_top = []
 
-        atom_nr = 0
-        res_nr  = 0
+        atom_nr        = 0
+        res_nr_general = 0
 
         ### Counting atoms
-
         #####################
         ### Protein lines ###
         #####################
@@ -87,9 +86,9 @@ class system_file_writer:
                 for (i, atom, res), (a_name, beadnr, x, y, z, r_name, resnr, charge) in zip(original_bead_info, bead_vals):
                     if current_prot_res != res:
                         current_prot_res = res
-                        res_nr += 1
-                        if res_nr >= 10000:
-                            res_nr -= 10000 * (res_nr // 10000)
+                        res_nr_general += 1
+                        if res_nr_general >= 10000:
+                            res_nr_general -= 10000 * (res_nr_general // 10000)
                     atom_nr += 1
                     if atom_nr >= 100000:
                         atom_nr -= 100000 * (atom_nr // 100000)
@@ -97,11 +96,21 @@ class system_file_writer:
                     y += self.pbc_box[1] / 2
                     z += self.pbc_box[2] / 2
                     if self.output_system_pdb_file_name:
-                        output_system_pdb_file_lines.append(self.pdb_atom_writer("ATOM", atom_nr, a_name, " ", r_name, "A", res_nr, " ", float(x), float(y), float(z), float(1), float(0), " ", " ", " "))
+                        if self.keep_residue_numbering:
+                            output_system_pdb_file_lines.append(self.pdb_atom_writer("ATOM", atom_nr, a_name, " ", r_name, "A", res, " ", float(x), float(y), float(z), float(1), float(0), " ", " ", " "))
+                        else:
+                            output_system_pdb_file_lines.append(self.pdb_atom_writer("ATOM", atom_nr, a_name, " ", r_name, "A", res_nr_general, " ", float(x), float(y), float(z), float(1), float(0), " ", " ", " "))
                     if self.output_system_gro_file_name: ### gro coordinates are in [nm] not [Å]
-                        output_system_gro_file_lines.append(self.gro_atom_writer(res_nr, r_name, a_name, atom_nr, x / 10, y / 10, z / 10, " ", " ", " "))
+                        output_system_gro_file_lines.append(self.gro_atom_writer(res_nr_general, r_name, a_name, atom_nr, x / 10, y / 10, z / 10, " ", " ", " "))
                     if self.output_system_cif_file_name:
-                        output_system_cif_atom_tuples.append(self.cif_atom_tupler("ATOM", atom_nr, a_name, r_name, res_nr, float(x), float(y), float(z)))
+                        output_system_cif_atom_tuples.append(self.cif_atom_tupler("ATOM", atom_nr, a_name, r_name, res_nr_general, float(x), float(y), float(z)))
+                if self.keep_residue_numbering:
+                    output_system_pdb_file_lines.append("TER")
+        
+        if self.keep_residue_numbering:
+            res_nr_pdb = 0
+        else:
+            res_nr_pdb = res_nr_general
 
         ######################
         ### Membrane lines ###
@@ -118,9 +127,15 @@ class system_file_writer:
                     )
             
                     for i, grid_vals in enumerate(ordered_lipids):
-                        res_nr += 1
-                        if res_nr >= 10000:
-                            res_nr -= 10000 * (res_nr // 10000)
+                        
+                        res_nr_general += 1
+                        if res_nr_general >= 10000:
+                            res_nr_general -= 10000 * (res_nr_general // 10000)
+                        
+                        res_nr_pdb += 1
+                        if res_nr_pdb >= 10000:
+                            res_nr_pdb -= 10000 * (res_nr_pdb // 10000)
+
                         r_name = grid_vals["lipid"]["name"]
 
                         for x, y, z, bead_name in zip(grid_vals["lipid"]["x"], grid_vals["lipid"]["y"], grid_vals["lipid"]["z"], grid_vals["lipid"]["beads"]):
@@ -132,11 +147,11 @@ class system_file_writer:
                             z += self.pbc_box[2] / 2
                             a_name = bead_name
                             if self.output_system_pdb_file_name:
-                                output_system_pdb_file_lines.append(self.pdb_atom_writer("ATOM", atom_nr, a_name, " ", r_name, "A", res_nr, " ", float(x), float(y), float(z), float(1), float(0), " ", " ", " "))
+                                output_system_pdb_file_lines.append(self.pdb_atom_writer("ATOM", atom_nr, a_name, " ", r_name, "A", res_nr_pdb, " ", float(x), float(y), float(z), float(1), float(0), " ", " ", " "))
                             if self.output_system_gro_file_name: ### gro coordinates are in [nm] not [Å]
-                                output_system_gro_file_lines.append(self.gro_atom_writer(res_nr, r_name, a_name, atom_nr, x / 10, y / 10, z / 10, " ", " ", " "))
+                                output_system_gro_file_lines.append(self.gro_atom_writer(res_nr_general, r_name, a_name, atom_nr, x / 10, y / 10, z / 10, " ", " ", " "))
                             if self.output_system_cif_file_name:
-                                output_system_cif_atom_tuples.append(self.cif_atom_tupler("ATOM", atom_nr, a_name, r_name, res_nr, float(x), float(y), float(z)))
+                                output_system_cif_atom_tuples.append(self.cif_atom_tupler("ATOM", atom_nr, a_name, r_name, res_nr_general, float(x), float(y), float(z)))
         
         #########################
         ### Solvent/ion lines ###
@@ -147,9 +162,14 @@ class system_file_writer:
                 self.molecules_for_top.extend(solvent_count)
 
                 for i, grid_point_3D in enumerate(solvation["grid"]):
-                    res_nr += 1
-                    if res_nr >= 10000:
-                        res_nr -= 10000 * (res_nr // 10000)
+                    
+                    res_nr_general += 1
+                    if res_nr_general >= 10000:
+                        res_nr_general -= 10000 * (res_nr_general // 10000)
+                    
+                    res_nr_pdb += 1
+                    if res_nr_pdb >= 10000:
+                        res_nr_pdb -= 10000 * (res_nr_pdb // 10000)
 
                     for (x, y, z), r_name, bead_name in zip(grid_point_3D["coords"], grid_point_3D["resnames"], grid_point_3D["beads"]):
                         atom_nr += 1
@@ -160,11 +180,11 @@ class system_file_writer:
                         z += self.pbc_box[2] / 2
                         a_name = bead_name
                         if self.output_system_pdb_file_name:
-                            output_system_pdb_file_lines.append(self.pdb_atom_writer("ATOM", atom_nr, a_name, " ", r_name, "A", res_nr, " ", float(x), float(y), float(z), float(1), float(0), " ", " ", " "))
+                            output_system_pdb_file_lines.append(self.pdb_atom_writer("ATOM", atom_nr, a_name, " ", r_name, "A", res_nr_pdb, " ", float(x), float(y), float(z), float(1), float(0), " ", " ", " "))
                         if self.output_system_gro_file_name: ### gro coordinates are in [nm] not [Å]
-                            output_system_gro_file_lines.append(self.gro_atom_writer(res_nr, r_name, a_name, atom_nr, x / 10, y / 10, z / 10, " ", " ", " "))
+                            output_system_gro_file_lines.append(self.gro_atom_writer(res_nr_general, r_name, a_name, atom_nr, x / 10, y / 10, z / 10, " ", " ", " "))
                         if self.output_system_cif_file_name:
-                            output_system_cif_atom_tuples.append(self.cif_atom_tupler("ATOM", atom_nr, a_name, r_name, res_nr, float(x), float(y), float(z)))
+                            output_system_cif_atom_tuples.append(self.cif_atom_tupler("ATOM", atom_nr, a_name, r_name, res_nr_general, float(x), float(y), float(z)))
         
         #########################
         ### End of file lines ###

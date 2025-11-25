@@ -121,10 +121,15 @@ class COBY(
         self.system_charge = 0
         self.system_name = "PLACEHOLDER_TITLE"
         
-        self.output_system_pdb_file_name   = False
-        self.output_system_gro_file_name   = False
+        ### Sets whether residue number should be kept for outputted structure.
+        ### ### Only valid for .pdb files sinces structures can be separated using "TER" lines
+        ### ### .gro and .cif files are therefore unaffected which means that outputted .gro and .pdb files may not be identical
+        self.keep_residue_numbering = True
+        
+        self.output_system_pdb_file_name = False
+        self.output_system_gro_file_name = False
         self.output_system_cif_file_name = False
-        self.output_topol_file_name        = "topol.top"
+        self.output_topol_file_name      = "topol.top"
         
         self.LOG_FILE                     = []
         self.output_log_file_name         = False
@@ -161,7 +166,7 @@ class COBY(
         self.protein_beads_in_sys = 0
         self.lipid_beads_in_sys   = 0
         self.solvent_beads_in_sys = 0
-        
+
         try:
             self.lipid_scaffolds = copy.deepcopy(lipid_scaffolds)
         except:
@@ -452,6 +457,11 @@ class COBY(
             
             elif key in ["system_name", "sn"]:
                 self.system_name = cmd
+
+            ### Sets whether residue number should be kept for outputted structure.
+            ### ### Only valid for .pdb files sinces structures can be separated using "TER" lines
+            elif key in ["keep_residue_numbering", "krn"]:
+                self.keep_residue_numbering = bool(ast.literal_eval(cmd))
 
             elif key in ["plot_grid"]:
                 ### Sets that plots should be made if any 'plot_grid' subargument is given

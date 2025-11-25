@@ -57,6 +57,8 @@ class protein_placer:
                         centering = "vals"
                         target = protein["cen_method"][1:]
                     
+                    ### The "get_center_point" method is only run here to get values for printing.
+                    ### It is called inside the "set_coords_to_center" method separately.
                     xcen, ycen, zcen = self.PROTEINS[protein_nr]["protein"].get_center_point(centering = centering, target = target)
                     self.print_term(
                         "Centering protein using", "'" + " ".join([str(i) for i in protein["cen_method"]])+"'",

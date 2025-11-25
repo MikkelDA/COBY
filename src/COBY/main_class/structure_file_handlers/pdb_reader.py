@@ -1,3 +1,5 @@
+import math
+
 class pdb_reader:
     def pdb_reader(self, pdb_file_dest, return_box_info = False):
         '''
@@ -40,6 +42,8 @@ class pdb_reader:
                     for key, i1, i2, func in key_indexes:
                         if len(line) >= i2:
                             atom_dict[key] = func(line[i1:i2].replace(" ",""))
+                            if key in ["x", "y", "z"]:
+                                assert not math.isnan(atom_dict[key]), "Line nr '" + str(line_nr) + "' contains a 'nan' value instead of a coordinate value:\n" + line
                     processed_file[(atom_nr, atom_dict["atom_nr"], atom_dict["res_nr"])] = atom_dict
                     atom_nr += 1
         
