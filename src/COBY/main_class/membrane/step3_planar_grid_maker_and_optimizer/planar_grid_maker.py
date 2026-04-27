@@ -102,37 +102,53 @@ class planar_grid_maker:
                             elif effective_grid_maker_grouping_algorithm == "no_groups":
                                 separator = 100000 # No lipids should be larger than this anyways
 
-                            ### *0.49 instead of 0.5 because of float problems
-                            # n_radius_groups         = math.ceil(((max_radius+separator*0.49) - (min_radius-separator*0.49)) / separator)
-                            # radius_group_separators = np.linspace(start=min_radius-separator*0.5, stop=max_radius+separator*0.5, endpoint=True, num=n_radius_groups+1)
-                            # radius_groups           = list(reversed([(i, j) for i, j in zip(radius_group_separators[:-1], radius_group_separators[1:])]))
-                            # lipid_radius_groups     = [[] for i in radius_groups]
-
                             n_radius_groups         = ((max_radius) - (min_radius)) / separator
                             n_radius_groups_rounded = max([1, math.ceil(n_radius_groups)])
-                            ### +/-0.01 to avoid some radii ending up outside the range due to floats
-                            radius_group_separators = np.linspace(start=min_radius-0.01, stop=max_radius+0.01, endpoint=True, num=n_radius_groups_rounded+1)
-                            radius_groups           = list(reversed([(i, j) for i, j in zip(radius_group_separators[:-1], radius_group_separators[1:])]))
-                            lipid_radius_groups     = [[] for i in radius_groups]
 
-                            self.print_term("leaflet['grid_maker_grouping_algorithm']:", leaflet["grid_maker_grouping_algorithm"], spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
-                            self.print_term("effective_grid_maker_grouping_algorithm: ", effective_grid_maker_grouping_algorithm,  spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
-                            self.print_term("separator:                               ", separator,                                spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
-                            self.print_term("n_radius_groups:                         ", n_radius_groups,                          spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
-                            self.print_term("n_radius_groups_rounded:                 ", n_radius_groups_rounded,                  spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
-                            self.print_term("radii:                                   ", radii,                                    spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
-                            self.print_term("radius_group_separators:                 ", radius_group_separators,                  spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
-                            self.print_term("radius_groups:                           ", radius_groups,                            spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            ### First create radius group separators
+                            ### ### +/-0.01 to avoid some radii ending up outside the range due to floats
+                            radius_group_separators_original = np.linspace(start=min_radius-0.01, stop=max_radius+0.01, endpoint=True, num=n_radius_groups_rounded+1)
+
+                            ### Then remove the ones that are above "grid_maker_maximum_radius" and below "grid_maker_minimum_radius" except for the first and last values 
+                            radius_group_separators = []
+                            for si, separator in enumerate(radius_group_separators_original):
+                                ### Always include the first and last
+                                if si in [0, len(radius_group_separators_original)-1]:
+                                    radius_group_separators.append(separator)
+                                elif separator < leaflet["grid_maker_maximum_radius"] and separator > leaflet["grid_maker_minimum_radius"]:
+                                    radius_group_separators.append(separator)
+
+                            ### First create initial radius groups
+                            radius_groups       = list(reversed([(i, j) for i, j in zip(radius_group_separators[:-1], radius_group_separators[1:])]))
+                            lipid_radius_groups = [[] for i in radius_groups]
+                            for_debug_print     = {(rmin, rmax): [] for rmin, rmax in radius_groups}
 
                             ### Iterates over list sorted according to radius
                             total_lipids = 0
                             total_lipid_area = 0
                             for name, nlipids, radius in sorted(lipid_names_nlipids_radii, key=lambda x: (x[2], x[1], x[0]), reverse=True):
                                 for rgi, (rmin, rmax) in enumerate(radius_groups):
+                                    ### Lipids are added to the radius group with smaller radius for when 'lipid_radius == separator'
                                     if rmin < radius <= rmax:
                                         lipid_radius_groups[rgi].append((name, nlipids, radius))
                                         total_lipids += nlipids
                                         total_lipid_area += nlipids * (math.pi * radius**2)
+                                        for_debug_print[(rmin, rmax)].append((name, nlipids, radius))
+                            
+                            self.print_term("leaflet['grid_maker_grouping_algorithm']:", leaflet["grid_maker_grouping_algorithm"], spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("effective_grid_maker_grouping_algorithm: ", effective_grid_maker_grouping_algorithm,  spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("separator:                               ", separator,                                spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("n_radius_groups:                         ", n_radius_groups,                          spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("n_radius_groups_rounded:                 ", n_radius_groups_rounded,                  spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("lipid names:                             ", subleaflet["lipid_names"],                spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("radii:                                   ", radii,                                    spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("leaflet['grid_maker_minimum_radius']:    ", leaflet["grid_maker_minimum_radius"],     spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("leaflet['grid_maker_maximum_radius']:    ", leaflet["grid_maker_maximum_radius"],     spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("radius_group_separators_original:        ", radius_group_separators_original,         spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("radius_group_separators:                 ", radius_group_separators,                  spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("radius_groups:                           ", radius_groups,                            spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("lipid_radius_groups:                     ", lipid_radius_groups,                      spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
+                            self.print_term("for_debug_print:                         ", for_debug_print,                          spaces=3, debug=True, debug_keys=["lipid_grid_creation"])
 
                             lipids = []
                             lipid_groups = []
@@ -143,8 +159,11 @@ class planar_grid_maker:
                                     ### Skips group if total number of lipids in group is zero
                                     if nlipids_in_group == 0:
                                         continue
+                                    
                                     mean_radius = sum([nlipids*radius for name, nlipids, radius in lipid_group]) / nlipids_in_group
-                                    lipid_groups.append((mean_radius, nlipids_in_group, nlipids_in_group/total_lipids, (nlipids_in_group * (math.pi * mean_radius**2))/total_lipid_area))
+                                    nlipids_in_group_fraction_number = nlipids_in_group/total_lipids
+                                    nlipids_in_group_fraction_area = (nlipids_in_group * (math.pi * mean_radius**2))/total_lipid_area
+                                    lipid_groups.append((mean_radius, nlipids_in_group, nlipids_in_group_fraction_number, nlipids_in_group_fraction_area))
 
                                     lipids_in_lipid_group = []
                                     for name, nlipids, radius in lipid_group:

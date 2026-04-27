@@ -4,7 +4,7 @@ lipid_metadata = {}
 
 params = "LTF"
 lipid_metadata[params] = {
-    "Description": "Lipids in this parameter library are based on the parameters from the lipid task force as described in https://doi.org/10.26434/chemrxiv-2024-8bjrr.",
+    "Description": "Lipids in this parameter library are based on the parameters from the lipid task force as described in https://doi.org/10.26434/chemrxiv-2024-8bjrr",
 }
 
 ### ### ### ### ### ################################################################## ### ### ### ### ###

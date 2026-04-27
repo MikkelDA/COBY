@@ -25,6 +25,7 @@ from COBY.main_class.general_tools.__init__ import *
 from COBY.main_class.definition_preprocessors.__init__ import *
 from COBY.main_class.molecule_fragment_builder.__init__ import *
 
+from COBY.version import __version__, __version_changes__, __changes__, __changelog__
 
 class Crafter(
     structure_file_handlers,
@@ -46,6 +47,7 @@ class Crafter(
         self.warnings     = True
         self.quiet        = False
         self.verbose      = 1
+        self.version      = __version__
 
         if terminal_run_kwargs:
             kwargs.update(terminal_run_kwargs)
@@ -62,23 +64,20 @@ class Crafter(
         self.terminalupdate_string_length = 80
 
         ### Adds given commands to log file
-        self.LOG_FILE.append("The following MoleculeBuilder arguments will be processed:" + "\n")
-        self.LOG_FILE.append("MoleculeBuilder(" + "\n")
+        self.LOG_FILE.append({"string": "The following MoleculeBuilder arguments will be processed:" + "\n", "for_print": False, "for_log": True})
+        self.LOG_FILE.append({"string": "MoleculeBuilder(" + "\n", "for_print": False, "for_log": True})
         for key, val in kwargs.copy().items():
-            if type(val) in [str, int, float, bool]:
-                if type(val) == str:
-                    val = "\"" + val + "\""
-                if type(val) in [int, float, bool]:
-                    val = str(val)
-                self.LOG_FILE.append("    " + str(key) + " = " + str(val) + "," + "\n")
+            if type(val) == str:
+                val = "\"" + val + "\""
+                self.LOG_FILE.append({"string": "    " + str(key) + " = " + str(val) + "," + "\n", "for_print": False, "for_log": True})
             elif type(val) in [list, tuple]:
-                self.LOG_FILE.append("    " + str(key) + " = " + "[" + "\n")
+                self.LOG_FILE.append({"string": "    " + str(key) + " = " + "[" + "\n", "for_print": False, "for_log": True})
                 for subval in val:
                     if type(subval) == str:
                         subval = "\"" + subval + "\""
-                    self.LOG_FILE.append("    " + "    " + str(subval) + "," + "\n")
-                self.LOG_FILE.append("    " + "]," + "\n")
-        self.LOG_FILE.append(")" + "\n")
+                    self.LOG_FILE.append({"string": "    " + "    " + str(subval) + "," + "\n", "for_print": False, "for_log": True})
+                self.LOG_FILE.append({"string": "    " + "]," + "\n", "for_print": False, "for_log": True})
+        self.LOG_FILE.append({"string": ")" + "\n", "for_print": False, "for_log": True})
 
         self.backup = True
         self.pickle = False
@@ -101,38 +100,44 @@ class Crafter(
         try:
             self.lipid_scaffolds = copy.deepcopy(lipid_scaffolds)
         except:
-            self.print_term("WARNING: No lipid scaffolds found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No lipid scaffolds found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.lipid_scaffolds = {}
         
         try:
             self.lipid_defs = copy.deepcopy(lipid_defs)
         except:
-            self.print_term("WARNING: No lipid definitions found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No lipid definitions found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.lipid_defs = {}
         
         try:
             self.solvent_defs = copy.deepcopy(solvent_defs)
         except:
-            self.print_term("WARNING: No solvent definitions found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No solvent definitions found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.solvent_defs = {}
         
         try:
             self.pos_ion_defs = copy.deepcopy(pos_ion_defs)
         except:
-            self.print_term("WARNING: No positive ion definitions found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No positive ion definitions found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.pos_ion_defs = {}
 
         try:
             self.neg_ion_defs = copy.deepcopy(neg_ion_defs)
         except:
-            self.print_term("WARNING: No negative ion definitions found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No negative ion definitions found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.neg_ion_defs = {}
         
         try:
             self.fragment_defs = copy.deepcopy(fragment_defs)
         except:
-            self.print_term("WARNING: No fragment definitions found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No fragment definitions found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.fragment_defs = {}
+        
+        try:
+            self.prot_defs = copy.deepcopy(prot_defs)
+        except:
+            self.write_log_now_or_later_func("WARNING: No protein charge definitions found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
+            self.prot_defs = {}
 
         self.lipid_dict   = {}
         self.solvent_dict = {}
@@ -285,7 +290,26 @@ class Crafter(
             else:
                 assert False, "Invalid argument given to Crafter: " + str((key, cmd))
 
+        string = " ".join(["", "INITIALIZING LOG FILE", ""])
+        self.write_log_now_or_later_func("{string:-^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), spaces=0, verbose=1, write_log_now_or_later = "later")
+        self.write_log_now_or_later_func("Opening log file", spaces=0, verbose=1, write_log_now_or_later = "later")
+
+        ### Initializing log file writing
+        if self.output_log_file_name:
+            if self.backup:
+                self.backupper(self.output_log_file_name, write_log_now_or_later = "later")
+            self.LOG_FILE_HANDLE = open(self.output_log_file_name, "w")
+        else:
+            self.LOG_FILE_HANDLE = None
+
+        for line in self.LOG_FILE:
+            self.print_term(line["string"].rstrip(), print_string=line["for_print"], log_string=line["for_log"], **{key: val for key, val in line.items() if key not in ["string", "for_print", "for_log"]})
+
+        string1 = " ".join(["", "LOG FILE INITIALIZED", ""])
+        self.print_term("{string:-^{string_length}}".format(string=string1, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+
         ### Setting randseed
+        self.print_term("Running COBY version {}".format(self.version), verbose=1)
         self.print_term("Setting random seed to:", self.randseed, verbose=1)
         random.seed(self.randseed)
         np.random.seed(self.randseed)
@@ -348,7 +372,6 @@ class Crafter(
         filewriting_tic = time.time()
 
         self.molecule_system_writer()
-        self.log_file_writer()
         
         filewriting_toc = time.time()
         filewriting_time = round(filewriting_toc - filewriting_tic, 4)
@@ -365,6 +388,12 @@ class Crafter(
         COBY_run_toc  = time.time()
         COBY_run_time = round(COBY_run_toc - self.COBY_run_tic, 4)
         self.print_term("Time spent running COBY:", COBY_run_time, verbose=1)
+
+        ############################
+        ### CLOSING THE LOG FILE ###
+        ############################
+        self.log_file_writer()
+
 
     def molecule_crafter(self):
         '''

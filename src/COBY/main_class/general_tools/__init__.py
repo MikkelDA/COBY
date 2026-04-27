@@ -16,6 +16,7 @@ from COBY.main_class.general_tools.recursive_dict_printer import *
 from COBY.main_class.general_tools.rotate_point import *
 from COBY.main_class.general_tools.rotation_matrix_from_vectors import *
 from COBY.main_class.general_tools.tags_checker import *
+from COBY.main_class.general_tools.write_log_now_or_later_func import *
 
 class general_tools(
     backupper,
@@ -32,6 +33,7 @@ class general_tools(
     rotate_point,
     rotation_matrix_from_vectors,
     tags_checker,
+    write_log_now_or_later_func,
 ):
     def __init__(self):
         pass

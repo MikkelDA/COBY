@@ -34,6 +34,8 @@ from COBY.main_class.general_tools.__init__ import *
 from COBY.main_class.definition_preprocessors.__init__ import *
 from COBY.main_class.molecule_fragment_builder.__init__ import *
 
+from COBY.version import __version__, __version_changes__, __changes__, __changelog__
+
 class Library(
     structure_file_handlers,
     topology_handlers,
@@ -54,6 +56,7 @@ class Library(
         self.warnings     = True
         self.quiet        = False
         self.verbose      = 1
+        self.version      = __version__
         
         if terminal_run_kwargs:
             kwargs.update(terminal_run_kwargs)
@@ -97,21 +100,21 @@ class Library(
         self.terminalupdate_string_length = 80
 
         ### Adds given commands to log file
-        self.LOG_FILE.append("The following COBY arguments will be processed:" + "\n")
-        self.LOG_FILE.append("COBY(" + "\n")
+        self.LOG_FILE.append({"string": "The following MoleculeBuilder arguments will be processed:" + "\n", "for_print": False, "for_log": True})
+        self.LOG_FILE.append({"string": "MoleculeBuilder(" + "\n", "for_print": False, "for_log": True})
         for key, val in kwargs.copy().items():
             if type(val) == str:
                 val = "\"" + val + "\""
-                self.LOG_FILE.append("    " + str(key) + " = " + str(val) + "," + "\n")
+                self.LOG_FILE.append({"string": "    " + str(key) + " = " + str(val) + "," + "\n", "for_print": False, "for_log": True})
             elif type(val) in [list, tuple]:
-                self.LOG_FILE.append("    " + str(key) + " = " + "[" + "\n")
+                self.LOG_FILE.append({"string": "    " + str(key) + " = " + "[" + "\n", "for_print": False, "for_log": True})
                 for subval in val:
                     if type(subval) == str:
                         subval = "\"" + subval + "\""
-                    self.LOG_FILE.append("    " + "    " + str(subval) + "," + "\n")
-                self.LOG_FILE.append("    " + "]," + "\n")
-        self.LOG_FILE.append(")" + "\n")
-            
+                    self.LOG_FILE.append({"string": "    " + "    " + str(subval) + "," + "\n", "for_print": False, "for_log": True})
+                self.LOG_FILE.append({"string": "    " + "]," + "\n", "for_print": False, "for_log": True})
+        self.LOG_FILE.append({"string": ")" + "\n", "for_print": False, "for_log": True})
+
         self.pbc_set  = []
         self.pbc_type = "rectangular"
         self.backup   = True
@@ -127,79 +130,79 @@ class Library(
         try:
             self.lipid_scaffolds = copy.deepcopy(lipid_scaffolds)
         except:
-            self.print_term("WARNING: No lipid scaffolds found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No lipid scaffolds found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.lipid_scaffolds = {}
         
         try:
             self.lipid_defs = copy.deepcopy(lipid_defs)
         except:
-            self.print_term("WARNING: No lipid definitions found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No lipid definitions found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.lipid_defs = {}
         
         try:
             self.solvent_defs = copy.deepcopy(solvent_defs)
         except:
-            self.print_term("WARNING: No solvent definitions found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No solvent definitions found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.solvent_defs = {}
         
         try:
             self.pos_ion_defs = copy.deepcopy(pos_ion_defs)
         except:
-            self.print_term("WARNING: No positive ion definitions found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No positive ion definitions found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.pos_ion_defs = {}
 
         try:
             self.neg_ion_defs = copy.deepcopy(neg_ion_defs)
         except:
-            self.print_term("WARNING: No negative ion definitions found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No negative ion definitions found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.neg_ion_defs = {}
         
         try:
             self.fragment_defs = copy.deepcopy(fragment_defs)
         except:
-            self.print_term("WARNING: No fragment definitions found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No fragment definitions found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.fragment_defs = {}
         
         try:
             self.prot_defs = copy.deepcopy(prot_defs)
         except:
-            self.print_term("WARNING: No protein charge definitions found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No protein charge definitions found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.prot_defs = {}
 
         try:
             self.lipid_metadata = copy.deepcopy(lipid_metadata)
         except:
-            self.print_term("WARNING: No lipid metadata found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No lipid metadata found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.lipid_metadata = {}
 
         try:
             self.solvent_metadata = copy.deepcopy(solvent_metadata)
         except:
-            self.print_term("WARNING: No solvent metadata found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No solvent metadata found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.solvent_metadata = {}
 
         try:
             self.pos_ion_metadata = copy.deepcopy(pos_ion_metadata)
         except:
-            self.print_term("WARNING: No positive ion metadata found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No positive ion metadata found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.pos_ion_metadata = {}
 
         try:
             self.neg_ion_metadata = copy.deepcopy(neg_ion_metadata)
         except:
-            self.print_term("WARNING: No negative ion metadata found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No negative ion metadata found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.neg_ion_metadata = {}
 
         try:
             self.prot_metadata = copy.deepcopy(prot_metadata)
         except:
-            self.print_term("WARNING: No fragment metadata found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No fragment metadata found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.prot_metadata = {}
 
         try:
             self.fragment_metadata = copy.deepcopy(fragment_metadata)
         except:
-            self.print_term("WARNING: No fragment metadata found", warn=True)
+            self.write_log_now_or_later_func("WARNING: No fragment metadata found", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
             self.fragment_metadata = {}
 
         
@@ -346,14 +349,33 @@ class Library(
             
             else:
                 if not invalid_args_given:
-                    self.print_term("This is the COBY.Library() method. Arguments given to COBY.Library() that are not related to molecule definition file importing, molecule structure importing, topology importing or the molecule fragment builder will not stop the program, but will also not be processed.", warn=True)
+                    self.write_log_now_or_later_func("This is the COBY.Library() method. Arguments given to COBY.Library() that are not related to molecule definition file importing, molecule structure importing, topology importing or the molecule fragment builder will not stop the program, but will also not be processed.", spaces=0, verbose=1, warn=True, write_log_now_or_later = "later")
                     invalid_args_given = True
                 if type(cmd) == str:
-                    self.print_term("Invalid argument detected:", '"'+key, "=", "'"+cmd+"'"+'"', spaces=1, warn=True)
+                    self.write_log_now_or_later_func("Invalid argument detected:", '"'+key, "=", "'"+cmd+"'"+'"', spaces=1, verbose=1, warn=True, write_log_now_or_later = "later")
                 else:
-                    self.print_term("Invalid argument detected:", '"'+key, "=", str(cmd)+'"', spaces=1, warn=True)
+                    self.write_log_now_or_later_func("Invalid argument detected:", '"'+key, "=", str(cmd)+'"', spaces=1, verbose=1, warn=True, write_log_now_or_later = "later")
         
+        string = " ".join(["", "INITIALIZING LOG FILE", ""])
+        self.write_log_now_or_later_func("{string:-^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), spaces=0, verbose=1, write_log_now_or_later = "later")
+        self.write_log_now_or_later_func("Opening log file", spaces=0, verbose=1, write_log_now_or_later = "later")
+
+        ### Initializing log file writing
+        if self.output_log_file_name:
+            if self.backup:
+                self.backupper(self.output_log_file_name, write_log_now_or_later = "later")
+            self.LOG_FILE_HANDLE = open(self.output_log_file_name, "w")
+        else:
+            self.LOG_FILE_HANDLE = None
+
+        for line in self.LOG_FILE:
+            self.print_term(line["string"].rstrip(), print_string=line["for_print"], log_string=line["for_log"], **{key: val for key, val in line.items() if key not in ["string", "for_print", "for_log"]})
+
+        string1 = " ".join(["", "LOG FILE INITIALIZED", ""])
+        self.print_term("{string:-^{string_length}}".format(string=string1, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
+
         ### Setting randseed
+        self.print_term("Running COBY version {}".format(self.version), verbose=1)
         self.print_term("Setting random seed to:", self.randseed, verbose=1)
         random.seed(self.randseed)
         np.random.seed(self.randseed)
@@ -397,25 +419,6 @@ class Library(
 
         self.ILR_layer0_main()
 
-        ####################
-        ### FILE WRITING ###
-        ####################
-        ### Only log files can be written by COBY.Library, so checks if terminal printing should be done:
-        if self.output_log_file_name:
-            string = " ".join(["", "WRITING FILES", ""])
-            self.print_term("{string:-^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
-            filewriting_tic = time.time()
-
-            self.log_file_writer()
-
-            filewriting_toc = time.time()
-            filewriting_time = round(filewriting_toc - filewriting_tic, 4)
-            string1 = " ".join(["", "FILE WRITING COMPLETE", ""])
-            string2 = " ".join(["", "(Time spent:", str(filewriting_time), "[s])", ""])
-            self.print_term("{string:-^{string_length}}".format(string=string1, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
-            self.print_term("{string:^{string_length}}".format(string=string2, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
-            self.print_term("", spaces=0, verbose=1)
-
         ######################
         ### END OF PROGRAM ###
         ######################
@@ -423,6 +426,12 @@ class Library(
         COBY_run_toc  = time.time()
         COBY_run_time = round(COBY_run_toc - self.COBY_run_tic, 4)
         self.print_term("Time spent running COBY:", COBY_run_time, verbose=1)
+
+        ############################
+        ### CLOSING THE LOG FILE ###
+        ############################
+        self.log_file_writer()
+
 
     def ILR_invalid_answer(self, val):
         self.print_term("I did not understand your answer: '{}'.".format(val), verbose=0)
@@ -810,8 +819,11 @@ class Library(
             ILR_restart_layer(**restart_dict)
 
         elif val.lower() in ("printtag", "printtags", "pt"):
-            self.print_term("Following tags are present across all {moltype_longname} parameter libraries:".format(moltype_longname=moltype_longname), verbose=0)
-            self.print_term(" ".join(["'"+tag+"'" for tag in all_tags_in_params]), verbose=0, spaces=1)
+            if len(all_tags_in_params) == 0:
+                self.print_term("There are no tags in the {moltype_longname} parameter libraries:".format(moltype_longname=moltype_longname), verbose=0)
+            else:
+                self.print_term("Following tags are present across all {moltype_longname} parameter libraries:".format(moltype_longname=moltype_longname), verbose=0)
+                self.print_term(" ".join(["'"+tag+"'" for tag in all_tags_in_params]), verbose=0, spaces=1)
             self.print_term("", verbose=0)
             ILR_restart_layer(**restart_dict)
         
@@ -931,8 +943,11 @@ class Library(
             ILR_restart_layer(**restart_dict)
         
         elif val.lower() in ("printtag", "printtags", "pt"):
-            self.print_term("Following tags are present in the '{parameter_library}' parameter library:".format(parameter_library=parameter_library), verbose=0)
-            self.print_term("    "+" ".join(["'"+tag+"'" for tag in tags_in_parameter_library]), verbose=0)
+            if len(tags_in_parameter_library) == 0:
+                self.print_term("There are no tags in the {parameter_library} parameter library:".format(parameter_library=parameter_library), verbose=0)
+            else:
+                self.print_term("Following tags are present in the '{parameter_library}' parameter library:".format(parameter_library=parameter_library), verbose=0)
+                self.print_term("    "+" ".join(["'"+tag+"'" for tag in tags_in_parameter_library]), verbose=0)
             self.print_term("", verbose=0)
             ILR_restart_layer(**restart_dict)
         

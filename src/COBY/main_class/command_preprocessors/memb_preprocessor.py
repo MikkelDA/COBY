@@ -233,7 +233,11 @@ class memb_preprocessor:
                         ### Multiplier used to scale the buffer space around lipids during the grid making process
                         "grid_maker_multiplier": 1, # float or int
                         ### Radius size separater
-                        "grid_maker_separator": 0.4,
+                        "grid_maker_separator": 0.4, # [nm]
+                        ### Lipids below this radius will always be grouped into the smallest radius group
+                        "grid_maker_minimum_radius": 2.5, # [nm]
+                        ### Lipids above this radius will always be grouped into the largest radius group
+                        "grid_maker_maximum_radius": 4.0, # [nm]
                         ### Whether lipids should be evenly or randomly distributed
                         "grid_maker_lipid_distribution": "random", # "random" or "evenly"
                         ### Whether lipids should be evenly or randomly distributed
@@ -656,6 +660,14 @@ class memb_preprocessor:
                         ### Multiplier used to scale the buffer space around lipids during the grid making process
                         elif sub_cmd[0].lower().endswith(("_sep", "_separator")):
                             settings_dict[dict_target]["grid_maker_separator"] = ast.literal_eval(sub_cmd[1])
+
+                        ### Lipids below this radius will always be grouped into the smallest radius group
+                        elif sub_cmd[0].lower().endswith(("_minr", "_minimum_radius")):
+                            settings_dict[dict_target]["grid_maker_minimum_radius"] = ast.literal_eval(sub_cmd[1])
+
+                        ### Lipids above this radius will always be grouped into the largest radius group
+                        elif sub_cmd[0].lower().endswith(("_maxr", "_minimum_radius")):
+                            settings_dict[dict_target]["grid_maker_maximum_radius"] = ast.literal_eval(sub_cmd[1])
                         
                         else:
                             assert False, "Unknown subcommand given to '-membrane'. The subcommand is: '" + str(cmd) + "'"
@@ -738,7 +750,7 @@ class memb_preprocessor:
                 #         layer_definition = "bilayer"
                 
                 memb_dict = {"leaflets": {}, "membrane_type": layer_definition}
-                
+
                 if layer_definition == "upper" or layer_definition == "bilayer":
                     memb_dict["leaflets"]["upper_leaf"] = settings_dict["upper_leaf"]
                     memb_dict["leaflets"]["upper_leaf"].update({
@@ -837,6 +849,8 @@ class memb_preprocessor:
                                 polygon["yscaling"] *= 10
                             for pi, (xval, yval) in enumerate(polygon["points"]):
                                 polygon["points"][pi] = (xval*10 + leaflet["center"][0], yval*10 + leaflet["center"][1])
+
+                    assert leaflet["grid_maker_minimum_radius"] < leaflet["grid_maker_maximum_radius"], f"The 'grid_maker_minimum_radius' value ({leaflet["grid_maker_minimum_radius"]}) must be smaller than the 'grid_maker_maximum_radius' value (({leaflet["grid_maker_maximum_radius"]}))."
                 
                 ################################
                 ### Lipid data incorporation ###

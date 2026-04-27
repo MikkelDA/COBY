@@ -2,13 +2,13 @@ class print_term:
     #####################################
     ### Specialized printing function ###
     #####################################
-    def print_term(self, *string, spaces=0, verbose=0, space="    ", sep=" ", end="\n", debug = False, debug_keys=[], extra = False, warn = False, inp=False):
+    def print_term(self, *string, spaces=0, verbose=0, space="    ", sep=" ", end="\n", debug = False, debug_keys=[], extra = False, warn = False, inp=False, print_string=True, log_string=True):
         '''
         Specialized printing function.
-        Allows for easy customization of requirements for when a print statement should be printed or added to log file.
+        Allows for easy customization of requirements for when a print statement should be printed or added to the log file.
         '''
         
-        print_true = False
+        valid = False
         if type(string) in [tuple, list]:
             string = space*spaces + sep.join([str(i) for i in string])
 
@@ -19,36 +19,49 @@ class print_term:
                 if type(debug_keys) == str:
                     debug_keys = [debug_keys]
                 if not self.debug_keys or any([key in self.debug_keys for key in debug_keys]):
-                    print_true = True
+                    valid = True
                     if not string.startswith("DEBUG:"):
-                        ### Old version. Kept for backup
-                        # left_whitespace = len(string) - len(string.lstrip(' ')) - len("DEBUG: ")
-                        # if left_whitespace < 0:
-                        #     left_whitespace = 0
-                        # string = "DEBUG: " + " "*left_whitespace + string.lstrip(' ')
                         string = "DEBUG: " + string
-        elif extra:
-            if self.extra_info:
-                print_true = True
         elif warn:
             if self.warnings:
-                print_true = True
+                valid = True
                 if not string.startswith("WARNING:"):
                     string = "WARNING: " + string
-        else:
-            ### If no special case, then assume it should be printed
-            print_true = True
+        elif extra:
+            if self.extra_info:
+                valid = True
+        elif print_string or log_string:
+            valid = True
+
+        if self.debug_prints and ((not self.debug_keys) or ("printer" in self.debug_keys)):
+            print("-------------------------------------------------------------")
+            print("string:",       "'" + str(string) + "'")
+            print("spaces:",       "'" + str(spaces) + "'")
+            print("verbose:",      "'" + str(verbose) + "'")
+            print("space:",        "'" + str(space) + "'")
+            print("sep:",          "'" + str(sep) + "'")
+            print("end:",          "'" + str(end) + "'")
+            print("debug:",        "'" + str(debug) + "'")
+            print("debug_keys:",   "'" + str(debug_keys) + "'")
+            print("extra:",        "'" + str(extra) + "'")
+            print("warn:",         "'" + str(warn) + "'")
+            print("inp:",          "'" + str(inp) + "'")
+            print("print_string:", "'" + str(print_string) + "'")
+            print("log_string:",   "'" + str(log_string) + "'")
+            print("valid:",        "'" + str(valid) + "'")
+            print("-------------------------------------------------------------")
 
         ### Print to terminal if not quiet
-        if print_true and not self.quiet and self.verbose >= verbose:
+        if print_string and valid and self.verbose >= verbose and not self.quiet:
             print(string, end=end, flush=True)
         
-        ### Appends string to log file, for later writing
-        if print_true and self.output_log_file_name:
-            self.LOG_FILE.append(string + end)
-
+        ### Writes to log file
+        if log_string and valid and self.LOG_FILE_HANDLE:
+            self.LOG_FILE_HANDLE.write(string + end)
+            self.LOG_FILE_HANDLE.flush()
+        
         if inp:
             inp_answer = input("Your response: ")
-            self.LOG_FILE.append("Your response: " + inp_answer + "\n")
+            if self.LOG_FILE_HANDLE:
+                self.LOG_FILE_HANDLE.write("Your response: " + inp_answer + "\n")
             return inp_answer
-    

@@ -607,13 +607,27 @@ class grid_plotter:
         main_dir = os.path.join(self.PLOT_cmd["path"], self.PLOT_cmd["dir"])
         os.makedirs(main_dir, exist_ok=True)
 
+        def ansi_color(color) -> str:
+            """Convert a matplotlib color to an ANSI escape code background string."""
+            import matplotlib.colors as mcolors
+            r, g, b, *_ = mcolors.to_rgba(color)
+            ri, gi, bi = int(r * 255), int(g * 255), int(b * 255)
+            # Print colored block + reset
+            return f"\033[38;2;{ri};{gi};{bi}m██\033[0m"
+
+        self.print_term("Lipid coloring scheme:", spaces=0, verbose=2)
+        max_lipid_length = max([len(lipid) for lipid in color_lipid_circle_dict.keys()])
+        for lipid, color in color_lipid_circle_dict.items():
+            self.print_term(f"{lipid:<{max_lipid_length}}" + ": " + ansi_color(color), spaces=1, verbose=2)
+        self.print_term("", spaces=1, verbose=2)
+
         for pi, (keys, vals) in enumerate(list(self.plot_data.items())[:]):
             if pi != 0:
                 self.print_term("", verbose=2)
             # subleaflet_dict = self.MEMBRANES[keys[0]]["leaflets"][keys[1]]["subleaflets"][(keys[2], keys[3], keys[4])]
 
             ### The 'key' is a tuple with 5 values (membrane number, leaflet designation, subleaflet x-index, subleaflet y-index, subleaflet general index)
-            self.print_term("Making plot series", pi,                                         spaces=0, verbose=2)
+            self.print_term("Making plot series", pi,                                          spaces=0, verbose=2)
 
             self.print_term("Plot details:",                                                   spaces=1, verbose=2)
 
