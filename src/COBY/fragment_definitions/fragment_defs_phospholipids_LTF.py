@@ -11,7 +11,6 @@ fragment_metadata[moltype] = {
 
 ### General lipid type
 ### Includes glycerophoshpolipids (GL), etherphospholipids (ET) and plasmalogens (PL), depending on used linker
-moltype = "phospholipid_LTF"
 fragment_defs = {}
 fragment_defs[moltype] = {
     ### The parts that the "moltype" can accept
@@ -119,7 +118,7 @@ inositol_head_charges = {
 #  -x   |   x+
 # <----PO4---->
 
-#              C1      C2     C3      C4  PO4     P3   P4    P5
+#              C1      C2     C3      C4  PO4     P3       P4      P5
 inostiol_x = (  0,   -0.2,   0.2,      0,   0, 0.275,   0.175,   -0.2)
 inostiol_y = (  0,      0,     0,      0,   0,     0,       0,      0)
 inostiol_z = (1/3,    2/3, 1.75/3, 1.5/3,   0, 2.25/3,  2.5/3, 2.75/3)
@@ -154,9 +153,9 @@ fragment_defs[moltype]["parts"][molpart].update({
             {"name": "GL2", "charge": 0, "x": 0.125, "y": 0, "z": 0, "resname": False, "resnr": 0},
         ],
         "join_from": {
-            "head":  (0,    0, 0), # GL1 bead
-            "tail1": (0,    0, 0), # GL1 bead
-            "tail2": (0.25, 0, 0), # GL2 bead
+            "head":  (0,     0, 0), # GL1 bead
+            "tail1": (0,     0, 0), # GL1 bead
+            "tail2": (0.125, 0, 0), # GL2 bead
         },
     },
 
@@ -166,9 +165,9 @@ fragment_defs[moltype]["parts"][molpart].update({
             {"name": "PL2", "charge": 0, "x": 0.125, "y": 0, "z": 0, "resname": False, "resnr": 0},
         ],
         "join_from": {
-            "head":  (0,    0, 0), # GL1 bead
-            "tail1": (0,    0, 0), # GL1 bead
-            "tail2": (0.25, 0, 0), # PL2 bead
+            "head":  (0,     0, 0), # GL1 bead
+            "tail1": (0,     0, 0), # GL1 bead
+            "tail2": (0.125, 0, 0), # PL2 bead
         },
     },
 
@@ -178,9 +177,9 @@ fragment_defs[moltype]["parts"][molpart].update({
             {"name": "ET2", "charge": 0, "x": 0.125, "y": 0, "z": 0, "resname": False, "resnr": 0},
         ],
         "join_from": {
-            "head":  (0,    0, 0), # ET1 bead
-            "tail1": (0,    0, 0), # ET1 bead
-            "tail2": (0.25, 0, 0), # ET2 bead
+            "head":  (0,     0, 0), # ET1 bead
+            "tail1": (0,     0, 0), # ET1 bead
+            "tail2": (0.125, 0, 0), # ET2 bead
         },
     },
 })
@@ -228,7 +227,7 @@ fragment_defs[moltype]["parts"][molpart].update({
             "F": "F", # Regular bead - Chain with more than 1 double bond
         },
     },
-    "join_to": ("linker", (-0.125, 0, 0.3)), # GL1 bead
+    "join_to": ("linker", (-0.125, 0, 0.3)), # GL2 bead
 })
 
 

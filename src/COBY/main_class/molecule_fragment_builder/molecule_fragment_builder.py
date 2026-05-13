@@ -40,8 +40,6 @@ class molecule_fragment_builder:
                 moleculetype = False
                 if "moleculetype" in cmd_dict.keys():
                     moleculetype = cmd_dict.pop("moleculetype")
-                
-                ### Sets default params to be "MFB"
 
                 ### Disables adding the molecule to the list of MoleculeBuilder arguments if it is obtained from topology.
                 ### Params subargument "params:TOP" is automatically added to argument in 'itp_reader.py' method if 'params' is missing so no need to check for it here.
@@ -50,8 +48,10 @@ class molecule_fragment_builder:
                     FromTopology = True
                     del cmd_dict["FromTopology"]
 
-                ### Overwrites params if given
+                ### Sets default params to be "MFB"
                 params = "MFB" # Molecule Fragment Builder
+
+                ### Overwrites params if given
                 if "params" in cmd_dict.keys():
                     params = cmd_dict.pop("params")
 

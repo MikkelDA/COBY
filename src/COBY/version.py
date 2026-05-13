@@ -1,36 +1,21 @@
-__version__="1.0.12"
+__version__="1.0.13"
 
 major_changes = [
-    "Added two new subarguments for the 'membrane' argument.",
-    [
-        "'grid_maker_maximum_radius'/'gm_maxr': Sets the maximum radius for separate radius grouping. The default value is 4.0 [nm]. Radius groups that are above this maximum value are merged together.",
-        "'grid_maker_minimum_radius'/'gm_minr': Sets the minimum radius for separate radius grouping. The default value is 2.5 [nm]. Radius groups that are below this minimum value are merged together.",
-        "The effective change is that (with default values), lipids with radii below 2.5 nm (or above 4.0 nm) are always placed in the same lipid insertion step. This should fix various bugs related to lipid insertion."
-    ],
 ]
 
 minor_changes = [
-    "COBY now prints the current version when being run. This is also written to the log file.",
-    "The log file is now written while COBY is running.",
-    "Added 'there are no tags in this parameter library' print for COBY.Library when no tags are present.",
 ]
 
 bug_fixes = [
-    "Various bugs (more like unintended edge-case behaviour) related lipid radius grouping and lipid insertion.",
+    "Fixed the 'grid_maker_placement_algorithm:2d_grid' subargment for membrane arguments. It no longer throws an error due to an undefined value.",
+    "Fixed wrong spacing (too large) between tail beads for phospholipids (M3_release and LTF), diglycerides (LTF) and sphingolipids (LTF) built with the molecule fragment builder.",
+    "Fixed incorrect metadata references and duplicate variable assignments in some lipid fragment files.",
 ]
 
 documentation_changes = [
-    "Added documentation for 'grid_maker_maximum_radius/gm_maxr' and 'grid_maker_minimum_radius/gm_minr'.",
 ]
 
 tutorial_changes = [
-    "Various fixes for 3_Manuscript_tutorial.ipynb:",
-    [
-        "Added DOI to the top of the Notebook.",
-        "Fixed incorrect subargument in the 'c) Multiple solvent spaces' tutorial.",
-        "Removed duplicate 'b)' section located in the 'c)' section.",
-        "Corrected system names so that they correspond to the correct subfigure in the publication.",
-    ],
 ]
 
 other_changes = [

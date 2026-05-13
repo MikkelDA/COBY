@@ -630,7 +630,7 @@ class memb_preprocessor:
                             if sub_cmd[1].lower() in ["auto", "automatic"]:
                                 settings_dict[dict_target]["grid_maker_placement_algorithm"] = "automatic"
                             elif sub_cmd[1].lower() in ["2d", "2d_grid"]:
-                                settings_dict[dict_target]["grid_maker_placement_algorithm"] = "2D_grid"
+                                settings_dict[dict_target]["grid_maker_placement_algorithm"] = "2D_Grid"
                             elif sub_cmd[1].lower() in ["ls", "linestrings"]:
                                 settings_dict[dict_target]["grid_maker_placement_algorithm"] = "LineStrings"
 

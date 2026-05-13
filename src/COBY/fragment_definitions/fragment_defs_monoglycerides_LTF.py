@@ -9,7 +9,6 @@ fragment_metadata[moltype] = {
 }
 
 ### General lipid type
-moltype = "monoglyceride_LTF"
 fragment_defs = {}
 fragment_defs[moltype] = {
     ### The parts that the "moltype" can accept

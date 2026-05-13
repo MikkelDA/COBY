@@ -6,14 +6,13 @@ import copy
 fragment_defs = {}
 fragment_metadata = {}
 
-moltype = "monoglyceride_LTF"
+moltype = "sphingolipid_LTF"
 fragment_metadata[moltype] = {
     "Description": "Fragments for this moleculetype (moltype) are based on the monoglycerides from the lipid task force parameters for Martini 3 as described in https://doi.org/10.26434/chemrxiv-2024-8bjrr.",
 }
 
 ### General lipid type
 ### Includes glycerophoshpolipids (GL), etherphospholipids (ET) and plasmalogens (PL), depending on used linker
-moltype = "sphingolipid_LTF"
 fragment_defs = {}
 fragment_defs[moltype] = {
     ### The parts that the "moltype" can accept
@@ -163,9 +162,9 @@ fragment_defs[moltype]["parts"][molpart].update({
             {"name": "AM2", "charge": 0, "x": 0.25, "y": 0, "z": 0, "resname": False, "resnr": 0},
         ],
         "join_from": {
-            "head":  (0,    0, 0), # OH1 bead
-            "tail1": (0,    0, 0), # OH1 bead
-            "tail2": (0.25, 0, 0), # AM2 bead
+            "head":  (0,     0, 0), # OH1 bead
+            "tail1": (0,     0, 0), # OH1 bead
+            "tail2": (0.125, 0, 0), # AM2 bead
         },
     },
 })
@@ -213,7 +212,7 @@ fragment_defs[moltype]["parts"][molpart].update({
             "F": "F", # Regular bead - Chain with more than 1 double bond
         },
     },
-    "join_to": ("linker", (0, 0, 0.3)), # AM2 bead
+    "join_to": ("linker", (-0.125, 0, 0.3)), # AM2 bead
 })
 
 
