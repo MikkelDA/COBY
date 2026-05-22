@@ -1,15 +1,15 @@
-__version__="1.0.13"
+__version__="1.0.14"
 
 major_changes = [
 ]
 
 minor_changes = [
+    "Added version testing for python v3.9-v3.14 to workflow done before updating COBY for avoid future python version-related issues.",
+    "Added classifiers for python v3.13 and v3.14 to the pyproject.toml file.",
 ]
 
 bug_fixes = [
-    "Fixed the 'grid_maker_placement_algorithm:2d_grid' subargment for membrane arguments. It no longer throws an error due to an undefined value.",
-    "Fixed wrong spacing (too large) between tail beads for phospholipids (M3_release and LTF), diglycerides (LTF) and sphingolipids (LTF) built with the molecule fragment builder.",
-    "Fixed incorrect metadata references and duplicate variable assignments in some lipid fragment files.",
+    "Fixed incompatibility with python versions older than v3.12 caused by nested quotes inside f-strings.",
 ]
 
 documentation_changes = [

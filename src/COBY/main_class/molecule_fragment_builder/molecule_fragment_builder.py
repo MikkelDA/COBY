@@ -116,7 +116,7 @@ class molecule_fragment_builder:
                         if "join_from" in self.fragment_defs[moltype]["parts"][part].keys():
                             part_dicts[part]["join_from"] = copy.deepcopy(self.fragment_defs[moltype]["parts"][part]["join_from"])
 
-                        
+                    ### Otherwise the fragment is taken from the prebuilt list of fragments for the given part
                     else:
                         assert val in self.fragment_defs[moltype]["parts"][part].keys(), "\n".join([
                             "Fragment '{fragment}' specified for part '{part}' for molecule builder argument '{cmd}' not found in list of fragments".format(fragment=val, part=part, cmd=cmd),

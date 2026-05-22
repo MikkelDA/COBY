@@ -850,7 +850,9 @@ class memb_preprocessor:
                             for pi, (xval, yval) in enumerate(polygon["points"]):
                                 polygon["points"][pi] = (xval*10 + leaflet["center"][0], yval*10 + leaflet["center"][1])
 
-                    assert leaflet["grid_maker_minimum_radius"] < leaflet["grid_maker_maximum_radius"], f"The 'grid_maker_minimum_radius' value ({leaflet["grid_maker_minimum_radius"]}) must be smaller than the 'grid_maker_maximum_radius' value (({leaflet["grid_maker_maximum_radius"]}))."
+                    ### v1.0.14 added following variable assignment because the the double nested quotes breaks import of COBY on some machines.
+                    gm_minr, gm_maxr = leaflet["grid_maker_minimum_radius"],  leaflet["grid_maker_maximum_radius"]
+                    assert gm_minr < gm_maxr, f"The 'grid_maker_minimum_radius' value ({gm_minr}) must be smaller than the 'grid_maker_maximum_radius' value ({gm_maxr})."
                 
                 ################################
                 ### Lipid data incorporation ###
