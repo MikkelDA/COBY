@@ -1,4 +1,6 @@
 import time
+import numpy as np
+import math
 
 class protein_placer:
     def protein_placer(self):
@@ -21,6 +23,69 @@ class protein_placer:
                     spaces=1,
                     verbose=2,
                 )
+
+                #################
+                ### ALIGNMENT ###
+                #################
+                def rotation_matrix_to_euler_xyz(R):
+                    """
+                    Extract Euler angles (degrees) from rotation matrix
+                    using the SAME convention as your rotate_coords:
+                    R = Rx * Ry * Rz
+                    """
+
+                    # Clamp to avoid numerical issues
+                    r02 = max(min(R[0][2], 1.0), -1.0)
+
+                    y = math.asin(r02)
+                    cy = math.cos(y)
+
+                    # Check for gimbal lock
+                    if abs(cy) > 1e-6:
+                        x = math.atan2(-R[1][2], R[2][2])
+                        z = math.atan2(-R[0][1], R[0][0])
+                    else:
+                        # Gimbal lock case
+                        x = math.atan2(R[2][1], R[1][1])
+                        z = 0.0
+
+                    return (
+                        math.degrees(x),
+                        math.degrees(y),
+                        math.degrees(z)
+                    )
+
+                ### Rotates a protein such that it is vertically aligned based on the designated upwards and downwards residues
+                if protein["alignment"] == "manual":
+                    residues_list = self.PROTEINS[protein_nr]["protein"].get_res_beads_info(output_type="tuple")
+                    
+                    ### list of (beadname, beadnr, x, y, z, resname, resnr, charge) tuples
+                    up_coords = []
+                    down_coords = []
+                    for beadname, beadnr, x, y, z, resname, resnr, charge in residues_list:
+                        if resnr in protein["upres"]:
+                            x = round(x, 4)
+                            y = round(y, 4)
+                            z = round(z, 4)
+                            up_coords.append((x, y, z))
+                        if resnr in protein["downres"]:
+                            x = round(x, 4)
+                            y = round(y, 4)
+                            z = round(z, 4)
+                            down_coords.append((x, y, z))
+
+                    assert len(up_coords) > 0 and len(down_coords) > 0, "Zero particles found matching the residues for either 'upres' ({up_coords_len} particles) or 'downres' ({down_coords_len} particles) for manual protein alignment.".format(up_coords_len=len(up_coords), down_coords_len=len(down_coords))
+                
+                    up_coords_array        = np.array(up_coords)
+                    down_coords_array      = np.array(down_coords)
+                    up_coords_mean         = np.mean(up_coords_array, axis=0)
+                    down_coords_mean       = np.mean(down_coords_array, axis=0)
+                    original_vector        = up_coords_mean - down_coords_mean
+                    original_vector_length = math.sqrt(original_vector[0]**2 + original_vector[1]**2+original_vector[2]**2)
+                    alignment_vector       = [0, 0, original_vector_length]
+                    rotation_matrix        = self.rotation_matrix_from_vectors(original_vector, alignment_vector)
+                    x_deg, y_deg, z_deg    = rotation_matrix_to_euler_xyz(rotation_matrix)
+                    self.PROTEINS[protein_nr]["protein"].rotate_coords(rotation = [x_deg, y_deg, z_deg])
 
                 #################
                 ### CENTERING ###

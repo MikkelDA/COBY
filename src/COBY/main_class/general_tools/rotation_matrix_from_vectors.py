@@ -16,13 +16,17 @@ class rotation_matrix_from_vectors:
         b = (vector2 / np.linalg.norm(vector2)).reshape(3)
         v = np.cross(a, b) # cross product
         if any(v): # If not all zeros then calculate rotation matrix
+            
             ### rotation_matrix = I + [v]_x + [v]_x^2 * ((1-c)/s^2)
             c = np.dot(a, b) # cosine of angle
+
             ### skew-symmetric cross-product (SSCP) matrix of v
             SSCP = np.array([[0, -v[2], v[1]], [v[2], 0, -v[0]], [-v[1], v[0], 0]])
+
             ### (1-c) / s^2 = (1 - c) / (1 - c^2) = 1 / (1 + c)
             last_bit = 1 / (1 + c)
             rotation_matrix = np.eye(3) + SSCP + SSCP.dot(SSCP) * last_bit
             return rotation_matrix
+        
         else: # Rotation matrix is simply the identity matrix
             return numpy.eye(3)

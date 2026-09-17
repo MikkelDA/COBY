@@ -1,4 +1,5 @@
 import ast
+import numpy as np
 import copy
 
 from COBY.structure_classes.PROTEIN_class import PROTEIN
@@ -39,6 +40,11 @@ class prot_preprocessor:
 
                     ### Sets whether protein should constitute a membrane border
                     "membrane_border": False,
+
+                    ### Sets protein alignment settings
+                    "alignment": False,
+                    "upres": [],
+                    "downres": [],
                 }
                 
                 ### ### Check protein argument
@@ -132,12 +138,33 @@ class prot_preprocessor:
                     elif sub_cmd[0].lower() == "membrane_border":
                         prot_dict["membrane_border"] = bool(ast.literal_eval(sub_cmd[1]))
 
+                    ### Sets whether protein should constitute a membrane border
+                    elif sub_cmd[0].lower() == "alignment":
+                        subsub_cmd = sub_cmd[1].lower()
+                        assert subsub_cmd in ["false", "manual"], f"Invalid value given ({subsub_cmd}) to 'alignment' subargument. Valid subsubarguments are: 'False' and 'manual'"
+                        if subsub_cmd == "false":
+                            prot_dict[sub_cmd[0].lower()] = bool(ast.literal_eval(sub_cmd[1]))
+                        else:
+                            prot_dict[sub_cmd[0].lower()] = sub_cmd[1]
+
+                    ### Sets whether protein should constitute a membrane border
+                    elif sub_cmd[0].lower() in ["upres", "downres"]:
+                        for subsub_cmd in sub_cmd[1:]:
+                            if "-" in subsub_cmd:
+                                n1, n2 = subsub_cmd.split("-")
+                                prot_dict[sub_cmd[0].lower()].extend(list(np.arange(int(n1), int(n2)+1, 1)))
+                            else:
+                                prot_dict[sub_cmd[0].lower()].append(int(subsub_cmd))
+
                     ### Errors out if unknown subargument used, and prints the subargument to console
                     else:
                         assert False, "Unknown subargument given to 'protein' argument. The subargument is: '" + str(cmd) + "'"
 
                 assert "beads" in prot_dict, "Subargument 'file' must be given in protein arguments."
-                
+
+                if prot_dict["alignment"] == "manual":
+                    assert len(prot_dict["upres"]) > 0 and len(prot_dict["downres"]) > 0, "You must supply both 'upres' and 'downres' numbers when using 'alignment:manual'"
+
                 ### Checks rotation subarguments short and long versions are mutually exclusive to prevent confusion from using both
                 assert not (prot_dict["rotate"] and any([prot_dict["rx"], prot_dict["ry"], prot_dict["rz"]])), "'rotate' and individual 'rx'/'ry'/'rz' subarguments are mutually exclusive."
                 if any([prot_dict["rx"], prot_dict["ry"], prot_dict["rz"]]):

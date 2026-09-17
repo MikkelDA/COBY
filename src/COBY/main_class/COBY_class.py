@@ -319,7 +319,7 @@ class COBY(
                     self.pbc_type = "dodecahedron"
 
                 else:
-                    assert False, "Incorrect pbc type given: " + str(key, cmd)
+                    assert False, f"Incorrect pbc type given: {str(key)}:{str(cmd)}. Valid pbc types are: 'rectangular', 'hexagonal'/'hexagonal_prism', 'skewed_hexagonal'/'skewed_hexagonal_prism' and 'dodecahedron'/'rhombic_dodecahedron', "
             
             elif key == "pdb_unitcell":
                 assert len(cmd) in [3, 6], "number of values given to 'pdb_unitcell' must be either 3 or 6 (pdb_unitcell: {})".format(cmd)
@@ -1060,7 +1060,7 @@ class COBY(
         #####################
         ### GRID PLOTTING ###
         #####################
-        if self.PLOT_cmd["make plots"]:
+        if self.PLOT_cmd["make plots"] and len(self.MEMBRANES.items()) > 0:
             string = " ".join(["", "PLOTTING LEAFLET GRIDS", ""])
             self.print_term("{string:-^{string_length}}".format(string=string, string_length=self.terminalupdate_string_length), spaces=0, verbose=1)
             plotting_tic = time.time()

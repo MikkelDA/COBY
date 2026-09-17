@@ -1,18 +1,24 @@
-__version__="1.0.14"
+__version__="1.0.15"
 
 major_changes = [
+    "Added protein alignment functionality.",
 ]
 
 minor_changes = [
-    "Added version testing for python v3.9-v3.14 to workflow done before updating COBY for avoid future python version-related issues.",
-    "Added classifiers for python v3.13 and v3.14 to the pyproject.toml file.",
 ]
 
 bug_fixes = [
-    "Fixed incompatibility with python versions older than v3.12 caused by nested quotes inside f-strings.",
+    "Fixed critical bug causing inversion of lipid steriochemistry in lower leaflets.",
+    [
+        "Previously lipids in the lower leaflet 'rotated' by simply multiplying all z-coordinates with -1, which caused steriochemistry to be inverted. Now all y-values are also multiplied by -1 to fix the steriochemistry.",
+        "It is unlikely to have been important for coarse-grained systems, though all atomistic systems have likely been affected.",
+    ],
+    "Fixed crash caused by error message when giving an invalid 'box_type'.",
+    "Prevented crash when using the 'plot_grid' argument without a 'membrane' argument.",
 ]
 
 documentation_changes = [
+    "Added documentation for manual protein alignment."
 ]
 
 tutorial_changes = [

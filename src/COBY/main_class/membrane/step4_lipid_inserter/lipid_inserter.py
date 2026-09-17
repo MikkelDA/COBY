@@ -52,7 +52,8 @@ class lipid_inserter:
                                 "name":    l_name,
                                 "beads":   beads,
                                 "x":       [x      + grid_point_x + random.uniform(-leaflet["kickxy"], leaflet["kickxy"]) for x in new_x],
-                                "y":       [y      + grid_point_y + random.uniform(-leaflet["kickxy"], leaflet["kickxy"]) for y in new_y],
+                                ### y*sign to fix inversion of steriochemistry caused by z*sign
+                                "y":       [y*sign + grid_point_y + random.uniform(-leaflet["kickxy"], leaflet["kickxy"]) for y in new_y],
                                 "z":       [z*sign + grid_point_z + random.uniform(-leaflet["kickz"],  leaflet["kickz"])  for z in new_z],
                                 "charges": charges,
                             }
