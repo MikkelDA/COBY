@@ -1,30 +1,33 @@
-__version__="1.0.15"
+__version__="1.0.16"
 
 major_changes = [
-    "Added protein alignment functionality.",
+    "Redid the parameter library names for for Martini 2/3 lipid, solvent/ion and protein parameter libraries.",
+    [
+        "Changed from arbitrary names to standardised {force field abbreviation}_{year of publication} format.",
+        "Changed default lipid library from 'M2_2021' (previously called 'default') to 'M3_2025' (previously called 'M3_LTF')",
+    ],
 ]
 
 minor_changes = [
+    "Added possibility to do random protein rotations when using the 'rotate' and 'r[x/y/z]' subarguments. See the documentation section 6.18.2 for examples.",
 ]
 
 bug_fixes = [
-    "Fixed critical bug causing inversion of lipid steriochemistry in lower leaflets.",
-    [
-        "Previously lipids in the lower leaflet 'rotated' by simply multiplying all z-coordinates with -1, which caused steriochemistry to be inverted. Now all y-values are also multiplied by -1 to fix the steriochemistry.",
-        "It is unlikely to have been important for coarse-grained systems, though all atomistic systems have likely been affected.",
-    ],
-    "Fixed crash caused by error message when giving an invalid 'box_type'.",
-    "Prevented crash when using the 'plot_grid' argument without a 'membrane' argument.",
+    "Added the ability to set 'keep_residue_numbering' when running COBY from the terminal.",
 ]
 
 documentation_changes = [
-    "Added documentation for manual protein alignment."
+    "Added list of all included parameter libraries to section 6.12 'Setting parameter libraries: params'",
 ]
 
 tutorial_changes = [
+    "Changed a few tutorials to match the new parameter library names",
 ]
 
 other_changes = [
+    "Added matplotlib and pyrecorder as dependencies in the pyproject.toml.",
+    "Removed checks to the membrane grid plotter that tested for a pyrecorder installation.",
+    "Added urls for the COBY documentation and the COBY paper to the [project.urls] section in the pyproject.toml.",
 ]
 
 def version_change_writer(iterable, recursion_depth = 0):

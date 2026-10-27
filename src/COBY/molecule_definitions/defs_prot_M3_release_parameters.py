@@ -1,7 +1,7 @@
 prot_defs     = {}
 prot_metadata = {}
 
-params = "default"
+params = "M3_2021"
 prot_metadata[params] = {
     "Description": "The protein bead-charge mapping in this parameter library are based on the release parameters for Martini 3 as described in https://doi.org/10.1038/s41592-021-01098-3.",
 }
@@ -9,7 +9,6 @@ prot_metadata[params] = {
 ###########################
 ### PROTEIN CHARGE DATA ###
 ###########################
-params = "default"
 prot_defs[params] = {}
 prot_defs[params]["charges"] = {
     ### ### 1 atom residues

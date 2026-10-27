@@ -8,7 +8,8 @@ class molecule_importer:
             for imp_struc in self.MOLECULE_IMPORT_cmds:
                 
                 structure      = False
-                params         = "default" # str
+                params_lipid    = "M3_2025"
+                params_solv     = "M3_2021"
                 moleculetype   = False
                 refname        = False
                 name           = False
@@ -75,7 +76,8 @@ class molecule_importer:
                         structure = self.structure_importer(sub_cmd[1])
                     
                     elif sub_cmd[0] == "params":
-                        params = sub_cmd[1]
+                        params_lipid = sub_cmd[1]
+                        params_solv  = sub_cmd[1]
                     
                     elif sub_cmd[0] in ["moleculetype", "moleculetypes"]:
                         moleculetype = sub_cmd[1]
@@ -353,24 +355,24 @@ class molecule_importer:
 
                 ### Solvent
                 if len(library_types) == 0 or any([string in library_types for string in ["solvent", "solute"]]):
-                    if params not in self.solvent_defs_imported.keys():
-                        self.solvent_defs_imported[params] = {}
-                    self.solvent_defs_imported[params][defs_name] = copy.deepcopy(mol_dict)
+                    if params_solv not in self.solvent_defs_imported.keys():
+                        self.solvent_defs_imported[params_solv] = {}
+                    self.solvent_defs_imported[params_solv][defs_name] = copy.deepcopy(mol_dict)
                 
                 ### Positive ions
                 if len(library_types) == 0 or any([string in library_types for string in ["ions", "pos_ions"]]):
-                    if params not in self.pos_ion_defs_imported.keys():
-                        self.pos_ion_defs_imported[params] = {}
-                    self.pos_ion_defs_imported[params][defs_name] = copy.deepcopy(mol_dict)
+                    if params_solv not in self.pos_ion_defs_imported.keys():
+                        self.pos_ion_defs_imported[params_solv] = {}
+                    self.pos_ion_defs_imported[params_solv][defs_name] = copy.deepcopy(mol_dict)
                 
                 ### Negative ions
                 if len(library_types) == 0 or any([string in library_types for string in ["ions", "neg_ions"]]):
-                    if params not in self.neg_ion_defs_imported.keys():
-                        self.neg_ion_defs_imported[params] = {}
-                    self.neg_ion_defs_imported[params][defs_name] = copy.deepcopy(mol_dict)
+                    if params_solv not in self.neg_ion_defs_imported.keys():
+                        self.neg_ion_defs_imported[params_solv] = {}
+                    self.neg_ion_defs_imported[params_solv][defs_name] = copy.deepcopy(mol_dict)
                 
                 ### Lipids
                 if len(library_types) == 0 or any([string in library_types for string in ["lipid"]]):
-                    if params not in self.lipid_defs_imported.keys():
-                        self.lipid_defs_imported[params] = {}
-                    self.lipid_defs_imported[params][defs_name] = copy.deepcopy(mol_dict)
+                    if params_lipid not in self.lipid_defs_imported.keys():
+                        self.lipid_defs_imported[params_lipid] = {}
+                    self.lipid_defs_imported[params_lipid][defs_name] = copy.deepcopy(mol_dict)

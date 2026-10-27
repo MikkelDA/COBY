@@ -38,6 +38,11 @@ solvent_metadata[params] = {
     "Description": "This parameter library contains atomistic tip3p water where the molecule name is 'SOL' and the atom names use the ones from the Charmm force field.",
     "Note": note_text,
 }
+params = "AA_Amber"
+solvent_metadata[params] = {
+    "Description": "This parameter library contains atomistic tip3p (TP3) and OPC water where the atom names use the ones from the AMBER force field.",
+    "Note": note_text,
+}
 params = "AA"
 pos_ion_metadata[params] = {
     "Description": "This parameter library contains atomistic positively charge ions.",

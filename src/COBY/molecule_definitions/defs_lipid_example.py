@@ -2,7 +2,7 @@
 ### Below is shown an example of a multi-residue lipid
 ### ### Note that it is not necessary to include "charge" in all bead dictionaries as it is assumed to be zero if not defined
 # lipid_defs = {}
-# params = "default"
+# params = "M3_2025"
 # lipid_defs[params] = {}
 # lipid_defs[params].update({
 #     "Example_lipid": { # Name of molecule (used when selecting molecule in solvation/flooding commands)

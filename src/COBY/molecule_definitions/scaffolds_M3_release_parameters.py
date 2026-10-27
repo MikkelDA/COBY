@@ -1,7 +1,7 @@
 lipid_scaffolds = {}
 lipid_metadata = {}
 
-params = "default"
+params = "M3_2021"
 lipid_metadata[params] = {
     "Description": "Lipids in this parameter library are based on the release parameters for Martini 3 as described in https://doi.org/10.1038/s41592-021-01098-3.",
 }
@@ -13,7 +13,7 @@ lipid_metadata[params] = {
 ### LIPIDS ###
 ##############
 ### Diacyl glycerols
-lipid_type, params = "lipid", "default"
+lipid_type = "lipid"
 lipid_scaffolds[(lipid_type, params)] = {}
 lipid_scaffolds[(lipid_type, params)]["x"] = (    0, .5,  0,  0, .5,  0,  0, .5,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  1,  1)
 lipid_scaffolds[(lipid_type, params)]["y"] = (    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0)

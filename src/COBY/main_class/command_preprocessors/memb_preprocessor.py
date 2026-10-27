@@ -877,7 +877,7 @@ class memb_preprocessor:
                             Order: lipid specific parameters, leaflet specific parameters, general system parameters (defaults to "default")
                             """
                             name       = False
-                            params     = leaflet["params"] or self.lipid_params or self.sys_params
+                            params     = leaflet["params"] or self.lipid_params or self.sys_params or self.lipid_params_default
                             charge     = leaflet["charge"]
                             apl        = leaflet["apl"]
                             extra_type = "absolute"

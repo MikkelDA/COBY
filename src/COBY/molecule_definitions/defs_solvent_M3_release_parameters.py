@@ -1,7 +1,7 @@
 solvent_defs = {}
 solvent_metadata = {}
 
-params = "default"
+params = "M3_2021"
 solvent_metadata[params] = {
     "Description": "Solvent and solutes in this parameter library are based on the release parameters for Martini 3 as described in https://doi.org/10.1038/s41592-021-01098-3.",
 }
@@ -11,7 +11,6 @@ solvent_metadata[params] = {
 ################
 ### molar_mass: [g/mol]
 ### density: [g/cm^3]
-params = "default"
 solvent_defs[params] = {}
 
 ### Water

@@ -2,9 +2,9 @@
 lipid_scaffolds = {}
 lipid_metadata = {}
 
-params = "LTF"
+params = "M3_2025"
 lipid_metadata[params] = {
-    "Description": "Lipids in this parameter library are based on the parameters from the lipid task force as described in https://doi.org/10.26434/chemrxiv-2024-8bjrr",
+    "Description": "Lipids in this parameter library are based on the parameters from the lipid task force as described in https://doi.org/10.1021/acscentsci.5c00755",
 }
 
 ### ### ### ### ### ################################################################## ### ### ### ### ###
@@ -113,7 +113,7 @@ phospholipid_heads_simple = {
     "DG": "    -     -     -     -     -     OH", # Diglyceride
 }
 
-lipid_type, params = "diacyl_glycerols_LTF_release", "LTF"
+lipid_type = "diacyl_glycerols_LTF_release"
 lipid_scaffolds[(lipid_type, params)] = {}   #  H01   H02   H03   H04   H05   H06   L07   L08   A09   A10   A11   A12   A13   A14   B15   B16   B17   B18   B19   B20
 lipid_scaffolds[(lipid_type, params)]["x"] = (    0,   .5,    0,    0,   .5,    0,    0,   .5,    0,    0,    0,    0,    0,    0,    1,    1,    1,    1,    1,    1)
 lipid_scaffolds[(lipid_type, params)]["y"] = (    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0)
@@ -181,7 +181,7 @@ inositol_head_charges = {
     "P7": [("P3", -1.5), ("P5", -1.5)],
 }
 
-lipid_type, params = "phosphoinositollipids_LTF_release", "LTF"
+lipid_type = "phosphoinositollipids_LTF_release"
 lipid_scaffolds[(lipid_type, params)] = {}   #  H01   H02   H03   V04   H05   H06   H07   H08   L09   L10   A11   A12   A13   A14   A15   A16   B17   B18   B19   B20   B21   B22
 lipid_scaffolds[(lipid_type, params)]["x"] = (  0.5,  0.8, -0.3, 0.25,    0,    1,   .5, -0.3,    0,   .5,    0,    0,    0,    0,    0,    0,    1,    1,    1,    1,    1,    1)
 lipid_scaffolds[(lipid_type, params)]["y"] = (    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0)
@@ -278,7 +278,7 @@ lipid_scaffolds[(lipid_type, params)]["lipids"].update(plasmalogen_lipids)
 A1-A2-A3-A4-A5-A6
 """
 
-lipid_type, params = "hydrocarbons_LTF_release", "LTF"
+lipid_type = "hydrocarbons_LTF_release"
 lipid_scaffolds[(lipid_type, params)] = {}   #  A1    A2    A3    A4    A5    A6
 lipid_scaffolds[(lipid_type, params)]["x"] = (   0,    0,    0,    0,    0,    0)
 lipid_scaffolds[(lipid_type, params)]["y"] = (   0,    0,    0,    0,    0,    0)
@@ -312,7 +312,7 @@ lipid_scaffolds[(lipid_type, params)]["lipids"] = {
 #
 # H1-A2-A3-A4-A5-A6-A7
 
-lipid_type, params = "fattyacids_LTF_release", "LTF"
+lipid_type = "fattyacids_LTF_release"
 lipid_scaffolds[(lipid_type, params)] = {}   #  H1     A2    A3    A4    A5    A6    A7
 lipid_scaffolds[(lipid_type, params)]["x"] = (   0,     0,    0,    0,    0,    0,    0)
 lipid_scaffolds[(lipid_type, params)]["y"] = (   0,     0,    0,    0,    0,    0,    0)
@@ -340,7 +340,7 @@ lipid_scaffolds[(lipid_type, params)]["lipids"] = {
 #
 # H1-L2-A3-A4-A5-A6-A7-A8
 
-lipid_type, params = "monoglycerides_LTF_release", "LTF"
+lipid_type = "monoglycerides_LTF_release"
 lipid_scaffolds[(lipid_type, params)] = {}   #  H1    L2    A3    A4    A5    A6    A7    A8
 lipid_scaffolds[(lipid_type, params)]["x"] = (   0,    0,    0,    0,    0,    0,    0,    0)
 lipid_scaffolds[(lipid_type, params)]["y"] = (   0,    0,    0,    0,    0,    0,    0,    0)
@@ -378,7 +378,7 @@ lipid_scaffolds[(lipid_type, params)]["lipids"] = {
 #  |                    
 # L15-C16-C17-C18-C19-C20-C21
 
-lipid_type, params = "triglycerides_LTF_release", "LTF"
+lipid_type = "triglycerides_LTF_release"
 lipid_scaffolds[(lipid_type, params)] = {}   #  L01   A02   A03   A04   A05   A06   A07   L08   B09   B10   B11   B12   B13   B14   L15   C16   C17   C18   C19   C20   C21
 lipid_scaffolds[(lipid_type, params)]["x"] = (    0,    0,    0,    0,    0,    0,    0,    1,    1,    1,    1,    1,    1,    1,    2,    2,    2,    2,    2,    2,    2)
 lipid_scaffolds[(lipid_type, params)]["y"] = (    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0)
@@ -474,7 +474,7 @@ sphingolipid_heads_simple = {
     "CER": "    -     -     -     -     -    COH",
 }
 
-lipid_type, params = "sphingolipids_LTF_release", "LTF"
+lipid_type = "sphingolipids_LTF_release"
 lipid_scaffolds[(lipid_type, params)] = {}   #  H01   H02   H03   H04   H05   H06   L07   L08   A09   A10   A11   A12   A13   A14   B15   B16   B17   B18   B19   B20
 lipid_scaffolds[(lipid_type, params)]["x"] = (    0,   .5,    0,    0,   .5,    0,    0,   .5,    0,    0,    0,    0,    0,    0,    1,    1,    1,    1,    1,    1)
 lipid_scaffolds[(lipid_type, params)]["y"] = (    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0)
@@ -525,7 +525,7 @@ lipid_scaffolds[(lipid_type, params)]["lipids"].update(sphingolipid_LTF_release_
 #      |     |        |    | 
 #    B116  A110     A225  B231
 
-lipid_type, params = "cardiolipins_LTF_release", "LTF"
+lipid_type = "cardiolipins_LTF_release"
 lipid_scaffolds[(lipid_type, params)] = {}   # LC01  L102  L103  L104  A105  A106  A107  A108  A109  A110  B111  B112  B113  B114  B115  B116  L217  L218  L219  A220  A221  A222  A223  A224  A225  B226  B227  B228  B229  B230  B231
 lipid_scaffolds[(lipid_type, params)]["x"] = (    0,   -1,   -1,   -2,   -1,   -1,   -1,   -1,   -1,   -1,   -2,   -2,   -2,   -2,   -2,   -2,    1,    1,    2,    1,    1,    1,    1,    1,    1,    2,    2,    2,    2,    2,    2)
 lipid_scaffolds[(lipid_type, params)]["y"] = (    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0)
@@ -563,7 +563,7 @@ lipid_scaffolds[(lipid_type, params)]["lipids"] = {
 #        |        | 
 #       A10      B18
 
-lipid_type, params = "BMP_LTF_release", "LTF"
+lipid_type = "BMP_LTF_release"
 lipid_scaffolds[(lipid_type, params)] = {}   #  H01  L102  L103  E104   A05   A06   A07   A08   A09   A10  L211  L212  E213   B13   B14   B15   B16   B17   B18
 lipid_scaffolds[(lipid_type, params)]["x"] = (    0,   -1,   -2,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    1,    2,    1,    1,    1,    1,    1,    1,    1)
 lipid_scaffolds[(lipid_type, params)]["y"] = (    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0)

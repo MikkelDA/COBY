@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "COBY"
-version = "1.0.15"
+version = "1.0.16"
 authors = [
   { name="Andreasen, M.D.", email="mdahlandreasen@hotmail.com" },
 ]
@@ -27,8 +27,9 @@ classifiers = [
 dependencies = [
     "alphashape>=1.3.1",
     "shapely>=2.0.0",
+    "matplotlib>=3.8.4",
+    "pyrecorder>=0.2.1",
 ]
-
 [tool.hatch.build]
 exclude = [
     "Tutorial/",              # Excludes the Tutorial directory (which includes a lot of figures)
@@ -38,7 +39,8 @@ exclude = [
     "COBY_CHEAT_SHEET.pdf",   # Excludes the cheat sheet file
     "version_testing.sh",     # Excludes python version testing script
 ]
-
 [project.urls]
 Repository = "https://github.com/MikkelDA/COBY"
+Documentation = "https://github.com/MikkelDA/COBY/blob/master/COBY_Documentation.pdf"
+Citation = "https://doi.org/10.1021/acs.jcim.5c00069"
 

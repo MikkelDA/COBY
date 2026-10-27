@@ -1,7 +1,7 @@
 lipid_scaffolds = {}
 lipid_metadata = {}
 
-params = "M2"
+params = "M2_2015"
 lipid_metadata[params] = {
     "Description": "Lipids in this parameter library are based on the Martini 2 parameters as described in https://doi.org/10.1021/jp071097f.",
 }
@@ -10,7 +10,7 @@ lipid_metadata[params] = {
 ### LIPIDS ###
 ##############
 ### Diacyl glycerols
-lipid_type, params = "lipid", "M2"
+lipid_type = "lipid"
 lipid_scaffolds[(lipid_type, params)] = {}
 lipid_scaffolds[(lipid_type, params)]["x"] = (    0, .5,  0,  0, .5,  0,  0, .5,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  1,  1)
 lipid_scaffolds[(lipid_type, params)]["y"] = (    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0)

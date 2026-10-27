@@ -1,26 +1,15 @@
-import time
-import sys
 import os
 import shapely
-import shapely.affinity
 import shapely.plotting
 import matplotlib.pyplot as plt
-from matplotlib import patches
 import numpy as np
-from operator import itemgetter
+from pyrecorder.recorder import Recorder
+from pyrecorder.writers.video import Video
+from pyrecorder.writers.gif import GIF
+from pyrecorder.converters.matplotlib import Matplotlib
 
 class grid_plotter:
     def grid_plotter(self):
-        ### Imports inside the method to prevent most people from having to install pyrecorder
-        try:
-            import pyrecorder
-            from pyrecorder.recorder import Recorder
-            from pyrecorder.writers.video import Video
-            from pyrecorder.writers.gif import GIF
-            from pyrecorder.converters.matplotlib import Matplotlib
-        except:
-            self.print_term("You are trying to use the 'grid plotting' functionality without having the package 'pyrecorder' installed. Please install the package.", warn=True)
-            sys.exit()
 
         l, b, r, t = 80, 80, 40, 40
         dpi = 140

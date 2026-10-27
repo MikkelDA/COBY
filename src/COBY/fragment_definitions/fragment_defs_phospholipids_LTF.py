@@ -6,7 +6,7 @@ fragment_metadata = {}
 
 moltype = "phospholipid_LTF"
 fragment_metadata[moltype] = {
-    "Description": "Fragments for this moleculetype (moltype) are based on the phospholipids (glycero-, plasmalogen- and etherphospholipids) from the lipid task force parameters for Martini 3 as described in https://doi.org/10.26434/chemrxiv-2024-8bjrr.",
+    "Description": "Fragments for this moleculetype (moltype) are based on the phospholipids (glycero-, plasmalogen- and etherphospholipids) from the lipid task force parameters for Martini 3 as described in https://doi.org/10.1021/acscentsci.5c00755.",
 }
 
 ### General lipid type

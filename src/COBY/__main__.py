@@ -259,6 +259,9 @@ if __name__ == "__main__":
         ### System name
         parser.add_argument("--system_name", "-system_name", "-sn", dest = "system_name", action=IsStored_ActionStore)
 
+        ### Keep residue numbering for proteins
+        parser.add_argument("--keep_residue_numbering", "-keep_residue_numbering", "-krn", dest = "keep_residue_numbering", action=IsStored_ActionStore)
+
         #########################
         ### BOX SIZE AND TYPE ###
         #########################
@@ -318,7 +321,8 @@ if __name__ == "__main__":
             
             ("out_top", args.out_top_file_name, "out_top_file_name"),
             
-            ("sn", args.system_name, "system_name"),
+            ("sn",                     args.system_name,            "system_name"),
+            ("keep_residue_numbering", args.keep_residue_numbering, "keep_residue_numbering"),
         ])
 
     ################################################################################

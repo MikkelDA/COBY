@@ -3,11 +3,10 @@ neg_ion_defs = {}
 pos_ion_metadata = {}
 neg_ion_metadata = {}
 
-params = "default"
+params = "M3_2021"
 pos_ion_metadata[params] = {
     "Description": "Ions in this parameter library are based on the release parameters for Martini 3 as described in https://doi.org/10.1038/s41592-021-01098-3.",
 }
-params = "default"
 neg_ion_metadata[params] = {
     "Description": "Ions in this parameter library are based on the release parameters for Martini 3 as described in https://doi.org/10.1038/s41592-021-01098-3.",
 }
@@ -15,7 +14,6 @@ neg_ion_metadata[params] = {
 ############
 ### IONS ###
 ############
-params = "default"
 pos_ion_defs[params] = {
     ### Monovalent
     "NA":  {

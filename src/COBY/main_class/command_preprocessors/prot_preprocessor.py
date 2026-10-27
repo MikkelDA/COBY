@@ -1,6 +1,7 @@
 import ast
 import numpy as np
 import copy
+import random
 
 from COBY.structure_classes.PROTEIN_class import PROTEIN
 
@@ -122,23 +123,34 @@ class prot_preprocessor:
 
                     ### xyz axis rotations [degrees]
                     elif sub_cmd[0].lower() in ["rx", "ry", "rz"]:
-                        prot_dict[sub_cmd[0].lower()] = ast.literal_eval(str(sub_cmd[1]))
+                        if sub_cmd[1] == "random":
+                            lower, upper = ast.literal_eval(str(sub_cmd[2])), ast.literal_eval(str(sub_cmd[3]))
+                            prot_dict[sub_cmd[0].lower()] = random.uniform(lower, upper)
+                        else:
+                            prot_dict[sub_cmd[0].lower()] = ast.literal_eval(str(sub_cmd[1]))
+                        
 
                     ### xyz axis rotations [degrees]
                     elif sub_cmd[0].lower() == "rotate":
                         rotate_dict = {"rx": 0, "ry": 0, "rz": 0}
                         i = 1
                         while i < len(sub_cmd):
-                            assert sub_cmd[i] in ["rx", "ry", "rz"], "'rotate' subsubarguments must follow the 'r[xyz]:[float/int] syntax."
-                            rotate_dict[sub_cmd[i]] = ast.literal_eval(str(sub_cmd[i+1]))
-                            i += 2
+                            assert sub_cmd[i] in ["rx", "ry", "rz"], "'rotate' subsubarguments must follow the 'r[xyz]:[float/int]' or 'r[xyz]:random:[float/int]:[float/int]' (lower and upper range) syntax."
+                            if sub_cmd[i+1] == "random":
+                                lower, upper = ast.literal_eval(str(sub_cmd[i+2])), ast.literal_eval(str(sub_cmd[i+3]))
+                                rotate_dict[sub_cmd[i]] = random.uniform(lower, upper)
+                                i += 4
+                            else:
+                                rotate_dict[sub_cmd[i]] = ast.literal_eval(str(sub_cmd[i+1]))
+                                i += 2
+                            
                         prot_dict[sub_cmd[0].lower()].append(rotate_dict)
 
                     ### Sets whether protein should constitute a membrane border
                     elif sub_cmd[0].lower() == "membrane_border":
                         prot_dict["membrane_border"] = bool(ast.literal_eval(sub_cmd[1]))
 
-                    ### Sets whether protein should constitute a membrane border
+                    ### Sets whether protein vertical alignment should be done
                     elif sub_cmd[0].lower() == "alignment":
                         subsub_cmd = sub_cmd[1].lower()
                         assert subsub_cmd in ["false", "manual"], f"Invalid value given ({subsub_cmd}) to 'alignment' subargument. Valid subsubarguments are: 'False' and 'manual'"
@@ -147,7 +159,7 @@ class prot_preprocessor:
                         else:
                             prot_dict[sub_cmd[0].lower()] = sub_cmd[1]
 
-                    ### Sets whether protein should constitute a membrane border
+                    ### Sets the residues used for protein vertical alignment
                     elif sub_cmd[0].lower() in ["upres", "downres"]:
                         for subsub_cmd in sub_cmd[1:]:
                             if "-" in subsub_cmd:
@@ -188,7 +200,7 @@ class prot_preprocessor:
                     ### Finds charge information from prot_defs charge dictionary
                     protein_bead_charges = []
                     for (bead_i, bead_nr, res_nr), values in prot_dict["beads"].items():
-                        params   = self.prot_params or self.sys_params
+                        params   = self.prot_params or self.sys_params or self.prot_params_default
                         res_name  = values["res_name"]
                         atom_name = values["atom_name"]
                         assert res_name in self.prot_defs[params]["charges"], "Residue name '{resname}' not in 'prot_defs' charges for system parameters '{params}'.".format(resname=res_name, params=params)

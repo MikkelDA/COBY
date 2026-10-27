@@ -524,7 +524,7 @@ class solv_preprocessor:
                 ######################################
                 assert solv_dict["solvent_preprocessing"] != {}, "No solvent given to '-solvation' flag. Please specify at least one non-ionic solvent if you use it."
 
-                params = solv_dict["params"] or self.solv_params or self.sys_params # (sys_params defaults to "default")
+                params = solv_dict["params"] or self.solv_params or self.sys_params or self.solv_params_default # (sys_params defaults to "default")
                 
                 solv_dict["solv_tot_ratio"] = 0
                 solv_dict["pos_tot_ratio"]  = 0
@@ -554,7 +554,7 @@ class solv_preprocessor:
 
                     name = False
                     ratio = 1
-                    params = solv_dict["params"] or self.solv_params or self.sys_params
+                    params = solv_dict["params"] or self.solv_params or self.sys_params or self.solv_params_default
                     charge = solv_dict["charge"]
 
                     all_subcmd_names = ["params", "charge", "ratio", "name", "scale", "scale_x", "scale_y", "scale_z"]

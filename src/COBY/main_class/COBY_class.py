@@ -102,11 +102,14 @@ class COBY(
         
         self.randseed = round(time.time())
         
-        self.sys_params      = "default"
-        self.prot_params     = False # Only used if specifically set
-        self.lipid_params    = False # Only used if specifically set
-        self.solv_params     = False # Only used if specifically set
-        self.topology_params = False # Only used if specifically set
+        self.prot_params_default     = "M3_2021"
+        self.lipid_params_default    = "M3_2025"
+        self.solv_params_default     = "M3_2021"
+        
+        self.sys_params   = False # Only used if specifically set
+        self.prot_params  = False # Only used if specifically set
+        self.lipid_params = False # Only used if specifically set
+        self.solv_params  = False # Only used if specifically set
         
         self.itp_defs = {
             "atomtypes":       {},

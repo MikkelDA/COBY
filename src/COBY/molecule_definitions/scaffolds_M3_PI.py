@@ -9,7 +9,7 @@ lipid_scaffolds = {}
 #     |  /    H05-L09-A11-A12-A13-A14-A15-A16
 # H08-H03        
 
-lipid_type, params = "INOSITOLLIPIDS", "default"
+lipid_type, params = "INOSITOLLIPIDS", "M3_2021"
 lipid_scaffolds[(lipid_type, params)] = {}   #  H01   H02   H03   V04   H05   H06   H07   H08   L09   L10   A11   A12   A13   A14   A15   A16   B17   B18   B19   B20   B21   B22
 lipid_scaffolds[(lipid_type, params)]["x"] = (  0.5,  0.8, -0.3, 0.25,    0,    1,   .5, -0.3,    0,   .5,    0,    0,    0,    0,    0,    0,    1,    1,    1,    1,    1,    1)
 lipid_scaffolds[(lipid_type, params)]["y"] = (    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0)

@@ -26,24 +26,44 @@ for VERSION in "${VERSIONS[@]}"; do
     echo " Testing Python $VERSION"
     echo "=============================="
 
+    # # Create a minimal env if it doesn't exist
+    # if ! micromamba env list | grep -q "$ENV_NAME"; then
+    #     echo "Creating environment $ENV_NAME..."
+
+    #     micromamba create -y -n "$ENV_NAME" python="$VERSION" -c conda-forge
+    #     if [ $? -ne 0 ]; then
+    #         echo "SKIP: Python $VERSION could not be created"
+    #         FAIL+=("Python $VERSION (env creation failed)")
+    #         continue
+    #     fi
+
+    #     echo "Installing pip dependencies..."
+    #     micromamba run -n "$ENV_NAME" pip install alphashape>=1.3.1 shapely>=2.0.0 matplotlib pyrecorder numpy scipy
+    #     if [ $? -ne 0 ]; then
+    #         echo "WARN: Some pip dependencies failed to install for Python $VERSION (may affect import test)"
+    #     fi
+    # else
+    #     echo "Environment $ENV_NAME already exists, skipping creation."
+    # fi
+
     # Create a minimal env if it doesn't exist
     if ! micromamba env list | grep -q "$ENV_NAME"; then
         echo "Creating environment $ENV_NAME..."
-
         micromamba create -y -n "$ENV_NAME" python="$VERSION" -c conda-forge
         if [ $? -ne 0 ]; then
             echo "SKIP: Python $VERSION could not be created"
             FAIL+=("Python $VERSION (env creation failed)")
             continue
         fi
-
-        echo "Installing pip dependencies..."
-        micromamba run -n "$ENV_NAME" pip install alphashape>=1.3.1 shapely>=2.0.0 matplotlib numpy scipy
-        if [ $? -ne 0 ]; then
-            echo "WARN: Some pip dependencies failed to install for Python $VERSION (may affect import test)"
-        fi
     # else
-        # echo "Environment $ENV_NAME already exists, skipping creation."
+    #     echo "Environment $ENV_NAME already exists."
+    fi
+
+    # Always ensure dependencies are installed (no-op if already satisfied)
+    # echo "Ensuring pip dependencies are installed..."
+    micromamba run -n "$ENV_NAME" pip install -q "alphashape>=1.3.1" "shapely>=2.0.0" matplotlib pyrecorder numpy scipy
+    if [ $? -ne 0 ]; then
+        echo "WARN: Some pip dependencies failed to install for Python $VERSION (may affect import test)"
     fi
 
     # Try importing COBY from local src/ without installing it
